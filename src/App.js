@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import StartPage from './components/StartPage'
+import Instructions from './components/Instructions'
+import GuidedAnnotation from './components/GuidedAnnotation'
+import Annotation from './components/Annotation'
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <div className='container'>
+        <Routes>
+          <Route path='/' element={<StartPage />} />
+          <Route path='/instructions' element={<Instructions />} />
+          <Route path='/guidedAnnotation' element={<GuidedAnnotation />} />
+          <Route path='/annotation' element={<Annotation />} />
+
+        </Routes>
+      </div>
+    </Router>
+  )
 }
 
-export default App;
+export default App
