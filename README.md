@@ -1,16 +1,11 @@
 # Getting Started 
 
-run:
-```
-npm install
-npm i -g serve
-```
-
 ## Installations
 
 To install all the packages used in this project, run:
 ```
 npm install
+npm i -g serve
 ```
 
 ## Development Mode:
