@@ -7,6 +7,8 @@ cd highlights-extract-app
 then, run:
 ```
 npm install
+npm i react-icons
+npm i react-router-dom
 npm i -g serve
 ```
 to install all the packages used in this project and serve (which will be used to build the project for production).
