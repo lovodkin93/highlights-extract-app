@@ -1,12 +1,15 @@
 # Getting Started 
-
-## Installations
-
-To install all the packages used in this project, run:
+First, clone this repository:
+```
+git clone https://github.com/lovodkin93/highlights-extract-app.git
+cd highlights-extract-app
+```
+then, run:
 ```
 npm install
 npm i -g serve
 ```
+to install all the packages used in this project and serve (which will be used to build the project for production).
 
 ## Development Mode:
 To start working with the UI, run:
