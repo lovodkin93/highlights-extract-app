@@ -1,0 +1,1 @@
+1. edit the openPage buttons to adjust to different window sizes (with the query).

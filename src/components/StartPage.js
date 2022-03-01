@@ -7,12 +7,10 @@ const StartPage = () => {
   return (
     <>
       <header className='GeneralPageHeader'>
-          <h2>
-            Highlighting Extraction UI
-          </h2>
+          <h2>Highlighting Extraction UI</h2>
       </header>
       
-      <div className='startPageBody'>
+      <div className='StartPageBody'>
 
           <p className='StartPageText'>
             Welcome to the Highlighting Extraction UI.

@@ -4,7 +4,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 const BackButton = ({ back_path }) => {
     return (
-        <Button style={{maxWidth: '35%'}} component={Link} to={back_path} color="info" size="small" startIcon={<ArrowBackIosNewIcon />}>
+        <Button style={{maxWidth: '35%'}} component={Link} to={back_path} color="default" size="small" startIcon={<ArrowBackIosNewIcon />}>
               back
         </Button>
 
