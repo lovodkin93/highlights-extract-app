@@ -67,7 +67,7 @@ const Instructions = () => {
         
         
         <footer>
-        <BackButton back_path={"/"} />
+        <BackButton back_path={"/homepage"} />
         </footer>
       </div>
     </>

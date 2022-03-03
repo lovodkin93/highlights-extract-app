@@ -5,12 +5,10 @@ const GuidedAnnotation = () => {
       <>
       <div>
           <title>Guided Annotation</title>
-          <p>
-              <h3>This is where the guided annotation will be</h3>
-          </p>
+          <h3>This is where the guided annotation will be</h3>
       </div>
       <div>  
-        <Link to='/'>back</Link>
+        <Link to='/homepage'>back</Link>
       </div>
       </>
   )
