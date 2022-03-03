@@ -1,0 +1,28 @@
+#doc-text{
+    float:left;
+    width:70%;
+    padding: 3pt;
+    box-sizing: border-box;
+    border: 1px solid black;
+    overflow-wrap: break-word;
+}
+
+
+#doc-text word{
+    display: inline;
+}
+
+
+#summary-text{
+    float:right;
+    width:29.9%;
+    padding: 3pt;
+    box-sizing: border-box;
+    border: 1px solid black;
+    overflow-wrap: break-word;
+}
+
+#summary-text word{
+    display: inline;
+}
+
