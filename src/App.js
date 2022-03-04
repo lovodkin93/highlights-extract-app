@@ -18,75 +18,66 @@ const App = () => {
   const [lemma_match_mtx, setLemmaMtx] = useState([]);
 
 
-  function updateID() {
-    var urlSearchParams = new URLSearchParams(window.location.search);
-    var params = Object.fromEntries(urlSearchParams.entries());
-    task_id = params['id'];
-    console.log(`updating...`);   
-    console.log(`updating to ${task_id}`);
+  function addDocWordComponents(doc) {
+    let updated_doc_json = [];
+    doc.forEach((word) => {
+      let underlined=false;
+      let boldfaced=false;
+      let highlighted=false;
+      const newWord = {...word, underlined, boldfaced, highlighted}; 
+      updated_doc_json = [...updated_doc_json, newWord];
+    })
+    setDocJson(updated_doc_json);
   }
 
 
+  function addSummaryWordComponents(summary) {
+    let updated_summary_json = [];
+    summary.forEach((word) => {
+      let underlined=false;
+      let boldfaced=false;
+      let highlighted=false;
+      const newWord = {...word, underlined, boldfaced, highlighted}; 
+      updated_summary_json = [...updated_summary_json, newWord];
+    })
+    setSummaryJson(updated_summary_json);
+  }
 
+  const toggleSummaryHighlight = (tkn_ids) => {
+    console.log(`Chosen IDs are: ${tkn_ids}`);
+    console.log(`type of word.tkn_id is ${typeof summary_json[0].tkn_id} and of tkn_id in tkn_ids is ${typeof tkn_ids[0]}`)
+    for (let i = 0; i < summary_json.length; i++) { if (tkn_ids.includes(summary_json[i].tkn_id)) {console.log(summary_json[i]);} }
 
-  // useEffect(() => {
-    
-  //   const fetchTask = async (id) => {
-  //     await setID()
-  //     setTasks(tasksFromServer)
-  //   }
-  //   fetch(`/homepage/${task_id}`).then(
-  //     res => res.json()
-  //   ).then(
-  //     data => console.log(data)
-  //   )
-  // }, []);
-
-
-  // useEffect(() => {
-  //   const getTasks = async () => {
-  //     await setID()
-  //     // await waitForIDToChange()
-  //     if (task_id === "-1"){
-  //       return
-  //     } else{
-  //       console.log(`updated to ${task_id}`)
-  //       fetch(`/homepage?${task_id}`).then(
-  //         res => res.json()
-  //       ).then(
-  //         data => console.log(data)
-  //       )
-  //       }
-  //     }
-
-  //   getTasks()
-  // }, [])
-    
-    useEffect(() => {
-    const getTasks = () => {
-      const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-
-      const curr_id = urlParams.get('id');
-      setTaskID(curr_id);
-      console.log("AVIVSL: now doc:")
-      console.log(json_file[curr_id]["doc"])
-      setDocJson(json_file[curr_id]["doc"]);
-      setSummaryJson(json_file[curr_id]["summary"]);
-      setLemmaMtx(json_file[curr_id]["lemma_match_mtx"]);
-      console.log(`id is ${curr_id}`);
-
-      fetch(`/`).then(
-        res => console.log(res)
+    setSummaryJson(
+      summary_json.map((word) =>
+      tkn_ids.includes(word.tkn_id) ? { ...word, highlighted: !word.highlighted } : word
       )
-        
-      }
+    )
+  }
 
-    getTasks();
+    useEffect(() => {
+      const getTasks = () => {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+
+        const curr_id = urlParams.get('id');
+        setTaskID(curr_id);
+
+        addDocWordComponents(json_file[curr_id]["doc"])
+        addSummaryWordComponents(json_file[curr_id]["summary"])
+        setLemmaMtx(json_file[curr_id]["lemma_match_mtx"]);
+        console.log(`id is ${curr_id}`);
+
+        fetch(`/`).then(
+          res => console.log(res)
+        )
+          
+        }
+
+      getTasks();
     }, [])
   
-  console.log("now doc:")
-  console.log(doc_json)
+
   return (
     <Router>
       <div className='container'>
@@ -99,7 +90,8 @@ const App = () => {
                                               task_id={task_id} 
                                               doc_json = {doc_json}
                                               summary_json = {summary_json}
-                                              lemma_match_mtx = {lemma_match_mtx} />} />
+                                              lemma_match_mtx = {lemma_match_mtx}
+                                              toggleSummaryHighlight = {toggleSummaryHighlight} />} />
 
         </Routes>
       </div>

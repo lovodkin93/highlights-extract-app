@@ -8,7 +8,7 @@
 }
 
 
-#doc-text word{
+#doc-text div{
     display: inline;
 }
 
@@ -22,7 +22,19 @@
     overflow-wrap: break-word;
 }
 
-#summary-text word{
+#summary-text div{
     display: inline;
+}
+
+.underlined-word{
+    text-decoration: underline;
+}
+
+.boldfaced-word{
+    font-weight:900;
+}
+
+.highlighted-word{
+    background-color: yellow;
 }
 
