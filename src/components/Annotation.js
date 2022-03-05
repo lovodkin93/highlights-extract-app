@@ -2,15 +2,35 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import DocWord from './DocWord'
 import SummaryWord from './SummaryWord'
+import Header from './Header'
+import ResponsiveAppBar from './ResponsiveAppBar'
 
-
-const Annotation = ({task_id, doc_json, summary_json, lemma_match_mtx, toggleSummaryHighlight}) => {
+const Annotation = ({task_id, doc_json, summary_json, lemma_match_mtx, toggleSummaryHighlight, toggleDocHighlight}) => {
   // console.log(doc_json)
   // console.log(summary_json)
   // console.log(lemma_match_mtx)
+  const [showAddTask, setShowAddTask] = useState(false)
+
+  const [DocMouseclickStartID, SetDocMouseDownStartID] = useState("-1");
+  const [DocMouseclicked, SetDocMouseclicked] = useState(false);
   const [SummaryMouseclickStartID, SetSummaryMouseDownStartID] = useState("-1");
   const [SummaryMouseclicked, SetSummaryMouseclicked] = useState(false);
 
+
+  const DocMouseClickHandler = (tkn_id) => {
+    const update_tkn = DocMouseclicked ? "-1" : tkn_id;
+    if (DocMouseclicked){
+      const min_ID =  (DocMouseclickStartID > tkn_id) ? tkn_id : DocMouseclickStartID;
+      const max_ID =  (DocMouseclickStartID > tkn_id) ? DocMouseclickStartID : tkn_id;
+      let chosen_IDs = [];
+      for(let i=min_ID; i<=max_ID; i++){
+        chosen_IDs.push(i);
+      }
+      toggleDocHighlight(chosen_IDs);     
+    }
+    SetDocMouseDownStartID(update_tkn);
+    SetDocMouseclicked(!DocMouseclicked);
+  }
 
   const SummaryMouseClickHandler = (tkn_id) => {
     const update_tkn = SummaryMouseclicked ? "-1" : tkn_id;
@@ -21,8 +41,7 @@ const Annotation = ({task_id, doc_json, summary_json, lemma_match_mtx, toggleSum
       for(let i=min_ID; i<=max_ID; i++){
         chosen_IDs.push(i);
       }
-      toggleSummaryHighlight(chosen_IDs)
-      console.log(`first click is ${SummaryMouseclickStartID}. second click is ${tkn_id}. Chosen IDs are: ${chosen_IDs}`);
+      toggleSummaryHighlight(chosen_IDs);     
     }
     SetSummaryMouseDownStartID(update_tkn);
     SetSummaryMouseclicked(!SummaryMouseclicked);
@@ -30,11 +49,19 @@ const Annotation = ({task_id, doc_json, summary_json, lemma_match_mtx, toggleSum
 
   return (
       <>
+        {/* <Header
+          title={"Annotation"}
+          onAdd={() => setShowAddTask(!showAddTask)}
+          showAdd={showAddTask}
+        /> */}
+        <ResponsiveAppBar
+           title={"Annotation"}
+        />
         <div id="doc-text">
             <h3>Document</h3>
             <p>
             {doc_json.map((word_json, index) => (
-              <DocWord key={index} word_json={word_json}/>
+              <DocWord key={index} word_json={word_json} DocMouseClickHandler={DocMouseClickHandler} />
             ))};
             </p>
         </div>
@@ -43,7 +70,7 @@ const Annotation = ({task_id, doc_json, summary_json, lemma_match_mtx, toggleSum
             <h3>Summary</h3>
             <p>
             {summary_json.map((word_json, index) => (
-              <SummaryWord key={index} word_json={word_json} toggleSummaryHighlight={toggleSummaryHighlight} SummaryMouseClickHandler={SummaryMouseClickHandler} />
+              <SummaryWord key={index} word_json={word_json} SummaryMouseClickHandler={SummaryMouseClickHandler} />
             ))};
             </p>
         </div>

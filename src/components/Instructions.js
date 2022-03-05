@@ -1,11 +1,12 @@
 import BackButton from './BackButton'
+import ResponsiveAppBar from './ResponsiveAppBar'
 
 const Instructions = () => {
   return (
     <>
-      <header className='GeneralPageHeader'>
-        <h2>Instructions</h2>
-      </header>
+        <ResponsiveAppBar
+           title={"Instructions"}
+        />
       <div>
         <section  className="InstructionsBody">
           <h4>
@@ -66,9 +67,9 @@ const Instructions = () => {
         </section>
         
         
-        <footer>
-        <BackButton back_path={"/homepage"} />
-        </footer>
+        {/* <footer>
+        <BackButton back_path={"/homepage"} /> */}
+        {/* </footer> */}
       </div>
     </>
   )

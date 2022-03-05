@@ -43,10 +43,18 @@ const App = () => {
     setSummaryJson(updated_summary_json);
   }
 
+  const toggleDocHighlight = (tkn_ids) => {
+    // for (let i = 0; i < doc_json.length; i++) { if (tkn_ids.includes(doc_json[i].tkn_id)) {console.log(doc_json[i]);} }
+
+    setDocJson(
+      doc_json.map((word) =>
+      tkn_ids.includes(word.tkn_id) ? { ...word, highlighted: !word.highlighted } : word
+      )
+    )
+  }
+
   const toggleSummaryHighlight = (tkn_ids) => {
-    console.log(`Chosen IDs are: ${tkn_ids}`);
-    console.log(`type of word.tkn_id is ${typeof summary_json[0].tkn_id} and of tkn_id in tkn_ids is ${typeof tkn_ids[0]}`)
-    for (let i = 0; i < summary_json.length; i++) { if (tkn_ids.includes(summary_json[i].tkn_id)) {console.log(summary_json[i]);} }
+    // for (let i = 0; i < summary_json.length; i++) { if (tkn_ids.includes(summary_json[i].tkn_id)) {console.log(summary_json[i]);} }
 
     setSummaryJson(
       summary_json.map((word) =>
@@ -54,6 +62,7 @@ const App = () => {
       )
     )
   }
+
 
     useEffect(() => {
       const getTasks = () => {
@@ -91,7 +100,8 @@ const App = () => {
                                               doc_json = {doc_json}
                                               summary_json = {summary_json}
                                               lemma_match_mtx = {lemma_match_mtx}
-                                              toggleSummaryHighlight = {toggleSummaryHighlight} />} />
+                                              toggleSummaryHighlight = {toggleSummaryHighlight}
+                                              toggleDocHighlight = {toggleDocHighlight} />} />
 
         </Routes>
       </div>
