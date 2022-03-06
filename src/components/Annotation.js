@@ -4,10 +4,10 @@ import DocWord from './DocWord'
 import SummaryWord from './SummaryWord'
 import Header from './Header'
 import ResponsiveAppBar from './ResponsiveAppBar'
-import { DocMouseClickHandler, SummaryMouseClickHandler } from './Annotation_event_handlers'
+import { DocMouseClickHandler, SummaryMouseClickHandler, MachineStateHandler } from './Annotation_event_handlers'
 
 
-const Annotation = ({task_id, doc_json, summary_json, lemma_match_mtx, toggleSummaryHighlight, toggleDocHighlight}) => {
+const Annotation = ({task_id, doc_json, summary_json, all_lemma_match_mtx, important_lemma_match_mtx, toggleSummaryHighlight, toggleDocHighlight}) => {
   // console.log(doc_json)
   // console.log(summary_json)
   // console.log(lemma_match_mtx)
@@ -21,11 +21,15 @@ const Annotation = ({task_id, doc_json, summary_json, lemma_match_mtx, toggleSum
 
 
   const DocMouseClickHandlerWrapper = (tkn_id) => {
-    DocMouseClickHandler({tkn_id, toggleDocHighlight, DocMouseclickStartID, DocMouseclicked, SetDocMouseDownStartID, SetDocMouseclicked});
+    DocMouseClickHandler({ tkn_id, toggleDocHighlight, DocMouseclickStartID, DocMouseclicked, SetDocMouseDownStartID, SetDocMouseclicked });
   }
 
   const SummaryMouseClickHandlerWrapper = (tkn_id) => {
-    SummaryMouseClickHandler({tkn_id, toggleSummaryHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked});
+    SummaryMouseClickHandler({ tkn_id, toggleSummaryHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
+  }
+
+  const MachineStateHandlerWrapper = () => {
+    MachineStateHandler({ StateMachineState, SetStateMachineState });
   }
 
 
@@ -38,7 +42,7 @@ const Annotation = ({task_id, doc_json, summary_json, lemma_match_mtx, toggleSum
           showAdd={showAddTask}
         /> */}
         <ResponsiveAppBar
-           title={"Annotation"}
+           title={"Annotation"} StateMachineState = {StateMachineState} MachineStateHandler={MachineStateHandlerWrapper}
         />
         <div id="doc-text">
             <h3>Document</h3>

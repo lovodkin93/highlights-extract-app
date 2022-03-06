@@ -31,4 +31,10 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
     SetSummaryMouseclicked(!SummaryMouseclicked);
   }
 
-  export { DocMouseClickHandler, SummaryMouseClickHandler }
+  const MachineStateHandler = ({ StateMachineState, SetStateMachineState }) => {
+    if (StateMachineState === "Start"){
+        console.log("Start!")
+    }
+  }
+
+  export { DocMouseClickHandler, SummaryMouseClickHandler, MachineStateHandler }

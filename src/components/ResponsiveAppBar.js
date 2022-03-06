@@ -12,10 +12,15 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom'
+import { ArrowForwardIosTwoTone } from '@mui/icons-material';
 
 const pages = {'Home Page': 'homepage', 'Instructions': 'instructions', 'Guided Annotation': 'guidedAnnotation', 'Annotation': 'annotation'}; // ['Products', 'Pricing', 'Blog']; // dict explanation: key=title, value=url_path //
 
-const ResponsiveAppBar = ({ title }) => {
+const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandler }) => {
+
+  const nextButtonText = () => {
+    if(StateMachineState==="Start"){return "Start"}
+  }
 
 
   return (
@@ -51,7 +56,13 @@ const ResponsiveAppBar = ({ title }) => {
             ))}
           </Box>
 
-          <Button color="inherit">Login</Button>
+          <Button
+            color="inherit"
+            endIcon={<ArrowForwardIosTwoTone />}
+            onClick={MachineStateHandler}
+          >
+            {nextButtonText()}
+          </Button>
         </Toolbar>
       </Container>
     </AppBar>
