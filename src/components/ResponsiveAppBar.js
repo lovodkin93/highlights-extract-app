@@ -19,12 +19,13 @@ const pages = {'Home Page': 'homepage', 'Instructions': 'instructions', 'Guided 
 const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandler }) => {
 
   const nextButtonText = () => {
-    if(StateMachineState==="Start"){return "Start"}
+    if(StateMachineState==="Start"){return "Start";}
+    if(StateMachineState=="Sentence Start"){return "Highlight"}
   }
 
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" color="primary">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography

@@ -4,13 +4,19 @@ import DocWord from './DocWord'
 import SummaryWord from './SummaryWord'
 import Header from './Header'
 import ResponsiveAppBar from './ResponsiveAppBar'
-import { DocMouseClickHandler, SummaryMouseClickHandler, MachineStateHandler } from './Annotation_event_handlers'
+import { MachineStateHandler, DocMouseClickHandler, SummaryHighlightHandler, SummaryUnderlineHandler } from './Annotation_event_handlers'
+import MuiAlert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import * as React from 'react';
 
 
-const Annotation = ({task_id, doc_json, summary_json, all_lemma_match_mtx, important_lemma_match_mtx, toggleSummaryHighlight, toggleDocHighlight}) => {
+const Annotation = ({task_id, doc_json, summary_json, all_lemma_match_mtx, important_lemma_match_mtx, toggleSummaryHighlight, toggleDocHighlight, SetSummaryShadow, SetSummaryUnderline}) => {
   // console.log(doc_json)
   // console.log(summary_json)
-  // console.log(lemma_match_mtx)
+  // console.log("now all")
+  // console.log(all_lemma_match_mtx)
+  // console.log("now important")
+  // console.log(important_lemma_match_mtx)
   const [showAddTask, setShowAddTask] = useState(false)
   
   const [DocMouseclickStartID, SetDocMouseDownStartID] = useState("-1");
@@ -18,18 +24,31 @@ const Annotation = ({task_id, doc_json, summary_json, all_lemma_match_mtx, impor
   const [SummaryMouseclickStartID, SetSummaryMouseDownStartID] = useState("-1");
   const [SummaryMouseclicked, SetSummaryMouseclicked] = useState(false);
   const [StateMachineState, SetStateMachineState] = useState("Start");
+  const [CurrSentInd, SetCurrSentInd] = useState(-1);
+  const [InfoMessage, SetInfoMessage] = useState("");
 
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
   const DocMouseClickHandlerWrapper = (tkn_id) => {
     DocMouseClickHandler({ tkn_id, toggleDocHighlight, DocMouseclickStartID, DocMouseclicked, SetDocMouseDownStartID, SetDocMouseclicked });
   }
 
   const SummaryMouseClickHandlerWrapper = (tkn_id) => {
-    SummaryMouseClickHandler({ tkn_id, toggleSummaryHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
+    if (StateMachineState === "Sentence Start"){
+      SummaryUnderlineHandler({ tkn_id, CurrSentInd, SetSummaryUnderline, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
+    }
+    else{
+      SummaryHighlightHandler({ tkn_id, toggleSummaryHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
+    }
   }
 
   const MachineStateHandlerWrapper = () => {
-    MachineStateHandler({ StateMachineState, SetStateMachineState });
+    MachineStateHandler({ StateMachineState, SetStateMachineState,
+                          SetInfoMessage,
+                          CurrSentInd, SetCurrSentInd, SetSummaryShadow });
   }
 
 
@@ -42,8 +61,11 @@ const Annotation = ({task_id, doc_json, summary_json, all_lemma_match_mtx, impor
           showAdd={showAddTask}
         /> */}
         <ResponsiveAppBar
-           title={"Annotation"} StateMachineState = {StateMachineState} MachineStateHandler={MachineStateHandlerWrapper}
+           title={"Annotation"} 
+           StateMachineState = {StateMachineState} 
+           MachineStateHandler={MachineStateHandlerWrapper}
         />
+        {InfoMessage !== "" && (<Alert severity="info" color="secondary">{InfoMessage}</Alert>)}
         <div id="doc-text">
             <h3>Document</h3>
             <p>
