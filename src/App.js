@@ -68,24 +68,19 @@ const App = () => {
   }
 
   const toggleDocHighlight = (tkn_ids) => {
-    setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, doc_highlighted: !word.doc_highlighted } : word))
+    setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: !word.span_highlighted } : word))
   }
 
   const toggleSummaryHighlight = (tkn_ids) => {
-    setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, highlighted: !word.highlighted } : word))
+    setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, highlighted: !word.highlighted } : word));
   }
 
   const SetSummaryShadow = (sent_id) => {
     setSummaryJson(summary_json.map((word) => word.sent_id === sent_id ? { ...word, shadowed: true } : { ...word, shadowed: false }))
   }
 
-  const SetSummaryUnderline = (tkn_ids, CurrSentInd) => {
-    // check if span chosen is from the correct sentence first.
-    if ((summary_json.filter((word) => {return tkn_ids.includes(word.tkn_id) && word.sent_id !== CurrSentInd}).length) !== 0) { 
-      handleErrorOpen({ msg : "Span chosen is not from the correct sentence." });
-    } else{
-      setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, underlined: !word.underlined } : word))
-    }
+  const SetSummaryUnderline = (tkn_ids) => {
+    setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, underlined: !word.underlined } : word));
   }
   
 

@@ -2,7 +2,7 @@ const DocWord = ({ word_json, DocMouseClickHandler }) => {
     // the "&nbsp;" is to add space after word
     return (
       <div
-        className={`docWord ${word_json.doc_highlighted ? 'highlighted-word': ''}`}
+        className={`docWord ${(word_json.doc_highlighted || word_json.sent_highlighted || word_json.span_highlighted)  ? 'highlighted-word': ''}`}
         onClick={() => DocMouseClickHandler(word_json.tkn_id)}
       >
         <nobr>

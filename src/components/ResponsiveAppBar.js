@@ -20,7 +20,8 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandler }) => 
 
   const nextButtonText = () => {
     if(StateMachineState==="Start"){return "Start";}
-    if(StateMachineState=="Sentence Start"){return "Highlight"}
+    if(StateMachineState==="Choose Span"){return "Highlight"}
+    if(StateMachineState==="Highlight"){return "Next Span"}
   }
 
 

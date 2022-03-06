@@ -40,7 +40,7 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
       for(let i=min_ID; i<=max_ID; i++){
         chosen_IDs.push(i);
       }
-      SetSummaryUnderline(chosen_IDs, CurrSentInd);  
+      SetSummaryUnderline(chosen_IDs);  
     }
     SetSummaryMouseDownStartID(update_mouse_tkn);
     SetSummaryMouseclicked(!SummaryMouseclicked);
@@ -54,20 +54,33 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
                                  StateMachineState, SetStateMachineState,
                                  SetInfoMessage, handleErrorOpen,
                                   CurrSentInd, SetCurrSentInd, SetSummaryShadow }) => {
+    // "Start" state --> "Choose Span" state
     if (StateMachineState === "Start"){
-        console.log(`Old state: \"Start\"; New state: \"Sentence Start\" with SentInd=${CurrSentInd+1}`);
-        SetStateMachineState("Sentence Start");
+        console.log(`Old state: \"Start\"; New state: \"Choose Span\" with SentInd=${CurrSentInd+1}`);
+        SetStateMachineState("Choose Span");
         SetSummaryShadow(CurrSentInd+1);
         SetCurrSentInd(CurrSentInd+1);
         SetInfoMessage("Choose a span and then press \"HIGHLIGHT\".");
     }
-    if (StateMachineState === "Sentence Start"){
+    // "Choose Span" state --> "Highlight" state
+    if (StateMachineState === "Choose Span"){
         if(summary_json.filter((word) => {return word.underlined && word.sent_id === CurrSentInd}).length === 0){
             handleErrorOpen({ msg : "No span was chosen" });
-        }
-        else{
-            console.log(`Old state: \"Sentence Start\"; New state: \"Highlight\"`);
+        } else{
+            console.log(`Old state: \"Choose Span\"; New state: \"Highlight\"`);
             SetStateMachineState("Highlight");
+            SetInfoMessage("");
+        }
+    }
+    // "Highlight" state --> "Choose Span" state 
+    // TODO: AVIVSL: add also when end of sentence and end of file here
+    if (StateMachineState === "Highlight"){
+        if(summary_json.filter((word) => {return word.underlined && !word.highlighted}).length > 0){
+            handleErrorOpen({ msg : "Not all summary span was highlighted" });
+        } else {
+            console.log(`Old state: \"Highlight\"; New state: \"Choose Span\" with`);
+            SetStateMachineState("Choose Span");
+            SetInfoMessage("Choose a span and then press \"HIGHLIGHT\".");
         }
     }
   }

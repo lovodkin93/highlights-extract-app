@@ -33,15 +33,30 @@ const Annotation = ({task_id, doc_json, summary_json, all_lemma_match_mtx, impor
   });
 
   const DocMouseClickHandlerWrapper = (tkn_id) => {
-    DocMouseClickHandler({ tkn_id, toggleDocHighlight, DocMouseclickStartID, DocMouseclicked, SetDocMouseDownStartID, SetDocMouseclicked });
+    if (StateMachineState == "Start"){ // during start state no clicking is needed
+      handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin. "});
+    } else if (StateMachineState == "Choose Span"){ // during start state no clicking is needed
+      handleErrorOpen({ msg : "Please choose a summary span first. Then press \"HIGHLIGHT\" to continue. "});
+    } else {
+      DocMouseClickHandler({ tkn_id, toggleDocHighlight, DocMouseclickStartID, DocMouseclicked, SetDocMouseDownStartID, SetDocMouseclicked });
+    }
   }
 
   const SummaryMouseClickHandlerWrapper = (tkn_id) => {
-    if (StateMachineState === "Sentence Start"){
+    console.log(summary_json.filter((word) => {return word.tkn_id === tkn_id && !word.sent_id !== CurrSentInd}).length);
+    console.log(CurrSentInd);
+    if (StateMachineState == "Start"){ // during start state no clicking is needed
+      handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin "});
+    } else if (summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id !== CurrSentInd}).length !== 0){ // check if span chosen is from the correct sentence first.
+      SetSummaryMouseDownStartID("-1");
+      SetSummaryMouseclicked(false);
+      handleErrorOpen({ msg : "Span chosen is not from the correct sentence." });
+    } else if (StateMachineState === "Choose Span"){
       SummaryUnderlineHandler({ tkn_id, CurrSentInd, SetSummaryUnderline, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
-    }
-    else{
+    } else if (StateMachineState === "Highlight"){
       SummaryHighlightHandler({ tkn_id, toggleSummaryHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
+    } else {
+      alert("state not defined yet!");
     }
   }
 
