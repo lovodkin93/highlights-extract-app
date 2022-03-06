@@ -10,7 +10,7 @@ import Snackbar from '@mui/material/Snackbar';
 import * as React from 'react';
 
 
-const Annotation = ({task_id, doc_json, summary_json, all_lemma_match_mtx, important_lemma_match_mtx, toggleSummaryHighlight, toggleDocHighlight, SetSummaryShadow, SetSummaryUnderline}) => {
+const Annotation = ({task_id, doc_json, summary_json, all_lemma_match_mtx, important_lemma_match_mtx, handleErrorOpen, toggleSummaryHighlight, toggleDocHighlight, SetSummaryShadow, SetSummaryUnderline}) => {
   // console.log(doc_json)
   // console.log(summary_json)
   // console.log("now all")
@@ -46,8 +46,9 @@ const Annotation = ({task_id, doc_json, summary_json, all_lemma_match_mtx, impor
   }
 
   const MachineStateHandlerWrapper = () => {
-    MachineStateHandler({ StateMachineState, SetStateMachineState,
-                          SetInfoMessage,
+    MachineStateHandler({ summary_json,
+                          StateMachineState, SetStateMachineState,
+                          SetInfoMessage, handleErrorOpen,
                           CurrSentInd, SetCurrSentInd, SetSummaryShadow });
   }
 
@@ -83,9 +84,6 @@ const Annotation = ({task_id, doc_json, summary_json, all_lemma_match_mtx, impor
             ))};
             </p>
         </div>
-        <footer>
-          <Link to='/homepage'>back</Link>
-        </footer>
       </>
   )
 }

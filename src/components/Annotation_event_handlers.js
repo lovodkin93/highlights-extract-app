@@ -50,8 +50,9 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
 
 
 
-  const MachineStateHandler = ({ StateMachineState, SetStateMachineState,
-                                 SetInfoMessage,
+  const MachineStateHandler = ({ summary_json,
+                                 StateMachineState, SetStateMachineState,
+                                 SetInfoMessage, handleErrorOpen,
                                   CurrSentInd, SetCurrSentInd, SetSummaryShadow }) => {
     if (StateMachineState === "Start"){
         console.log(`Old state: \"Start\"; New state: \"Sentence Start\" with SentInd=${CurrSentInd+1}`);
@@ -59,6 +60,15 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
         SetSummaryShadow(CurrSentInd+1);
         SetCurrSentInd(CurrSentInd+1);
         SetInfoMessage("Choose a span and then press \"HIGHLIGHT\".");
+    }
+    if (StateMachineState === "Sentence Start"){
+        if(summary_json.filter((word) => {return word.underlined && word.sent_id === CurrSentInd}).length === 0){
+            handleErrorOpen({ msg : "No span was chosen" });
+        }
+        else{
+            console.log(`Old state: \"Sentence Start\"; New state: \"Highlight\"`);
+            SetStateMachineState("Highlight");
+        }
     }
   }
 

@@ -23,10 +23,9 @@ const App = () => {
   const [important_lemma_match_mtx, setImportantLemmaMtx] = useState([]);
   const [error_message, setErrorMessage] = React.useState("");
 
-
+  /*************************************** error handling *************************************************/
   const Alert = React.forwardRef(function Alert(props, ref) {return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;});
   const handleErrorOpen = ({ msg }) => { 
-    console.log(msg);
     setErrorMessage(msg); 
   };
 
@@ -37,15 +36,17 @@ const App = () => {
 
     setErrorMessage("");
   };
-
+/************************************************************************************************************* */
 
   function addDocWordComponents(doc) {
     let updated_doc_json = [];
     doc.forEach((word) => {
       let underlined=false;
       let boldfaced=false;
-      let highlighted=false;
-      const newWord = {...word, underlined, boldfaced, highlighted}; 
+      let doc_highlighted=false; // all the doc's highlights so far
+      let sent_highlighted=false; // all the sentence's highlights so far
+      let span_highlighted=false; // all the span's highlights so far
+      const newWord = {...word, underlined, boldfaced, span_highlighted, sent_highlighted, doc_highlighted}; 
       updated_doc_json = [...updated_doc_json, newWord];
     })
     setDocJson(updated_doc_json);
@@ -67,7 +68,7 @@ const App = () => {
   }
 
   const toggleDocHighlight = (tkn_ids) => {
-    setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, highlighted: !word.highlighted } : word))
+    setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, doc_highlighted: !word.doc_highlighted } : word))
   }
 
   const toggleSummaryHighlight = (tkn_ids) => {
@@ -127,6 +128,7 @@ const App = () => {
                                               summary_json = {summary_json}
                                               all_lemma_match_mtx = {all_lemma_match_mtx}
                                               important_lemma_match_mtx = {important_lemma_match_mtx}
+                                              handleErrorOpen = {handleErrorOpen}
                                               toggleSummaryHighlight = {toggleSummaryHighlight}
                                               toggleDocHighlight = {toggleDocHighlight}
                                               SetSummaryShadow = {SetSummaryShadow}
