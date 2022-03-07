@@ -5,6 +5,7 @@
     box-sizing: border-box;
     border: 1px solid black;
     overflow-wrap: break-word;
+    margin: 1pt 0pt;
 }
 
 
@@ -20,6 +21,7 @@
     box-sizing: border-box;
     border: 1px solid black;
     overflow-wrap: break-word;
+    margin: 1pt 0pt;
 }
 
 #summary-text div{
@@ -69,4 +71,13 @@
     display: block;
     width: 100%;
   }
+
+  #NextStateButton{
+    float:right;
+    width:9%;
+    padding: 3pt 0pt;
+    margin:0%;
+    box-sizing: border-box;
+    font-size: 10pt;
+}
 

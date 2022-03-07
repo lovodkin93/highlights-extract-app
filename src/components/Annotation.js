@@ -1,16 +1,34 @@
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import DocWord from './DocWord'
-import SummaryWord from './SummaryWord'
-import Header from './Header'
-import ResponsiveAppBar from './ResponsiveAppBar'
-import { MachineStateHandler, DocMouseClickHandler, SummaryHighlightHandler, SummaryUnderlineHandler } from './Annotation_event_handlers'
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import DocWord from './DocWord';
+import SummaryWord from './SummaryWord';
+import Header from './Header';
+import ResponsiveAppBar from './ResponsiveAppBar';
+import { MachineStateHandler, DocMouseClickHandler, SummaryHighlightHandler, SummaryUnderlineHandler } from './Annotation_event_handlers';
+import { NextStateButton } from './NextStateButton';
 import MuiAlert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import * as React from 'react';
+import Button from '@mui/material/Button';
+import { ArrowForwardIosTwoTone } from '@mui/icons-material';
+import Box from '@mui/material/Box';
+import Grid from "@material-ui/core/Grid";
+
+import Fab from '@mui/material/Fab';
+import NavigationIcon from '@mui/icons-material/Navigation';
 
 
-const Annotation = ({task_id, doc_json, summary_json, all_lemma_match_mtx, important_lemma_match_mtx, handleErrorOpen, toggleSummaryHighlight, toggleDocHighlight, SetSummaryShadow, SetSummaryUnderline}) => {
+
+
+const Annotation = ({task_id, 
+                    doc_json, summary_json, 
+                    all_lemma_match_mtx, important_lemma_match_mtx,
+                    StateMachineState, SetStateMachineState,
+                    handleErrorOpen, 
+                    toggleSummaryHighlight, toggleDocHighlight, 
+                    SetSummaryShadow, SetSummaryUnderline, 
+                    boldStateHandler,
+                   }) => {
   // console.log(doc_json)
   // console.log(summary_json)
   // console.log("now all")
@@ -23,10 +41,14 @@ const Annotation = ({task_id, doc_json, summary_json, all_lemma_match_mtx, impor
   const [DocMouseclicked, SetDocMouseclicked] = useState(false);
   const [SummaryMouseclickStartID, SetSummaryMouseDownStartID] = useState("-1");
   const [SummaryMouseclicked, SetSummaryMouseclicked] = useState(false);
-  const [StateMachineState, SetStateMachineState] = useState("Start");
   const [CurrSentInd, SetCurrSentInd] = useState(-1);
   const [InfoMessage, SetInfoMessage] = useState("");
 
+  const nextButtonText = () => {
+    if(StateMachineState==="Start"){return "Start";}
+    if(StateMachineState==="Choose Span"){return "Highlight"}
+    if(StateMachineState==="Highlight"){return "Next Span"}
+  }
 
 
   const Alert = React.forwardRef(function Alert(props, ref) {
@@ -81,17 +103,17 @@ const Annotation = ({task_id, doc_json, summary_json, all_lemma_match_mtx, impor
            title={"Annotation"} 
            StateMachineState = {StateMachineState} 
            MachineStateHandler={MachineStateHandlerWrapper}
+           boldStateHandler={boldStateHandler}
         />
         {InfoMessage !== "" && (<Alert severity="info" color="secondary">{InfoMessage}</Alert>)}
         <div id="doc-text">
             <h3>Document</h3>
-            <p>
+            <body>
             {doc_json.map((word_json, index) => (
               <DocWord key={index} word_json={word_json} DocMouseClickHandler={DocMouseClickHandlerWrapper} />
             ))};
-            </p>
+            </body>
         </div>
-
         <div id="summary-text">
             <h3>Summary</h3>
             <p>
@@ -100,6 +122,10 @@ const Annotation = ({task_id, doc_json, summary_json, all_lemma_match_mtx, impor
             ))};
             </p>
         </div>
+        <Fab id="NextStateButton" color="success" variant="extended" onClick={MachineStateHandlerWrapper}>
+          {nextButtonText()}
+          <ArrowForwardIosTwoTone />
+        </Fab>
       </>
   )
 }

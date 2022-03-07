@@ -22,7 +22,7 @@ const App = () => {
   const [all_lemma_match_mtx, setAllLemmaMtx] = useState([]);
   const [important_lemma_match_mtx, setImportantLemmaMtx] = useState([]);
   const [boldState, setBoldState] = useState("sent"); // for user to choose if want full sentence, span or no lemma matching (denoted as "sent", "span" and "none", accordingly)
-
+  const [StateMachineState, SetStateMachineState] = useState("Start");
   const [error_message, setErrorMessage] = React.useState("");
 
   /*************************************** error handling *************************************************/
@@ -61,9 +61,8 @@ const App = () => {
       let underlined=false;
       let boldfaced=false;
       let highlighted=false;
-      let chosen_span=false;
       let shadowed=false;
-      const newWord = {...word, underlined, boldfaced, highlighted, shadowed, chosen_span}; 
+      const newWord = {...word, underlined, boldfaced, highlighted, shadowed}; 
       updated_summary_json = [...updated_summary_json, newWord];
     })
     setSummaryJson(updated_summary_json);
@@ -86,8 +85,17 @@ const App = () => {
   const SetSummaryUnderline = (tkn_ids) => {
     setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, underlined: !word.underlined } : word));
   }
-  
 
+  const SetDocBoldface = (tkn_ids) => {
+    setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, boldfaced: true } : { ...word, boldfaced: false }))
+  }
+
+  const checkIfLemmasMatch = ({doc_id, summary_ids, isSpan}) => {
+    // const which_match_mtx = (isSpan) ? all_lemma_match_mtx : important_lemma_match_mtx;
+    const which_match_mtx = important_lemma_match_mtx;
+    const matching_summary_ids = summary_ids.filter((summary_id) => {return all_lemma_match_mtx[doc_id][summary_id] === 1;})
+    return matching_summary_ids.length > 0
+  }
 
     useEffect(() => {
       const getTasks = () => {
@@ -110,8 +118,26 @@ const App = () => {
 
       getTasks();
     }, [])
-  
 
+    const boldStateHandler = (event, newValue) => {
+      console.log(newValue)
+      if (newValue=='1'){
+        setBoldState("none");
+        SetDocBoldface([]);
+      } else if (newValue=='2'){
+        setBoldState("span");
+        const summary_ids = summary_json.filter((word) => {return word.underlined}).map((word) => {return word.tkn_id});
+        const isSpan = true;
+        const tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id, summary_ids, isSpan})});
+        SetDocBoldface(tkn_ids);
+      } else {
+        setBoldState("sent");
+        const isSpan = false;
+        const summary_ids = summary_json.filter((word) => {return word.shadowed}).map((word) => {return word.tkn_id});
+        const tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id, summary_ids, isSpan})});
+        SetDocBoldface(tkn_ids);
+      }
+    }
   return (
     <Router>
       <div className='container'>
@@ -126,11 +152,16 @@ const App = () => {
                                               summary_json = {summary_json}
                                               all_lemma_match_mtx = {all_lemma_match_mtx}
                                               important_lemma_match_mtx = {important_lemma_match_mtx}
+                                              StateMachineState = {StateMachineState}
+                                              SetStateMachineState = {SetStateMachineState}
                                               handleErrorOpen = {handleErrorOpen}
                                               toggleSummaryHighlight = {toggleSummaryHighlight}
                                               toggleDocHighlight = {toggleDocHighlight}
                                               SetSummaryShadow = {SetSummaryShadow}
-                                              SetSummaryUnderline = {SetSummaryUnderline} />} />
+                                              SetSummaryUnderline = {SetSummaryUnderline}
+                                              boldStateHandler = {boldStateHandler}
+                                              />} 
+          />
 
         </Routes>
       </div>
