@@ -14,8 +14,6 @@ import json_file from './data/data_for_mturk.json'
 
 const App = () => {
 
-  // let task_id = "-1"; // default for showAddTask is false
-
   const [task_id, setTaskID] = useState("-1"); // default for task_id is -1
   const [doc_json, setDocJson] = useState([]);
   const [summary_json, setSummaryJson] = useState([]); 
@@ -40,6 +38,12 @@ const App = () => {
   };
 /************************************************************************************************************* */
 
+  const isPunct = (tkn_txt) => {
+    const regex = /[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g;
+    const result = tkn_txt.replace(regex, '').replace(/(\r\n|\n|\r)/gm, "");
+    return (result === '');
+  }
+  
   function addDocWordComponents(doc) {
     let updated_doc_json = [];
     doc.forEach((word) => {
@@ -69,6 +73,7 @@ const App = () => {
   }
 
   const toggleDocHighlight = (tkn_ids) => {
+    console.log(`true/false: ${isPunct(doc_json[tkn_ids[0]].word)}`);
     setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, doc_highlighted: !word.doc_highlighted } : word))
   }
 
@@ -138,6 +143,11 @@ const App = () => {
         SetDocBoldface(tkn_ids);
       }
     }
+
+
+    const SubmitHandler = () => {
+      alert("Submitted!");
+    }
   return (
     <Router>
       <div className='container'>
@@ -155,11 +165,13 @@ const App = () => {
                                               StateMachineState = {StateMachineState}
                                               SetStateMachineState = {SetStateMachineState}
                                               handleErrorOpen = {handleErrorOpen}
+                                              isPunct = {isPunct}
                                               toggleSummaryHighlight = {toggleSummaryHighlight}
                                               toggleDocHighlight = {toggleDocHighlight}
                                               SetSummaryShadow = {SetSummaryShadow}
                                               SetSummaryUnderline = {SetSummaryUnderline}
                                               boldStateHandler = {boldStateHandler}
+                                              SubmitHandler = {SubmitHandler}
                                               />} 
           />
 

@@ -24,10 +24,11 @@ const Annotation = ({task_id,
                     doc_json, summary_json, 
                     all_lemma_match_mtx, important_lemma_match_mtx,
                     StateMachineState, SetStateMachineState,
-                    handleErrorOpen, 
+                    handleErrorOpen, isPunct,
                     toggleSummaryHighlight, toggleDocHighlight, 
                     SetSummaryShadow, SetSummaryUnderline, 
                     boldStateHandler,
+                    SubmitHandler
                    }) => {
   // console.log(doc_json)
   // console.log(summary_json)
@@ -46,8 +47,10 @@ const Annotation = ({task_id,
 
   const nextButtonText = () => {
     if(StateMachineState==="Start"){return "Start";}
-    if(StateMachineState==="Choose Span"){return "Highlight"}
-    if(StateMachineState==="Highlight"){return "Next Span"}
+    if(StateMachineState==="Choose Span"){return "Highlight";}
+    if(StateMachineState==="Highlight"){return "Next Span";}
+    if(StateMachineState==="Revise Sentence"){return "Next Sentence";}
+    if(StateMachineState==="Revise All"){return "Submit";}
   }
 
 
@@ -86,8 +89,9 @@ const Annotation = ({task_id,
   const MachineStateHandlerWrapper = () => {
     MachineStateHandler({ summary_json,
                           StateMachineState, SetStateMachineState,
-                          SetInfoMessage, handleErrorOpen,
-                          CurrSentInd, SetCurrSentInd, SetSummaryShadow });
+                          SetInfoMessage, handleErrorOpen, isPunct,
+                          CurrSentInd, SetCurrSentInd, SetSummaryShadow, SetSummaryUnderline,
+                          boldStateHandler });
   }
 
 
@@ -122,10 +126,17 @@ const Annotation = ({task_id,
             ))};
             </p>
         </div>
-        <Fab id="NextStateButton" color="success" variant="extended" onClick={MachineStateHandlerWrapper}>
-          {nextButtonText()}
-          <ArrowForwardIosTwoTone />
-        </Fab>
+        {StateMachineState !== "Revise All" && (
+          <Fab id="NextStateButton" color="success" variant="extended" onClick={MachineStateHandlerWrapper}>
+            {nextButtonText()}
+            <ArrowForwardIosTwoTone />
+          </Fab>
+        )}
+        {StateMachineState === "Revise All" && (
+          <Fab id="SubmitButton" color="success" variant="extended" onClick={SubmitHandler}>
+            {nextButtonText()}
+          </Fab>
+        )}
       </>
   )
 }

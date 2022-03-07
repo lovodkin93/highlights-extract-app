@@ -47,13 +47,23 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
   }
 
 
+  const allSentHighlighted = (summary_json, CurrSentInd, isPunct) => {
+    console.log(summary_json.filter((word) => { return (word.sent_id === CurrSentInd) && (!word.highlighted) && (!isPunct(word.word))}));
+    return (summary_json.filter((word) => { return (word.sent_id === CurrSentInd) && (!word.highlighted) && (!isPunct(word.word))}).length === 0);
+  }
+
+  const allSummaryHighlighted = (summary_json, CurrSentInd, isPunct) => {
+    const isLastSent = (Math.max.apply(Math, summary_json.map(word => { return word.sent_id; })) === CurrSentInd)
+    return (allSentHighlighted(summary_json, CurrSentInd, isPunct) && isLastSent)
+  }
 
 
 
   const MachineStateHandler = ({ summary_json,
                                  StateMachineState, SetStateMachineState,
-                                 SetInfoMessage, handleErrorOpen,
-                                  CurrSentInd, SetCurrSentInd, SetSummaryShadow }) => {
+                                 SetInfoMessage, handleErrorOpen, isPunct,
+                                  CurrSentInd, SetCurrSentInd, SetSummaryShadow, SetSummaryUnderline,
+                                  boldStateHandler }) => {
     // "Start" state --> "Choose Span" state
     if (StateMachineState === "Start"){
         console.log(`Old state: \"Start\"; New state: \"Choose Span\" with SentInd=${CurrSentInd+1}.`);
@@ -69,19 +79,46 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
         } else{
             console.log(`Old state: \"Choose Span\"; New state: \"Highlight\."`);
             SetStateMachineState("Highlight");
+            boldStateHandler(undefined, 2); // set the boldstate to boldfacing matches of span.
             SetInfoMessage("");
         }
     }
     // "Highlight" state --> "Choose Span" state 
     // TODO: AVIVSL: add also when end of sentence and end of file here
     if (StateMachineState === "Highlight"){
-        if(summary_json.filter((word) => {return word.underlined && !word.highlighted}).length > 0){
+        if(summary_json.filter((word) => {return word.underlined && !word.highlighted && !isPunct(word.word)}).length > 0){
             handleErrorOpen({ msg : "Not all summary span was highlighted." });
+        } else if (allSummaryHighlighted(summary_json, CurrSentInd, isPunct)){
+            console.log(`Old state: \"Highlight\"; New state: \"Revise All\".`);
+            SetStateMachineState("Revise All"); 
+            SetInfoMessage("Finished all summary. If needed, please adjust doc spans. In the end, press  \"SUBMIT\".");
+        } else if (allSentHighlighted(summary_json, CurrSentInd, isPunct)){
+            console.log(`Old state: \"Highlight\"; New state: \"Revise Sentence\".`);
+            SetStateMachineState("Revise Sentence"); 
+            SetInfoMessage("Finished summary sentence. If needed, please adjust doc spans. In the end, press  \"NEXT SENTENCE\".");
         } else {
             console.log(`Old state: \"Highlight\"; New state: \"Choose Span\".`);
-            SetStateMachineState("Choose Span");
+            /****************** cancel underline **************/
+            const underlined_ids = summary_json.filter((word) => {return word.underlined}).map((word) => {return word.tkn_id});
+            SetSummaryUnderline(underlined_ids);
+            /*************************************************/
+            SetStateMachineState("Choose Span"); 
             SetInfoMessage("Choose a span and then press \"HIGHLIGHT\".");
         }
+    }
+    // "Revise Sentence" state --> "Choose Span" state
+    if (StateMachineState === "Revise Sentence"){
+      console.log(`Old state: \"Revise Sentence\"; New state: \"Choose Span\" with SentInd=${CurrSentInd+1}.`);
+      SetStateMachineState("Choose Span");
+      SetSummaryShadow(CurrSentInd+1);
+      SetCurrSentInd(CurrSentInd+1);
+      SetInfoMessage("Choose a span and then press \"HIGHLIGHT\".");
+    }
+    // "Revise All" state --> "Submit" state 
+    if (StateMachineState === "Revise All"){
+      console.log(`Old state: \"Revise Sentence\"; New state: \"Submit\"`);
+      SetStateMachineState("Submit");
+      SetInfoMessage("");
     }
   }
 
