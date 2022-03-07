@@ -56,7 +56,7 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
                                   CurrSentInd, SetCurrSentInd, SetSummaryShadow }) => {
     // "Start" state --> "Choose Span" state
     if (StateMachineState === "Start"){
-        console.log(`Old state: \"Start\"; New state: \"Choose Span\" with SentInd=${CurrSentInd+1}`);
+        console.log(`Old state: \"Start\"; New state: \"Choose Span\" with SentInd=${CurrSentInd+1}.`);
         SetStateMachineState("Choose Span");
         SetSummaryShadow(CurrSentInd+1);
         SetCurrSentInd(CurrSentInd+1);
@@ -65,9 +65,9 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
     // "Choose Span" state --> "Highlight" state
     if (StateMachineState === "Choose Span"){
         if(summary_json.filter((word) => {return word.underlined && word.sent_id === CurrSentInd}).length === 0){
-            handleErrorOpen({ msg : "No span was chosen" });
+            handleErrorOpen({ msg : "No span was chosen." });
         } else{
-            console.log(`Old state: \"Choose Span\"; New state: \"Highlight\"`);
+            console.log(`Old state: \"Choose Span\"; New state: \"Highlight\."`);
             SetStateMachineState("Highlight");
             SetInfoMessage("");
         }
@@ -76,9 +76,9 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
     // TODO: AVIVSL: add also when end of sentence and end of file here
     if (StateMachineState === "Highlight"){
         if(summary_json.filter((word) => {return word.underlined && !word.highlighted}).length > 0){
-            handleErrorOpen({ msg : "Not all summary span was highlighted" });
+            handleErrorOpen({ msg : "Not all summary span was highlighted." });
         } else {
-            console.log(`Old state: \"Highlight\"; New state: \"Choose Span\" with`);
+            console.log(`Old state: \"Highlight\"; New state: \"Choose Span\".`);
             SetStateMachineState("Choose Span");
             SetInfoMessage("Choose a span and then press \"HIGHLIGHT\".");
         }

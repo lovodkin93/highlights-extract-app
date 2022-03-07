@@ -28,15 +28,16 @@ const Annotation = ({task_id, doc_json, summary_json, all_lemma_match_mtx, impor
   const [InfoMessage, SetInfoMessage] = useState("");
 
 
+
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
   const DocMouseClickHandlerWrapper = (tkn_id) => {
     if (StateMachineState == "Start"){ // during start state no clicking is needed
-      handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin. "});
+      handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
     } else if (StateMachineState == "Choose Span"){ // during start state no clicking is needed
-      handleErrorOpen({ msg : "Please choose a summary span first. Then press \"HIGHLIGHT\" to continue. "});
+      handleErrorOpen({ msg : "Please choose a summary span first. Then press \"HIGHLIGHT\" to continue."});
     } else {
       DocMouseClickHandler({ tkn_id, toggleDocHighlight, DocMouseclickStartID, DocMouseclicked, SetDocMouseDownStartID, SetDocMouseclicked });
     }
@@ -46,7 +47,7 @@ const Annotation = ({task_id, doc_json, summary_json, all_lemma_match_mtx, impor
     console.log(summary_json.filter((word) => {return word.tkn_id === tkn_id && !word.sent_id !== CurrSentInd}).length);
     console.log(CurrSentInd);
     if (StateMachineState == "Start"){ // during start state no clicking is needed
-      handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin "});
+      handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
     } else if (summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id !== CurrSentInd}).length !== 0){ // check if span chosen is from the correct sentence first.
       SetSummaryMouseDownStartID("-1");
       SetSummaryMouseclicked(false);

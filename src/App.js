@@ -18,9 +18,11 @@ const App = () => {
 
   const [task_id, setTaskID] = useState("-1"); // default for task_id is -1
   const [doc_json, setDocJson] = useState([]);
-  const [summary_json, setSummaryJson] = useState([]);
+  const [summary_json, setSummaryJson] = useState([]); 
   const [all_lemma_match_mtx, setAllLemmaMtx] = useState([]);
   const [important_lemma_match_mtx, setImportantLemmaMtx] = useState([]);
+  const [boldState, setBoldState] = useState("sent"); // for user to choose if want full sentence, span or no lemma matching (denoted as "sent", "span" and "none", accordingly)
+
   const [error_message, setErrorMessage] = React.useState("");
 
   /*************************************** error handling *************************************************/
@@ -68,16 +70,18 @@ const App = () => {
   }
 
   const toggleDocHighlight = (tkn_ids) => {
-    setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: !word.span_highlighted } : word))
+    setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, doc_highlighted: !word.doc_highlighted } : word))
   }
 
   const toggleSummaryHighlight = (tkn_ids) => {
     setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, highlighted: !word.highlighted } : word));
   }
 
+
   const SetSummaryShadow = (sent_id) => {
     setSummaryJson(summary_json.map((word) => word.sent_id === sent_id ? { ...word, shadowed: true } : { ...word, shadowed: false }))
   }
+
 
   const SetSummaryUnderline = (tkn_ids) => {
     setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, underlined: !word.underlined } : word));
@@ -97,7 +101,6 @@ const App = () => {
         addSummaryWordComponents(json_file[curr_id]["summary"])
         setAllLemmaMtx(json_file[curr_id]["all_lemma_match_mtx"]);
         setImportantLemmaMtx(json_file[curr_id]["important_lemma_match_mtx"]);
-        // console.log(json_file);
 
         fetch(`/`).then(
           res => console.log(res)
