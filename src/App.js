@@ -248,6 +248,7 @@ const App = () => {
                                               toggleDocHighlight = {toggleDocHighlight}
                                               SetSummaryShadow = {SetSummaryShadow}
                                               SetSummaryUnderline = {SetSummaryUnderline}
+                                              boldState = {boldState}
                                               boldStateHandler = {boldStateHandler}
                                               SubmitHandler = {SubmitHandler}
                                               CurrSentInd = {CurrSentInd}

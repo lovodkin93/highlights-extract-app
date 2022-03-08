@@ -13,7 +13,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 const pages = {'Home Page': 'homepage', 'Instructions': 'instructions', 'Guided Annotation': 'guidedAnnotation', 'Annotation': 'annotation'}; // ['Products', 'Pricing', 'Blog']; // dict explanation: key=title, value=url_path //
 
-const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandler, boldStateHandler }) => {
+const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandler, boldState, boldStateHandler }) => {
   const BlackTextTypography = withStyles({
     root: {
       color: "black",
@@ -24,11 +24,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandler, boldS
 
 
 
-  // const nextButtonText = () => {
-  //   if(StateMachineState==="Start"){return "Start";}
-  //   if(StateMachineState==="Choose Span"){return "Highlight"}
-  //   if(StateMachineState==="Highlight"){return "Next Span"}
-  // }
+
 
   const sliderTags = (value) =>{
     if (value===1) {
@@ -39,6 +35,18 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandler, boldS
       return "Sentence";
     }
   }
+
+  const sliderDefaultValue = () =>{
+    if (boldState === "none") {
+      return 1;
+    } else if (boldState === "span") {
+      return 2;
+    } else {
+      return 3;
+    }
+  }
+  
+
 
   return (
     <AppBar position="static" color="primary">
@@ -79,10 +87,11 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandler, boldS
           </BlackTextTypography>
             <Slider
               aria-label="Bolding-option"
-              defaultValue={2}
+              defaultValue={3}
               getAriaValueText={sliderTags}
               valueLabelFormat={sliderTags}
               valueLabelDisplay="auto"
+              value={sliderDefaultValue()}
               color="error"
               step={1}
               marks
@@ -91,14 +100,6 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandler, boldS
               onChangeCommitted={boldStateHandler}
             />
           </Box>
-          
-          {/* <Button
-            color="inherit"
-            endIcon={<ArrowForwardIosTwoTone />}
-            onClick={MachineStateHandler}
-          >
-            {nextButtonText()}
-          </Button> */}
         </Toolbar>
       </Container>
     </AppBar>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DocWord from './DocWord';
 import SummaryWord from './SummaryWord';
 import ResponsiveAppBar from './ResponsiveAppBar';
@@ -20,17 +20,23 @@ const Annotation = ({task_id,
                     handleErrorOpen, isPunct,
                     toggleSummaryHighlight, toggleDocHighlight, 
                     SetSummaryShadow, SetSummaryUnderline, 
-                    boldStateHandler,
+                    boldState, boldStateHandler,
                     SubmitHandler,
                     CurrSentInd,
                     InfoMessage,
                     MachineStateHandlerWrapper
                    }) => {
 
+
+
   const [DocMouseclickStartID, SetDocMouseDownStartID] = useState("-1");
   const [DocMouseclicked, SetDocMouseclicked] = useState(false);
   const [SummaryMouseclickStartID, SetSummaryMouseDownStartID] = useState("-1");
   const [SummaryMouseclicked, SetSummaryMouseclicked] = useState(false);
+
+
+
+
 
   const nextButtonText = () => {
     if(StateMachineState==="Start"){return "Start";}
@@ -82,12 +88,21 @@ const Annotation = ({task_id,
 
 
 
+  // reset clickings between states
+  useEffect(() => {
+    SetDocMouseDownStartID("-1");
+    SetDocMouseclicked(false);
+    SetSummaryMouseDownStartID("-1");
+    SetSummaryMouseclicked(false);
+  }, [StateMachineState]);
+
   return (
       <>
         <ResponsiveAppBar
            title={"Annotation"} 
            StateMachineState = {StateMachineState} 
            MachineStateHandler={MachineStateHandlerWrapper}
+           boldState={boldState}
            boldStateHandler={boldStateHandler}
         />
         {InfoMessage !== "" && (<Alert severity="info" color="secondary">{InfoMessage}</Alert>)}
