@@ -72,24 +72,69 @@
     width: 100%;
   }
 
-  #NextStateButton{
+  .NextStateButton{
     float:right;
     width:9%;
     padding: 3pt 0pt;
     margin:0%;
     box-sizing: border-box;
     font-size: 10pt;
-    background-color:brown;
 }
+
+#state-Start{
+    background-color:rgb(255, 255, 0);
+    color:black;
+    font-size:larger;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+    margin:0.3% 0%;
+}
+
+#state-ChooseSpan{
+    background-color:brown;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+    margin:0.3% 0%;
+}
+
+
+#state-Highlight{
+    background-color:darkblue;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+    margin:0.3% 0%;
+}
+
+#state-ReviseSentence{
+    background-color:darkcyan;
+    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+    margin:0.3% 0%;
+}
+
 
 #SubmitButton{
     float:right;
-    width:7%;
-    padding: 3pt 0pt;
-    margin:0%;
     box-sizing: border-box;
-    font-size: 10pt;
+    margin:0.3% 0%;
+
+    font-family: 'Ubuntu', sans-serif;
+    
+    width: 140px;
+    height: 40px;
+    line-height: 1;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border: 3px solid green;
+    background: #fff;
+    color: green;
+    border-radius: 40px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all .35s;
 }
+
+#SubmitButton:hover{
+    background: green;
+    color: #fff;
+  }
 
 
 

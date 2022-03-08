@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -8,8 +8,10 @@ import StartPage from './components/StartPage'
 import Instructions from './components/Instructions'
 import GuidedAnnotation from './components/GuidedAnnotation'
 import Annotation from './components/Annotation'
-import { ConnectingAirportsOutlined } from '@mui/icons-material'
 import json_file from './data/data_for_mturk.json'
+import { MachineStateHandler } from './components/Annotation_event_handlers';
+
+
 
 
 const App = () => {
@@ -22,6 +24,8 @@ const App = () => {
   const [boldState, setBoldState] = useState("sent"); // for user to choose if want full sentence, span or no lemma matching (denoted as "sent", "span" and "none", accordingly)
   const [StateMachineState, SetStateMachineState] = useState("Start");
   const [error_message, setErrorMessage] = React.useState("");
+  const [CurrSentInd, SetCurrSentInd] = useState(-1);
+  const [InfoMessage, SetInfoMessage] = useState("");
 
   /*************************************** error handling *************************************************/
   const Alert = React.forwardRef(function Alert(props, ref) {return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;});
@@ -88,7 +92,11 @@ const App = () => {
 
 
   const SetSummaryUnderline = (tkn_ids) => {
-    setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, underlined: !word.underlined } : word));
+    if (tkn_ids === "reset"){
+      setSummaryJson(summary_json.map((word) => {return { ...word, underlined: false };}));
+    } else {
+      setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, underlined: !word.underlined } : word));
+    }
   }
 
   const SetDocBoldface = (tkn_ids) => {
@@ -101,6 +109,60 @@ const App = () => {
     const matching_summary_ids = summary_ids.filter((summary_id) => {return all_lemma_match_mtx[doc_id][summary_id] === 1;})
     return matching_summary_ids.length > 0
   }
+
+  const boldStateHandler = (event, newValue) => {
+    console.log(newValue)
+    if (newValue=='1'){
+      setBoldState("none");
+      SetDocBoldface([]);
+    } else if (newValue=='2'){
+      setBoldState("span");
+      const summary_ids = summary_json.filter((word) => {return word.underlined}).map((word) => {return word.tkn_id});
+      const isSpan = true;
+      const tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id, summary_ids, isSpan})});
+      SetDocBoldface(tkn_ids);
+    } else {
+      setBoldState("sent");
+      const isSpan = false;
+      const summary_ids = summary_json.filter((word) => {return word.shadowed}).map((word) => {return word.tkn_id});
+      const tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id, summary_ids, isSpan})});
+      SetDocBoldface(tkn_ids);
+    }
+  }
+
+  const MachineStateHandlerWrapper = () => {
+    MachineStateHandler(summary_json,
+                          StateMachineState, SetStateMachineState,
+                          SetInfoMessage, handleErrorOpen, isPunct,
+                          CurrSentInd, SetCurrSentInd, SetSummaryShadow, SetSummaryUnderline,
+                          boldStateHandler,
+                         );
+  }
+
+
+
+
+  // const didMountRef = useRef(false)
+  // useEffect(() => {
+  //   if (didMountRef.current) {
+  //     console.log(didMountRef);
+  //   } else didMountRef.current = true
+  // });
+
+  const finishedSent = useRef(false)
+  useEffect(() => {
+    if((summary_json.filter((word) => { return word.shadowed && !word.highlighted && !isPunct(word.word)}).length === 0) && (StateMachineState !== "Start")){
+      if (finishedSent===false){
+        finishedSent.current = true; 
+      }
+      
+    } else {
+      finishedSent.current = false
+    }
+    console.log(`finishedSent.current is ${finishedSent.current}`);
+  }, [summary_json]);
+
+
 
     useEffect(() => {
       const getTasks = () => {
@@ -124,28 +186,9 @@ const App = () => {
       getTasks();
     }, [])
 
-    const boldStateHandler = (event, newValue) => {
-      console.log(newValue)
-      if (newValue=='1'){
-        setBoldState("none");
-        SetDocBoldface([]);
-      } else if (newValue=='2'){
-        setBoldState("span");
-        const summary_ids = summary_json.filter((word) => {return word.underlined}).map((word) => {return word.tkn_id});
-        const isSpan = true;
-        const tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id, summary_ids, isSpan})});
-        SetDocBoldface(tkn_ids);
-      } else {
-        setBoldState("sent");
-        const isSpan = false;
-        const summary_ids = summary_json.filter((word) => {return word.shadowed}).map((word) => {return word.tkn_id});
-        const tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id, summary_ids, isSpan})});
-        SetDocBoldface(tkn_ids);
-      }
-    }
 
-
-    const SubmitHandler = () => {
+    const SubmitHandler = (event) => {
+      console.log(event);
       alert("Submitted!");
     }
   return (
@@ -172,6 +215,9 @@ const App = () => {
                                               SetSummaryUnderline = {SetSummaryUnderline}
                                               boldStateHandler = {boldStateHandler}
                                               SubmitHandler = {SubmitHandler}
+                                              CurrSentInd = {CurrSentInd}
+                                              InfoMessage = {InfoMessage}
+                                              MachineStateHandlerWrapper = {MachineStateHandlerWrapper}
                                               />} 
           />
 

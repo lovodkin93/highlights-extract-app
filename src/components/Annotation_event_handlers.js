@@ -16,7 +16,7 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
   }
 
 
-  const SummaryHighlightHandler = ({tkn_id, toggleSummaryHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked}) => {  
+  const SummaryHighlightHandler = ({summary_json, tkn_id, toggleSummaryHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked}) => {  
     const update_mouse_tkn = SummaryMouseclicked ? "-1" : tkn_id;
     if (SummaryMouseclicked){
       const min_ID =  (SummaryMouseclickStartID > tkn_id) ? tkn_id : SummaryMouseclickStartID;
@@ -25,7 +25,7 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
       for(let i=min_ID; i<=max_ID; i++){
         chosen_IDs.push(i);
       }
-      toggleSummaryHighlight(chosen_IDs);     
+      toggleSummaryHighlight(chosen_IDs);
     }
     SetSummaryMouseDownStartID(update_mouse_tkn);
     SetSummaryMouseclicked(!SummaryMouseclicked);
@@ -59,11 +59,12 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
 
 
 
-  const MachineStateHandler = ({ summary_json,
+  const MachineStateHandler = (summary_json,
                                  StateMachineState, SetStateMachineState,
                                  SetInfoMessage, handleErrorOpen, isPunct,
-                                  CurrSentInd, SetCurrSentInd, SetSummaryShadow, SetSummaryUnderline,
-                                  boldStateHandler }) => {
+                                 CurrSentInd, SetCurrSentInd, SetSummaryShadow, SetSummaryUnderline,
+                                 boldStateHandler,
+                                 forceState) => {
     // "Start" state --> "Choose Span" state
     if (StateMachineState === "Start"){
         console.log(`Old state: \"Start\"; New state: \"Choose Span\" with SentInd=${CurrSentInd+1}.`);
@@ -84,11 +85,14 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
         }
     }
     // "Highlight" state --> "Choose Span" state 
-    // TODO: AVIVSL: add also when end of sentence and end of file here
-    if (StateMachineState === "Highlight"){
+    if (StateMachineState === "Highlight" || forceState === "Highlight"){
         if(summary_json.filter((word) => {return word.underlined && !word.highlighted && !isPunct(word.word)}).length > 0){
             handleErrorOpen({ msg : "Not all summary span was highlighted." });
-        } else if (allSummaryHighlighted(summary_json, CurrSentInd, isPunct)){
+            return;
+        } 
+        
+        SetSummaryUnderline("reset");
+        if (allSummaryHighlighted(summary_json, CurrSentInd, isPunct)){
             console.log(`Old state: \"Highlight\"; New state: \"Revise All\".`);
             SetStateMachineState("Revise All"); 
             SetInfoMessage("Finished all summary. If needed, please adjust doc spans. In the end, press  \"SUBMIT\".");
@@ -98,10 +102,6 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
             SetInfoMessage("Finished summary sentence. If needed, please adjust doc spans. In the end, press  \"NEXT SENTENCE\".");
         } else {
             console.log(`Old state: \"Highlight\"; New state: \"Choose Span\".`);
-            /****************** cancel underline **************/
-            const underlined_ids = summary_json.filter((word) => {return word.underlined}).map((word) => {return word.tkn_id});
-            SetSummaryUnderline(underlined_ids);
-            /*************************************************/
             SetStateMachineState("Choose Span"); 
             SetInfoMessage("Choose a span and then press \"HIGHLIGHT\".");
         }
@@ -121,5 +121,11 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
       SetInfoMessage("");
     }
   }
+
+  MachineStateHandler.defaultProps = {
+    forceState: '',
+  }
+  
+
 
   export { MachineStateHandler, DocMouseClickHandler, SummaryHighlightHandler, SummaryUnderlineHandler }
