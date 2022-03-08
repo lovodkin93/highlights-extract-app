@@ -154,49 +154,49 @@ const App = () => {
 
 
 
-
-  // const didMountRef = useRef(false)
-  // useEffect(() => {
-  //   if (didMountRef.current) {
-  //     console.log(didMountRef);
-  //   } else didMountRef.current = true
-  // });
-
   const finishedSent = useRef(false);
   const prevState = useRef("")
   
+  // prevent entering the else if in the next useEffect 
   useEffect(() => {
     finishedSent.current = false;
     console.log(`new CurrSentInd is ${CurrSentInd}`)
   }, [CurrSentInd]);
 
-
-
   useEffect(() => {
     const isNotStart = (StateMachineState !== "Start");
     const isAllSentHighlighted = (summary_json.filter((word) => { return word.sent_id===CurrSentInd && !word.highlighted && !isPunct(word.word)}).length === 0); // need "isNotStart" because also for "Start" state isAllSentHighlighted=true because no sentence is underlined 
     if(isAllSentHighlighted && isNotStart && !finishedSent.current){
-      // console.log(`start finishedSent.current=false`)
       finishedSent.current = true;
       setPrevSummaryUnderlines(summary_json.map((word) => {return word.underlined}))
-
       MachineStateHandlerWrapper({forceState:"Highlight"});   
-      prevState.current = StateMachineState
-    } else if(!isAllSentHighlighted && isNotStart && finishedSent.current) {
-      console.log("and now:")
-      console.log(`prevState is ${prevState.current}`)
-      console.log(`curr State is ${StateMachineState}`)
-      console.log(summary_json.filter((word) => { return word.sent_id===CurrSentInd && !word.highlighted && !isPunct(word.word)}))
-      // console.log(`start finishedSent.current=true`);
-
+    } 
+    // if regretted summary highlighting
+    else if(!isAllSentHighlighted && isNotStart && finishedSent.current) { 
       setSummaryJson(summary_json.map((word) => {return {...word, underlined: prevSummaryUnderlines[word.tkn_id]}}));
       finishedSent.current = false;
-      prevState.current = StateMachineState;
       setPrevSummaryUnderlines([]);
       MachineStateHandlerWrapper({forceState:"Choose Span"});
     }
   }, [summary_json]);
 
+  // bolding controlling
+  useEffect(() => {
+    // making full sentence bolding when starting sentence
+    if (["Start", "Revise Sentence"].includes(prevState.current)) {
+      boldStateHandler(undefined, '3');
+    }
+    // when choosing a span - if nothing underlined then all sent matches are in bold, otherwise only underlined matches (when highlighting - something must be underlined so automatically is '2')
+    else if (["Choose Span", "Highlight"].includes(StateMachineState)) {
+      const bold_state = (summary_json.filter((word) => {return word.underlined}).length === 0) ? '3' : '2'; // if nothing is underlined - bold everything, otherwise bold only underlined
+      boldStateHandler(undefined, bold_state);
+    }
+  // ignoring bolding when revising
+    else if (["Revise All", "Revise Sentence".includes(StateMachineState)]) {
+      boldStateHandler(undefined, '1');
+    }
+    prevState.current = StateMachineState;
+  }, [StateMachineState, summary_json]);
 
 
     useEffect(() => {

@@ -78,7 +78,7 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
         if((summary_json.filter((word) => {return word.underlined && word.sent_id === CurrSentInd}).length === 0) && (forceState !== "Choose Span")){
             handleErrorOpen({ msg : "No span was chosen." });
         } else{
-            console.log(`Old state: \"Choose Span\"; New state: \"Highlight\."`);
+            console.log(`Old state: \"Choose Span\"; New state: \"Highlight\".`);
             SetStateMachineState("Highlight");
             boldStateHandler(undefined, 2); // set the boldstate to boldfacing matches of span.
             SetInfoMessage("");
