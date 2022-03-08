@@ -74,8 +74,8 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
         SetInfoMessage("Choose a span and then press \"HIGHLIGHT\".");
     }
     // "Choose Span" state --> "Highlight" state
-    if (StateMachineState === "Choose Span"){
-        if(summary_json.filter((word) => {return word.underlined && word.sent_id === CurrSentInd}).length === 0){
+    else if (forceState === "Choose Span" || StateMachineState === "Choose Span"){
+        if((summary_json.filter((word) => {return word.underlined && word.sent_id === CurrSentInd}).length === 0) && (forceState !== "Choose Span")){
             handleErrorOpen({ msg : "No span was chosen." });
         } else{
             console.log(`Old state: \"Choose Span\"; New state: \"Highlight\."`);
@@ -84,13 +84,12 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
             SetInfoMessage("");
         }
     }
-    // "Highlight" state --> "Choose Span" state 
-    if (StateMachineState === "Highlight" || forceState === "Highlight"){
+    // "Highlight" state --> "Revise All"/"Revise Sentence"/"Choose Span" state 
+    else if (forceState === "Highlight" || StateMachineState === "Highlight"){
         if(summary_json.filter((word) => {return word.underlined && !word.highlighted && !isPunct(word.word)}).length > 0){
             handleErrorOpen({ msg : "Not all summary span was highlighted." });
             return;
         } 
-        
         SetSummaryUnderline("reset");
         if (allSummaryHighlighted(summary_json, CurrSentInd, isPunct)){
             console.log(`Old state: \"Highlight\"; New state: \"Revise All\".`);
@@ -107,7 +106,7 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
         }
     }
     // "Revise Sentence" state --> "Choose Span" state
-    if (StateMachineState === "Revise Sentence"){
+    else if (StateMachineState === "Revise Sentence"){
       console.log(`Old state: \"Revise Sentence\"; New state: \"Choose Span\" with SentInd=${CurrSentInd+1}.`);
       SetStateMachineState("Choose Span");
       SetSummaryShadow(CurrSentInd+1);
@@ -115,7 +114,7 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
       SetInfoMessage("Choose a span and then press \"HIGHLIGHT\".");
     }
     // "Revise All" state --> "Submit" state 
-    if (StateMachineState === "Revise All"){
+    else if (StateMachineState === "Revise All"){
       console.log(`Old state: \"Revise Sentence\"; New state: \"Submit\"`);
       SetStateMachineState("Submit");
       SetInfoMessage("");

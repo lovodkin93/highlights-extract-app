@@ -27,6 +27,8 @@ const App = () => {
   const [CurrSentInd, SetCurrSentInd] = useState(-1);
   const [InfoMessage, SetInfoMessage] = useState("");
 
+  const [prevSummaryUnderlines, setPrevSummaryUnderlines] = useState([])
+
   /*************************************** error handling *************************************************/
   const Alert = React.forwardRef(function Alert(props, ref) {return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;});
   const handleErrorOpen = ({ msg }) => { 
@@ -130,13 +132,24 @@ const App = () => {
     }
   }
 
-  const MachineStateHandlerWrapper = () => {
+  const MachineStateHandlerWrapper = ({forceState}) => {
+    if (typeof forceState === 'string') {
+      console.log(`forceState situation with: state ${forceState}`);
+    }
+    else{
+      console.log("not a forceState situation...");
+    }
     MachineStateHandler(summary_json,
                           StateMachineState, SetStateMachineState,
                           SetInfoMessage, handleErrorOpen, isPunct,
                           CurrSentInd, SetCurrSentInd, SetSummaryShadow, SetSummaryUnderline,
                           boldStateHandler,
+                          forceState
                          );
+  }
+
+  MachineStateHandlerWrapper.defaultProps = {
+    forceState: '',
   }
 
 
@@ -149,17 +162,39 @@ const App = () => {
   //   } else didMountRef.current = true
   // });
 
-  const finishedSent = useRef(false)
+  const finishedSent = useRef(false);
+  const prevState = useRef("")
+  
   useEffect(() => {
-    if((summary_json.filter((word) => { return word.shadowed && !word.highlighted && !isPunct(word.word)}).length === 0) && (StateMachineState !== "Start")){
-      if (finishedSent===false){
-        finishedSent.current = true; 
-      }
-      
-    } else {
-      finishedSent.current = false
+    finishedSent.current = false;
+    console.log(`new CurrSentInd is ${CurrSentInd}`)
+  }, [CurrSentInd]);
+
+
+
+  useEffect(() => {
+    const isNotStart = (StateMachineState !== "Start");
+    const isAllSentHighlighted = (summary_json.filter((word) => { return word.sent_id===CurrSentInd && !word.highlighted && !isPunct(word.word)}).length === 0); // need "isNotStart" because also for "Start" state isAllSentHighlighted=true because no sentence is underlined 
+    if(isAllSentHighlighted && isNotStart && !finishedSent.current){
+      // console.log(`start finishedSent.current=false`)
+      finishedSent.current = true;
+      setPrevSummaryUnderlines(summary_json.map((word) => {return word.underlined}))
+
+      MachineStateHandlerWrapper({forceState:"Highlight"});   
+      prevState.current = StateMachineState
+    } else if(!isAllSentHighlighted && isNotStart && finishedSent.current) {
+      console.log("and now:")
+      console.log(`prevState is ${prevState.current}`)
+      console.log(`curr State is ${StateMachineState}`)
+      console.log(summary_json.filter((word) => { return word.sent_id===CurrSentInd && !word.highlighted && !isPunct(word.word)}))
+      // console.log(`start finishedSent.current=true`);
+
+      setSummaryJson(summary_json.map((word) => {return {...word, underlined: prevSummaryUnderlines[word.tkn_id]}}));
+      finishedSent.current = false;
+      prevState.current = StateMachineState;
+      setPrevSummaryUnderlines([]);
+      MachineStateHandlerWrapper({forceState:"Choose Span"});
     }
-    console.log(`finishedSent.current is ${finishedSent.current}`);
   }, [summary_json]);
 
 

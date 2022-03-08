@@ -72,9 +72,10 @@ const Annotation = ({task_id,
       handleErrorOpen({ msg : "Span chosen is not from the correct sentence." });
     } else if (StateMachineState === "Choose Span"){
       SummaryUnderlineHandler({ tkn_id, CurrSentInd, SetSummaryUnderline, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
-    } else if (StateMachineState === "Highlight"){
+    } else if (["Highlight", "Revise Sentence", "Revise All"].includes(StateMachineState)){
       SummaryHighlightHandler({ summary_json, tkn_id, toggleSummaryHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
     } else {
+      console.log(`AVIVSL: state is ${StateMachineState}`);
       alert("state not defined yet!");
     }
   }
