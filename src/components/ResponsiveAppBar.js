@@ -11,7 +11,7 @@ import Slider from '@mui/material/Slider';
 import { withStyles } from "@material-ui/core/styles";
 
 
-const pages = {'Home Page': 'homepage', 'Instructions': 'instructions', 'Guided Annotation': 'guidedAnnotation', 'Annotation': 'annotation'}; // ['Products', 'Pricing', 'Blog']; // dict explanation: key=title, value=url_path //
+const pages = {'Home Page': 'homepage', 'Instructions': 'instructions', 'Guided Annotation': 'guidedAnnotation', 'Annotation': 'annotation'}; 
 
 const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandler, boldState, boldStateHandler }) => {
   const BlackTextTypography = withStyles({
@@ -65,7 +65,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandler, boldS
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+            sx={{ flexGrow: 1, display: {xs: 'flex', md: 'none' } }}
           >
             {title}
           </Typography>
@@ -82,9 +82,9 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandler, boldS
           </Box>
           
           <Box sx={{ width: 190, alignItems: 'center' }}>
-          <BlackTextTypography  id="bolding-options" color="secondary">
-            BOLDING OPTIONS
-          </BlackTextTypography>
+            <BlackTextTypography  id="bolding-options" color="secondary">
+              BOLDING OPTIONS
+            </BlackTextTypography>
             <Slider
               aria-label="Bolding-option"
               defaultValue={3}
