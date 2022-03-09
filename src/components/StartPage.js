@@ -60,7 +60,7 @@ const StartPage = () => {
           <div id="ButtonGroupBox">
             {/* <ButtonGroup> */}
               <Button className="StartPageButton" variant="contained" color="primary" component={Link} to={'/instructions'} >Instructions</Button>
-              <Button className="StartPageButton" variant="contained" color="secondary" component={Link} to={'/guidedAnnotation'}>Guideded<br></br>Annotation</Button>
+              <Button className="StartPageButton" variant="contained" color="secondary" component={Link} to={'/guidedAnnotation'}>Guided<br></br>Annotation</Button>
               <Button className="StartPageButton" variant="contained" color="success" component={Link} to={'/annotation'}>Annotation</Button>
             {/* </ButtonGroup> */}
           </div>
