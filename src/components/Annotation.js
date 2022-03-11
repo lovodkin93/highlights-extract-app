@@ -41,7 +41,7 @@ const Annotation = ({task_id,
   const nextButtonText = () => {
     if(StateMachineState==="Start"){return "Start";}
     if(StateMachineState==="Choose Span"){return "Highlight";}
-    if(StateMachineState==="Highlight"){return "Next Span";}
+    if(StateMachineState==="Highlight"){return "Confirm Alignment";}
     if(StateMachineState==="Revise Sentence"){return "Next Sentence";}
     if(StateMachineState==="Revise All"){return "Submit";}
   }
