@@ -58,7 +58,8 @@ const App = () => {
       let doc_highlighted=false; // all the doc's highlights so far
       let sent_highlighted=false; // all the sentence's highlights so far
       let span_highlighted=false; // all the span's highlights so far
-      const newWord = {...word, underlined, boldfaced, span_highlighted, sent_highlighted, doc_highlighted}; 
+      let alignment_id=-1;
+      const newWord = {...word, underlined, boldfaced, span_highlighted, sent_highlighted, doc_highlighted, alignment_id}; 
       updated_doc_json = [...updated_doc_json, newWord];
     })
     setDocJson(updated_doc_json);
@@ -72,7 +73,8 @@ const App = () => {
       let boldfaced=false;
       let highlighted=false;
       let shadowed=false;
-      const newWord = {...word, underlined, boldfaced, highlighted, shadowed}; 
+      let alignment_id=-1;
+      const newWord = {...word, underlined, boldfaced, highlighted, shadowed, alignment_id}; 
       updated_summary_json = [...updated_summary_json, newWord];
     })
     setSummaryJson(updated_summary_json);
@@ -113,7 +115,7 @@ const App = () => {
   }
 
   const boldStateHandler = (event, newValue) => {
-    console.log(newValue)
+    // console.log(newValue)
     if (newValue=='1'){
       setBoldState("none");
       SetDocBoldface([]);
@@ -169,7 +171,7 @@ const App = () => {
     if(isAllSentHighlighted && isNotStart && !finishedSent.current){
       finishedSent.current = true;
       setPrevSummaryUnderlines(summary_json.map((word) => {return word.underlined}))
-      MachineStateHandlerWrapper({forceState:"Highlight"});   
+      MachineStateHandlerWrapper({forceState:"Old Highlight"});   
     } 
     // if regretted summary highlighting
     else if(!isAllSentHighlighted && isNotStart && finishedSent.current) { 
@@ -187,7 +189,7 @@ const App = () => {
       boldStateHandler(undefined, '3');
     }
     // when choosing a span - if nothing underlined then all sent matches are in bold, otherwise only underlined matches (when highlighting - something must be underlined so automatically is '2')
-    else if (["Choose Span", "Highlight"].includes(StateMachineState)) {
+    else if (["Choose Span", "Old Highlight"].includes(StateMachineState)) {
       const bold_state = (summary_json.filter((word) => {return word.underlined}).length === 0) ? '3' : '2'; // if nothing is underlined - bold everything, otherwise bold only underlined
       boldStateHandler(undefined, bold_state);
     }

@@ -73,34 +73,34 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
         SetCurrSentInd(CurrSentInd+1);
         SetInfoMessage("Choose a span and then press \"HIGHLIGHT\".");
     }
-    // "Choose Span" state --> "Highlight" state
+    // "Choose Span" state --> "Old Highlight" state
     else if (forceState === "Choose Span" || StateMachineState === "Choose Span"){
         if((summary_json.filter((word) => {return word.underlined && word.sent_id === CurrSentInd}).length === 0) && (forceState !== "Choose Span")){
             handleErrorOpen({ msg : "No span was chosen." });
         } else{
-            console.log(`Old state: \"Choose Span\"; New state: \"Highlight\".`);
-            SetStateMachineState("Highlight");
+            console.log(`Old state: \"Choose Span\"; New state: \"Old Highlight\".`);
+            SetStateMachineState("Old Highlight");
             boldStateHandler(undefined, 2); // set the boldstate to boldfacing matches of span.
             SetInfoMessage("");
         }
     }
-    // "Highlight" state --> "Revise All"/"Revise Sentence"/"Choose Span" state 
-    else if (forceState === "Highlight" || StateMachineState === "Highlight"){
+    // "Old Highlight" state --> "Revise All"/"Revise Sentence"/"Choose Span" state 
+    else if (forceState === "Old Highlight" || StateMachineState === "Old Highlight"){
         if(summary_json.filter((word) => {return word.underlined && !word.highlighted && !isPunct(word.word)}).length > 0){
             handleErrorOpen({ msg : "Not all summary span was highlighted." });
             return;
         } 
         SetSummaryUnderline("reset");
         if (allSummaryHighlighted(summary_json, CurrSentInd, isPunct)){
-            console.log(`Old state: \"Highlight\"; New state: \"Revise All\".`);
+            console.log(`Old state: \"Old Highlight\"; New state: \"Revise All\".`);
             SetStateMachineState("Revise All"); 
             SetInfoMessage("Finished all summary. If needed, please adjust doc spans. In the end, press  \"SUBMIT\".");
         } else if (allSentHighlighted(summary_json, CurrSentInd, isPunct)){
-            console.log(`Old state: \"Highlight\"; New state: \"Revise Sentence\".`);
+            console.log(`Old state: \"Old Highlight\"; New state: \"Revise Sentence\".`);
             SetStateMachineState("Revise Sentence"); 
             SetInfoMessage("Finished summary sentence. If needed, please adjust doc spans. In the end, press  \"NEXT SENTENCE\".");
         } else {
-            console.log(`Old state: \"Highlight\"; New state: \"Choose Span\".`);
+            console.log(`Old state: \"Old Highlight\"; New state: \"Choose Span\".`);
             SetStateMachineState("Choose Span"); 
             SetInfoMessage("Choose a span and then press \"HIGHLIGHT\".");
         }

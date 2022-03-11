@@ -40,8 +40,8 @@ const Annotation = ({task_id,
 
   const nextButtonText = () => {
     if(StateMachineState==="Start"){return "Start";}
-    if(StateMachineState==="Choose Span"){return "Highlight";}
-    if(StateMachineState==="Highlight"){return "Confirm Alignment";}
+    if(StateMachineState==="Choose Span"){return "Old Highlight";}
+    if(StateMachineState==="Old Highlight"){return "Confirm Alignment";}
     if(StateMachineState==="Revise Sentence"){return "Next Sentence";}
     if(StateMachineState==="Revise All"){return "Submit";}
   }
@@ -49,7 +49,7 @@ const Annotation = ({task_id,
   const nextButtonID = () => {
     if(StateMachineState==="Start"){return "state-Start";}
     if(StateMachineState==="Choose Span"){return "state-ChooseSpan";}
-    if(StateMachineState==="Highlight"){return "state-Highlight";}
+    if(StateMachineState==="Old Highlight"){return "state-OldHighlight";}
     if(StateMachineState==="Revise Sentence"){return "state-ReviseSentence";}
     if(StateMachineState==="Revise All"){return "state-ReviseAll";}
   };
@@ -78,7 +78,7 @@ const Annotation = ({task_id,
       handleErrorOpen({ msg : "Span chosen is not from the correct sentence." });
     } else if (StateMachineState === "Choose Span"){
       SummaryUnderlineHandler({ tkn_id, CurrSentInd, SetSummaryUnderline, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
-    } else if (["Highlight", "Revise Sentence", "Revise All"].includes(StateMachineState)){
+    } else if (["Old Highlight", "Revise Sentence", "Revise All"].includes(StateMachineState)){
       SummaryHighlightHandler({ summary_json, tkn_id, toggleSummaryHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
     } else {
       console.log(`AVIVSL: state is ${StateMachineState}`);
