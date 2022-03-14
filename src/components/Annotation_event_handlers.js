@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID, DocMouseclicked, SetDocMouseDownStartID, SetDocMouseclicked}) => {
+const DocMouseClickHandler = ({tkn_id, toggleDocSpanHighlight, DocMouseclickStartID, DocMouseclicked, SetDocMouseDownStartID, SetDocMouseclicked}) => {
     const update_mouse_tkn = DocMouseclicked ? "-1" : tkn_id;
     if (DocMouseclicked){
       const min_ID =  (DocMouseclickStartID > tkn_id) ? tkn_id : DocMouseclickStartID;
@@ -9,14 +9,14 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
       for(let i=min_ID; i<=max_ID; i++){
         chosen_IDs.push(i);
       }
-      toggleDocHighlight(chosen_IDs);     
+      toggleDocSpanHighlight(chosen_IDs);     
     }
     SetDocMouseDownStartID(update_mouse_tkn);
     SetDocMouseclicked(!DocMouseclicked);
   }
 
 
-  const SummaryHighlightHandler = ({summary_json, tkn_id, toggleSummaryHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked}) => {  
+  const SummaryHighlightHandler = ({summary_json, tkn_id, toggleSummarySpanHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked}) => {  
     const update_mouse_tkn = SummaryMouseclicked ? "-1" : tkn_id;
     if (SummaryMouseclicked){
       const min_ID =  (SummaryMouseclickStartID > tkn_id) ? tkn_id : SummaryMouseclickStartID;
@@ -25,7 +25,7 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
       for(let i=min_ID; i<=max_ID; i++){
         chosen_IDs.push(i);
       }
-      toggleSummaryHighlight(chosen_IDs);
+      toggleSummarySpanHighlight(chosen_IDs);
     }
     SetSummaryMouseDownStartID(update_mouse_tkn);
     SetSummaryMouseclicked(!SummaryMouseclicked);
@@ -64,61 +64,75 @@ const DocMouseClickHandler = ({tkn_id, toggleDocHighlight, DocMouseclickStartID,
                                  SetInfoMessage, handleErrorOpen, isPunct,
                                  CurrSentInd, SetCurrSentInd, SetSummaryShadow, SetSummaryUnderline,
                                  boldStateHandler,
+                                 AlignmentCount, SetAlignmentCount,
+                                 approveHighlightHandler,
                                  forceState) => {
-    // "Start" state --> "Choose Span" state
-    if (StateMachineState === "Start"){
-        console.log(`Old state: \"Start\"; New state: \"Choose Span\" with SentInd=${CurrSentInd+1}.`);
-        SetStateMachineState("Choose Span");
+
+
+
+    // forceState: "SENTENCE END"
+    if (forceState === "SENTENCE END"){
+      console.log(`forceState: \"SENTENCE END\"`);
+      SetStateMachineState("SENTENCE END");
+      SetInfoMessage("Finished sentence highlighting. When ready, press \"APPROVE ALIGNMENT & NEXT SENTENCE\".");
+    }
+
+    // forceState: "SUMMARY END"
+    else if (forceState === "SUMMARY END"){
+      console.log(`forceState: \"SUMMARY END\"`);
+      SetStateMachineState("SUMMARY END");
+      SetInfoMessage("Finished summary highlighting. When ready, press \"SUBMIT\".");
+    }
+
+    // forceState: "ANNOTATION"
+    else if (forceState === "ANNOTATION"){
+      console.log(`forceState: \"ANNOTATION\"`);
+      SetStateMachineState("ANNOTATION");
+      SetInfoMessage("Highlight document and summary alignment and then press \"APPROVE ALIGNMENT\".");
+    }
+
+    // "START" state --> "ANNOTATION" state
+    else if (StateMachineState === "START"){
+        console.log(`Old state: \"START\"; New state: \"ANNOTATION\" with SentInd=${CurrSentInd+1}.`);
+        SetStateMachineState("ANNOTATION");
         SetSummaryShadow(CurrSentInd+1);
         SetCurrSentInd(CurrSentInd+1);
-        SetInfoMessage("Choose a span and then press \"HIGHLIGHT\".");
+        SetInfoMessage("Highlight document and summary alignment and then press \"APPROVE ALIGNMENT\".");
     }
-    // "Choose Span" state --> "Old Highlight" state
-    else if (forceState === "Choose Span" || StateMachineState === "Choose Span"){
-        if((summary_json.filter((word) => {return word.underlined && word.sent_id === CurrSentInd}).length === 0) && (forceState !== "Choose Span")){
-            handleErrorOpen({ msg : "No span was chosen." });
-        } else{
-            console.log(`Old state: \"Choose Span\"; New state: \"Old Highlight\".`);
-            SetStateMachineState("Old Highlight");
-            boldStateHandler(undefined, 2); // set the boldstate to boldfacing matches of span.
-            SetInfoMessage("");
-        }
+    
+    // "ANNOTATION" state --> "ANNOTATION" with next alignment
+    else if (StateMachineState === "ANNOTATION"){
+      console.log("In ANNOTATION state")
+      console.log(`curr AlignmentCount is ${AlignmentCount}`);
+      console.log(`Old state: \"ANNOTATION\"; New state: \"ANNOTATION\" with AlignmentCount=${AlignmentCount}.`);
+      approveHighlightHandler();
+      SetAlignmentCount(AlignmentCount+1);
+      SetInfoMessage("Highlight document and summary alignment and then press \"APPROVE ALIGNMENT\".");
     }
-    // "Old Highlight" state --> "Revise All"/"Revise Sentence"/"Choose Span" state 
-    else if (forceState === "Old Highlight" || StateMachineState === "Old Highlight"){
-        if(summary_json.filter((word) => {return word.underlined && !word.highlighted && !isPunct(word.word)}).length > 0){
-            handleErrorOpen({ msg : "Not all summary span was highlighted." });
-            return;
-        } 
-        SetSummaryUnderline("reset");
-        if (allSummaryHighlighted(summary_json, CurrSentInd, isPunct)){
-            console.log(`Old state: \"Old Highlight\"; New state: \"Revise All\".`);
-            SetStateMachineState("Revise All"); 
-            SetInfoMessage("Finished all summary. If needed, please adjust doc spans. In the end, press  \"SUBMIT\".");
-        } else if (allSentHighlighted(summary_json, CurrSentInd, isPunct)){
-            console.log(`Old state: \"Old Highlight\"; New state: \"Revise Sentence\".`);
-            SetStateMachineState("Revise Sentence"); 
-            SetInfoMessage("Finished summary sentence. If needed, please adjust doc spans. In the end, press  \"NEXT SENTENCE\".");
-        } else {
-            console.log(`Old state: \"Old Highlight\"; New state: \"Choose Span\".`);
-            SetStateMachineState("Choose Span"); 
-            SetInfoMessage("Choose a span and then press \"HIGHLIGHT\".");
-        }
-    }
-    // "Revise Sentence" state --> "Choose Span" state
-    else if (StateMachineState === "Revise Sentence"){
-      console.log(`Old state: \"Revise Sentence\"; New state: \"Choose Span\" with SentInd=${CurrSentInd+1}.`);
-      SetStateMachineState("Choose Span");
-      SetSummaryShadow(CurrSentInd+1);
+
+    // "SENTENCE END" state --> "ANNOTATION" 
+    else if (StateMachineState === "SENTENCE END"){
+      // adding last sentence alignment
+      console.log(`curr AlignmentCount is ${AlignmentCount}`);
+      approveHighlightHandler();
+      SetAlignmentCount(AlignmentCount+1);
+
+      // moving to next sentence
+      // update of summary sentence shadow is done in App.js in a designated useEffect
+      console.log(`Old state: \"SENTENCE END\"; New state: \"ANNOTATION\" with SentInd=${CurrSentInd+1}.`);
+      SetStateMachineState("ANNOTATION");
       SetCurrSentInd(CurrSentInd+1);
-      SetInfoMessage("Choose a span and then press \"HIGHLIGHT\".");
+      SetInfoMessage("Highlight document and summary alignment and then press \"APPROVE ALIGNMENT\".");
+
+      
     }
-    // "Revise All" state --> "Submit" state 
-    else if (StateMachineState === "Revise All"){
-      console.log(`Old state: \"Revise Sentence\"; New state: \"Submit\"`);
-      SetStateMachineState("Submit");
-      SetInfoMessage("");
-    }
+
+      // "SUMMARY END" state --> "SUBMIT" state 
+      else if (StateMachineState === "SUMMARY END"){
+        console.log(`Old state: \"SUMMARY END\"; New state: \"SUBMIT\"`);
+        SetStateMachineState("SUBMIT");
+        SetInfoMessage("");
+      }
   }
 
   MachineStateHandler.defaultProps = {

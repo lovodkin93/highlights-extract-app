@@ -18,13 +18,14 @@ const Annotation = ({task_id,
                     all_lemma_match_mtx, important_lemma_match_mtx,
                     StateMachineState, SetStateMachineState,
                     handleErrorOpen, isPunct,
-                    toggleSummaryHighlight, toggleDocHighlight, 
+                    toggleSummarySpanHighlight, toggleDocSpanHighlight, 
                     SetSummaryShadow, SetSummaryUnderline, 
                     boldState, boldStateHandler,
                     SubmitHandler,
                     CurrSentInd,
                     InfoMessage,
-                    MachineStateHandlerWrapper
+                    MachineStateHandlerWrapper,
+                    AlignmentCount, SetAlignmentCount,
                    }) => {
 
 
@@ -39,19 +40,17 @@ const Annotation = ({task_id,
 
 
   const nextButtonText = () => {
-    if(StateMachineState==="Start"){return "Start";}
-    if(StateMachineState==="Choose Span"){return "Old Highlight";}
-    if(StateMachineState==="Old Highlight"){return "Confirm Alignment";}
-    if(StateMachineState==="Revise Sentence"){return "Next Sentence";}
-    if(StateMachineState==="Revise All"){return "Submit";}
+    if(StateMachineState==="START"){return "START";}
+    if(StateMachineState==="ANNOTATION"){return "CONFIRM ALIGNMENT";}
+    if(StateMachineState==="SENTENCE END"){return "CONFIRM ALIGNMENT & NEXT SENTENCE";}
+    if(StateMachineState==="SUMMARY END"){return "SUBMIT";}
   }
 
   const nextButtonID = () => {
-    if(StateMachineState==="Start"){return "state-Start";}
-    if(StateMachineState==="Choose Span"){return "state-ChooseSpan";}
-    if(StateMachineState==="Old Highlight"){return "state-OldHighlight";}
-    if(StateMachineState==="Revise Sentence"){return "state-ReviseSentence";}
-    if(StateMachineState==="Revise All"){return "state-ReviseAll";}
+    if(StateMachineState==="START"){return "state-START";}
+    if(StateMachineState==="ANNOTATION"){return "state-ANNOTATION";}
+    if(StateMachineState==="SENTENCE END"){return "state-SENTENCE-END";}
+    if(StateMachineState==="SUMMARY END"){return "state-SUMMARY-END";}
   };
 
 
@@ -60,27 +59,23 @@ const Annotation = ({task_id,
   });
 
   const DocMouseClickHandlerWrapper = (tkn_id) => {
-    if (StateMachineState == "Start"){ // during start state no clicking is needed
+    if (StateMachineState == "START"){ // during START state no clicking is needed
       handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
-    } else if (StateMachineState == "Choose Span"){ // during start state no clicking is needed
-      handleErrorOpen({ msg : "Please choose a summary span first. Then press \"HIGHLIGHT\" to continue."});
     } else {
-      DocMouseClickHandler({ tkn_id, toggleDocHighlight, DocMouseclickStartID, DocMouseclicked, SetDocMouseDownStartID, SetDocMouseclicked });
+      DocMouseClickHandler({ tkn_id, toggleDocSpanHighlight, DocMouseclickStartID, DocMouseclicked, SetDocMouseDownStartID, SetDocMouseclicked });
     }
   }
 
   const SummaryMouseClickHandlerWrapper = (tkn_id) => {
-    if (StateMachineState == "Start"){ // during start state no clicking is needed
+    if (StateMachineState == "START"){ // during start state no clicking is needed
       handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
     } else if (summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id !== CurrSentInd}).length !== 0){ // check if span chosen is from the correct sentence first.
       SetSummaryMouseDownStartID("-1");
       SetSummaryMouseclicked(false);
       handleErrorOpen({ msg : "Span chosen is not from the correct sentence." });
-    } else if (StateMachineState === "Choose Span"){
-      SummaryUnderlineHandler({ tkn_id, CurrSentInd, SetSummaryUnderline, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
-    } else if (["Old Highlight", "Revise Sentence", "Revise All"].includes(StateMachineState)){
-      SummaryHighlightHandler({ summary_json, tkn_id, toggleSummaryHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
-    } else {
+    } else if (["ANNOTATION", "SENTENCE END"].includes(StateMachineState)){
+      SummaryHighlightHandler({ summary_json, tkn_id, toggleSummarySpanHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
+     } else {
       console.log(`AVIVSL: state is ${StateMachineState}`);
       alert("state not defined yet!");
     }
@@ -122,13 +117,13 @@ const Annotation = ({task_id,
             ))};
             </p>
         </div>
-        {StateMachineState !== "Revise All" && (
+        {StateMachineState !== "SUMMARY END" && (
           <Fab className='NextStateButton' id={nextButtonID()} color="success" variant="extended" onClick={MachineStateHandlerWrapper}>
             {nextButtonText()}
-            {StateMachineState !== "Start" && (<ArrowForwardIosTwoTone />) }
+            {StateMachineState !== "START" && (<ArrowForwardIosTwoTone />) }
           </Fab>
         )}
-        {StateMachineState === "Revise All" && (
+        {StateMachineState === "SUMMARY END" && (
           <Fab id="SubmitButton" color="success" variant="extended" onClick={SubmitHandler}>
               {nextButtonText()}
               <SendIcon sx={{ margin: '10%' }}  />

@@ -3,7 +3,8 @@ const DocWord = ({ word_json, DocMouseClickHandler }) => {
     return (
       <div
         className={`docWord 
-                    ${word_json.doc_highlighted ? 'highlighted-word': ''}
+                    ${word_json.span_highlighted ? 'span-highlighted-word': ''}
+                    ${(word_json.all_highlighted && !word_json.span_highlighted) ? 'all-highlighted-word': ''}
                     ${word_json.boldfaced ? 'boldfaced-word': ''}`}
         onClick={() => DocMouseClickHandler(word_json.tkn_id)}
       >

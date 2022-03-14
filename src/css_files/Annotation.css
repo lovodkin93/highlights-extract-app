@@ -36,13 +36,19 @@
     font-weight:900;
 }
 
-.highlighted-word{
-    background-color: yellow;
+.all-highlighted-word{
+    background-color: lightslategray;
 }
 
 .shadowed-word{
     text-shadow: .03em .03em 0 hsl(200 50% 30%);
 }
+
+
+.span-highlighted-word{
+    background-color: yellow;
+}
+
 
 
 .btn {
@@ -81,7 +87,7 @@
     font-size: 10pt;
 }
 
-#state-Start{
+#state-START{
     background-color:rgb(255, 255, 0);
     color:black;
     font-size:larger;
@@ -89,20 +95,13 @@
     margin:0.3% 0%;
 }
 
-#state-ChooseSpan{
+#state-ANNOTATION{
     background-color:brown;
     box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
     margin:0.3% 0%;
 }
 
-
-#state-OldHighlight{
-    background-color:darkblue;
-    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-    margin:0.3% 0%;
-}
-
-#state-ReviseSentence{
+#state-SENTENCE-END{
     background-color:darkcyan;
     box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
     margin:0.3% 0%;

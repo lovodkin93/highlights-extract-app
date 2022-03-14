@@ -22,10 +22,12 @@ const App = () => {
   const [all_lemma_match_mtx, setAllLemmaMtx] = useState([]);
   const [important_lemma_match_mtx, setImportantLemmaMtx] = useState([]);
   const [boldState, setBoldState] = useState("sent"); // for user to choose if want full sentence, span or no lemma matching (denoted as "sent", "span" and "none", accordingly)
-  const [StateMachineState, SetStateMachineState] = useState("Start");
+  const [StateMachineState, SetStateMachineState] = useState("START");
   const [error_message, setErrorMessage] = React.useState("");
   const [CurrSentInd, SetCurrSentInd] = useState(-1);
   const [InfoMessage, SetInfoMessage] = useState("");
+  const [AlignmentCount, SetAlignmentCount] = useState(0)
+
 
   const [prevSummaryUnderlines, setPrevSummaryUnderlines] = useState([])
 
@@ -53,13 +55,12 @@ const App = () => {
   function addDocWordComponents(doc) {
     let updated_doc_json = [];
     doc.forEach((word) => {
-      let underlined=false;
       let boldfaced=false;
-      let doc_highlighted=false; // all the doc's highlights so far
+      let all_highlighted=false; // all the doc's highlights so far
       let sent_highlighted=false; // all the sentence's highlights so far
       let span_highlighted=false; // all the span's highlights so far
-      let alignment_id=-1;
-      const newWord = {...word, underlined, boldfaced, span_highlighted, sent_highlighted, doc_highlighted, alignment_id}; 
+      let alignment_id=[];
+      const newWord = {...word, boldfaced, span_highlighted, sent_highlighted, all_highlighted, alignment_id}; 
       updated_doc_json = [...updated_doc_json, newWord];
     })
     setDocJson(updated_doc_json);
@@ -72,22 +73,39 @@ const App = () => {
       let underlined=false;
       let boldfaced=false;
       let highlighted=false;
+
+      let all_highlighted=false; // all the doc's highlights so far
+      let sent_highlighted=false; // all the sentence's highlights so far
+      let span_highlighted=false; // all the span's highlights so far
       let shadowed=false;
-      let alignment_id=-1;
-      const newWord = {...word, underlined, boldfaced, highlighted, shadowed, alignment_id}; 
+      let alignment_id=[];
+      const newWord = {...word, underlined, boldfaced, span_highlighted, sent_highlighted, all_highlighted, highlighted, shadowed, alignment_id}; 
       updated_summary_json = [...updated_summary_json, newWord];
     })
     setSummaryJson(updated_summary_json);
   }
 
-  const toggleDocHighlight = (tkn_ids) => {
+  const toggleDocSpanHighlight = (tkn_ids) => {
     console.log(`true/false: ${isPunct(doc_json[tkn_ids[0]].word)}`);
-    setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, doc_highlighted: !word.doc_highlighted } : word))
+    setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: !word.span_highlighted } : word))
   }
 
-  const toggleSummaryHighlight = (tkn_ids) => {
-    setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, highlighted: !word.highlighted } : word));
+  const toggleSummarySpanHighlight = (tkn_ids) => {
+    console.log(`inside toggleSummarySpanHighlight`);
+    setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: !word.span_highlighted } : word));
   }
+
+
+  const approveHighlightHandler = () => {
+    const doc_tkn_ids = doc_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id});
+    const summary_tkn_ids = summary_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id});
+
+    setDocJson(doc_json.map((word) => doc_tkn_ids.includes(word.tkn_id) ? { ...word, all_highlighted: true, alignment_id: [...word.alignment_id, AlignmentCount], span_highlighted: false } : word));
+    setSummaryJson(summary_json.map((word) => summary_tkn_ids.includes(word.tkn_id) ? { ...word, all_highlighted: true, alignment_id: [...word.alignment_id, AlignmentCount], span_highlighted: false } : word));
+  }
+
+
+
 
 
   const SetSummaryShadow = (sent_id) => {
@@ -146,6 +164,8 @@ const App = () => {
                           SetInfoMessage, handleErrorOpen, isPunct,
                           CurrSentInd, SetCurrSentInd, SetSummaryShadow, SetSummaryUnderline,
                           boldStateHandler,
+                          AlignmentCount, SetAlignmentCount,
+                          approveHighlightHandler,
                           forceState
                          );
   }
@@ -155,50 +175,42 @@ const App = () => {
   }
 
 
-
+  /*******  useState for smooth transition to "SENTENCE END" or "SUMMARY END" *******/
   const finishedSent = useRef(false);
   const prevState = useRef("")
-  
-  // prevent entering the else if in the next useEffect 
-  useEffect(() => {
-    finishedSent.current = false;
-    console.log(`new CurrSentInd is ${CurrSentInd}`)
-  }, [CurrSentInd]);
 
   useEffect(() => {
-    const isNotStart = (StateMachineState !== "Start");
-    const isAllSentHighlighted = (summary_json.filter((word) => { return word.sent_id===CurrSentInd && !word.highlighted && !isPunct(word.word)}).length === 0); // need "isNotStart" because also for "Start" state isAllSentHighlighted=true because no sentence is underlined 
-    if(isAllSentHighlighted && isNotStart && !finishedSent.current){
+    const isNotStart = (StateMachineState !== "START");
+    const isAllSentHighlighted = (summary_json.filter((word) => { return word.sent_id===CurrSentInd && !(word.all_highlighted || word.span_highlighted) && !isPunct(word.word)}).length === 0); // need "isNotStart" because also for "START" state isAllSentHighlighted=true because no sentence is underlined 
+    if (isAllSentHighlighted && isNotStart && !finishedSent.current) {
+      console.log("all sentence is highlighted");
       finishedSent.current = true;
-      setPrevSummaryUnderlines(summary_json.map((word) => {return word.underlined}))
-      MachineStateHandlerWrapper({forceState:"Old Highlight"});   
-    } 
+
+
+      const isLastSent = (Math.max.apply(Math, summary_json.map(word => { return word.sent_id; })) === CurrSentInd)
+      if (isLastSent) {
+        MachineStateHandlerWrapper({forceState:"SUMMARY END"});   
+      } else {
+        MachineStateHandlerWrapper({forceState:"SENTENCE END"});   
+      }
+    }
+
     // if regretted summary highlighting
     else if(!isAllSentHighlighted && isNotStart && finishedSent.current) { 
-      setSummaryJson(summary_json.map((word) => {return {...word, underlined: prevSummaryUnderlines[word.tkn_id]}}));
+      console.log("back to square one");
       finishedSent.current = false;
-      setPrevSummaryUnderlines([]);
-      MachineStateHandlerWrapper({forceState:"Choose Span"});
+      MachineStateHandlerWrapper({forceState:"ANNOTATION"});
     }
   }, [summary_json]);
+  /*********************************************************************************/ 
 
-  // bolding controlling
+
+  
+  /*********** useState to update the summary shadow when next sentence ***********/ 
   useEffect(() => {
-    // making full sentence bolding when starting sentence
-    if (["Start", "Revise Sentence"].includes(prevState.current)) {
-      boldStateHandler(undefined, '3');
-    }
-    // when choosing a span - if nothing underlined then all sent matches are in bold, otherwise only underlined matches (when highlighting - something must be underlined so automatically is '2')
-    else if (["Choose Span", "Old Highlight"].includes(StateMachineState)) {
-      const bold_state = (summary_json.filter((word) => {return word.underlined}).length === 0) ? '3' : '2'; // if nothing is underlined - bold everything, otherwise bold only underlined
-      boldStateHandler(undefined, bold_state);
-    }
-  // ignoring bolding when revising
-    else if (["Revise All", "Revise Sentence".includes(StateMachineState)]) {
-      boldStateHandler(undefined, '1');
-    }
-    prevState.current = StateMachineState;
-  }, [StateMachineState, summary_json]);
+    SetSummaryShadow(CurrSentInd);
+  }, [CurrSentInd]);
+  /********************************************************************************/
 
 
     useEffect(() => {
@@ -246,8 +258,8 @@ const App = () => {
                                               SetStateMachineState = {SetStateMachineState}
                                               handleErrorOpen = {handleErrorOpen}
                                               isPunct = {isPunct}
-                                              toggleSummaryHighlight = {toggleSummaryHighlight}
-                                              toggleDocHighlight = {toggleDocHighlight}
+                                              toggleSummarySpanHighlight = {toggleSummarySpanHighlight}
+                                              toggleDocSpanHighlight = {toggleDocSpanHighlight}
                                               SetSummaryShadow = {SetSummaryShadow}
                                               SetSummaryUnderline = {SetSummaryUnderline}
                                               boldState = {boldState}
@@ -256,6 +268,8 @@ const App = () => {
                                               CurrSentInd = {CurrSentInd}
                                               InfoMessage = {InfoMessage}
                                               MachineStateHandlerWrapper = {MachineStateHandlerWrapper}
+                                              AlignmentCount = {AlignmentCount} 
+                                              SetAlignmentCount = {SetAlignmentCount}
                                               />} 
           />
 
