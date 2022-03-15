@@ -67,8 +67,10 @@ const DocMouseClickHandler = ({tkn_id, toggleDocSpanHighlight, DocMouseclickStar
                                  AlignmentCount, SetAlignmentCount,
                                  approveHighlightHandler,
                                  clickedWordInfo, forceState, 
-                                 StartReviseStateHandler,
-                                 ReviseChooseAlignHandler) => {
+                                 StartReviseStateHandler, ExitReviseHandler,
+                                 ReviseChooseAlignHandler,
+                                 isBackBtn,
+                                 setPrevSummaryJsonRevise, setPrevDocJsonRevise) => {
 
 
 
@@ -95,10 +97,24 @@ const DocMouseClickHandler = ({tkn_id, toggleDocSpanHighlight, DocMouseclickStar
 
     // forceState: "REVISE HOVER"
     else if (forceState === "REVISE HOVER"){
-      StartReviseStateHandler();
+      StartReviseStateHandler(isBackBtn);
       console.log(`forceState: \"REVISE HOVER\"`);
       SetStateMachineState("REVISE HOVER");
       SetInfoMessage("Choose alignment to revise.");
+    }
+
+    // forceState: "FINISH REVISION" --> namely go back to state before revision with all-highlighted updated
+    else if (forceState === "FINISH REVISION"){
+      const prev_state = ExitReviseHandler();
+      if (prev_state === "ANNOTATION") {
+        SetInfoMessage("Highlight document and summary alignment and then press \"APPROVE ALIGNMENT\".");
+      } else if (prev_state === "SENTENCE END"){
+        SetInfoMessage("Finished sentence highlighting. When ready, press \"APPROVE ALIGNMENT & NEXT SENTENCE\".");
+      } else if (prev_state === "SUMMARY END") {
+        SetInfoMessage("Finished summary highlighting. When ready, press \"SUBMIT\".");
+      } else{
+        alert(`Coming back from Revision to an unsupported state... state is ${prev_state}`);
+      }
     }
 
     // "START" state --> "ANNOTATION" state
@@ -112,7 +128,6 @@ const DocMouseClickHandler = ({tkn_id, toggleDocSpanHighlight, DocMouseclickStar
     
     // "ANNOTATION" state --> "ANNOTATION" with next alignment
     else if (StateMachineState === "ANNOTATION"){
-      console.log("In ANNOTATION state")
       console.log(`curr AlignmentCount is ${AlignmentCount}`);
       console.log(`Old state: \"ANNOTATION\"; New state: \"ANNOTATION\" with AlignmentCount=${AlignmentCount}.`);
       approveHighlightHandler();
@@ -145,15 +160,27 @@ const DocMouseClickHandler = ({tkn_id, toggleDocSpanHighlight, DocMouseclickStar
       // "REVISE HOVER" state --> "REVISE CLICKED" state 
       else if (StateMachineState === "REVISE HOVER"){
         console.log(`Old state: \"REVISE HOVER\"; New state: \"REVISE CLICKED\"`);
-        // console.log(clickedWordInfo);
         ReviseChooseAlignHandler(clickedWordInfo);
         SetStateMachineState("REVISE CLICKED");
         SetInfoMessage("");
+      }
+
+      // "REVISE CLICKED" state --> "REVISE HOVER" state 
+      else if (StateMachineState === "REVISE CLICKED"){
+        console.log(`curr AlignmentCount is ${AlignmentCount}`);
+        console.log(`Old state: \"REVISE CLICKED\"; New state: \"REVISE HOVER\"`);
+        SetStateMachineState("REVISE HOVER");
+        approveHighlightHandler();
+        SetAlignmentCount(AlignmentCount+1);
+        SetInfoMessage("Choose alignment to revise.");
+        setPrevSummaryJsonRevise([]);
+        setPrevDocJsonRevise([]);
       }
   }
 
   MachineStateHandler.defaultProps = {
     forceState: '',
+    isBackBtn: false
   }
   
 

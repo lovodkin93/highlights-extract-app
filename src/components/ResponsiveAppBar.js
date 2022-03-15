@@ -89,7 +89,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
 
           {["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState) && (
             <Box sx={{ margin:'0 30px' }}>
-              <Button color="success" variant="contained">Finish Revision</Button>
+              <Button color="success" variant="contained" onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>Finish Revision</Button>
             </Box>
           )}
 

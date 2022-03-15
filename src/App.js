@@ -29,8 +29,11 @@ const App = () => {
   const [AlignmentCount, SetAlignmentCount] = useState(0)
 
   const [prevStateMachineState, setPrevStateMachineState] = useState("")
-  const [prevSummarySpanHighlights, setPrevSummarySpanHighlights] = useState([])
-  const [prevDocSpanHighlights, setPrevDocSpanHighlights] = useState([])
+  
+  const [prevSummarySpanHighlights, setPrevSummarySpanHighlights] = useState([]) // relevant for restoring span alignments before going to "revise" mode
+  const [prevDocSpanHighlights, setPrevDocSpanHighlights] = useState([]) // relevant for restoring span alignments before going to "revise" mode
+  const [prevSummaryJsonRevise, setPrevSummaryJsonRevise] = useState([]) // relevant for restoring All alignments before choosing an alignment in revise mode so can be restored if pressing the back button
+  const [prevDocJsonRevise, setPrevDocJsonRevise] = useState([]) // relevant for restoring All alignments before choosing an alignment in revise mode so can be restored if pressing the back button
 
   /*************************************** error handling *************************************************/
   const Alert = React.forwardRef(function Alert(props, ref) {return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;});
@@ -105,22 +108,47 @@ const App = () => {
     setSummaryJson(summary_json.map((word) => summary_tkn_ids.includes(word.tkn_id) ? { ...word, all_highlighted: true, alignment_id: [...word.alignment_id, AlignmentCount], span_highlighted: false } : word));
   }
 
-  const StartReviseStateHandler = () => {
-    setPrevStateMachineState(StateMachineState);
-    
-    setPrevDocSpanHighlights(doc_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id}));
-    setPrevSummarySpanHighlights(summary_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id}));
-    
-    setDocJson(doc_json.map((word) => {return {...word, span_highlighted: false}}))
-    setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted: false}}))
+  const StartReviseStateHandler = (isBackBtn) => {
+    if (isBackBtn){
+      setDocJson(doc_json.map((word, ind) => {return {...word, all_highlighted: prevDocJsonRevise[ind].all_highlighted, span_highlighted: prevDocJsonRevise[ind].span_highlighted, alignment_id: prevDocJsonRevise[ind].alignment_id}}))
+      setSummaryJson(summary_json.map((word, ind) => {return {...word, all_highlighted: prevSummaryJsonRevise[ind].all_highlighted, span_highlighted: prevSummaryJsonRevise[ind].span_highlighted, alignment_id: prevSummaryJsonRevise[ind].alignment_id}}))
+    } else{
+      setPrevStateMachineState(StateMachineState);
+      setPrevDocSpanHighlights(doc_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id}));
+      setPrevSummarySpanHighlights(summary_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id}));
+      
+      setDocJson(doc_json.map((word) => {return {...word, span_highlighted: false}}))
+      setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted: false}}))
+    }
+  }
+
+  const ExitReviseHandler = () => {
+    setDocJson(doc_json.map((word, ind) => prevDocSpanHighlights.includes(word.tkn_id) ? {...word, span_highlighted: true}:{...word, span_highlighted: false}))
+    setSummaryJson(summary_json.map((word, ind) => prevSummarySpanHighlights.includes(word.tkn_id) ? {...word, span_highlighted: true}:{...word, span_highlighted: false}))               
+    const prev_state = prevStateMachineState;
+    SetStateMachineState(prevStateMachineState);
+    setPrevStateMachineState("");
+    setPrevSummarySpanHighlights([]);
+    setPrevDocSpanHighlights([]);
+    return prev_state
+  }
+
+  const RemoveAlignmentId = (word, chosen_align_id) => {
+    const new_alignment_id = word.alignment_id.filter((elem) => {return elem !== chosen_align_id});
+    console.log("new_alignment_id is:");
+    console.log(new_alignment_id);
+    return new_alignment_id;
   }
 
   const ReviseChooseAlignHandler = (clickedWordInfo) => {
+    setPrevSummaryJsonRevise(summary_json)
+    setPrevDocJsonRevise(doc_json)
+
     const chosen_align_id = (clickedWordInfo[0] === 'doc') ? doc_json.filter((word) => {return word.tkn_id === clickedWordInfo[1]})[0].alignment_id[0] : 
                                                              summary_json.filter((word) => {return word.tkn_id === clickedWordInfo[1]})[0].alignment_id[0]
-    
-    setSummaryJson(summary_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted:true} : {...word, span_highlighted:false}))
-    setDocJson(doc_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted:true} : {...word, span_highlighted:false}))
+
+    setSummaryJson(summary_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
+    setDocJson(doc_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
     console.log("chosen_align_id is")
     console.log(chosen_align_id)
   }
@@ -173,7 +201,7 @@ const App = () => {
     }
   }
 
-  const MachineStateHandlerWrapper = ({clickedWordInfo, forceState}) => {
+  const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
     if (typeof forceState === 'string') {
       console.log(`forceState situation with: state ${forceState}`);
     }
@@ -188,17 +216,17 @@ const App = () => {
                           AlignmentCount, SetAlignmentCount,
                           approveHighlightHandler,
                           clickedWordInfo, forceState, 
-                          StartReviseStateHandler,
-                          ReviseChooseAlignHandler
+                          StartReviseStateHandler, ExitReviseHandler,
+                          ReviseChooseAlignHandler, 
+                          isBackBtn,
+                          setPrevSummaryJsonRevise, setPrevDocJsonRevise
                          );
   }
 
   MachineStateHandlerWrapper.defaultProps = {
     forceState: '',
-  }
-
-  MachineStateHandlerWrapper.defaultProps = {
     clickedWordInfo: [],
+    isBackBtn: false
   }
 
 

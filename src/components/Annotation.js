@@ -5,7 +5,7 @@ import ResponsiveAppBar from './ResponsiveAppBar';
 import { MachineStateHandler, DocMouseClickHandler, SummaryHighlightHandler, SummaryUnderlineHandler } from './Annotation_event_handlers';
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
-import { ArrowForwardIosTwoTone } from '@mui/icons-material';
+import { ArrowBackIosTwoTone, ArrowForwardIosTwoTone } from '@mui/icons-material';
 import SendIcon from '@mui/icons-material/Send';
 
 import Fab from '@mui/material/Fab';
@@ -44,6 +44,7 @@ const Annotation = ({task_id,
     if(StateMachineState==="ANNOTATION"){return "CONFIRM ALIGNMENT";}
     if(StateMachineState==="SENTENCE END"){return "CONFIRM ALIGNMENT & NEXT SENTENCE";}
     if(StateMachineState==="SUMMARY END"){return "SUBMIT";}
+    if(StateMachineState==="REVISE CLICKED"){return "CONFIRM ALIGNMENT";}
   }
 
   const nextButtonID = () => {
@@ -51,6 +52,7 @@ const Annotation = ({task_id,
     if(StateMachineState==="ANNOTATION"){return "state-ANNOTATION";}
     if(StateMachineState==="SENTENCE END"){return "state-SENTENCE-END";}
     if(StateMachineState==="SUMMARY END"){return "state-SUMMARY-END";}
+    if(StateMachineState==="REVISE CLICKED"){return "state-REVISE-CLICKED";}
   };
 
 
@@ -73,15 +75,15 @@ const Annotation = ({task_id,
       handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
     } else if (StateMachineState === "REVISE HOVER"){
       MachineStateHandlerWrapper({clickedWordInfo:["summary", tkn_id]});
-    } else if (summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id !== CurrSentInd}).length !== 0){ // check if span chosen is from the correct sentence first.
+    } else if ((summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id !== CurrSentInd}).length !== 0) && !(StateMachineState==="REVISE CLICKED")){ // check if span chosen is from the correct sentence first.
       SetSummaryMouseDownStartID("-1");
       SetSummaryMouseclicked(false);
       handleErrorOpen({ msg : "Span chosen is not from the correct sentence." });
-    } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END"].includes(StateMachineState)){
+    } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED"].includes(StateMachineState)){
       SummaryHighlightHandler({ summary_json, tkn_id, toggleSummarySpanHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
      } else {
       console.log(`AVIVSL: state is ${StateMachineState}`);
-      alert("state not defined yet!");
+      alert(`state not defined yet! state: ${StateMachineState}`);
     }
   }
 
@@ -121,6 +123,12 @@ const Annotation = ({task_id,
             ))};
             </p>
         </div>
+        {StateMachineState === "REVISE CLICKED" && (
+          <Fab className='NextStateButton' id="REVISE-CLICKED-BACK-BTN" color="secondary" variant="extended" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
+            <ArrowBackIosTwoTone />
+            BACK
+          </Fab>
+        )}
         {!["REVISE HOVER", "SUMMARY END"].includes(StateMachineState) && (
           <Fab className='NextStateButton' id={nextButtonID()} color="success" variant="extended" onClick={MachineStateHandlerWrapper}>
             {nextButtonText()}
