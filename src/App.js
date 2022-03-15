@@ -139,7 +139,7 @@ const App = () => {
       SetDocBoldface([]);
     } else if (newValue=='2'){
       setBoldState("span");
-      const summary_ids = summary_json.filter((word) => {return word.underlined}).map((word) => {return word.tkn_id});
+      const summary_ids = summary_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id});
       const isSpan = true;
       const tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id, summary_ids, isSpan})});
       SetDocBoldface(tkn_ids);
@@ -211,6 +211,18 @@ const App = () => {
     SetSummaryShadow(CurrSentInd);
   }, [CurrSentInd]);
   /********************************************************************************/
+
+
+  /***************************** bolding controlling *****************************/ 
+  useEffect(() => {
+    // when choosing a span - if nothing underlined then all sent matches are in bold, otherwise only underlined matches (when highlighting - something must be underlined so automatically is '2')
+    if (["ANNOTATION", "SENTENCE END", "SUMMARY END"].includes(StateMachineState)) {
+      const bold_state = (summary_json.filter((word) => {return word.span_highlighted}).length === 0) ? '3' : '2'; // if no span is current highlighted - bold everything, otherwise bold only currently highlighted span
+      boldStateHandler(undefined, bold_state);
+    }
+  }, [StateMachineState, summary_json]);
+  /********************************************************************************/
+
 
 
     useEffect(() => {

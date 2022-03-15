@@ -73,7 +73,7 @@ const Annotation = ({task_id,
       SetSummaryMouseDownStartID("-1");
       SetSummaryMouseclicked(false);
       handleErrorOpen({ msg : "Span chosen is not from the correct sentence." });
-    } else if (["ANNOTATION", "SENTENCE END"].includes(StateMachineState)){
+    } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END"].includes(StateMachineState)){
       SummaryHighlightHandler({ summary_json, tkn_id, toggleSummarySpanHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
      } else {
       console.log(`AVIVSL: state is ${StateMachineState}`);
