@@ -25,7 +25,7 @@ const Annotation = ({task_id,
                     CurrSentInd,
                     InfoMessage,
                     MachineStateHandlerWrapper,
-                    AlignmentCount, SetAlignmentCount,
+                    AlignmentCount, SetAlignmentCount
                    }) => {
 
 
@@ -59,8 +59,10 @@ const Annotation = ({task_id,
   });
 
   const DocMouseClickHandlerWrapper = (tkn_id) => {
-    if (StateMachineState == "START"){ // during START state no clicking is needed
+    if (StateMachineState === "START"){ // during START state no clicking is needed
       handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
+    } else if (StateMachineState === "REVISE HOVER"){
+      MachineStateHandlerWrapper({clickedWordInfo:["doc", tkn_id]});
     } else {
       DocMouseClickHandler({ tkn_id, toggleDocSpanHighlight, DocMouseclickStartID, DocMouseclicked, SetDocMouseDownStartID, SetDocMouseclicked });
     }
@@ -69,6 +71,8 @@ const Annotation = ({task_id,
   const SummaryMouseClickHandlerWrapper = (tkn_id) => {
     if (StateMachineState == "START"){ // during start state no clicking is needed
       handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
+    } else if (StateMachineState === "REVISE HOVER"){
+      MachineStateHandlerWrapper({clickedWordInfo:["summary", tkn_id]});
     } else if (summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id !== CurrSentInd}).length !== 0){ // check if span chosen is from the correct sentence first.
       SetSummaryMouseDownStartID("-1");
       SetSummaryMouseclicked(false);
@@ -96,7 +100,7 @@ const Annotation = ({task_id,
         <ResponsiveAppBar
            title={"Annotation"} 
            StateMachineState = {StateMachineState} 
-           MachineStateHandler={MachineStateHandlerWrapper}
+           MachineStateHandlerWrapper={MachineStateHandlerWrapper}
            boldState={boldState}
            boldStateHandler={boldStateHandler}
         />
@@ -105,7 +109,7 @@ const Annotation = ({task_id,
             <h3>Document</h3>
             <body>
             {doc_json.map((word_json, index) => (
-              <DocWord key={index} word_json={word_json} DocMouseClickHandler={DocMouseClickHandlerWrapper} />
+              <DocWord key={index} word_json={word_json} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} />
             ))};
             </body>
         </div>
@@ -113,11 +117,11 @@ const Annotation = ({task_id,
             <h3>Summary</h3>
             <p>
             {summary_json.map((word_json, index) => (
-              <SummaryWord key={index} word_json={word_json} SummaryMouseClickHandler={SummaryMouseClickHandlerWrapper} />
+              <SummaryWord key={index} word_json={word_json} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} />
             ))};
             </p>
         </div>
-        {StateMachineState !== "SUMMARY END" && (
+        {!["REVISE HOVER", "SUMMARY END"].includes(StateMachineState) && (
           <Fab className='NextStateButton' id={nextButtonID()} color="success" variant="extended" onClick={MachineStateHandlerWrapper}>
             {nextButtonText()}
             {StateMachineState !== "START" && (<ArrowForwardIosTwoTone />) }

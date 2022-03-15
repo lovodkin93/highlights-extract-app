@@ -1,4 +1,4 @@
-const DocWord = ({ word_json, DocMouseClickHandler }) => {
+const DocWord = ({ word_json, DocMouseClickHandlerWrapper }) => {
     // the "&nbsp;" is to add space after word
     return (
       <div
@@ -6,7 +6,7 @@ const DocWord = ({ word_json, DocMouseClickHandler }) => {
                     ${word_json.span_highlighted ? 'span-highlighted-word': ''}
                     ${(word_json.all_highlighted && !word_json.span_highlighted) ? 'all-highlighted-word': ''}
                     ${word_json.boldfaced ? 'boldfaced-word': ''}`}
-        onClick={() => DocMouseClickHandler(word_json.tkn_id)}
+        onClick={() => DocMouseClickHandlerWrapper(word_json.tkn_id)}
       >
         <nobr>
           {word_json.word}

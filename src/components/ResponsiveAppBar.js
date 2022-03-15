@@ -13,7 +13,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 const pages = {'Home Page': 'homepage', 'Instructions': 'instructions', 'Guided Annotation': 'guidedAnnotation', 'Annotation': 'annotation'}; 
 
-const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandler, boldState, boldStateHandler }) => {
+const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler }) => {
   const BlackTextTypography = withStyles({
     root: {
       color: "black",
@@ -81,6 +81,18 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandler, boldS
             ))}
           </Box>
           
+          {["SUMMARY END", "SENTENCE END", "ANNOTATION"].includes(StateMachineState) && (
+            <Box sx={{ margin:'0 30px' }}>
+              <Button color="warning" variant="contained" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>Revise</Button>
+            </Box>
+          )}
+
+          {["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState) && (
+            <Box sx={{ margin:'0 30px' }}>
+              <Button color="success" variant="contained">Finish Revision</Button>
+            </Box>
+          )}
+
           <Box sx={{ width: 190, alignItems: 'center' }}>
             <BlackTextTypography  id="bolding-options" color="secondary">
               BOLDING OPTIONS

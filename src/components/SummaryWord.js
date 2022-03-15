@@ -1,4 +1,4 @@
-const SummaryWord = ({ word_json, SummaryMouseClickHandler }) => {
+const SummaryWord = ({ word_json, SummaryMouseClickHandlerWrapper }) => {
     // the "&nbsp;" is to add space after word
     return (
       <div
@@ -7,7 +7,7 @@ const SummaryWord = ({ word_json, SummaryMouseClickHandler }) => {
                     ${word_json.underlined ? 'underlined-word': ''}
                     ${word_json.span_highlighted ? 'span-highlighted-word': ''}
                     ${(word_json.all_highlighted && !word_json.span_highlighted) ? 'all-highlighted-word': ''}`}
-        onClick={() => SummaryMouseClickHandler(word_json.tkn_id)}
+        onClick={() => SummaryMouseClickHandlerWrapper(word_json.tkn_id)}
       >
         <nobr>{word_json.word}</nobr>&nbsp;
       </div>

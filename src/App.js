@@ -28,8 +28,9 @@ const App = () => {
   const [InfoMessage, SetInfoMessage] = useState("");
   const [AlignmentCount, SetAlignmentCount] = useState(0)
 
-
-  const [prevSummaryUnderlines, setPrevSummaryUnderlines] = useState([])
+  const [prevStateMachineState, setPrevStateMachineState] = useState("")
+  const [prevSummarySpanHighlights, setPrevSummarySpanHighlights] = useState([])
+  const [prevDocSpanHighlights, setPrevDocSpanHighlights] = useState([])
 
   /*************************************** error handling *************************************************/
   const Alert = React.forwardRef(function Alert(props, ref) {return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;});
@@ -104,6 +105,26 @@ const App = () => {
     setSummaryJson(summary_json.map((word) => summary_tkn_ids.includes(word.tkn_id) ? { ...word, all_highlighted: true, alignment_id: [...word.alignment_id, AlignmentCount], span_highlighted: false } : word));
   }
 
+  const StartReviseStateHandler = () => {
+    setPrevStateMachineState(StateMachineState);
+    
+    setPrevDocSpanHighlights(doc_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id}));
+    setPrevSummarySpanHighlights(summary_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id}));
+    
+    setDocJson(doc_json.map((word) => {return {...word, span_highlighted: false}}))
+    setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted: false}}))
+  }
+
+  const ReviseChooseAlignHandler = (clickedWordInfo) => {
+    const chosen_align_id = (clickedWordInfo[0] === 'doc') ? doc_json.filter((word) => {return word.tkn_id === clickedWordInfo[1]})[0].alignment_id[0] : 
+                                                             summary_json.filter((word) => {return word.tkn_id === clickedWordInfo[1]})[0].alignment_id[0]
+    
+    setSummaryJson(summary_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted:true} : {...word, span_highlighted:false}))
+    setDocJson(doc_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted:true} : {...word, span_highlighted:false}))
+    console.log("chosen_align_id is")
+    console.log(chosen_align_id)
+  }
+
 
 
 
@@ -152,7 +173,7 @@ const App = () => {
     }
   }
 
-  const MachineStateHandlerWrapper = ({forceState}) => {
+  const MachineStateHandlerWrapper = ({clickedWordInfo, forceState}) => {
     if (typeof forceState === 'string') {
       console.log(`forceState situation with: state ${forceState}`);
     }
@@ -166,12 +187,18 @@ const App = () => {
                           boldStateHandler,
                           AlignmentCount, SetAlignmentCount,
                           approveHighlightHandler,
-                          forceState
+                          clickedWordInfo, forceState, 
+                          StartReviseStateHandler,
+                          ReviseChooseAlignHandler
                          );
   }
 
   MachineStateHandlerWrapper.defaultProps = {
     forceState: '',
+  }
+
+  MachineStateHandlerWrapper.defaultProps = {
+    clickedWordInfo: [],
   }
 
 

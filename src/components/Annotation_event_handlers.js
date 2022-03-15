@@ -66,7 +66,9 @@ const DocMouseClickHandler = ({tkn_id, toggleDocSpanHighlight, DocMouseclickStar
                                  boldStateHandler,
                                  AlignmentCount, SetAlignmentCount,
                                  approveHighlightHandler,
-                                 forceState) => {
+                                 clickedWordInfo, forceState, 
+                                 StartReviseStateHandler,
+                                 ReviseChooseAlignHandler) => {
 
 
 
@@ -89,6 +91,14 @@ const DocMouseClickHandler = ({tkn_id, toggleDocSpanHighlight, DocMouseclickStar
       console.log(`forceState: \"ANNOTATION\"`);
       SetStateMachineState("ANNOTATION");
       SetInfoMessage("Highlight document and summary alignment and then press \"APPROVE ALIGNMENT\".");
+    }
+
+    // forceState: "REVISE HOVER"
+    else if (forceState === "REVISE HOVER"){
+      StartReviseStateHandler();
+      console.log(`forceState: \"REVISE HOVER\"`);
+      SetStateMachineState("REVISE HOVER");
+      SetInfoMessage("Choose alignment to revise.");
     }
 
     // "START" state --> "ANNOTATION" state
@@ -123,14 +133,21 @@ const DocMouseClickHandler = ({tkn_id, toggleDocSpanHighlight, DocMouseclickStar
       SetStateMachineState("ANNOTATION");
       SetCurrSentInd(CurrSentInd+1);
       SetInfoMessage("Highlight document and summary alignment and then press \"APPROVE ALIGNMENT\".");
-
-      
     }
 
       // "SUMMARY END" state --> "SUBMIT" state 
       else if (StateMachineState === "SUMMARY END"){
         console.log(`Old state: \"SUMMARY END\"; New state: \"SUBMIT\"`);
         SetStateMachineState("SUBMIT");
+        SetInfoMessage("");
+      }
+
+      // "REVISE HOVER" state --> "REVISE CLICKED" state 
+      else if (StateMachineState === "REVISE HOVER"){
+        console.log(`Old state: \"REVISE HOVER\"; New state: \"REVISE CLICKED\"`);
+        // console.log(clickedWordInfo);
+        ReviseChooseAlignHandler(clickedWordInfo);
+        SetStateMachineState("REVISE CLICKED");
         SetInfoMessage("");
       }
   }
