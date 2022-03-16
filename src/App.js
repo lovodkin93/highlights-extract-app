@@ -237,7 +237,7 @@ const App = () => {
   useEffect(() => {
     const isNotStart = (StateMachineState !== "START");
     const isAllSentHighlighted = (summary_json.filter((word) => { return word.sent_id===CurrSentInd && !(word.all_highlighted || word.span_highlighted) && !isPunct(word.word)}).length === 0); // need "isNotStart" because also for "START" state isAllSentHighlighted=true because no sentence is underlined 
-    if (isAllSentHighlighted && isNotStart && !finishedSent.current) {
+    if (isAllSentHighlighted && isNotStart && !finishedSent.current && !["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState)) {
       console.log("all sentence is highlighted");
       finishedSent.current = true;
 
@@ -251,7 +251,8 @@ const App = () => {
     }
 
     // if regretted summary highlighting
-    else if(!isAllSentHighlighted && isNotStart && finishedSent.current) { 
+    else if(!isAllSentHighlighted && isNotStart && finishedSent.current && !["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState)) { 
+      console.log(`curr state is ${StateMachineState}`);
       console.log("back to square one");
       finishedSent.current = false;
       MachineStateHandlerWrapper({forceState:"ANNOTATION"});
