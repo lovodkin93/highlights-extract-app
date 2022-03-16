@@ -19,7 +19,6 @@ const Annotation = ({task_id,
                     StateMachineState, SetStateMachineState,
                     handleErrorOpen, isPunct,
                     toggleSummarySpanHighlight, toggleDocSpanHighlight, 
-                    SetSummaryShadow, SetSummaryUnderline, 
                     boldState, boldStateHandler,
                     SubmitHandler,
                     CurrSentInd,
@@ -43,6 +42,7 @@ const Annotation = ({task_id,
   const nextButtonText = () => {
     if(StateMachineState==="START"){return "START";}
     if(StateMachineState==="ANNOTATION"){return "CONFIRM ALIGNMENT";}
+    if(StateMachineState==="SENTENCE START"){return "CONFIRM ALIGNMENT";}
     if(StateMachineState==="SENTENCE END"){return "CONFIRM ALIGNMENT & NEXT SENTENCE";}
     if(StateMachineState==="SUMMARY END"){return "SUBMIT";}
     if(StateMachineState==="REVISE CLICKED"){return "CONFIRM ALIGNMENT";}
@@ -51,6 +51,7 @@ const Annotation = ({task_id,
   const nextButtonID = () => {
     if(StateMachineState==="START"){return "state-START";}
     if(StateMachineState==="ANNOTATION"){return "state-ANNOTATION";}
+    if(StateMachineState==="SENTENCE START"){return "state-SENTENCE-START";}
     if(StateMachineState==="SENTENCE END"){return "state-SENTENCE-END";}
     if(StateMachineState==="SUMMARY END"){return "state-SUMMARY-END";}
     if(StateMachineState==="REVISE CLICKED"){return "state-REVISE-CLICKED";}
@@ -80,7 +81,7 @@ const Annotation = ({task_id,
       SetSummaryMouseDownStartID("-1");
       SetSummaryMouseclicked(false);
       handleErrorOpen({ msg : "Span chosen is not from the correct sentence." });
-    } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED"].includes(StateMachineState)){
+    } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)){
       SummaryHighlightHandler({ summary_json, tkn_id, toggleSummarySpanHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
      } else {
       console.log(`AVIVSL: state is ${StateMachineState}`);

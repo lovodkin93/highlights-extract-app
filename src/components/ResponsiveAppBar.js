@@ -99,7 +99,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
             ))}
           </Box>
           
-          {["SUMMARY END", "SENTENCE END", "ANNOTATION"].includes(StateMachineState) && (
+          {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && (
             <Box sx={{ margin:'0 30px' }}>
               <Button color="warning" variant="contained" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>Revise</Button>
             </Box>

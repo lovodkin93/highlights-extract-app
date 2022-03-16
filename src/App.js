@@ -91,22 +91,22 @@ const App = () => {
   }
 
   const toggleDocSpanHighlight = (tkn_ids) => {
-    console.log(`true/false: ${isPunct(doc_json[tkn_ids[0]].word)}`);
     setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: !word.span_highlighted } : word))
   }
 
   const toggleSummarySpanHighlight = (tkn_ids) => {
-    console.log(`inside toggleSummarySpanHighlight`);
     setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: !word.span_highlighted } : word));
   }
 
 
   const approveHighlightHandler = () => {
     const doc_tkn_ids = doc_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id});
-    const summary_tkn_ids = summary_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id});
-
     setDocJson(doc_json.map((word) => doc_tkn_ids.includes(word.tkn_id) ? { ...word, all_highlighted: true, alignment_id: [...word.alignment_id, AlignmentCount], span_highlighted: false } : word));
-    setSummaryJson(summary_json.map((word) => summary_tkn_ids.includes(word.tkn_id) ? { ...word, all_highlighted: true, alignment_id: [...word.alignment_id, AlignmentCount], span_highlighted: false } : word));
+
+
+    const summary_tkn_ids = summary_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id});
+    setSummaryJson(summary_json.map((word) => summary_tkn_ids.includes(word.tkn_id) ? { ...word, all_highlighted: true, alignment_id: [...word.alignment_id, AlignmentCount], span_highlighted: false } : word));    
+ 
   }
 
   const StartReviseStateHandler = (isBackBtn) => {
@@ -136,8 +136,6 @@ const App = () => {
 
   const RemoveAlignmentId = (word, chosen_align_id) => {
     const new_alignment_id = word.alignment_id.filter((elem) => {return elem !== chosen_align_id});
-    console.log("new_alignment_id is:");
-    console.log(new_alignment_id);
     return new_alignment_id;
   }
 
@@ -150,16 +148,19 @@ const App = () => {
 
     setSummaryJson(summary_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
     setDocJson(doc_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
-    console.log("chosen_align_id is")
-    console.log(chosen_align_id)
   }
-
-
-
 
 
   const SetSummaryShadow = (sent_id) => {
     setSummaryJson(summary_json.map((word) => word.sent_id === sent_id ? { ...word, shadowed: true } : { ...word, shadowed: false }))
+  }
+
+
+  const SetSummaryShadowAndUpdateHighlights = (sent_id) => {
+    setSummaryJson(
+      summary_json.map((word) => word.sent_id === sent_id ? { ...word, shadowed: true } : { ...word, shadowed: false }).map(
+      (word) => word.span_highlighted ? {...word, span_highlighted: false, all_highlighted:true} : word)
+      )
   }
 
 
@@ -183,7 +184,6 @@ const App = () => {
   }
 
   const boldStateHandler = (event, newValue) => {
-    // console.log(newValue)
     if (newValue=='1'){
       setBoldState("none");
       SetDocBoldface([]);
@@ -221,8 +221,6 @@ const App = () => {
 
 
   const oldAlignmentStateHandler = ({event, newValue, sent_ind}) => {
-    console.log(`newValue is ${newValue}`);
-    console.log(`sent_ind is ${sent_ind}`)
 
     if (newValue=='1'){
       setOldAlignmentState("none");
@@ -260,7 +258,6 @@ const App = () => {
                           StateMachineState, SetStateMachineState,
                           SetInfoMessage, handleErrorOpen, isPunct,
                           CurrSentInd, SetCurrSentInd, SetSummaryShadow, SetSummaryUnderline,
-                          boldStateHandler,
                           AlignmentCount, SetAlignmentCount,
                           approveHighlightHandler,
                           clickedWordInfo, forceState, 
@@ -280,13 +277,11 @@ const App = () => {
 
   /*******  useState for smooth transition to "SENTENCE END" or "SUMMARY END" *******/
   const finishedSent = useRef(false);
-  const prevState = useRef("")
 
   useEffect(() => {
-    const isNotStart = (StateMachineState !== "START");
+    const isNotStart = (StateMachineState !== "START" && summary_json.filter((word) => {return word.sent_id===CurrSentInd && word.shadowed}).length !== 0);
     const isAllSentHighlighted = (summary_json.filter((word) => { return word.sent_id===CurrSentInd && !(word.all_highlighted || word.span_highlighted) && !isPunct(word.word)}).length === 0); // need "isNotStart" because also for "START" state isAllSentHighlighted=true because no sentence is underlined 
     if (isAllSentHighlighted && isNotStart && !finishedSent.current && !["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState)) {
-      console.log("all sentence is highlighted");
       finishedSent.current = true;
 
 
@@ -301,6 +296,7 @@ const App = () => {
     // if regretted summary highlighting
     else if(!isAllSentHighlighted && isNotStart && finishedSent.current && !["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState)) { 
       console.log(`curr state is ${StateMachineState}`);
+      console.log(`curr CurrSentInd is ${CurrSentInd}`)
       console.log("back to square one");
       finishedSent.current = false;
       MachineStateHandlerWrapper({forceState:"ANNOTATION"});
@@ -312,7 +308,7 @@ const App = () => {
   
   /*********** useState to update the summary shadow when next sentence ***********/ 
   useEffect(() => {
-    SetSummaryShadow(CurrSentInd);
+    SetSummaryShadowAndUpdateHighlights(CurrSentInd);
   }, [CurrSentInd]);
   /********************************************************************************/
 
@@ -323,11 +319,27 @@ const App = () => {
     if (["ANNOTATION", "SENTENCE END", "SUMMARY END"].includes(StateMachineState)) {
       const bold_state = (summary_json.filter((word) => {return word.span_highlighted}).length === 0) ? '3' : '2'; // if no span is current highlighted - bold everything, otherwise bold only currently highlighted span
       boldStateHandler(undefined, bold_state);
+    } else if (["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState)) {
+      boldStateHandler(undefined, '1');
     }
   }, [StateMachineState, summary_json]);
   /********************************************************************************/
 
 
+    /***************************** old alignments controlling *****************************/ 
+    const prevState = useRef("")
+    useEffect(() => {
+      if (["ANNOTATION", "SENTENCE END", "SUMMARY END"].includes(StateMachineState)) {
+        oldAlignmentStateHandler({event:undefined, newValue:'3', sent_ind:-1});
+      }
+      prevState.current = StateMachineState;
+    }, [StateMachineState, AlignmentCount]);
+    /********************************************************************************/
+    useEffect(() => {
+      console.log(`CurrSentInd is updated and is now ${CurrSentInd}`)
+    }, [CurrSentInd]);
+
+    
 
     useEffect(() => {
       const getTasks = () => {
@@ -376,8 +388,6 @@ const App = () => {
                                               isPunct = {isPunct}
                                               toggleSummarySpanHighlight = {toggleSummarySpanHighlight}
                                               toggleDocSpanHighlight = {toggleDocSpanHighlight}
-                                              SetSummaryShadow = {SetSummaryShadow}
-                                              SetSummaryUnderline = {SetSummaryUnderline}
                                               boldState = {boldState}
                                               boldStateHandler = {boldStateHandler}
                                               SubmitHandler = {SubmitHandler}

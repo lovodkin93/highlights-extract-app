@@ -1,7 +1,6 @@
-2. smoother bolding in the revision state (in "REVISE CLICKED").
-3. OnHover for revision state (only "REVISE HOVER").
-4. add highlighting slider.
-5. lemma matching - also string similarity and different treatment to important words and non-important words.
-6. order paragraphs - empty line in between and different font. 
-7. edit the openPage buttons to adjust to different window sizes (with the query). 
-8. rewrite "oldHighlightStateHandler" in a more elegant way (w\o the "if else...." --> include the newValue inside filter condition).
+1. fix the revision state (weird behaviour).
+2. OnHover for revision state (only "REVISE HOVER").
+4. lemma matching - also string similarity and different treatment to important words and non-important words.
+4. order paragraphs - empty line in between and different font. 
+5. edit the openPage buttons to adjust to different window sizes (with the query). 
+6. rewrite "oldHighlightStateHandler" in a more elegant way (w\o the "if else...." --> include the newValue inside filter condition).

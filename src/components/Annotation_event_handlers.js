@@ -63,7 +63,6 @@ const DocMouseClickHandler = ({tkn_id, toggleDocSpanHighlight, DocMouseclickStar
                                  StateMachineState, SetStateMachineState,
                                  SetInfoMessage, handleErrorOpen, isPunct,
                                  CurrSentInd, SetCurrSentInd, SetSummaryShadow, SetSummaryUnderline,
-                                 boldStateHandler,
                                  AlignmentCount, SetAlignmentCount,
                                  approveHighlightHandler,
                                  clickedWordInfo, forceState, 
@@ -106,7 +105,7 @@ const DocMouseClickHandler = ({tkn_id, toggleDocSpanHighlight, DocMouseclickStar
     // forceState: "FINISH REVISION" --> namely go back to state before revision with all-highlighted updated
     else if (forceState === "FINISH REVISION"){
       const prev_state = ExitReviseHandler();
-      if (prev_state === "ANNOTATION") {
+      if (["ANNOTATION", "SENTENCE START".includes(prev_state)]) {
         SetInfoMessage("Highlight document and summary alignment and then press \"APPROVE ALIGNMENT\".");
       } else if (prev_state === "SENTENCE END"){
         SetInfoMessage("Finished sentence highlighting. When ready, press \"APPROVE ALIGNMENT & NEXT SENTENCE\".");
@@ -135,7 +134,7 @@ const DocMouseClickHandler = ({tkn_id, toggleDocSpanHighlight, DocMouseclickStar
       SetInfoMessage("Highlight document and summary alignment and then press \"APPROVE ALIGNMENT\".");
     }
 
-    // "SENTENCE END" state --> "ANNOTATION" 
+    // "SENTENCE END" state --> "SENTENCE START" 
     else if (StateMachineState === "SENTENCE END"){
       // adding last sentence alignment
       console.log(`curr AlignmentCount is ${AlignmentCount}`);
@@ -144,12 +143,21 @@ const DocMouseClickHandler = ({tkn_id, toggleDocSpanHighlight, DocMouseclickStar
 
       // moving to next sentence
       // update of summary sentence shadow is done in App.js in a designated useEffect
-      console.log(`Old state: \"SENTENCE END\"; New state: \"ANNOTATION\" with SentInd=${CurrSentInd+1}.`);
-      SetStateMachineState("ANNOTATION");
+      console.log(`Old state: \"SENTENCE END\"; New state: \"SENTENCE START\" with SentInd=${CurrSentInd+1}.`);
+      SetStateMachineState("SENTENCE START");
       SetCurrSentInd(CurrSentInd+1);
       SetInfoMessage("Highlight document and summary alignment and then press \"APPROVE ALIGNMENT\".");
     }
-
+      // "SENTENCE START" state --> "ANNOTATION" with next alignment 
+      else if (StateMachineState === "SENTENCE START"){
+        console.log(`curr AlignmentCount is ${AlignmentCount}`);
+        console.log(`Old state: \"SENTENCE START\"; New state: \"ANNOTATION\" with AlignmentCount=${AlignmentCount}.`);
+        SetStateMachineState("ANNOTATION");
+        approveHighlightHandler();
+        SetAlignmentCount(AlignmentCount+1);
+        SetInfoMessage("Highlight document and summary alignment and then press \"APPROVE ALIGNMENT\".");
+  
+      }
       // "SUMMARY END" state --> "SUBMIT" state 
       else if (StateMachineState === "SUMMARY END"){
         console.log(`Old state: \"SUMMARY END\"; New state: \"SUBMIT\"`);
