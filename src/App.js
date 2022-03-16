@@ -22,7 +22,7 @@ const App = () => {
   const [all_lemma_match_mtx, setAllLemmaMtx] = useState([]);
   const [important_lemma_match_mtx, setImportantLemmaMtx] = useState([]);
   const [boldState, setBoldState] = useState("sent"); // for user to choose if want full sentence, span or no lemma matching (denoted as "sent", "span" and "none", accordingly)
-  const [oldHighlightState, setOldHighlightState] = useState("all"); // for user to choose if want full highlighting history, only current sentence's highlighting history or no history (denoted as "all", "sent" and "none", accordingly)
+  const [oldAlignmentState, setOldAlignmentState] = useState("all"); // for user to choose if want full highlighting history, only current sentence's highlighting history or no history (denoted as "all", "sent" and "none", accordingly)
   const [StateMachineState, SetStateMachineState] = useState("START");
   const [error_message, setErrorMessage] = React.useState("");
   const [CurrSentInd, SetCurrSentInd] = useState(-1);
@@ -220,16 +220,16 @@ const App = () => {
 
 
 
-  const oldHighlightStateHandler = ({event, newValue, sent_ind}) => {
+  const oldAlignmentStateHandler = ({event, newValue, sent_ind}) => {
     console.log(`newValue is ${newValue}`);
     console.log(`sent_ind is ${sent_ind}`)
 
     if (newValue=='1'){
-      setOldHighlightState("none");
+      setOldAlignmentState("none");
       SetDocOldHighlights([]);
       SetSummaryOldHighlights([]);
     } else if (newValue=='2'){
-      setOldHighlightState("sent");
+      setOldAlignmentState("sent");
       sent_ind = (sent_ind===-1) ? CurrSentInd : sent_ind
       const doc_ids = FindDocAlignmentPerSent(sent_ind)
       // const doc_ids = doc_json.filter((word) => {return (word.all_highlighted && word.sent_id === sent_ind)}).map((word) => {return word.tkn_id});
@@ -237,7 +237,7 @@ const App = () => {
       SetDocOldHighlights(doc_ids);
       SetSummaryOldHighlights(summary_ids);
     } else {
-      setOldHighlightState("all");
+      setOldAlignmentState("all");
       const doc_ids = doc_json.filter((word) => {return word.all_highlighted}).map((word) => {return word.tkn_id});
       const summary_ids = summary_json.filter((word) => {return word.all_highlighted}).map((word) => {return word.tkn_id});
       SetDocOldHighlights(doc_ids);
@@ -245,7 +245,7 @@ const App = () => {
     }
   }
 
-  oldHighlightStateHandler.defaultProps = {
+  oldAlignmentStateHandler.defaultProps = {
     sent_ind: -1
   }
 
@@ -386,8 +386,8 @@ const App = () => {
                                               MachineStateHandlerWrapper = {MachineStateHandlerWrapper}
                                               AlignmentCount = {AlignmentCount} 
                                               SetAlignmentCount = {SetAlignmentCount}
-                                              oldHighlightState = {oldHighlightState}
-                                              oldHighlightStateHandler = {oldHighlightStateHandler}
+                                              oldAlignmentState = {oldAlignmentState}
+                                              oldAlignmentStateHandler = {oldAlignmentStateHandler}
                                               />} 
           />
 

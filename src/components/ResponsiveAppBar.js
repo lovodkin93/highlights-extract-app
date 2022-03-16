@@ -15,7 +15,7 @@ import { StyledSliderHighlighting, StyledSliderBolding } from './styled-sliders'
 
 const pages = {'Home Page': 'homepage', 'Instructions': 'instructions', 'Guided Annotation': 'guidedAnnotation', 'Annotation': 'annotation'}; 
 
-const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler, oldHighlightState, oldHighlightStateHandler }) => {
+const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler, oldAlignmentState, oldAlignmentStateHandler }) => {
   const BlackTextTypography = withStyles({
     root: {
       color: "black",
@@ -57,9 +57,9 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
   }
 
   const OldHighlightingSliderDefaultValue = () =>{
-    if (oldHighlightState === "none") {
+    if (oldAlignmentState === "none") {
       return 1;
-    } else if (oldHighlightState === "sent") {
+    } else if (oldAlignmentState === "sent") {
       return 2;
     } else {
       return 3;
@@ -129,7 +129,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
               marks
               min={1}
               max={3}
-              onChangeCommitted={(event, newValue) => oldHighlightStateHandler({event:event, newValue:newValue, sent_ind:-1})}
+              onChangeCommitted={(event, newValue) => oldAlignmentStateHandler({event:event, newValue:newValue, sent_ind:-1})}
             />
           </Box>
 

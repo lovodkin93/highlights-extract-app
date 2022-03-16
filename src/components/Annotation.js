@@ -26,7 +26,7 @@ const Annotation = ({task_id,
                     InfoMessage,
                     MachineStateHandlerWrapper,
                     AlignmentCount, SetAlignmentCount,
-                    oldHighlightState, oldHighlightStateHandler
+                    oldAlignmentState, oldAlignmentStateHandler
                    }) => {
 
 
@@ -106,8 +106,8 @@ const Annotation = ({task_id,
            MachineStateHandlerWrapper={MachineStateHandlerWrapper}
            boldState={boldState}
            boldStateHandler={boldStateHandler}
-           oldHighlightState={oldHighlightState}
-           oldHighlightStateHandler={oldHighlightStateHandler}
+           oldAlignmentState={oldAlignmentState}
+           oldAlignmentStateHandler={oldAlignmentStateHandler}
         />
         {InfoMessage !== "" && (<Alert severity="info" color="secondary">{InfoMessage}</Alert>)}
         <div id="doc-text">
