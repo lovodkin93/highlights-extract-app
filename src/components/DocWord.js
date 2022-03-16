@@ -4,7 +4,7 @@ const DocWord = ({ word_json, DocMouseClickHandlerWrapper }) => {
       <div
         className={`docWord 
                     ${word_json.span_highlighted ? 'span-highlighted-word': ''}
-                    ${(word_json.all_highlighted && !word_json.span_highlighted) ? 'all-highlighted-word': ''}
+                    ${(word_json.old_alignments && !word_json.span_highlighted) ? 'all-highlighted-word': ''}
                     ${word_json.boldfaced ? 'boldfaced-word': ''}`}
         onClick={() => DocMouseClickHandlerWrapper(word_json.tkn_id)}
       >

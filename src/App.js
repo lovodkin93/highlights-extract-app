@@ -10,7 +10,7 @@ import GuidedAnnotation from './components/GuidedAnnotation'
 import Annotation from './components/Annotation'
 import json_file from './data/data_for_mturk.json'
 import { MachineStateHandler } from './components/Annotation_event_handlers';
-
+import _ from 'underscore';
 
 
 
@@ -22,6 +22,7 @@ const App = () => {
   const [all_lemma_match_mtx, setAllLemmaMtx] = useState([]);
   const [important_lemma_match_mtx, setImportantLemmaMtx] = useState([]);
   const [boldState, setBoldState] = useState("sent"); // for user to choose if want full sentence, span or no lemma matching (denoted as "sent", "span" and "none", accordingly)
+  const [oldHighlightState, setOldHighlightState] = useState("all"); // for user to choose if want full highlighting history, only current sentence's highlighting history or no history (denoted as "all", "sent" and "none", accordingly)
   const [StateMachineState, SetStateMachineState] = useState("START");
   const [error_message, setErrorMessage] = React.useState("");
   const [CurrSentInd, SetCurrSentInd] = useState(-1);
@@ -61,10 +62,10 @@ const App = () => {
     doc.forEach((word) => {
       let boldfaced=false;
       let all_highlighted=false; // all the doc's highlights so far
-      let sent_highlighted=false; // all the sentence's highlights so far
       let span_highlighted=false; // all the span's highlights so far
+      let old_alignments=false; // old highlighting control (goes between all, sentences and none) --> how much of all_highlighted to highlight
       let alignment_id=[];
-      const newWord = {...word, boldfaced, span_highlighted, sent_highlighted, all_highlighted, alignment_id}; 
+      const newWord = {...word, boldfaced, span_highlighted, all_highlighted, old_alignments, alignment_id}; 
       updated_doc_json = [...updated_doc_json, newWord];
     })
     setDocJson(updated_doc_json);
@@ -79,11 +80,11 @@ const App = () => {
       let highlighted=false;
 
       let all_highlighted=false; // all the doc's highlights so far
-      let sent_highlighted=false; // all the sentence's highlights so far
       let span_highlighted=false; // all the span's highlights so far
+      let old_alignments=false; // old highlighting control (goes between all, sentences and none) --> how much of all_highlighted to highlight
       let shadowed=false;
       let alignment_id=[];
-      const newWord = {...word, underlined, boldfaced, span_highlighted, sent_highlighted, all_highlighted, highlighted, shadowed, alignment_id}; 
+      const newWord = {...word, underlined, boldfaced, span_highlighted, all_highlighted, old_alignments, highlighted, shadowed, alignment_id}; 
       updated_summary_json = [...updated_summary_json, newWord];
     })
     setSummaryJson(updated_summary_json);
@@ -199,6 +200,53 @@ const App = () => {
       const tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id, summary_ids, isSpan})});
       SetDocBoldface(tkn_ids);
     }
+  }
+
+
+  const SetDocOldHighlights = (tkn_ids) => {
+    setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, old_alignments: true } : { ...word, old_alignments: false }))
+  }
+
+  const SetSummaryOldHighlights = (tkn_ids) => {
+    setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, old_alignments: true } : { ...word, old_alignments: false }))
+  }
+
+  const FindDocAlignmentPerSent = (sent_ind) => {
+    let curr_sent_alignment_ids = summary_json.map((word) => {return (word.sent_id===sent_ind) ? word.alignment_id : []});
+    curr_sent_alignment_ids = [].concat.apply([], curr_sent_alignment_ids); // merge into a single array (before was an array of arrays)
+    const doc_ids = doc_json.filter((word) => {return word.alignment_id.some(r=> curr_sent_alignment_ids.includes(r))}).map((word) => {return word.tkn_id});
+    return doc_ids
+  }
+
+
+
+  const oldHighlightStateHandler = ({event, newValue, sent_ind}) => {
+    console.log(`newValue is ${newValue}`);
+    console.log(`sent_ind is ${sent_ind}`)
+
+    if (newValue=='1'){
+      setOldHighlightState("none");
+      SetDocOldHighlights([]);
+      SetSummaryOldHighlights([]);
+    } else if (newValue=='2'){
+      setOldHighlightState("sent");
+      sent_ind = (sent_ind===-1) ? CurrSentInd : sent_ind
+      const doc_ids = FindDocAlignmentPerSent(sent_ind)
+      // const doc_ids = doc_json.filter((word) => {return (word.all_highlighted && word.sent_id === sent_ind)}).map((word) => {return word.tkn_id});
+      const summary_ids = summary_json.filter((word) => {return (word.all_highlighted && word.sent_id === sent_ind)}).map((word) => {return word.tkn_id});
+      SetDocOldHighlights(doc_ids);
+      SetSummaryOldHighlights(summary_ids);
+    } else {
+      setOldHighlightState("all");
+      const doc_ids = doc_json.filter((word) => {return word.all_highlighted}).map((word) => {return word.tkn_id});
+      const summary_ids = summary_json.filter((word) => {return word.all_highlighted}).map((word) => {return word.tkn_id});
+      SetDocOldHighlights(doc_ids);
+      SetSummaryOldHighlights(summary_ids);
+    }
+  }
+
+  oldHighlightStateHandler.defaultProps = {
+    sent_ind: -1
   }
 
   const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
@@ -338,6 +386,8 @@ const App = () => {
                                               MachineStateHandlerWrapper = {MachineStateHandlerWrapper}
                                               AlignmentCount = {AlignmentCount} 
                                               SetAlignmentCount = {SetAlignmentCount}
+                                              oldHighlightState = {oldHighlightState}
+                                              oldHighlightStateHandler = {oldHighlightStateHandler}
                                               />} 
           />
 

@@ -9,11 +9,13 @@ import { Link } from 'react-router-dom'
 import { ArrowForwardIosTwoTone } from '@mui/icons-material';
 import Slider from '@mui/material/Slider';
 import { withStyles } from "@material-ui/core/styles";
-
+import { padding } from '@mui/system';
+import { styled } from '@mui/material/styles';
+import { StyledSliderHighlighting, StyledSliderBolding } from './styled-sliders'
 
 const pages = {'Home Page': 'homepage', 'Instructions': 'instructions', 'Guided Annotation': 'guidedAnnotation', 'Annotation': 'annotation'}; 
 
-const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler }) => {
+const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler, oldHighlightState, oldHighlightStateHandler }) => {
   const BlackTextTypography = withStyles({
     root: {
       color: "black",
@@ -24,9 +26,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
 
 
 
-
-
-  const sliderTags = (value) =>{
+  const BoldingSliderTags = (value) =>{
     if (value===1) {
       return "None";
     } else if (value===2) {
@@ -36,7 +36,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
     }
   }
 
-  const sliderDefaultValue = () =>{
+  const BoldingSliderDefaultValue = () =>{
     if (boldState === "none") {
       return 1;
     } else if (boldState === "span") {
@@ -45,8 +45,26 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
       return 3;
     }
   }
-  
 
+  const OldHighlightingSliderTags = (value) =>{
+    if (value===1) {
+      return "None";
+    } else if (value===2) {
+      return "Sentence";
+    } else {
+      return "All";
+    }
+  }
+
+  const OldHighlightingSliderDefaultValue = () =>{
+    if (oldHighlightState === "none") {
+      return 1;
+    } else if (oldHighlightState === "sent") {
+      return 2;
+    } else {
+      return 3;
+    }
+  }
 
   return (
     <AppBar position="static" color="primary">
@@ -93,17 +111,39 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
             </Box>
           )}
 
-          <Box sx={{ width: 190, alignItems: 'center' }}>
-            <BlackTextTypography  id="bolding-options" color="secondary">
-              BOLDING OPTIONS
+
+
+          <Box sx={{ width: 190, alignItems: 'center', padding: '0 40px 0 0' }}>
+            <BlackTextTypography  id="old-highlighting-slider-title" color="secondary">
+                OLD ALIGNMENTS
             </BlackTextTypography>
-            <Slider
+            <StyledSliderHighlighting 
+              aria-label="Old-Highlighting-option"
+              defaultValue={3}
+              getAriaValueText={OldHighlightingSliderTags}
+              valueLabelFormat={OldHighlightingSliderTags}
+              valueLabelDisplay="auto"
+              value={OldHighlightingSliderDefaultValue()}
+              color="info"
+              step={1}
+              marks
+              min={1}
+              max={3}
+              onChangeCommitted={(event, newValue) => oldHighlightStateHandler({event:event, newValue:newValue, sent_ind:-1})}
+            />
+          </Box>
+
+          <Box sx={{ width: 190, alignItems: 'center' }}>
+            <BlackTextTypography  id="bolding-slider-title" color="secondary">
+              BOLDING
+            </BlackTextTypography>
+            <StyledSliderBolding
               aria-label="Bolding-option"
               defaultValue={3}
-              getAriaValueText={sliderTags}
-              valueLabelFormat={sliderTags}
+              getAriaValueText={BoldingSliderTags}
+              valueLabelFormat={BoldingSliderTags}
               valueLabelDisplay="auto"
-              value={sliderDefaultValue()}
+              value={BoldingSliderDefaultValue()}
               color="error"
               step={1}
               marks

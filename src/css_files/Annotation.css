@@ -113,6 +113,10 @@
     float: left;
 }
 
+#bolding-slider-title, #old-highlighting-slider-title{
+    text-align: center;
+}
+
 
 #SubmitButton{
     float:right;
