@@ -139,8 +139,8 @@ const App = () => {
   }
 
   const ReviseChooseAlignHandler = (clickedWordInfo) => {
-    setPrevSummaryJsonRevise(summary_json)
-    setPrevDocJsonRevise(doc_json)
+    setPrevSummaryJsonRevise(summary_json);
+    setPrevDocJsonRevise(doc_json);
 
     const chosen_align_id = (clickedWordInfo[0] === 'doc') ? doc_json.filter((word) => {return word.tkn_id === clickedWordInfo[1]})[0].alignment_id[0] : 
                                                              summary_json.filter((word) => {return word.tkn_id === clickedWordInfo[1]})[0].alignment_id[0]
