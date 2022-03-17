@@ -65,7 +65,8 @@ const App = () => {
       let span_highlighted=false; // all the span's highlights so far
       let old_alignments=false; // old highlighting control (goes between all, sentences and none) --> how much of all_highlighted to highlight
       let alignment_id=[];
-      const newWord = {...word, boldfaced, span_highlighted, all_highlighted, old_alignments, alignment_id}; 
+      let old_alignment_hover=false; // to pop when hovering over words during "REVISE HOVER" state
+      const newWord = {...word, boldfaced, span_highlighted, all_highlighted, old_alignments, old_alignment_hover, alignment_id}; 
       updated_doc_json = [...updated_doc_json, newWord];
     })
     setDocJson(updated_doc_json);
@@ -76,14 +77,14 @@ const App = () => {
     let updated_summary_json = [];
     summary.forEach((word) => {
       let boldfaced=false;
-      let highlighted=false;
 
       let all_highlighted=false; // all the doc's highlights so far
       let span_highlighted=false; // all the span's highlights so far
       let old_alignments=false; // old highlighting control (goes between all, sentences and none) --> how much of all_highlighted to highlight
       let shadowed=false;
       let alignment_id=[];
-      const newWord = {...word, boldfaced, span_highlighted, all_highlighted, old_alignments, highlighted, shadowed, alignment_id}; 
+      let old_alignment_hover=false; // to pop when hovering over words during "REVISE HOVER" state
+      const newWord = {...word, boldfaced, span_highlighted, all_highlighted, old_alignments, old_alignment_hover, shadowed, alignment_id}; 
       updated_summary_json = [...updated_summary_json, newWord];
     })
     setSummaryJson(updated_summary_json);
@@ -236,6 +237,12 @@ const App = () => {
   oldAlignmentStateHandler.defaultProps = {
     sent_ind: -1
   }
+
+
+  
+
+
+
 
   const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
     if (typeof forceState === 'string') {
