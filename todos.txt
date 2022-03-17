@@ -1,6 +1,5 @@
-1. fix the revision state (weird behaviour).
-2. OnHover for revision state (only "REVISE HOVER").
-4. lemma matching - also string similarity and different treatment to important words and non-important words.
-4. order paragraphs - empty line in between and different font. 
-5. edit the openPage buttons to adjust to different window sizes (with the query). 
-6. rewrite "oldHighlightStateHandler" in a more elegant way (w\o the "if else...." --> include the newValue inside filter condition).
+1. OnHover for revision state (only "REVISE HOVER").
+2. lemma matching - also string similarity and different treatment to important words and non-important words.
+3. order paragraphs - empty line in between and different font. 
+4. edit the openPage buttons to adjust to different window sizes (with the query). 
+5. rewrite "oldHighlightStateHandler" in a more elegant way (w\o the "if else...." --> include the newValue inside filter condition).

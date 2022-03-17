@@ -146,8 +146,8 @@ const App = () => {
     const chosen_align_id = (clickedWordInfo[0] === 'doc') ? doc_json.filter((word) => {return word.tkn_id === clickedWordInfo[1]})[0].alignment_id[0] : 
                                                              summary_json.filter((word) => {return word.tkn_id === clickedWordInfo[1]})[0].alignment_id[0]
 
-    setSummaryJson(summary_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
-    setDocJson(doc_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
+    setSummaryJson(summary_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, old_alignments: false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
+    setDocJson(doc_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, old_alignments: false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
   }
 
 
@@ -330,6 +330,10 @@ const App = () => {
     const prevState = useRef("")
     useEffect(() => {
       if (["ANNOTATION", "SENTENCE END", "SUMMARY END"].includes(StateMachineState)) {
+        oldAlignmentStateHandler({event:undefined, newValue:'3', sent_ind:-1});
+      } else if (StateMachineState === "REVISE CLICKED"){
+        oldAlignmentStateHandler({event:undefined, newValue:'1', sent_ind:-1});
+      } else if (StateMachineState === "REVISE HOVER"){
         oldAlignmentStateHandler({event:undefined, newValue:'3', sent_ind:-1});
       }
       prevState.current = StateMachineState;

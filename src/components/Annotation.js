@@ -77,6 +77,10 @@ const Annotation = ({task_id,
       handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
     } else if (StateMachineState === "REVISE HOVER"){
       MachineStateHandlerWrapper({clickedWordInfo:["summary", tkn_id]});
+    } else if ((StateMachineState === "REVISE CLICKED") && (summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id > CurrSentInd}).length !== 0)) {
+      SetSummaryMouseDownStartID("-1");
+      SetSummaryMouseclicked(false);
+      handleErrorOpen({ msg : "Span chosen cannot be from future sentences. Only from current or past sentences" });
     } else if ((summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id !== CurrSentInd}).length !== 0) && !(StateMachineState==="REVISE CLICKED")){ // check if span chosen is from the correct sentence first.
       SetSummaryMouseDownStartID("-1");
       SetSummaryMouseclicked(false);
