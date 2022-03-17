@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import DocWord from './DocWord';
 import SummaryWord from './SummaryWord';
 import ResponsiveAppBar from './ResponsiveAppBar';
-import { MachineStateHandler, DocMouseClickHandler, SummaryHighlightHandler, SummaryUnderlineHandler } from './Annotation_event_handlers';
+import { MachineStateHandler, DocMouseClickHandler, SummaryHighlightHandler } from './Annotation_event_handlers';
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
 import { ArrowBackIosTwoTone, ArrowForwardIosTwoTone } from '@mui/icons-material';

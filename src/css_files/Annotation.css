@@ -28,9 +28,9 @@
     display: inline;
 }
 
-.underlined-word{
+/* .underlined-word{
     text-decoration: underline;
-}
+} */
 
 .boldfaced-word{
     font-weight:900;

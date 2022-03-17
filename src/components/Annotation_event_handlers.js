@@ -31,21 +31,6 @@ const DocMouseClickHandler = ({tkn_id, toggleDocSpanHighlight, DocMouseclickStar
     SetSummaryMouseclicked(!SummaryMouseclicked);
   }
 
-  const SummaryUnderlineHandler = ({ tkn_id, CurrSentInd, SetSummaryUnderline, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked }) => {  
-    const update_mouse_tkn = SummaryMouseclicked ? "-1" : tkn_id;
-    if (SummaryMouseclicked){
-      const min_ID =  (SummaryMouseclickStartID > tkn_id) ? tkn_id : SummaryMouseclickStartID;
-      const max_ID =  (SummaryMouseclickStartID > tkn_id) ? SummaryMouseclickStartID : tkn_id;
-      let chosen_IDs = [];
-      for(let i=min_ID; i<=max_ID; i++){
-        chosen_IDs.push(i);
-      }
-      SetSummaryUnderline(chosen_IDs);  
-    }
-    SetSummaryMouseDownStartID(update_mouse_tkn);
-    SetSummaryMouseclicked(!SummaryMouseclicked);
-  }
-
 
   const allSentHighlighted = (summary_json, CurrSentInd, isPunct) => {
     console.log(summary_json.filter((word) => { return (word.sent_id === CurrSentInd) && (!word.highlighted) && (!isPunct(word.word))}));
@@ -62,7 +47,7 @@ const DocMouseClickHandler = ({tkn_id, toggleDocSpanHighlight, DocMouseclickStar
   const MachineStateHandler = (summary_json,
                                  StateMachineState, SetStateMachineState,
                                  SetInfoMessage, handleErrorOpen, isPunct,
-                                 CurrSentInd, SetCurrSentInd, SetSummaryShadow, SetSummaryUnderline,
+                                 CurrSentInd, SetCurrSentInd, SetSummaryShadow,
                                  AlignmentCount, SetAlignmentCount,
                                  approveHighlightHandler,
                                  clickedWordInfo, forceState, 
@@ -193,4 +178,4 @@ const DocMouseClickHandler = ({tkn_id, toggleDocSpanHighlight, DocMouseclickStar
   
 
 
-  export { MachineStateHandler, DocMouseClickHandler, SummaryHighlightHandler, SummaryUnderlineHandler }
+  export { MachineStateHandler, DocMouseClickHandler, SummaryHighlightHandler }

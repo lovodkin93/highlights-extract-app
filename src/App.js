@@ -75,7 +75,6 @@ const App = () => {
   function addSummaryWordComponents(summary) {
     let updated_summary_json = [];
     summary.forEach((word) => {
-      let underlined=false;
       let boldfaced=false;
       let highlighted=false;
 
@@ -84,7 +83,7 @@ const App = () => {
       let old_alignments=false; // old highlighting control (goes between all, sentences and none) --> how much of all_highlighted to highlight
       let shadowed=false;
       let alignment_id=[];
-      const newWord = {...word, underlined, boldfaced, span_highlighted, all_highlighted, old_alignments, highlighted, shadowed, alignment_id}; 
+      const newWord = {...word, boldfaced, span_highlighted, all_highlighted, old_alignments, highlighted, shadowed, alignment_id}; 
       updated_summary_json = [...updated_summary_json, newWord];
     })
     setSummaryJson(updated_summary_json);
@@ -161,15 +160,6 @@ const App = () => {
       summary_json.map((word) => word.sent_id === sent_id ? { ...word, shadowed: true } : { ...word, shadowed: false }).map(
       (word) => word.span_highlighted ? {...word, span_highlighted: false, all_highlighted:true} : word)
       )
-  }
-
-
-  const SetSummaryUnderline = (tkn_ids) => {
-    if (tkn_ids === "reset"){
-      setSummaryJson(summary_json.map((word) => {return { ...word, underlined: false };}));
-    } else {
-      setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, underlined: !word.underlined } : word));
-    }
   }
 
   const SetDocBoldface = (tkn_ids) => {
@@ -257,7 +247,7 @@ const App = () => {
     MachineStateHandler(summary_json,
                           StateMachineState, SetStateMachineState,
                           SetInfoMessage, handleErrorOpen, isPunct,
-                          CurrSentInd, SetCurrSentInd, SetSummaryShadow, SetSummaryUnderline,
+                          CurrSentInd, SetCurrSentInd, SetSummaryShadow,
                           AlignmentCount, SetAlignmentCount,
                           approveHighlightHandler,
                           clickedWordInfo, forceState, 
@@ -280,7 +270,7 @@ const App = () => {
 
   useEffect(() => {
     const isNotStart = (StateMachineState !== "START" && summary_json.filter((word) => {return word.sent_id===CurrSentInd && word.shadowed}).length !== 0);
-    const isAllSentHighlighted = (summary_json.filter((word) => { return word.sent_id===CurrSentInd && !(word.all_highlighted || word.span_highlighted) && !isPunct(word.word)}).length === 0); // need "isNotStart" because also for "START" state isAllSentHighlighted=true because no sentence is underlined 
+    const isAllSentHighlighted = (summary_json.filter((word) => { return word.sent_id===CurrSentInd && !(word.all_highlighted || word.span_highlighted) && !isPunct(word.word)}).length === 0); // need "isNotStart" because also for "START" state isAllSentHighlighted=true because no sentence is span-highlighted yet 
     if (isAllSentHighlighted && isNotStart && !finishedSent.current && !["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState)) {
       finishedSent.current = true;
 
@@ -315,7 +305,7 @@ const App = () => {
 
   /***************************** bolding controlling *****************************/ 
   useEffect(() => {
-    // when choosing a span - if nothing underlined then all sent matches are in bold, otherwise only underlined matches (when highlighting - something must be underlined so automatically is '2')
+    // when choosing a span - if nothing is span_highlighted then all sent matches are in bold, otherwise only span_highlighted matches (when highlighting - something must be span-highlighted so automatically is '2')
     if (["ANNOTATION", "SENTENCE END", "SUMMARY END"].includes(StateMachineState)) {
       const bold_state = (summary_json.filter((word) => {return word.span_highlighted}).length === 0) ? '3' : '2'; // if no span is current highlighted - bold everything, otherwise bold only currently highlighted span
       boldStateHandler(undefined, bold_state);
