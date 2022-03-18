@@ -146,8 +146,8 @@ const App = () => {
     const chosen_align_id = (clickedWordInfo[0] === 'doc') ? doc_json.filter((word) => {return word.tkn_id === clickedWordInfo[1]})[0].alignment_id[0] : 
                                                              summary_json.filter((word) => {return word.tkn_id === clickedWordInfo[1]})[0].alignment_id[0]
 
-    setSummaryJson(summary_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, old_alignments: false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
-    setDocJson(doc_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, old_alignments: false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
+    setSummaryJson(summary_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, old_alignments: false, old_alignment_hover:false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
+    setDocJson(doc_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, old_alignments: false, old_alignment_hover:false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
   }
 
 
@@ -210,7 +210,6 @@ const App = () => {
   }
 
 
-
   const oldAlignmentStateHandler = ({event, newValue, sent_ind}) => {
 
     if (newValue=='1'){
@@ -240,7 +239,18 @@ const App = () => {
 
 
   
-
+  const reviseHoverHandler = ({inOrOut, curr_alignment_id}) => {
+    // onMouseEnter
+    if (inOrOut === "in") { 
+      setDocJson(doc_json.map((word) => word.alignment_id.includes(curr_alignment_id) ? {...word, old_alignment_hover: true} : {...word, old_alignment_hover: false}))
+      setSummaryJson(summary_json.map((word) => word.alignment_id.includes(curr_alignment_id) ? {...word, old_alignment_hover: true} : {...word, old_alignment_hover: false}))
+    } 
+    // onMouseLeave
+    else { 
+      setDocJson(doc_json.map((word) => {return {...word, old_alignment_hover:false}}))
+      setSummaryJson(summary_json.map((word) => {return {...word, old_alignment_hover:false}}))
+    }
+  }
 
 
 
@@ -399,6 +409,7 @@ const App = () => {
                                               SetAlignmentCount = {SetAlignmentCount}
                                               oldAlignmentState = {oldAlignmentState}
                                               oldAlignmentStateHandler = {oldAlignmentStateHandler}
+                                              reviseHoverHandler = {reviseHoverHandler}
                                               />} 
           />
 

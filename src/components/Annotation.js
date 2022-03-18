@@ -25,7 +25,8 @@ const Annotation = ({task_id,
                     InfoMessage,
                     MachineStateHandlerWrapper,
                     AlignmentCount, SetAlignmentCount,
-                    oldAlignmentState, oldAlignmentStateHandler
+                    oldAlignmentState, oldAlignmentStateHandler,
+                    reviseHoverHandler
                    }) => {
 
 
@@ -104,11 +105,12 @@ const Annotation = ({task_id,
     }
   }
 
-  // // for the "REVISE HOVER" state
-  // const DocMouseHoverInHandler = (word) => {
-  //   if (StateMachineState === "REVISE HOVER"){
-  //   }
-  // }
+  // for the "REVISE HOVER" state
+  const reviseHoverHandlerWrapper = ({inOrOut, curr_alignment_id}) => {
+    if (StateMachineState === "REVISE HOVER"){
+      reviseHoverHandler({inOrOut, curr_alignment_id});
+    }
+  }
 
 
 
@@ -136,7 +138,7 @@ const Annotation = ({task_id,
             <h3>Document</h3>
             <body>
             {doc_json.map((word_json, index) => (
-              <DocWord key={index} word_json={word_json} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} />
+              <DocWord key={index} word_json={word_json}  StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} reviseHoverHandlerWrapper={reviseHoverHandlerWrapper}/>
             ))};
             </body>
         </div>
@@ -144,7 +146,7 @@ const Annotation = ({task_id,
             <h3>Summary</h3>
             <p>
             {summary_json.map((word_json, index) => (
-              <SummaryWord key={index} word_json={word_json} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} />
+              <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} reviseHoverHandlerWrapper={reviseHoverHandlerWrapper}/>
             ))};
             </p>
         </div>

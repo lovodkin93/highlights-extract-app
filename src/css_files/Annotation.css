@@ -28,16 +28,13 @@
     display: inline;
 }
 
-/* .underlined-word{
-    text-decoration: underline;
-} */
 
 .boldfaced-word{
     font-weight:900;
 }
 
-.all-highlighted-word{
-    background-color: lightslategray;
+.old-aligned-word{
+    background-color: rgba(166, 184, 201, 0.411);
 }
 
 .shadowed-word{
@@ -49,6 +46,27 @@
     background-color: yellow;
 }
 
+.old-aligned-hover-word{
+    background-color: yellow;
+    
+}
+
+/* #doc-text > .old-aligned-hover-word ~ .old-aligned-hover-word{
+    border:dashed red;
+    border-collapse: unset;
+} */
+
+/* #doc-text > .old-aligned-hover-word ~ .old-aligned-hover-word{
+    border:dashed red;
+} */
+
+
+
+
+.cursor-pointer
+{
+    cursor:pointer;
+}
 
 
 .btn {
