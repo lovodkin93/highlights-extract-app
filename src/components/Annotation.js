@@ -26,7 +26,7 @@ const Annotation = ({task_id,
                     MachineStateHandlerWrapper,
                     AlignmentCount, SetAlignmentCount,
                     oldAlignmentState, oldAlignmentStateHandler,
-                    reviseHoverHandler
+                    reviseHoverHandler,
                    }) => {
 
 
@@ -36,7 +36,8 @@ const Annotation = ({task_id,
   const [SummaryMouseclickStartID, SetSummaryMouseDownStartID] = useState("-1");
   const [SummaryMouseclicked, SetSummaryMouseclicked] = useState(false);
 
-
+  const [DocOnMouseDownID, SetDocOnMouseDownID] = useState("-1");
+  const [SummaryOnMouseDownID, SetSummaryOnMouseDownID] = useState("-1");
 
 
 
@@ -62,6 +63,43 @@ const Annotation = ({task_id,
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
+
+
+
+
+  const DocOnMouseDownHandler = (tkn_id) => {
+    console.log("AVIVSL:DocOnMouseDownHandler ")
+    if (StateMachineState === "START"){ // during START state no highlighting
+      handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
+    } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
+      SetDocOnMouseDownID(tkn_id);
+    }
+  }
+
+  const SummaryOnMouseDownHandler = (tkn_id) => {
+    if (StateMachineState === "START"){ // during START state no highlighting
+      handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
+    } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
+      SetSummaryOnMouseDownID(tkn_id);
+    }
+  }
+
+  const DocOnMouseUpHandler = (tkn_id) => {
+    console.log("AVIVSL:DocOnMouseUpHandler ")
+    if (StateMachineState === "START"){ // during START state no highlighting
+      handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
+    } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
+      const min_ID =  (DocOnMouseDownID > tkn_id) ? tkn_id : DocOnMouseDownID;
+      const max_ID =  (DocOnMouseDownID > tkn_id) ? DocOnMouseDownID : tkn_id;
+      let chosen_IDs = [];
+      for(let i=min_ID; i<=max_ID; i++){
+        chosen_IDs.push(i);
+      }
+      toggleDocSpanHighlight(chosen_IDs); 
+    }
+  }
+
+
 
   const DocMouseClickHandlerWrapper = (tkn_id) => {
     if (StateMachineState === "START"){ // during START state no clicking is needed
@@ -138,7 +176,7 @@ const Annotation = ({task_id,
             <h3>Document</h3>
             <body>
             {doc_json.map((word_json, index) => (
-              <DocWord key={index} word_json={word_json}  StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} reviseHoverHandlerWrapper={reviseHoverHandlerWrapper}/>
+              <DocWord key={index} word_json={word_json}  StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} reviseHoverHandlerWrapper={reviseHoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler}/>
             ))};
             </body>
         </div>
