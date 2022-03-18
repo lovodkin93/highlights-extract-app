@@ -36,6 +36,13 @@ const App = () => {
   const [prevSummaryJsonRevise, setPrevSummaryJsonRevise] = useState([]) // relevant for restoring All alignments before choosing an alignment in revise mode so can be restored if pressing the back button
   const [prevDocJsonRevise, setPrevDocJsonRevise] = useState([]) // relevant for restoring All alignments before choosing an alignment in revise mode so can be restored if pressing the back button
 
+
+  const [DocOnMouseDownID, SetDocOnMouseDownID] = useState("-1");
+  const [SummaryOnMouseDownID, SetSummaryOnMouseDownID] = useState("-1");
+  const [docOnMouseDownActivated, setDocOnMouseDownActivated] = useState(false);
+  const [summaryOnMouseDownActivated, setSummaryOnMouseDownActivated] = useState(false);
+  const [hoverActivatedId, setHoverActivatedId] = useState("-1"); // value will be of tkn_id of elem hovered over
+
   /*************************************** error handling *************************************************/
   const Alert = React.forwardRef(function Alert(props, ref) {return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;});
   const handleErrorOpen = ({ msg }) => { 
@@ -240,13 +247,13 @@ const App = () => {
 
   
   const reviseHoverHandler = ({inOrOut, curr_alignment_id}) => {
-    // onMouseEnter
-    if (inOrOut === "in") { 
+    // onMouseEnter for "REVISE HOVER"
+    if (inOrOut === "in" && StateMachineState==="REVISE HOVER") { 
       setDocJson(doc_json.map((word) => word.alignment_id.includes(curr_alignment_id) ? {...word, old_alignment_hover: true} : {...word, old_alignment_hover: false}))
       setSummaryJson(summary_json.map((word) => word.alignment_id.includes(curr_alignment_id) ? {...word, old_alignment_hover: true} : {...word, old_alignment_hover: false}))
     } 
-    // onMouseLeave
-    else { 
+    // onMouseLeave for "REVISE HOVER"
+    else if (inOrOut === "out" && StateMachineState==="REVISE HOVER") { 
       setDocJson(doc_json.map((word) => {return {...word, old_alignment_hover:false}}))
       setSummaryJson(summary_json.map((word) => {return {...word, old_alignment_hover:false}}))
     }
@@ -349,8 +356,41 @@ const App = () => {
     useEffect(() => {
       console.log(`CurrSentInd is updated and is now ${CurrSentInd}`)
     }, [CurrSentInd]);
-
     
+    
+    /******************* highlighting while choosing spans to help *******************/ 
+    useEffect(() => {
+      if (DocOnMouseDownID !== "-1"){
+        setDocOnMouseDownActivated(true)
+      } else if (DocOnMouseDownID === "-1"){
+        setDocOnMouseDownActivated(false)
+      } else if (SummaryOnMouseDownID !== "-1") {
+        setSummaryOnMouseDownActivated(true)
+      } else {
+        setSummaryOnMouseDownActivated(false)
+      }
+    }, [DocOnMouseDownID,SummaryOnMouseDownID]);
+    
+    //AVIVSL: TODO: find way to reset the whole hovering process when the onMouseUp occurs outside of the text (maybe when docOnMouseDownActivated===false or summaryOnMouseDownActivated===false) --> maybe use a useRef to remember which one was the one activated - summary or doc?
+    useEffect(() => {
+      if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)){
+        if(docOnMouseDownActivated) {
+          console.log(`DocOnMouseDownID is ${DocOnMouseDownID} and hoverActivatedId ia ${hoverActivatedId}`)
+          const min_ID =  (DocOnMouseDownID > hoverActivatedId) ? hoverActivatedId : DocOnMouseDownID;
+          const max_ID =  (DocOnMouseDownID > hoverActivatedId) ? DocOnMouseDownID : hoverActivatedId;
+          let chosen_IDs = [];
+          for(let i=min_ID; i<=max_ID; i++){
+            chosen_IDs.push(i);
+          }
+          setDocJson(doc_json.map((word) => chosen_IDs.includes(word.tkn_id)? {...word, old_alignment_hover:true}:{...word, old_alignment_hover:false}))
+        } else {
+          setDocJson(doc_json.map((word) => {return {...word, old_alignment_hover:false}}))
+        }
+      }
+    }, [docOnMouseDownActivated, summaryOnMouseDownActivated, hoverActivatedId]);
+    /********************************************************************************/ 
+
+
 
     useEffect(() => {
       const getTasks = () => {
@@ -410,6 +450,15 @@ const App = () => {
                                               oldAlignmentState = {oldAlignmentState}
                                               oldAlignmentStateHandler = {oldAlignmentStateHandler}
                                               reviseHoverHandler = {reviseHoverHandler}
+                                              DocOnMouseDownID = {DocOnMouseDownID}
+                                              SetDocOnMouseDownID = {SetDocOnMouseDownID}
+                                              SummaryOnMouseDownID = {SummaryOnMouseDownID}
+                                              SetSummaryOnMouseDownID = {SetSummaryOnMouseDownID}
+                                              setDocOnMouseDownActivated = {setDocOnMouseDownActivated}
+                                              docOnMouseDownActivated = {docOnMouseDownActivated}
+                                              setSummaryOnMouseDownActivated = {setSummaryOnMouseDownActivated}
+                                              summaryOnMouseDownActivated = {summaryOnMouseDownActivated}
+                                              setHoverActivatedId = {setHoverActivatedId}
                                               />} 
           />
 

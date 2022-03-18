@@ -27,6 +27,9 @@ const Annotation = ({task_id,
                     AlignmentCount, SetAlignmentCount,
                     oldAlignmentState, oldAlignmentStateHandler,
                     reviseHoverHandler,
+                    DocOnMouseDownID, SetDocOnMouseDownID,
+                    SummaryOnMouseDownID, SetSummaryOnMouseDownID,
+                    setDocOnMouseDownActivated, docOnMouseDownActivated, setSummaryOnMouseDownActivated, summaryOnMouseDownActivated, setHoverActivatedId
                    }) => {
 
 
@@ -36,9 +39,7 @@ const Annotation = ({task_id,
   const [SummaryMouseclickStartID, SetSummaryMouseDownStartID] = useState("-1");
   const [SummaryMouseclicked, SetSummaryMouseclicked] = useState(false);
 
-  const [DocOnMouseDownID, SetDocOnMouseDownID] = useState("-1");
-  const [SummaryOnMouseDownID, SetSummaryOnMouseDownID] = useState("-1");
-
+  const [summaryOnMouseDownInCorrectSent, setSummaryOnMouseDownInCorrectSent] = useState(true)
 
 
   const nextButtonText = () => {
@@ -68,7 +69,6 @@ const Annotation = ({task_id,
 
 
   const DocOnMouseDownHandler = (tkn_id) => {
-    console.log("AVIVSL:DocOnMouseDownHandler ")
     if (StateMachineState === "START"){ // during START state no highlighting
       handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
     } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
@@ -79,13 +79,24 @@ const Annotation = ({task_id,
   const SummaryOnMouseDownHandler = (tkn_id) => {
     if (StateMachineState === "START"){ // during START state no highlighting
       handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
-    } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
+    } 
+    else if (StateMachineState == "REVISE HOVER"){ // during "REVISE HOVER" state only clicking
+      console.log("during \"REVISE HOVER\" state can only click old alignments.")
+    } 
+    else if ((StateMachineState === "REVISE CLICKED") && (summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id > CurrSentInd}).length !== 0)) {
+      handleErrorOpen({ msg : "Span chosen cannot be from future sentences. Only from current or past sentences" });
+      setSummaryOnMouseDownInCorrectSent(false);
+    } 
+    else if ((summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id !== CurrSentInd}).length !== 0) && !(["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState))){ // check if span chosen is from the correct sentence first.
+      handleErrorOpen({ msg : "Span chosen is not from the correct sentence." });
+      setSummaryOnMouseDownInCorrectSent(false);
+    } 
+    else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
       SetSummaryOnMouseDownID(tkn_id);
     }
   }
 
   const DocOnMouseUpHandler = (tkn_id) => {
-    console.log("AVIVSL:DocOnMouseUpHandler ")
     if (StateMachineState === "START"){ // during START state no highlighting
       handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
     } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
@@ -95,8 +106,41 @@ const Annotation = ({task_id,
       for(let i=min_ID; i<=max_ID; i++){
         chosen_IDs.push(i);
       }
-      toggleDocSpanHighlight(chosen_IDs); 
+      toggleDocSpanHighlight(chosen_IDs);
+      SetDocOnMouseDownID("-1"); 
     }
+  }
+
+  const SummaryOnMouseUpHandler = (tkn_id) => {
+    if (StateMachineState == "START"){ // during start state no clicking is needed
+      handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
+    }
+    else if (StateMachineState == "REVISE HOVER"){ // during "REVISE HOVER" state only clicking
+      console.log("during \"REVISE HOVER\" state can only click old alignments.")
+    }   
+    else if ((StateMachineState === "REVISE CLICKED") && (summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id > CurrSentInd}).length !== 0)) {
+      handleErrorOpen({ msg : "Span chosen cannot be from future sentences. Only from current or past sentences" });
+    } 
+    else if ((summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id !== CurrSentInd}).length !== 0) && !(["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState))){ // check if span chosen is from the correct sentence first.
+      handleErrorOpen({ msg : "Span chosen is not from the correct sentence." });
+    } 
+    else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState) && summaryOnMouseDownInCorrectSent){
+      const min_ID =  (SummaryOnMouseDownID > tkn_id) ? tkn_id : SummaryOnMouseDownID;
+      const max_ID =  (SummaryOnMouseDownID > tkn_id) ? SummaryOnMouseDownID : tkn_id;
+      let chosen_IDs = [];
+      for(let i=min_ID; i<=max_ID; i++){
+        chosen_IDs.push(i);
+      }
+      toggleSummarySpanHighlight(chosen_IDs);
+      SetSummaryOnMouseDownID("-1");
+     } 
+     else {
+      if (summaryOnMouseDownInCorrectSent) {console.log(`AVIVSL: state is ${StateMachineState}`); alert(`state not defined yet! state: ${StateMachineState}`);}
+    }
+
+    // reset the states
+    setSummaryOnMouseDownInCorrectSent(true)
+    SetSummaryOnMouseDownID("-1")
   }
 
 
@@ -176,7 +220,7 @@ const Annotation = ({task_id,
             <h3>Document</h3>
             <body>
             {doc_json.map((word_json, index) => (
-              <DocWord key={index} word_json={word_json}  StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} reviseHoverHandlerWrapper={reviseHoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler}/>
+              <DocWord key={index} word_json={word_json}  StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} reviseHoverHandlerWrapper={reviseHoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}/>
             ))};
             </body>
         </div>
@@ -184,7 +228,7 @@ const Annotation = ({task_id,
             <h3>Summary</h3>
             <p>
             {summary_json.map((word_json, index) => (
-              <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} reviseHoverHandlerWrapper={reviseHoverHandlerWrapper}/>
+              <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} reviseHoverHandlerWrapper={reviseHoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler}/> //AVIVSL: TODO: add summary alignment helper here
             ))};
             </p>
         </div>
