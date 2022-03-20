@@ -27,8 +27,7 @@ const Annotation = ({task_id,
                     AlignmentCount, SetAlignmentCount,
                     oldAlignmentState, oldAlignmentStateHandler,
                     reviseHoverHandler,
-                    DocOnMouseDownID, SetDocOnMouseDownID,
-                    SummaryOnMouseDownID, SetSummaryOnMouseDownID,
+                    DocOnMouseDownID, SetDocOnMouseDownID, SummaryOnMouseDownID, SetSummaryOnMouseDownID,
                     setDocOnMouseDownActivated, docOnMouseDownActivated, setSummaryOnMouseDownActivated, summaryOnMouseDownActivated, setHoverActivatedId
                    }) => {
 
@@ -79,9 +78,6 @@ const Annotation = ({task_id,
   const SummaryOnMouseDownHandler = (tkn_id) => {
     if (StateMachineState === "START"){ // during START state no highlighting
       handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
-    } 
-    else if (StateMachineState == "REVISE HOVER"){ // during "REVISE HOVER" state only clicking
-      console.log("during \"REVISE HOVER\" state can only click old alignments.")
     } 
     else if ((StateMachineState === "REVISE CLICKED") && (summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id > CurrSentInd}).length !== 0)) {
       handleErrorOpen({ msg : "Span chosen cannot be from future sentences. Only from current or past sentences" });
@@ -228,7 +224,7 @@ const Annotation = ({task_id,
             <h3>Summary</h3>
             <p>
             {summary_json.map((word_json, index) => (
-              <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} reviseHoverHandlerWrapper={reviseHoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler}/> //AVIVSL: TODO: add summary alignment helper here
+              <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} reviseHoverHandlerWrapper={reviseHoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}/> //AVIVSL: TODO: add summary alignment helper here
             ))};
             </p>
         </div>

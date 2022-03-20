@@ -366,7 +366,9 @@ const App = () => {
         setDocOnMouseDownActivated(true)
       } else if (DocOnMouseDownID === "-1"){
         setDocOnMouseDownActivated(false)
-      } else if (SummaryOnMouseDownID !== "-1") {
+      } 
+      
+      if (SummaryOnMouseDownID !== "-1") {
         setSummaryOnMouseDownActivated(true)
       } else {
         setSummaryOnMouseDownActivated(false)
@@ -385,8 +387,20 @@ const App = () => {
             chosen_IDs.push(i);
           }
           setDocJson(doc_json.map((word) => chosen_IDs.includes(word.tkn_id)? {...word, span_alignment_hover:true}:{...word, span_alignment_hover:false}))
-        } else {
+        } else if (!docOnMouseDownActivated){
           setDocJson(doc_json.map((word) => {return {...word, span_alignment_hover:false}}))
+        }
+        if(summaryOnMouseDownActivated) {
+          console.log(`SummaryOnMouseDownID is ${SummaryOnMouseDownID} and hoverActivatedId ia ${hoverActivatedId}`)
+          const min_ID =  (SummaryOnMouseDownID > hoverActivatedId) ? hoverActivatedId : SummaryOnMouseDownID;
+          const max_ID =  (SummaryOnMouseDownID > hoverActivatedId) ? SummaryOnMouseDownID : hoverActivatedId;
+          let chosen_IDs = [];
+          for(let i=min_ID; i<=max_ID; i++){
+            chosen_IDs.push(i);
+          }
+          setSummaryJson(summary_json.map((word) => chosen_IDs.includes(word.tkn_id)? {...word, span_alignment_hover:true}:{...word, span_alignment_hover:false}))
+        } else if (!summaryOnMouseDownActivated){
+          setSummaryJson(summary_json.map((word) => {return {...word, span_alignment_hover:false}}))
         }
       }
     }, [docOnMouseDownActivated, summaryOnMouseDownActivated, hoverActivatedId]);
