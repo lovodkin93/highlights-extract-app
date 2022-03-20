@@ -7,7 +7,7 @@ const DocWord = ({ word_json, StateMachineState, DocMouseClickHandlerWrapper, re
     return (
       <div
         className={`docWord noselect 
-                    ${(XOR(word_json.span_highlighted, word_json.old_alignment_hover)) ?  'span-highlighted-word': ''} // if the word was span_highlighted before and now go over it again, then should unspan it
+                    ${(XOR(word_json.span_highlighted, word_json.span_alignment_hover)) ?  'span-highlighted-word': ''} // if the word was span_highlighted before and now go over it again, then should unspan it
                     ${(word_json.old_alignments && !word_json.span_highlighted) ? 'old-aligned-word': ''}
                     ${word_json.boldfaced ? 'boldfaced-word': ''}
                     ${(word_json.old_alignment_hover && StateMachineState==="REVISE HOVER") ? 'old-aligned-hover-word': ''}

@@ -73,7 +73,8 @@ const App = () => {
       let old_alignments=false; // old highlighting control (goes between all, sentences and none) --> how much of all_highlighted to highlight
       let alignment_id=[];
       let old_alignment_hover=false; // to pop when hovering over words during "REVISE HOVER" state
-      const newWord = {...word, boldfaced, span_highlighted, all_highlighted, old_alignments, old_alignment_hover, alignment_id}; 
+      let span_alignment_hover=false; // to ease the process of choosing spans (while pressing the mouse - make simultaneous highlighting)
+      const newWord = {...word, boldfaced, span_highlighted, all_highlighted, old_alignments, old_alignment_hover, span_alignment_hover, alignment_id}; 
       updated_doc_json = [...updated_doc_json, newWord];
     })
     setDocJson(updated_doc_json);
@@ -91,7 +92,8 @@ const App = () => {
       let shadowed=false;
       let alignment_id=[];
       let old_alignment_hover=false; // to pop when hovering over words during "REVISE HOVER" state
-      const newWord = {...word, boldfaced, span_highlighted, all_highlighted, old_alignments, old_alignment_hover, shadowed, alignment_id}; 
+      let span_alignment_hover=false; // to ease the process of choosing spans (while pressing the mouse - make simultaneous highlighting)
+      const newWord = {...word, boldfaced, span_highlighted, all_highlighted, old_alignments, old_alignment_hover, span_alignment_hover, shadowed, alignment_id}; 
       updated_summary_json = [...updated_summary_json, newWord];
     })
     setSummaryJson(updated_summary_json);
@@ -382,9 +384,9 @@ const App = () => {
           for(let i=min_ID; i<=max_ID; i++){
             chosen_IDs.push(i);
           }
-          setDocJson(doc_json.map((word) => chosen_IDs.includes(word.tkn_id)? {...word, old_alignment_hover:true}:{...word, old_alignment_hover:false}))
+          setDocJson(doc_json.map((word) => chosen_IDs.includes(word.tkn_id)? {...word, span_alignment_hover:true}:{...word, span_alignment_hover:false}))
         } else {
-          setDocJson(doc_json.map((word) => {return {...word, old_alignment_hover:false}}))
+          setDocJson(doc_json.map((word) => {return {...word, span_alignment_hover:false}}))
         }
       }
     }, [docOnMouseDownActivated, summaryOnMouseDownActivated, hoverActivatedId]);
