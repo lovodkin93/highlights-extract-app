@@ -17,7 +17,7 @@ const DocWord = ({ word_json, StateMachineState, DocMouseClickHandlerWrapper, re
         onMouseEnter={() => {setHoverActivatedId(word_json.tkn_id); reviseHoverHandlerWrapper({inOrOut:"in", curr_alignment_id:word_json.alignment_id[0]})}}
         onMouseLeave={() => reviseHoverHandlerWrapper({inOrOut:"out", curr_alignment_id:word_json.alignment_id[0]})}
         onMouseDown={() => DocOnMouseDownHandler(word_json.tkn_id)}
-        onMouseUp={() => DocOnMouseUpHandler(word_json.tkn_id)}
+        onMouseUp={() => DocOnMouseUpHandler()}
       >
         <nobr>
           {word_json.word}

@@ -92,46 +92,33 @@ const Annotation = ({task_id,
     }
   }
 
-  const DocOnMouseUpHandler = (tkn_id) => {
+  const DocOnMouseUpHandler = () => {
     if (StateMachineState === "START"){ // during START state no highlighting
       handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
     } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
-      const min_ID =  (DocOnMouseDownID > tkn_id) ? tkn_id : DocOnMouseDownID;
-      const max_ID =  (DocOnMouseDownID > tkn_id) ? DocOnMouseDownID : tkn_id;
-      let chosen_IDs = [];
-      for(let i=min_ID; i<=max_ID; i++){
-        chosen_IDs.push(i);
-      }
-      toggleDocSpanHighlight(chosen_IDs);
-      SetDocOnMouseDownID("-1"); 
+        const chosen_IDs = doc_json.filter((word) => {return word.span_alignment_hover}).map((word) => {return word.tkn_id})
+        toggleDocSpanHighlight(chosen_IDs);
+        SetDocOnMouseDownID("-1"); 
     }
   }
 
-  const SummaryOnMouseUpHandler = (tkn_id) => {
+  const SummaryOnMouseUpHandler = () => {
     if (StateMachineState == "START"){ // during start state no clicking is needed
       handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
     }
-    else if (StateMachineState == "REVISE HOVER"){ // during "REVISE HOVER" state only clicking
-      console.log("during \"REVISE HOVER\" state can only click old alignments.")
-    }   
-    else if ((StateMachineState === "REVISE CLICKED") && (summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id > CurrSentInd}).length !== 0)) {
+    else if ((StateMachineState === "REVISE CLICKED") && (summary_json.filter((word) => {return word.span_alignment_hover && word.sent_id > CurrSentInd}).length !== 0)) {
       handleErrorOpen({ msg : "Span chosen cannot be from future sentences. Only from current or past sentences" });
     } 
-    else if ((summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id !== CurrSentInd}).length !== 0) && !(["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState))){ // check if span chosen is from the correct sentence first.
+    else if ((summary_json.filter((word) => {return word.span_alignment_hover && word.sent_id !== CurrSentInd}).length !== 0) && !(["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState))){ // check if span chosen is from the correct sentence first.
       handleErrorOpen({ msg : "Span chosen is not from the correct sentence." });
     } 
     else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState) && summaryOnMouseDownInCorrectSent){
-      const min_ID =  (SummaryOnMouseDownID > tkn_id) ? tkn_id : SummaryOnMouseDownID;
-      const max_ID =  (SummaryOnMouseDownID > tkn_id) ? SummaryOnMouseDownID : tkn_id;
-      let chosen_IDs = [];
-      for(let i=min_ID; i<=max_ID; i++){
-        chosen_IDs.push(i);
-      }
+      const chosen_IDs = summary_json.filter((word) => {return word.span_alignment_hover}).map((word) => {return word.tkn_id})
       toggleSummarySpanHighlight(chosen_IDs);
       SetSummaryOnMouseDownID("-1");
      } 
      else {
-      if (summaryOnMouseDownInCorrectSent) {console.log(`AVIVSL: state is ${StateMachineState}`); alert(`state not defined yet! state: ${StateMachineState}`);}
+      if (summaryOnMouseDownInCorrectSent && StateMachineState !== "REVISE HOVER") {console.log(`AVIVSL: state is ${StateMachineState}`); alert(`state not defined yet! state: ${StateMachineState}`);}
     }
 
     // reset the states
@@ -199,6 +186,21 @@ const Annotation = ({task_id,
     SetSummaryMouseDownStartID("-1");
     SetSummaryMouseclicked(false);
   }, [StateMachineState]);
+
+
+
+
+  const mouseup_event_listener_function = () => {
+    console.log("inside addEventListener")
+    // console.log(`mouseup with DocOnMouseDownID ${DocOnMouseDownID}`)
+    if(docOnMouseDownActivated){
+      // console.log(`now inside here with ${DocOnMouseDownID}`)
+      DocOnMouseUpHandler()
+    } else if (summaryOnMouseDownActivated){
+      SummaryOnMouseUpHandler()
+    } 
+  }
+
 
   return (
       <>

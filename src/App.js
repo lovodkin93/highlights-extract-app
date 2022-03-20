@@ -290,7 +290,6 @@ const App = () => {
     isBackBtn: false
   }
 
-
   /*******  useState for smooth transition to "SENTENCE END" or "SUMMARY END" *******/
   const finishedSent = useRef(false);
 
@@ -406,6 +405,30 @@ const App = () => {
     }, [docOnMouseDownActivated, summaryOnMouseDownActivated, hoverActivatedId]);
     /********************************************************************************/ 
 
+
+    // listen to mouse up occuring anywhere in the page
+    // useEffect(() => {
+    //   window.addEventListener('mouseup', (event) => {  
+    //     console.log(`mouseup with DocOnMouseDownID ${DocOnMouseDownID}`)
+    //     if(docOnMouseDownActivated){
+          
+
+    //           if (StateMachineState === "START"){ // during START state no highlighting
+    //             handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
+    //           } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
+    //               console.log(`now inside here with ${DocOnMouseDownID}`)
+    //               const chosen_IDs = doc_json.filter((word) => {return word.span_alignment_hover}).map((word) => {return word.tkn_id})
+    //               toggleDocSpanHighlight(chosen_IDs);
+    //               SetDocOnMouseDownID("-1"); 
+    //           }
+
+
+
+
+
+    //     } 
+    //   })
+    // }, []);
 
 
     useEffect(() => {

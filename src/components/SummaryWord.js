@@ -18,8 +18,8 @@ const SummaryWord = ({ word_json, StateMachineState, SummaryMouseClickHandlerWra
         onMouseEnter={() => {setHoverActivatedId(word_json.tkn_id); reviseHoverHandlerWrapper({inOrOut:"in", curr_alignment_id:word_json.alignment_id[0]})}} //AVIVSL: TODO: add summary alignment helper here
         
         onMouseLeave={() => reviseHoverHandlerWrapper({inOrOut:"out", curr_alignment_id:word_json.alignment_id[0]})}
-        onMouseDown={() => SummaryOnMouseDownHandler(word_json.tkn_id)} //AVIVSL: TODO: add summary alignment helper here
-        onMouseUp={() => SummaryOnMouseUpHandler(word_json.tkn_id)} //AVIVSL: TODO: add summary alignment helper here
+        onMouseDown={() => SummaryOnMouseDownHandler(word_json.tkn_id)} 
+        onMouseUp={() => SummaryOnMouseUpHandler()} 
       >
         <nobr>{word_json.word}</nobr>&nbsp;
       </div>
