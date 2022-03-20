@@ -129,44 +129,14 @@ const Annotation = ({task_id,
 
 
   const DocMouseClickHandlerWrapper = (tkn_id) => {
-    if (StateMachineState === "START"){ // during START state no clicking is needed
-      handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
-    } 
-    else if (StateMachineState === "REVISE HOVER"){
-      if (doc_json.filter((word) => {return word.tkn_id === tkn_id})[0].alignment_id.length > 0){
+    if ((StateMachineState === "REVISE HOVER") && (doc_json.filter((word) => {return word.tkn_id === tkn_id})[0].alignment_id.length > 0)) {
         MachineStateHandlerWrapper({clickedWordInfo:["doc", tkn_id]});
-      }
     } 
-    else {
-      DocMouseClickHandler({ tkn_id, toggleDocSpanHighlight, DocMouseclickStartID, DocMouseclicked, SetDocMouseDownStartID, SetDocMouseclicked });
-    }
   }
 
   const SummaryMouseClickHandlerWrapper = (tkn_id) => {
-    if (StateMachineState == "START"){ // during start state no clicking is needed
-      handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
-    } 
-    else if (StateMachineState === "REVISE HOVER"){
-      if (summary_json.filter((word) => {return word.tkn_id === tkn_id})[0].alignment_id.length > 0) {
+  if ((StateMachineState === "REVISE HOVER") && (summary_json.filter((word) => {return word.tkn_id === tkn_id})[0].alignment_id.length > 0)) {
         MachineStateHandlerWrapper({clickedWordInfo:["summary", tkn_id]});
-      }
-    } 
-    else if ((StateMachineState === "REVISE CLICKED") && (summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id > CurrSentInd}).length !== 0)) {
-      SetSummaryMouseDownStartID("-1");
-      SetSummaryMouseclicked(false);
-      handleErrorOpen({ msg : "Span chosen cannot be from future sentences. Only from current or past sentences" });
-    } 
-    else if ((summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id !== CurrSentInd}).length !== 0) && !(StateMachineState==="REVISE CLICKED")){ // check if span chosen is from the correct sentence first.
-      SetSummaryMouseDownStartID("-1");
-      SetSummaryMouseclicked(false);
-      handleErrorOpen({ msg : "Span chosen is not from the correct sentence." });
-    } 
-    else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)){
-      SummaryHighlightHandler({ summary_json, tkn_id, toggleSummarySpanHighlight, SummaryMouseclickStartID, SummaryMouseclicked, SetSummaryMouseDownStartID, SetSummaryMouseclicked });
-     } 
-     else {
-      console.log(`AVIVSL: state is ${StateMachineState}`);
-      alert(`state not defined yet! state: ${StateMachineState}`);
     }
   }
 
