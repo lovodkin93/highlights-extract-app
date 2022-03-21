@@ -42,6 +42,7 @@ const App = () => {
   const [docOnMouseDownActivated, setDocOnMouseDownActivated] = useState(false);
   const [summaryOnMouseDownActivated, setSummaryOnMouseDownActivated] = useState(false);
   const [hoverActivatedId, setHoverActivatedId] = useState("-1"); // value will be of tkn_id of elem hovered over
+  const [sliderBoldStateActivated, setSliderBoldStateActivated] = useState(false);
 
   /*************************************** error handling *************************************************/
   const Alert = React.forwardRef(function Alert(props, ref) {return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;});
@@ -100,10 +101,12 @@ const App = () => {
   }
 
   const toggleDocSpanHighlight = (tkn_ids) => {
+    setSliderBoldStateActivated(false)
     setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: !word.span_highlighted } : word))
   }
 
   const toggleSummarySpanHighlight = (tkn_ids) => {
+    setSliderBoldStateActivated(false)
     setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: !word.span_highlighted } : word));
   }
 
@@ -184,6 +187,9 @@ const App = () => {
   }
 
   const boldStateHandler = (event, newValue) => {
+    if (event !== undefined){
+      setSliderBoldStateActivated(true)
+    }
     if (newValue=='1'){
       setBoldState("none");
       SetDocBoldface([]);
@@ -263,6 +269,7 @@ const App = () => {
 
 
   const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
+    setSliderBoldStateActivated(false);
     if (typeof forceState === 'string') {
       console.log(`forceState situation with: state ${forceState}`);
     }
@@ -330,10 +337,10 @@ const App = () => {
   /***************************** bolding controlling *****************************/ 
   useEffect(() => {
     // when choosing a span - if nothing is span_highlighted then all sent matches are in bold, otherwise only span_highlighted matches (when highlighting - something must be span-highlighted so automatically is '2')
-    if (["ANNOTATION", "SENTENCE END", "SUMMARY END"].includes(StateMachineState)) {
+    if (["ANNOTATION", "SENTENCE END", "SUMMARY END"].includes(StateMachineState) && !sliderBoldStateActivated) {
       const bold_state = (summary_json.filter((word) => {return word.span_highlighted}).length === 0) ? '3' : '2'; // if no span is current highlighted - bold everything, otherwise bold only currently highlighted span
       boldStateHandler(undefined, bold_state);
-    } else if (["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState)) {
+    } else if (["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState) && !sliderBoldStateActivated) {
       boldStateHandler(undefined, '1');
     }
   }, [StateMachineState, summary_json]);
@@ -472,6 +479,7 @@ const App = () => {
                                               setSummaryOnMouseDownActivated = {setSummaryOnMouseDownActivated}
                                               summaryOnMouseDownActivated = {summaryOnMouseDownActivated}
                                               setHoverActivatedId = {setHoverActivatedId}
+
                                               />} 
           />
 

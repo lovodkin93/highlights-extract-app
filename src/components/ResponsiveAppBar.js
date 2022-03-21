@@ -113,45 +113,49 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
 
 
 
-          <Box sx={{ width: 190, alignItems: 'center', padding: '0 40px 0 0' }}>
-            <BlackTextTypography  id="old-highlighting-slider-title" color="secondary">
-                OLD ALIGNMENTS
-            </BlackTextTypography>
-            <StyledSliderHighlighting 
-              aria-label="Old-Highlighting-option"
-              defaultValue={3}
-              getAriaValueText={OldHighlightingSliderTags}
-              valueLabelFormat={OldHighlightingSliderTags}
-              valueLabelDisplay="auto"
-              value={OldHighlightingSliderDefaultValue()}
-              color="info"
-              step={1}
-              marks
-              min={1}
-              max={3}
-              onChangeCommitted={(event, newValue) => oldAlignmentStateHandler({event:event, newValue:newValue, sent_ind:-1})}
-            />
-          </Box>
+          { title !== "Instructions" && (
+            <Box sx={{ width: 190, alignItems: 'center', padding: '0 40px 0 0' }}>
+              <BlackTextTypography  id="old-highlighting-slider-title" color="secondary">
+                  OLD ALIGNMENTS
+              </BlackTextTypography>
+              <StyledSliderHighlighting 
+                aria-label="Old-Highlighting-option"
+                defaultValue={3}
+                getAriaValueText={OldHighlightingSliderTags}
+                valueLabelFormat={OldHighlightingSliderTags}
+                valueLabelDisplay="auto"
+                value={OldHighlightingSliderDefaultValue()}
+                color="info"
+                step={1}
+                marks
+                min={1}
+                max={3}
+                onChangeCommitted={(event, newValue) => oldAlignmentStateHandler({event:event, newValue:newValue, sent_ind:-1})}
+              />
+            </Box>
+          )}
 
-          <Box sx={{ width: 190, alignItems: 'center' }}>
-            <BlackTextTypography  id="bolding-slider-title" color="secondary">
-              BOLDING
-            </BlackTextTypography>
-            <StyledSliderBolding
-              aria-label="Bolding-option"
-              defaultValue={3}
-              getAriaValueText={BoldingSliderTags}
-              valueLabelFormat={BoldingSliderTags}
-              valueLabelDisplay="auto"
-              value={BoldingSliderDefaultValue()}
-              color="error"
-              step={1}
-              marks
-              min={1}
-              max={3}
-              onChangeCommitted={boldStateHandler}
-            />
-          </Box>
+          { title !== "Instructions" && (
+            <Box sx={{ width: 190, alignItems: 'center' }}>
+              <BlackTextTypography  id="bolding-slider-title" color="secondary">
+                BOLDING
+              </BlackTextTypography>
+              <StyledSliderBolding
+                aria-label="Bolding-option"
+                defaultValue={3}
+                getAriaValueText={BoldingSliderTags}
+                valueLabelFormat={BoldingSliderTags}
+                valueLabelDisplay="auto"
+                value={BoldingSliderDefaultValue()}
+                color="error"
+                step={1}
+                marks
+                min={1}
+                max={3}
+                onChangeCommitted={boldStateHandler}
+              />
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

@@ -66,43 +66,6 @@ const StartPage = () => {
           </div>
         </div>
     </div>
-
-      
-      {/* <div className='StartPageBody'>
-
-          <p className='StartPageText'>
-            Welcome to the Highlighting Extraction UI.
-            <br></br>
-            Before starting annotating, please read the Instructions first and practice using the Guided Annotation option.
-          </p>
-      
-          <Link 
-              role="button"
-              className='StartPageButton'
-              id="instructionStartButton"
-              to="/instructions"
-          >
-            Instructions
-          </Link>
-
-          <Link 
-              role="button"
-              className='StartPageButton'
-              id="guidedAnnotationStartButton"
-              to="/guidedAnnotation"
-          >
-            Guided Annotation
-          </Link>
-
-          <Link 
-              role="button"
-              className='StartPageButton'
-              id="annotationStartButton"
-              to="/annotation"
-          >
-            Annotation
-          </Link>
-      </div> */}
     </>
   )
 }
