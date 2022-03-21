@@ -229,7 +229,6 @@ const App = () => {
       setOldAlignmentState("sent");
       sent_ind = (sent_ind===-1) ? CurrSentInd : sent_ind
       const doc_ids = FindDocAlignmentPerSent(sent_ind)
-      // const doc_ids = doc_json.filter((word) => {return (word.all_highlighted && word.sent_id === sent_ind)}).map((word) => {return word.tkn_id});
       const summary_ids = summary_json.filter((word) => {return (word.all_highlighted && word.sent_id === sent_ind)}).map((word) => {return word.tkn_id});
       SetDocOldHighlights(doc_ids);
       SetSummaryOldHighlights(summary_ids);
@@ -404,31 +403,6 @@ const App = () => {
       }
     }, [docOnMouseDownActivated, summaryOnMouseDownActivated, hoverActivatedId]);
     /********************************************************************************/ 
-
-
-    // listen to mouse up occuring anywhere in the page
-    // useEffect(() => {
-    //   window.addEventListener('mouseup', (event) => {  
-    //     console.log(`mouseup with DocOnMouseDownID ${DocOnMouseDownID}`)
-    //     if(docOnMouseDownActivated){
-          
-
-    //           if (StateMachineState === "START"){ // during START state no highlighting
-    //             handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
-    //           } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
-    //               console.log(`now inside here with ${DocOnMouseDownID}`)
-    //               const chosen_IDs = doc_json.filter((word) => {return word.span_alignment_hover}).map((word) => {return word.tkn_id})
-    //               toggleDocSpanHighlight(chosen_IDs);
-    //               SetDocOnMouseDownID("-1"); 
-    //           }
-
-
-
-
-
-    //     } 
-    //   })
-    // }, []);
 
 
     useEffect(() => {

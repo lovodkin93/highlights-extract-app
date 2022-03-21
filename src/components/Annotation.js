@@ -159,19 +159,6 @@ const Annotation = ({task_id,
 
 
 
-
-  const mouseup_event_listener_function = () => {
-    console.log("inside addEventListener")
-    // console.log(`mouseup with DocOnMouseDownID ${DocOnMouseDownID}`)
-    if(docOnMouseDownActivated){
-      // console.log(`now inside here with ${DocOnMouseDownID}`)
-      DocOnMouseUpHandler()
-    } else if (summaryOnMouseDownActivated){
-      SummaryOnMouseUpHandler()
-    } 
-  }
-
-
   return (
       <>
         <ResponsiveAppBar
