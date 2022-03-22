@@ -11,6 +11,7 @@ npm i react-icons
 npm i react-router-dom
 npm i -g serv
 npm install --save bootstrap@latest
+npm install react-bootstrap bootstrap@5.1.3
 npm install @mui/material @emotion/react @emotion/styled @material-ui/core @mui/icons-material 
 npm install bootstrap@3
 npm install underscore

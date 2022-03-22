@@ -42,6 +42,7 @@ const App = () => {
   const [docOnMouseDownActivated, setDocOnMouseDownActivated] = useState(false);
   const [summaryOnMouseDownActivated, setSummaryOnMouseDownActivated] = useState(false);
   const [hoverActivatedId, setHoverActivatedId] = useState("-1"); // value will be of tkn_id of elem hovered over
+  const [hoverActivatedDocOrSummary, setHoverActivatedDocOrSummary] = useState("doc"); // value will be of tkn_id of elem hovered over
   const [sliderBoldStateActivated, setSliderBoldStateActivated] = useState(false);
 
   /*************************************** error handling *************************************************/
@@ -75,7 +76,8 @@ const App = () => {
       let alignment_id=[];
       let old_alignment_hover=false; // to pop when hovering over words during "REVISE HOVER" state
       let span_alignment_hover=false; // to ease the process of choosing spans (while pressing the mouse - make simultaneous highlighting)
-      const newWord = {...word, boldfaced, span_highlighted, all_highlighted, old_alignments, old_alignment_hover, span_alignment_hover, alignment_id}; 
+      let red_color=false;
+      const newWord = {...word, boldfaced, span_highlighted, all_highlighted, old_alignments, old_alignment_hover, span_alignment_hover, red_color, alignment_id}; 
       updated_doc_json = [...updated_doc_json, newWord];
     })
     setDocJson(updated_doc_json);
@@ -100,14 +102,38 @@ const App = () => {
     setSummaryJson(updated_summary_json);
   }
 
-  const toggleDocSpanHighlight = (tkn_ids) => {
+  const toggleDocSpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
     setSliderBoldStateActivated(false)
-    setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: !word.span_highlighted } : word))
+    if (turn_on){
+      setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: true } : word))
+    } else if (turn_off){
+        setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: false } : word))
+    } else {
+        setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: !word.span_highlighted } : word))
+    }
   }
 
-  const toggleSummarySpanHighlight = (tkn_ids) => {
+  toggleDocSpanHighlight.defaultProps = {
+    turn_on: false,
+    turn_off: false
+  }
+
+  const toggleSummarySpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
+    console.log("inside toggleSummarySpanHighlight:")
+    console.log(tkn_ids)
     setSliderBoldStateActivated(false)
-    setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: !word.span_highlighted } : word));
+    if (turn_on){
+      setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: true } : word));
+    } else if (turn_off){
+      setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: false } : word));
+    } else {
+      setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: !word.span_highlighted } : word));
+    }
+  }
+
+  toggleSummarySpanHighlight.defaultProps = {
+    turn_on: false,
+    turn_off: false
   }
 
 
@@ -179,8 +205,11 @@ const App = () => {
     setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, boldfaced: true } : { ...word, boldfaced: false }))
   }
 
-  const checkIfLemmasMatch = ({doc_id, summary_ids, isSpan}) => {
-    // const which_match_mtx = (isSpan) ? all_lemma_match_mtx : important_lemma_match_mtx;
+  const checkIfLemmasMatch = ({doc_id, summary_ids, isHover}) => {
+    if (isHover){
+      console.log("AVIVSL: summary_ids are:")
+      console.log(summary_ids)
+    }
     const which_match_mtx = important_lemma_match_mtx;
     const matching_summary_ids = summary_ids.filter((summary_id) => {return all_lemma_match_mtx[doc_id][summary_id] === 1;})
     return matching_summary_ids.length > 0
@@ -197,13 +226,13 @@ const App = () => {
       setBoldState("span");
       const summary_ids = summary_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id});
       const isSpan = true;
-      const tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id, summary_ids, isSpan})});
+      const tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id:doc_id, summary_ids:summary_ids, isHover:false})});
       SetDocBoldface(tkn_ids);
     } else {
       setBoldState("sent");
       const isSpan = false;
       const summary_ids = summary_json.filter((word) => {return word.shadowed}).map((word) => {return word.tkn_id});
-      const tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id, summary_ids, isSpan})});
+      const tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id:doc_id, summary_ids:summary_ids, isHover:false})});
       SetDocBoldface(tkn_ids);
     }
   }
@@ -253,7 +282,7 @@ const App = () => {
 
 
   
-  const reviseHoverHandler = ({inOrOut, curr_alignment_id}) => {
+  const hoverHandler = ({inOrOut, curr_alignment_id, tkn_id, isSummary}) => {
     // onMouseEnter for "REVISE HOVER"
     if (inOrOut === "in" && StateMachineState==="REVISE HOVER") { 
       setDocJson(doc_json.map((word) => word.alignment_id.includes(curr_alignment_id) ? {...word, old_alignment_hover: true} : {...word, old_alignment_hover: false}))
@@ -264,6 +293,27 @@ const App = () => {
       setDocJson(doc_json.map((word) => {return {...word, old_alignment_hover:false}}))
       setSummaryJson(summary_json.map((word) => {return {...word, old_alignment_hover:false}}))
     }
+    // onMouseEnter for all the alignments choosing states
+    // else if (inOrOut === "in" && ["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState) && isSummary) { 
+      // const doc_tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id:doc_id, summary_ids:[tkn_id], isHover:true})});
+      // setDocJson(doc_json.map((word) => doc_tkn_ids.includes(word.tkn_id) ? {...word, red_color:true} : {...word, red_color:false}))
+    // } 
+    // onMouseLeave for all the alignments choosing states
+    else if (inOrOut === "out" && ["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState) && isSummary) { 
+      setDocJson(doc_json.map((word) => {return {...word, red_color:false}}))
+    }
+
+  }
+
+  const isRedLettered = (summary_tkn_id) => {
+    if ((StateMachineState === "REVISE CLICKED") && (summary_json.filter((word) => {return word.tkn_id === summary_tkn_id && word.sent_id > CurrSentInd}).length !== 0)){
+      return false
+    } else if ((summary_json.filter((word) => {return word.tkn_id === summary_tkn_id && word.sent_id !== CurrSentInd}).length !== 0) && !(["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState))) {
+      return false
+    } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
+      return true
+    }
+
   }
 
 
@@ -365,7 +415,10 @@ const App = () => {
     }, [CurrSentInd]);
     
     
+    
     /******************* highlighting while choosing spans to help *******************/ 
+
+
     useEffect(() => {
       if (DocOnMouseDownID !== "-1"){
         setDocOnMouseDownActivated(true)
@@ -406,6 +459,11 @@ const App = () => {
           setSummaryJson(summary_json.map((word) => chosen_IDs.includes(word.tkn_id)? {...word, span_alignment_hover:true}:{...word, span_alignment_hover:false}))
         } else if (!summaryOnMouseDownActivated){
           setSummaryJson(summary_json.map((word) => {return {...word, span_alignment_hover:false}}))
+          
+          if (isRedLettered(hoverActivatedId) && hoverActivatedDocOrSummary === "summary") {
+            const doc_tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id:doc_id, summary_ids:[hoverActivatedId], isHover:true})});
+            setDocJson(doc_json.map((word) => doc_tkn_ids.includes(word.tkn_id) ? {...word, red_color:true} : {...word, red_color:false}))  
+          }  
         }
       }
     }, [docOnMouseDownActivated, summaryOnMouseDownActivated, hoverActivatedId]);
@@ -469,7 +527,7 @@ const App = () => {
                                               SetAlignmentCount = {SetAlignmentCount}
                                               oldAlignmentState = {oldAlignmentState}
                                               oldAlignmentStateHandler = {oldAlignmentStateHandler}
-                                              reviseHoverHandler = {reviseHoverHandler}
+                                              hoverHandler = {hoverHandler}
                                               DocOnMouseDownID = {DocOnMouseDownID}
                                               SetDocOnMouseDownID = {SetDocOnMouseDownID}
                                               SummaryOnMouseDownID = {SummaryOnMouseDownID}
@@ -479,7 +537,7 @@ const App = () => {
                                               setSummaryOnMouseDownActivated = {setSummaryOnMouseDownActivated}
                                               summaryOnMouseDownActivated = {summaryOnMouseDownActivated}
                                               setHoverActivatedId = {setHoverActivatedId}
-
+                                              setHoverActivatedDocOrSummary = {setHoverActivatedDocOrSummary}
                                               />} 
           />
 

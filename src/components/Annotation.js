@@ -7,8 +7,10 @@ import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
 import { ArrowBackIosTwoTone, ArrowForwardIosTwoTone } from '@mui/icons-material';
 import SendIcon from '@mui/icons-material/Send';
+import Typography from '@mui/material/Typography';
 
 import Fab from '@mui/material/Fab';
+import Card from 'react-bootstrap/Card';
 
 
 
@@ -26,9 +28,9 @@ const Annotation = ({task_id,
                     MachineStateHandlerWrapper,
                     AlignmentCount, SetAlignmentCount,
                     oldAlignmentState, oldAlignmentStateHandler,
-                    reviseHoverHandler,
+                    hoverHandler,
                     DocOnMouseDownID, SetDocOnMouseDownID, SummaryOnMouseDownID, SetSummaryOnMouseDownID,
-                    setDocOnMouseDownActivated, docOnMouseDownActivated, setSummaryOnMouseDownActivated, summaryOnMouseDownActivated, setHoverActivatedId
+                    setDocOnMouseDownActivated, docOnMouseDownActivated, setSummaryOnMouseDownActivated, summaryOnMouseDownActivated, setHoverActivatedId, setHoverActivatedDocOrSummary
                    }) => {
 
 
@@ -39,6 +41,8 @@ const Annotation = ({task_id,
   const [SummaryMouseclicked, SetSummaryMouseclicked] = useState(false);
 
   const [summaryOnMouseDownInCorrectSent, setSummaryOnMouseDownInCorrectSent] = useState(true)
+  const [ctrlButtonDown, setCtrlButtonDown] = useState(false)
+
 
 
   const nextButtonText = () => {
@@ -97,7 +101,11 @@ const Annotation = ({task_id,
       handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
     } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
         const chosen_IDs = doc_json.filter((word) => {return word.span_alignment_hover}).map((word) => {return word.tkn_id})
-        toggleDocSpanHighlight(chosen_IDs);
+        if (ctrlButtonDown) {
+          toggleDocSpanHighlight({tkn_ids:chosen_IDs, turn_off:true});
+        } else {
+            toggleDocSpanHighlight({tkn_ids:chosen_IDs, turn_on:true});
+        }
         SetDocOnMouseDownID("-1"); 
     }
   }
@@ -112,9 +120,13 @@ const Annotation = ({task_id,
     else if ((summary_json.filter((word) => {return word.span_alignment_hover && word.sent_id !== CurrSentInd}).length !== 0) && !(["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState))){ // check if span chosen is from the correct sentence first.
       handleErrorOpen({ msg : "Span chosen is not from the correct sentence." });
     } 
-    else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState) && summaryOnMouseDownInCorrectSent){
+    else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState) && summaryOnMouseDownInCorrectSent){   
       const chosen_IDs = summary_json.filter((word) => {return word.span_alignment_hover}).map((word) => {return word.tkn_id})
-      toggleSummarySpanHighlight(chosen_IDs);
+      if (ctrlButtonDown) {
+        toggleSummarySpanHighlight({tkn_ids:chosen_IDs, turn_off:true});
+      } else {
+        toggleSummarySpanHighlight({tkn_ids:chosen_IDs, turn_on:true});
+      }   
       SetSummaryOnMouseDownID("-1");
      } 
      else {
@@ -131,7 +143,7 @@ const Annotation = ({task_id,
   const DocMouseClickHandlerWrapper = (tkn_id) => {
     if ((StateMachineState === "REVISE HOVER") && (doc_json.filter((word) => {return word.tkn_id === tkn_id})[0].alignment_id.length > 0)) {
         MachineStateHandlerWrapper({clickedWordInfo:["doc", tkn_id]});
-    } 
+    }
   }
 
   const SummaryMouseClickHandlerWrapper = (tkn_id) => {
@@ -141,10 +153,19 @@ const Annotation = ({task_id,
   }
 
   // for the "REVISE HOVER" state
-  const reviseHoverHandlerWrapper = ({inOrOut, curr_alignment_id}) => {
-    if (StateMachineState === "REVISE HOVER"){
-      reviseHoverHandler({inOrOut, curr_alignment_id});
+  const hoverHandlerWrapper = ({inOrOut, curr_alignment_id, tkn_id, isSummary}) => {
+    if ((StateMachineState === "REVISE CLICKED") && (summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id > CurrSentInd}).length !== 0)){
+      return
+    } else if ((summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id !== CurrSentInd}).length !== 0) && !(["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState))) {
+      console.log("AVIVSL: if else....")
+      return
     }
+    hoverHandler({inOrOut, curr_alignment_id, tkn_id, isSummary});
+  }
+
+  hoverHandlerWrapper.defaultProps = {
+    tkn_id: -1,
+    isSummary: false
   }
 
 
@@ -157,10 +178,13 @@ const Annotation = ({task_id,
     SetSummaryMouseclicked(false);
   }, [StateMachineState]);
 
-
-
   return (
-      <>
+      <div 
+        onKeyDown={(event) => {if (event.ctrlKey) {setCtrlButtonDown(true)}}}
+        onKeyUp={() => {console.log("and it is ctrl keyup"); setCtrlButtonDown(false)}} 
+        tabIndex="0"
+      >
+
         <ResponsiveAppBar
            title={"Annotation"} 
            StateMachineState = {StateMachineState} 
@@ -171,19 +195,24 @@ const Annotation = ({task_id,
            oldAlignmentStateHandler={oldAlignmentStateHandler}
         />
         {InfoMessage !== "" && (<Alert severity="info" color="secondary">{InfoMessage}</Alert>)}
+        
         <div id="doc-text">
-            <h3>Document</h3>
+            <Typography variant="h4" gutterBottom>
+              Document
+            </Typography>
             <body>
             {doc_json.map((word_json, index) => (
-              <DocWord key={index} word_json={word_json}  StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} reviseHoverHandlerWrapper={reviseHoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}/>
+              <DocWord key={index} word_json={word_json}  StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
             ))};
             </body>
         </div>
         <div id="summary-text">
-            <h3>Summary</h3>
+            <Typography variant="h4" gutterBottom>
+              Summary
+            </Typography>
             <p>
             {summary_json.map((word_json, index) => (
-              <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} reviseHoverHandlerWrapper={reviseHoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}/> //AVIVSL: TODO: add summary alignment helper here
+              <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
             ))};
             </p>
         </div>
@@ -205,7 +234,7 @@ const Annotation = ({task_id,
               <SendIcon sx={{ margin: '10%' }}  />
           </Fab>
         )}
-      </>
+      </div>
   )
 }
 
