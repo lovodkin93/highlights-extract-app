@@ -2,12 +2,12 @@
 
 #doc-text{
     float:left;
-    width:70%;
-    padding: 3pt;
-    box-sizing: border-box;
-    border: 1px solid black;
+    padding: 0pt;
+    /* box-sizing: border-box; */
+    /* border: 1px solid black; */
+    width: 70%;
     overflow-wrap: break-word;
-    margin: 1pt 0pt;
+    margin: 0pt;
 }
 
 
@@ -18,13 +18,24 @@
 
 #summary-text{
     float:right;
-    width:29.9%;
-    padding: 3pt;
-    box-sizing: border-box;
-    border: 1px solid black;
+    padding: 0pt;
+    width: 29%;
+    /* box-sizing: border-box; */
+    line-height: 1.8;
     overflow-wrap: break-word;
-    margin: 1pt 0pt;
+    margin: 0pt 3pt 5pt 0pt;
 }
+
+.not-end-of-sentence-word{
+    line-height: 1;
+}
+
+
+.br-class {
+    display: block;
+    margin-bottom: 15px;
+}
+
 
 #summary-text div{
     display: inline;

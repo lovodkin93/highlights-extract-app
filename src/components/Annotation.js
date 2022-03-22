@@ -10,9 +10,7 @@ import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
 
 import Fab from '@mui/material/Fab';
-import Card from 'react-bootstrap/Card';
-
-
+import Card from 'react-bootstrap/Card'
 
 
 const Annotation = ({task_id, 
@@ -195,8 +193,33 @@ const Annotation = ({task_id,
            oldAlignmentStateHandler={oldAlignmentStateHandler}
         />
         {InfoMessage !== "" && (<Alert severity="info" color="secondary">{InfoMessage}</Alert>)}
+        <br></br>
         
-        <div id="doc-text">
+        <Card border="secondary"  id="doc-text">
+          <Card.Header>Document</Card.Header>
+          <Card.Body>
+            {doc_json.map((word_json, index) => (
+                <DocWord key={index} word_json={word_json} next_word_json={doc_json[index+1]} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
+              ))};
+          </Card.Body>
+        </Card>
+
+        <Card border="secondary" id="summary-text">
+          <Card.Header>Symmary</Card.Header>
+          <Card.Body>
+            {summary_json.map((word_json, index) => (
+                <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
+              ))};
+          </Card.Body>
+        </Card>
+
+        
+        
+        
+        
+        
+        
+        {/* <div id="doc-text">
             <Typography variant="h4" gutterBottom>
               Document
             </Typography>
@@ -205,8 +228,8 @@ const Annotation = ({task_id,
               <DocWord key={index} word_json={word_json}  StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
             ))};
             </body>
-        </div>
-        <div id="summary-text">
+        </div> */}
+        {/* <div id="summary-text">
             <Typography variant="h4" gutterBottom>
               Summary
             </Typography>
@@ -215,7 +238,7 @@ const Annotation = ({task_id,
               <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
             ))};
             </p>
-        </div>
+        </div> */}
         {StateMachineState === "REVISE CLICKED" && (
           <Fab className='NextStateButton' id="REVISE-CLICKED-BACK-BTN" color="secondary" variant="extended" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
             <ArrowBackIosTwoTone />
