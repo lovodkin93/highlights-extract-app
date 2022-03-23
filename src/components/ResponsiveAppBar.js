@@ -67,7 +67,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
   }
 
   return (
-    <AppBar position="static" color="primary">
+    <AppBar position="static" color="primary" width="100%">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography

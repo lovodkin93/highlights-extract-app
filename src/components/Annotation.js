@@ -10,7 +10,17 @@ import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
 
 import Fab from '@mui/material/Fab';
-import Card from 'react-bootstrap/Card'
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import { borderColor } from '@mui/system';
+
+
+// import Card from 'react-bootstrap/Card'
+// import { Container, Row, Col } from 'react-bootstrap';
 
 
 const Annotation = ({task_id, 
@@ -179,84 +189,112 @@ const Annotation = ({task_id,
   return (
       <div 
         onKeyDown={(event) => {if (event.ctrlKey) {setCtrlButtonDown(true)}}}
-        onKeyUp={() => {console.log("and it is ctrl keyup"); setCtrlButtonDown(false)}} 
+        onKeyUp={() => {setCtrlButtonDown(false)}} 
         tabIndex="0"
       >
+            <ResponsiveAppBar
+              title={"Annotation"} 
+              StateMachineState = {StateMachineState} 
+              MachineStateHandlerWrapper={MachineStateHandlerWrapper}
+              boldState={boldState}
+              boldStateHandler={boldStateHandler}
+              oldAlignmentState={oldAlignmentState}
+              oldAlignmentStateHandler={oldAlignmentStateHandler}
+            />
+            {InfoMessage !== "" && (<Alert severity="info" color="secondary">{InfoMessage}</Alert>)}
 
-        <ResponsiveAppBar
-           title={"Annotation"} 
-           StateMachineState = {StateMachineState} 
-           MachineStateHandlerWrapper={MachineStateHandlerWrapper}
-           boldState={boldState}
-           boldStateHandler={boldStateHandler}
-           oldAlignmentState={oldAlignmentState}
-           oldAlignmentStateHandler={oldAlignmentStateHandler}
-        />
-        {InfoMessage !== "" && (<Alert severity="info" color="secondary">{InfoMessage}</Alert>)}
-        <br></br>
-        
-        <Card border="secondary"  id="doc-text">
-          <Card.Header>Document</Card.Header>
-          <Card.Body>
-            {doc_json.map((word_json, index) => (
-                <DocWord key={index} word_json={word_json} next_word_json={doc_json[index+1]} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
-              ))};
-          </Card.Body>
-        </Card>
 
-        <Card border="secondary" id="summary-text">
-          <Card.Header>Symmary</Card.Header>
-          <Card.Body>
-            {summary_json.map((word_json, index) => (
+          <br></br>
+          
+            {/* <Card border="secondary"  id="doc-text">
+              <Card.Header>Document</Card.Header>
+              <Card.Body>
+                {doc_json.map((word_json, index) => (
+                    <DocWord key={index} word_json={word_json} next_word_json={doc_json[index+1]} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
+                  ))};
+              </Card.Body>
+            </Card>
+
+            <Card border="secondary" id="summary-text">
+              <Card.Header>Symmary</Card.Header>
+              <Card.Body>
+                {summary_json.map((word_json, index) => (
+                    <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
+                  ))};
+              </Card.Body>
+            </Card> */}
+
+
+
+          {/* <Card  id="doc-text" variant="outlined" sx={{ backgroundColor:"rgb(241, 238, 238)" }}>
+            <CardHeader
+              title="Document"
+            />
+            <CardContent>
+              <body>
+                {doc_json.map((word_json, index) => (
+                  <DocWord key={index} word_json={word_json}  StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
+                ))};
+              </body>
+            </CardContent>
+          </Card>
+
+          <Card  id="summary-text" variant="outlined" sx={{ backgroundColor:"rgb(241, 238, 238)" }}>
+            <CardHeader
+              title="Summary"
+            />
+            <CardContent>
+              <p>
+              {summary_json.map((word_json, index) => (
                 <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
               ))};
-          </Card.Body>
-        </Card>
+              </p>
+            </CardContent>
+          </Card> */}
+          
+          
+          
+          
+          
+          <div id="doc-text">
+              <Typography variant="h4" gutterBottom>
+                Document
+              </Typography>
+              <body>
+              {doc_json.map((word_json, index) => (
+                <DocWord key={index} word_json={word_json}  StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
+              ))};
+              </body>
+          </div>
+          <div id="summary-text">
+              <Typography variant="h4" gutterBottom>
+                Summary
+              </Typography>
+              <p>
+              {summary_json.map((word_json, index) => (
+                <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
+              ))};
+              </p>
+          </div>
 
-        
-        
-        
-        
-        
-        
-        {/* <div id="doc-text">
-            <Typography variant="h4" gutterBottom>
-              Document
-            </Typography>
-            <body>
-            {doc_json.map((word_json, index) => (
-              <DocWord key={index} word_json={word_json}  StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
-            ))};
-            </body>
-        </div> */}
-        {/* <div id="summary-text">
-            <Typography variant="h4" gutterBottom>
-              Summary
-            </Typography>
-            <p>
-            {summary_json.map((word_json, index) => (
-              <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
-            ))};
-            </p>
-        </div> */}
-        {StateMachineState === "REVISE CLICKED" && (
-          <Fab className='NextStateButton' id="REVISE-CLICKED-BACK-BTN" color="secondary" variant="extended" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
-            <ArrowBackIosTwoTone />
-            BACK
-          </Fab>
-        )}
-        {!["REVISE HOVER", "SUMMARY END"].includes(StateMachineState) && (
-          <Fab className='NextStateButton' id={nextButtonID()} color="success" variant="extended" onClick={MachineStateHandlerWrapper}>
-            {nextButtonText()}
-            {StateMachineState !== "START" && (<ArrowForwardIosTwoTone />) }
-          </Fab>
-        )}
-        {StateMachineState === "SUMMARY END" && (
-          <Fab id="SubmitButton" color="success" variant="extended" onClick={SubmitHandler}>
+          {StateMachineState === "REVISE CLICKED" && (
+            <Fab className='NextStateButton' id="REVISE-CLICKED-BACK-BTN" color="secondary" variant="extended" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
+              <ArrowBackIosTwoTone />
+              BACK
+            </Fab>
+          )}
+          {!["REVISE HOVER", "SUMMARY END"].includes(StateMachineState) && (
+            <Fab className='NextStateButton' id={nextButtonID()} color="success" variant="extended" onClick={MachineStateHandlerWrapper}>
               {nextButtonText()}
-              <SendIcon sx={{ margin: '10%' }}  />
-          </Fab>
-        )}
+              {StateMachineState !== "START" && (<ArrowForwardIosTwoTone />) }
+            </Fab>
+          )}
+          {StateMachineState === "SUMMARY END" && (
+            <Fab id="SubmitButton" color="success" variant="extended" onClick={SubmitHandler}>
+                {nextButtonText()}
+                <SendIcon sx={{ margin: '10%' }}  />
+            </Fab>
+          )}
       </div>
   )
 }

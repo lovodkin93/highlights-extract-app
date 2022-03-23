@@ -3,11 +3,13 @@
 #doc-text{
     float:left;
     padding: 0pt;
-    /* box-sizing: border-box; */
-    /* border: 1px solid black; */
+    box-sizing: border-box;
     width: 70%;
     overflow-wrap: break-word;
     margin: 0pt;
+    background-color: rgb(245, 245, 245);
+    border: 1px solid rgb(190, 190, 196);
+
 }
 
 
@@ -17,13 +19,19 @@
 
 
 #summary-text{
+    /* position: fixed; */
     float:right;
-    padding: 0pt;
+    top: 1em;
+    right: 0em;
+    padding-left: 1pt;
+    padding-right: 1pt;
     width: 29%;
-    /* box-sizing: border-box; */
+    box-sizing: border-box;
     line-height: 1.8;
     overflow-wrap: break-word;
-    margin: 0pt 3pt 5pt 0pt;
+    margin: 0pt 3pt 1pt 0pt;
+    background-color: rgb(245, 245, 245);
+    border: 1px solid rgb(190, 190, 196);
 }
 
 .not-end-of-sentence-word{
@@ -45,11 +53,12 @@
 
 .boldfaced-word{
     font-weight:900;
-    font-size:21px;
+    font-size:18px;
 }
 .red-color-word{
     color:red;
     font-weight:900;
+    font-size:18px;
 }
 
 .normal-sized-word{
@@ -57,12 +66,14 @@
 }
 
 .old-aligned-word{
-    background-color: rgba(166, 184, 201, 0.411);
+    background-color: rgba(255, 255, 0, 0.3);
+    opacity: 0.5;
 }
 
 .shadowed-word{
     /* font-weight: bold; */
     text-shadow: .03em .03em 0 hsl(200 50% 30%);
+    font-size:18px;
 }
 
 
@@ -72,6 +83,7 @@
 
 .old-aligned-hover-word{
     background-color: yellow; 
+    opacity: 1;
 }
 
 .span-aligned-hover-word{
