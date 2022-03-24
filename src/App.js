@@ -21,6 +21,7 @@ const App = () => {
   const [summary_json, setSummaryJson] = useState([]); 
   const [all_lemma_match_mtx, setAllLemmaMtx] = useState([]);
   const [important_lemma_match_mtx, setImportantLemmaMtx] = useState([]);
+  const [doc_paragraph_breaks, setDocParagraphBreaks] = useState([]);
   const [boldState, setBoldState] = useState("sent"); // for user to choose if want full sentence, span or no lemma matching (denoted as "sent", "span" and "none", accordingly)
   const [oldAlignmentState, setOldAlignmentState] = useState("all"); // for user to choose if want full highlighting history, only current sentence's highlighting history or no history (denoted as "all", "sent" and "none", accordingly)
   const [StateMachineState, SetStateMachineState] = useState("START");
@@ -482,7 +483,7 @@ const App = () => {
         addSummaryWordComponents(json_file[curr_id]["summary"])
         setAllLemmaMtx(json_file[curr_id]["all_lemma_match_mtx"]);
         setImportantLemmaMtx(json_file[curr_id]["important_lemma_match_mtx"]);
-
+        setDocParagraphBreaks(json_file[curr_id]["doc_paragraph_breaks"])
         fetch(`/`).then(
           res => console.log(res)
         )
@@ -501,16 +502,17 @@ const App = () => {
     <Router>
       <div className='container'>
         <Routes>
-          <Route path='/' element={<StartPage />} />
-          <Route path='/homepage' element={<StartPage />} />
+          {/* <Route path='/' element={<StartPage />} /> */}
+          {/* <Route path='/homepage' element={<StartPage />} /> */}
           <Route path='/instructions' element={<Instructions />} />
           <Route path='/guidedAnnotation' element={<GuidedAnnotation />} />
-          <Route path='/annotation' element={<Annotation 
+          <Route path='/' element={<Annotation 
                                               task_id={task_id} 
                                               doc_json = {doc_json}
                                               summary_json = {summary_json}
                                               all_lemma_match_mtx = {all_lemma_match_mtx}
                                               important_lemma_match_mtx = {important_lemma_match_mtx}
+                                              doc_paragraph_breaks = {doc_paragraph_breaks}
                                               StateMachineState = {StateMachineState}
                                               SetStateMachineState = {SetStateMachineState}
                                               handleErrorOpen = {handleErrorOpen}

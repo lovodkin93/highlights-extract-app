@@ -4,7 +4,7 @@ import './css_files/index.css';
 import './css_files/StartPage.css';
 import './css_files/Instructions.css';
 import './css_files/Annotation.css';
-// import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

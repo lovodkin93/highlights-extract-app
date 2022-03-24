@@ -2,7 +2,7 @@ import Slider from '@mui/material/Slider';
 import { styled } from '@mui/material/styles';
 
 const StyledSliderHighlighting = styled(Slider)({
-    color: 'rgb(14, 236, 14)',
+    // color: 'rgb(14, 236, 14)',
     height: 8,
     '& .MuiSlider-track': {
       border: 'none',
@@ -27,7 +27,7 @@ const StyledSliderHighlighting = styled(Slider)({
       width: 32,
       height: 32,
       borderRadius: '50% 50% 50% 0',
-      backgroundColor: '#52af77',
+      backgroundColor: '#ed6c02',
       transformOrigin: 'bottom left',
       transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',
       '&:before': { display: 'none' },
@@ -42,7 +42,7 @@ const StyledSliderHighlighting = styled(Slider)({
 
 
   const StyledSliderBolding = styled(Slider)({
-    color: 'red',
+    // color: 'red',
     height: 8,
     '& .MuiSlider-track': {
       border: 'none',
@@ -67,7 +67,7 @@ const StyledSliderHighlighting = styled(Slider)({
       width: 32,
       height: 32,
       borderRadius: '50% 50% 50% 0',
-      backgroundColor: 'red',
+      backgroundColor: '#9c27b0',
       transformOrigin: 'bottom left',
       transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',
       '&:before': { display: 'none' },
@@ -77,6 +77,7 @@ const StyledSliderHighlighting = styled(Slider)({
       '& > *': {
         transform: 'rotate(45deg)',
       },
+      
     },
   });
 

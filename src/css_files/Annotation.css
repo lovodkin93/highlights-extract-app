@@ -1,14 +1,16 @@
 
 
 #doc-text{
-    float:left;
+    /* float:left;
     padding: 0pt;
     box-sizing: border-box;
-    width: 70%;
+    width: 70%; */
     overflow-wrap: break-word;
     margin: 0pt;
-    background-color: rgb(245, 245, 245);
-    border: 1px solid rgb(190, 190, 196);
+    /* background-color: rgb(245, 245, 245); */
+    /* border: 1px solid rgb(190, 190, 196); */
+    line-height: 1.2;
+    font-size: large;
 
 }
 
@@ -19,29 +21,39 @@
 
 
 #summary-text{
-    /* position: fixed; */
-    float:right;
-    top: 1em;
-    right: 0em;
+    /* position: sticky; */
+    /* float:right; */
+    /* top: 1em; */
+    /* right: 0em;
     padding-left: 1pt;
     padding-right: 1pt;
-    width: 29%;
-    box-sizing: border-box;
-    line-height: 1.8;
+    width: 29%; */
+    /* box-sizing: border-box; */
+    line-height: 1.2;
+    font-size: large;
     overflow-wrap: break-word;
-    margin: 0pt 3pt 1pt 0pt;
-    background-color: rgb(245, 245, 245);
-    border: 1px solid rgb(190, 190, 196);
+    /* margin: 0; */
+    /* background-color: rgb(245, 245, 245); */
+    /* border: 1px solid rgb(190, 190, 196); */
 }
 
-.not-end-of-sentence-word{
+#doc-summary-row{
+    margin-top: 1%;
+}
+
+/* .not-end-of-sentence-word{
     line-height: 1;
+} */
+
+
+.slider-padding{
+    margin-left: 3%;
 }
 
 
-.br-class {
+.br-class{
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 
@@ -160,7 +172,7 @@
 #state-ANNOTATION, #state-REVISE-CLICKED, #state-SENTENCE-START{
     background-color:brown;
     box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
-    margin:0.3% 0%;
+    margin:0.5% 0%;
 }
 
 #state-SENTENCE-END{
