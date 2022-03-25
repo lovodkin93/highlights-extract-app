@@ -25,6 +25,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Alert from 'react-bootstrap/Alert'
+import { ChevronLeft, ChevronRight, SendFill } from 'react-bootstrap-icons';
 
 // import Card from 'react-bootstrap/Card'
 // import { Container, Row, Col } from 'react-bootstrap';
@@ -62,11 +63,11 @@ const Annotation = ({task_id,
 
   const nextButtonText = () => {
     if(StateMachineState==="START"){return "START";}
-    if(StateMachineState==="ANNOTATION"){return "CONFIRM ALIGNMENT";}
-    if(StateMachineState==="SENTENCE START"){return "CONFIRM ALIGNMENT";}
-    if(StateMachineState==="SENTENCE END"){return "CONFIRM ALIGNMENT & NEXT SENTENCE";}
+    if(StateMachineState==="ANNOTATION"){return "CONFIRM";}
+    if(StateMachineState==="SENTENCE START"){return "CONFIRM";}
+    if(StateMachineState==="SENTENCE END"){return "NEXT SENTENCE";}
     if(StateMachineState==="SUMMARY END"){return "SUBMIT";}
-    if(StateMachineState==="REVISE CLICKED"){return "CONFIRM ALIGNMENT";}
+    if(StateMachineState==="REVISE CLICKED"){return "CONFIRM";}
   }
 
   const nextButtonID = () => {
@@ -192,7 +193,6 @@ const Annotation = ({task_id,
     if ((StateMachineState === "REVISE CLICKED") && (summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id > CurrSentInd}).length !== 0)){
       return
     } else if ((summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id !== CurrSentInd}).length !== 0) && !(["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState))) {
-      console.log("AVIVSL: if else....")
       return
     }
     hoverHandler({inOrOut, curr_alignment_id, tkn_id, isSummary});
@@ -239,7 +239,7 @@ const Annotation = ({task_id,
           </Col>
         </Row>
 
-        <Row id='doc-summary-row'>
+        <Row id={`${(InfoMessage === "") ? 'doc-summary-row': ''}`}>
           <Col md={ 8 } lg={true}>
             <Card border="secondary" bg="light"  id="doc-text">
                 <Card.Header>Document</Card.Header>
@@ -266,32 +266,79 @@ const Annotation = ({task_id,
               </Col>
             </Row>
 
-            <Row>
+            <Row className="justify-content-md-center">
                 {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && (
-                  <Col md={{span:2, offset:9}}>
-                    <button type="button" className="btn btn-primary" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>Revise</button>
+                  <Col>
+                    <button type="button" className="btn btn-warning btn-lg" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>REVISE</button>
                   </Col>
                 )}
 
                 {StateMachineState === "REVISE HOVER" && (
-                  <Col md={{span:3, offset:9}}>
-                    <button type="button" className="btn btn-success" onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>Finish</button>
+                  <Col>
+                    <button type="button" className="btn btn-success btn-lg" onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>FINISH</button>
                   </Col>
                 )}
+
+              {StateMachineState === "REVISE CLICKED" && (
+                  <Col md={{span:4, offset:0}}>
+                    <button type="button" className="btn btn-danger btn-lg" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
+                    <ChevronLeft className="button-icon"/>
+                    BACK
+                    </button>
+                  </Col>
+                )}
+
+              {!["REVISE HOVER", "SUMMARY END", "SENTENCE END", "START"].includes(StateMachineState) && (
+                  <Col md={{span:5, offset:3}}>
+                    <button type="button" className="btn btn-primary btn-lg next-button" onClick={MachineStateHandlerWrapper}>
+                      {nextButtonText()}
+                      <ChevronRight className="button-icon"/>
+                    </button>
+                  </Col>
+              )}
+
+              {StateMachineState === "START"  && (
+                    <Col md={{span:3, offset:9}}>
+                      <button type="button" className="btn btn-primary btn-lg next-button" onClick={MachineStateHandlerWrapper}>
+                        {nextButtonText()}
+                      </button>
+                    </Col>
+                )}
+
+              {StateMachineState === "SENTENCE END"  && (
+                    <Col md={{span:7, offset:1}}>
+                      <button type="button" className="btn btn-success btn-lg next-button" onClick={MachineStateHandlerWrapper}>
+                        {nextButtonText()}
+                        {StateMachineState !== "START" && (<ChevronRight className="button-icon"/>) }
+                      </button>
+                    </Col>
+                )}
+
+              {StateMachineState === "SUMMARY END" && (
+                <Col md={{span:5, offset:3}}>
+                  <button type="button" className="btn btn-success btn-lg next-button" onClick={SubmitHandler}>
+                    {nextButtonText()}
+                    {StateMachineState !== "START" && (<SendFill className="button-icon"/>) }
+                  </button>
+                </Col>
+              )}
+
+
             </Row>
                 {/* {StateMachineState === "REVISE CLICKED" && (
+                  // <Col md={{span:3, offset:9}}></Col>
                   <Fab className='NextStateButton' id="REVISE-CLICKED-BACK-BTN" color="secondary" variant="extended" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
                     <ArrowBackIosTwoTone />
                     BACK
                   </Fab>
-                )}
-                {!["REVISE HOVER", "SUMMARY END"].includes(StateMachineState) && (
+                )} */}
+                {/* {!["REVISE HOVER", "SUMMARY END"].includes(StateMachineState) && (
                   <Fab className='NextStateButton' id={nextButtonID()} color="success" variant="extended" onClick={MachineStateHandlerWrapper}>
                     {nextButtonText()}
                     {StateMachineState !== "START" && (<ArrowForwardIosTwoTone />) }
                   </Fab>
-                )}
-                {StateMachineState === "SUMMARY END" && (
+                )} */}
+                {/* {StateMachineState === "SUMMARY END" && (
                   <Fab id="SubmitButton" color="success" variant="extended" onClick={SubmitHandler}>
                       {nextButtonText()}
                       <SendIcon sx={{ margin: '10%' }}  />

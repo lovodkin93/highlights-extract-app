@@ -126,17 +126,8 @@
 }
 
 .btn {
-    display: inline-block;
-    background: #000;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    border-radius: 5px;
+    margin: 5px 0;
     cursor: pointer;
-    text-decoration: none;
-    font-size: 15px;
-    font-family: inherit;
   }
   
   .btn:focus {
@@ -150,6 +141,11 @@
   .btn-block {
     display: block;
     width: 100%;
+  }
+
+  .button-icon{
+    vertical-align:-15%;
+    font-size:25px;
   }
 
   .NextStateButton{
