@@ -463,6 +463,10 @@ const App = () => {
           
           if (isRedLettered(hoverActivatedId) && hoverActivatedDocOrSummary === "summary") {
             const doc_tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id:doc_id, summary_ids:[hoverActivatedId], isHover:true})});
+            
+            console.log("red is activated:")
+            console.log(doc_json.filter((word) => {return doc_tkn_ids.includes(word.tkn_id)}).map((word) => {return word.word}))
+
             setDocJson(doc_json.map((word) => doc_tkn_ids.includes(word.tkn_id) ? {...word, red_color:true} : {...word, red_color:false}))  
           }  
         }

@@ -205,6 +205,31 @@ const Annotation = ({task_id,
 
 
 
+
+
+  const getSummaryText = () => {
+
+    // when rebooting
+    if (summary_json.length === 0){
+      return
+    }
+
+    const max_sent_id = summary_json.map((word) =>{return word.sent_id}).reduce(function(a, b) {return Math.max(a, b)}, -Infinity);
+    const summary_per_sent_id = [...Array(max_sent_id+1).keys()].map((sent_id) => {return summary_json.filter((word) => {return word.sent_id===sent_id})})
+    return summary_per_sent_id.map((summary_words, index) => 
+                                                      <div>
+                                                        <p  className={`${(index===CurrSentInd) ?  'bordered_sent': ''}`}>
+                                                          {summary_words.map((word_json, index) => (
+                                                            <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
+                                                            ))}
+                                                        </p>
+                                                        <span className="br-class"></span>
+                                                      </div>
+                                                      )
+  }
+
+
+
   // reset clickings between states
   useEffect(() => {
     SetDocMouseDownStartID("-1");
@@ -214,12 +239,12 @@ const Annotation = ({task_id,
   }, [StateMachineState]);
 
   return (
-      <Container 
-        onKeyDown={(event) => {if (event.ctrlKey) {setCtrlButtonDown(true)}}}
-        onKeyUp={() => {setCtrlButtonDown(false)}} 
-        tabIndex="0"
+      <Container onKeyDown={(event) => {if (event.ctrlKey) {setCtrlButtonDown(true)}}}
+                 onKeyUp={() => {setCtrlButtonDown(false)}} 
+                 tabIndex="0"
+                 className='annotation-container'
       >
-        <Row>
+        <Row className='annotation-row'>
           <Col>
             <ResponsiveAppBar
                   title={"Annotation"} 
@@ -230,17 +255,12 @@ const Annotation = ({task_id,
                   oldAlignmentState={oldAlignmentState}
                   oldAlignmentStateHandler={oldAlignmentStateHandler}
             />
-          </Col>
-        </Row>
-
-        <Row>
-          <Col>
             {InfoMessage !== "" && (GuideAlert(InfoMessage))}
           </Col>
         </Row>
 
-        <Row id={`${(InfoMessage === "") ? 'doc-summary-row': ''}`}>
-          <Col md={ 8 } lg={true}>
+        <Row className='annotation-row' id={`${(InfoMessage === "") ? 'doc-summary-row': ''}`}>
+          <Col md={ 8 }>
             <Card border="secondary" bg="light"  id="doc-text">
                 <Card.Header>Document</Card.Header>
                 <Card.Body>
@@ -251,16 +271,17 @@ const Annotation = ({task_id,
               </Card>
           </Col>
 
-          <Col md={4} lg={true}>
+          <Col md={4}>
             {/* <div id="summary-and-buttons"> */}
             <Row>
               <Col>
                 <Card border="secondary" bg="light" id="summary-text">
                   <Card.Header>Summary</Card.Header>
                   <Card.Body>
-                    {summary_json.map((word_json, index) => (
+                    {getSummaryText()}
+                    {/* {summary_json.map((word_json, index) => (
                       <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
-                    ))};
+                    ))}; */}
                   </Card.Body>
                 </Card>
               </Col>
@@ -269,7 +290,7 @@ const Annotation = ({task_id,
             <Row className="justify-content-md-center">
                 {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && (
                   <Col>
-                    <button type="button" className="btn btn-warning btn-lg" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>REVISE</button>
+                    <button type="button" className="btn btn-dark btn-lg" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>REVISE</button>
                   </Col>
                 )}
 
@@ -290,7 +311,7 @@ const Annotation = ({task_id,
 
               {!["REVISE HOVER", "SUMMARY END", "SENTENCE END", "START"].includes(StateMachineState) && (
                   <Col md={{span:5, offset:3}}>
-                    <button type="button" className="btn btn-primary btn-lg next-button" onClick={MachineStateHandlerWrapper}>
+                    <button type="button" className="btn btn-primary btn-lg right-button" onClick={MachineStateHandlerWrapper}>
                       {nextButtonText()}
                       <ChevronRight className="button-icon"/>
                     </button>
@@ -299,7 +320,7 @@ const Annotation = ({task_id,
 
               {StateMachineState === "START"  && (
                     <Col md={{span:3, offset:9}}>
-                      <button type="button" className="btn btn-primary btn-lg next-button" onClick={MachineStateHandlerWrapper}>
+                      <button type="button" className="btn btn-primary btn-lg right-button" onClick={MachineStateHandlerWrapper}>
                         {nextButtonText()}
                       </button>
                     </Col>
@@ -307,7 +328,7 @@ const Annotation = ({task_id,
 
               {StateMachineState === "SENTENCE END"  && (
                     <Col md={{span:7, offset:1}}>
-                      <button type="button" className="btn btn-success btn-lg next-button" onClick={MachineStateHandlerWrapper}>
+                      <button type="button" className="btn btn-success btn-lg right-button" onClick={MachineStateHandlerWrapper}>
                         {nextButtonText()}
                         {StateMachineState !== "START" && (<ChevronRight className="button-icon"/>) }
                       </button>
@@ -316,7 +337,7 @@ const Annotation = ({task_id,
 
               {StateMachineState === "SUMMARY END" && (
                 <Col md={{span:5, offset:3}}>
-                  <button type="button" className="btn btn-success btn-lg next-button" onClick={SubmitHandler}>
+                  <button type="button" className="btn btn-success btn-lg right-button" onClick={SubmitHandler}>
                     {nextButtonText()}
                     {StateMachineState !== "START" && (<SendFill className="button-icon"/>) }
                   </button>

@@ -60,17 +60,18 @@ const DocWord = ({ word_json, doc_paragraph_breaks, StateMachineState, DocMouseC
                         ${(word_json.span_highlighted && !word_json.span_alignment_hover) ?  'span-highlighted-word': ''} 
                         ${(word_json.span_alignment_hover && !ctrlButtonDown) ?  'span-aligned-hover-word': ''} 
                         ${(word_json.old_alignments && !word_json.span_highlighted) ? 'old-aligned-word': ''}
-                        ${word_json.boldfaced ? 'boldfaced-word': 'normal-sized-word'}
+                        ${(word_json.red_color && !docOnMouseDownActivated) ? 'red-color-word': ''}
+                        ${(word_json.boldfaced && !word_json.red_color) ? 'boldfaced-word': ''}
+                        ${(!word_json.boldfaced && !word_json.red_color) ? 'text-muted': ''}
                         ${(word_json.old_alignment_hover && StateMachineState==="REVISE HOVER") ? 'old-aligned-hover-word': ''}
-                        ${(StateMachineState !== "REVISE HOVER") ? 'cursor-span' : ''}
+                        ${(StateMachineState !== "REVISE HOVER") ? 'cursor-span-doc' : ''}
                         ${(word_json.old_alignments && StateMachineState==="REVISE HOVER") ? 'cursor-pointer': ''}
-                        ${(word_json.red_color) ? 'red-color-word': 'text-muted'}
                         `}
             
             style={{fontFamily: "IBM Plex Sans", lineHeight: "1"}}
             onClick={() => DocMouseClickHandlerWrapper(word_json.tkn_id)}
             onMouseEnter={() => {setHoverActivatedId(word_json.tkn_id); setHoverActivatedDocOrSummary("doc"); hoverHandlerWrapper({inOrOut:"in", curr_alignment_id:word_json.alignment_id[0], isSummary:false})}}
-            onMouseLeave={() => hoverHandlerWrapper({inOrOut:"out", curr_alignment_id:word_json.alignment_id[0], tkn_id:word_json.tkn_id, isSummary:false})}
+            onMouseLeave={() => {setHoverActivatedId(-1); hoverHandlerWrapper({inOrOut:"out", curr_alignment_id:word_json.alignment_id[0], tkn_id:word_json.tkn_id, isSummary:false})}}
             onMouseDown={() => DocOnMouseDownHandler(word_json.tkn_id)}
             onMouseUp={() => DocOnMouseUpHandler()}
           >
