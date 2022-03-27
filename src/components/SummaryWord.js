@@ -10,17 +10,15 @@ const SummaryWord = ({ word_json, StateMachineState, SummaryMouseClickHandlerWra
               {(word_json.word !== "\n") && (
                 <div
                   className={`summaryWord noselect normal-sized-word  text-muted
-                              ${word_json.shadowed ? 'shadowed-word': ''}
                               ${(word_json.span_highlighted && !word_json.span_alignment_hover) ? 'span-highlighted-word': ''} // if the word was span_highlighted before and now go over it again, then should unspan it
-                              ${(word_json.span_alignment_hover && !ctrlButtonDown) ?  'span-aligned-hover-word': ''} 
+                              ${(word_json.span_alignment_hover && !ctrlButtonDown) ?  'span-aligned-hover-word': 'cursor-span-summary'} 
                               ${(word_json.old_alignments && !word_json.span_highlighted) ? 'old-aligned-word': ''}
                               ${(word_json.old_alignment_hover && StateMachineState==="REVISE HOVER") ? 'old-aligned-hover-word': ''} 
-                              ${(StateMachineState !== "REVISE HOVER") ? 'cursor-span' : ''}
                               ${(word_json.old_alignments && StateMachineState==="REVISE HOVER") ? 'cursor-pointer': ''}`}
                   style={{fontFamily: "IBM Plex Sans"}}
                   onClick={() => SummaryMouseClickHandlerWrapper(word_json.tkn_id)}
                   onMouseEnter={() => {setHoverActivatedId(word_json.tkn_id); setHoverActivatedDocOrSummary("summary"); hoverHandlerWrapper({inOrOut:"in", curr_alignment_id:word_json.alignment_id[0], tkn_id:word_json.tkn_id, isSummary:true})}}
-                  onMouseLeave={() => hoverHandlerWrapper({inOrOut:"out", curr_alignment_id:word_json.alignment_id[0], tkn_id:word_json.tkn_id, isSummary:true})}
+                  onMouseLeave={() => {setHoverActivatedId(-1); hoverHandlerWrapper({inOrOut:"out", curr_alignment_id:word_json.alignment_id[0], tkn_id:word_json.tkn_id, isSummary:true})}}
                   onMouseDown={() => SummaryOnMouseDownHandler(word_json.tkn_id)} 
                   onMouseUp={() => SummaryOnMouseUpHandler()} 
                 >
@@ -28,9 +26,9 @@ const SummaryWord = ({ word_json, StateMachineState, SummaryMouseClickHandlerWra
               </div>
               )}
 
-              {(word_json.word === "\n") && (
+              {/* {(word_json.word === "\n") && (
                 <span className="br-class"></span>
-              )}
+              )} */}
             </div>
 
     )

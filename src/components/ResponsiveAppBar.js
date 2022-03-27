@@ -76,23 +76,30 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
   return (
 
     <Navbar bg="secondary" variant="dark" className="w-100 p-2">
-      <Container>
-      <Navbar.Brand>{title}</Navbar.Brand>
-      <Nav className="me-auto">
-        {Object.keys(pages).filter(key => key !== title).map((ttl) => (
-                <Nav.Item as="li">
-                  <Nav.Link
-                    key={ttl}
-                    as={Link} to={`/${pages[ttl]}`}
-                  >
-                    {ttl}
-                    </Nav.Link>
-                </Nav.Item>
-        ))}
-    </Nav>    
+      <Container className='navbar-container'>
+        <Row  className="navbar-row">
+        <Col md={3} className="navbar-column">
+        <Navbar.Brand>{title}</Navbar.Brand>
+        </Col>
+
+        <Col>
+          <Nav className="me-auto">
+              {Object.keys(pages).filter(key => key !== title).map((ttl) => (
+                      <Nav.Item as="li">
+                        <Nav.Link
+                          key={ttl}
+                          as={Link} to={`/${pages[ttl]}`}
+                        >
+                          {ttl}
+                          </Nav.Link>
+                      </Nav.Item>
+              ))}
+          </Nav>
+        </Col>
+        </Row>
 
           { title !== "Instructions" && (
-                <Col md={2} padding={2} className="slider-padding">
+                <Col className="old-highlighting-slider-padding">
                   <BlackTextTypography  id="old-highlighting-slider-title">
                       OLD ALIGNMENTS
                   </BlackTextTypography>
@@ -103,7 +110,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
                     valueLabelFormat={OldHighlightingSliderTags}
                     valueLabelDisplay="auto"
                     value={OldHighlightingSliderDefaultValue()}
-                    sx={{ color: 'warning.main' }}
+                    sx={{ color: 'primary.dark' }}
                     step={1}
                     marks
                     min={1}
@@ -115,7 +122,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
 
 
           { title !== "Instructions" && (
-              <Col md={ 2 } className="slider-padding">
+              <Col className="bolding-slider-padding">
                 <BlackTextTypography  id="bolding-slider-title">
                   BOLDING
                 </BlackTextTypography>
@@ -126,7 +133,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
                   valueLabelFormat={BoldingSliderTags}
                   valueLabelDisplay="auto"
                   value={BoldingSliderDefaultValue()}
-                  color="secondary"
+                  color="error"
                   step={1}
                   marks
                   min={1}
