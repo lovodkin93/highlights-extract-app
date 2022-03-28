@@ -103,6 +103,7 @@
     width: 50%;
 }
 
+
 /* .summary-container{
     position: absolute;
     top:400px;
@@ -173,6 +174,13 @@
 .span-aligned-hover-word{
     background-color: orange; 
     cursor:text;
+}
+
+
+#fixed-summary-and-buttons{
+    position:fixed;
+    width:32%;
+    top:1%
 }
 
 .noselect {

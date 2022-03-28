@@ -246,25 +246,25 @@ const Annotation = ({isGuidedAnnotation, task_id,
 
 
 const containerRef = useRef(null)
-const prevIsVisible = useRef(false)
-const [ isVisible, setIsVisible ] = useState(false)
+const prevIsVisibleFullySummary = useRef(false)
+const [ isVisibleFullySummary, setIsVisibleFullySummary ] = useState(true)
 
 const callbackFunction = (entries) => {
   const [ entry ] = entries
-  if (!entry.isIntersecting && prevIsVisible.current){
-    alert("out of sight")
-  } 
-  else if (entry.isIntersecting && !prevIsVisible.current){
-    alert("back to sight")
-  }
-  prevIsVisible.current = isVisible;
-  setIsVisible(entry.isIntersecting)
+  // if (!entry.isIntersecting && prevIsVisibleFullySummary.current){
+  //   alert("out of sight")
+  // } 
+  // else if (entry.isIntersecting && !prevIsVisibleFullySummary.current){
+  //   alert("back to sight")
+  // }
+  prevIsVisibleFullySummary.current = isVisibleFullySummary;
+  setIsVisibleFullySummary(entry.isIntersecting)
 }
 
 const options = {
   root: null,
   rootMargin: "0px",
-  threshold:0.85
+  threshold:0
 }
 
 useEffect(() => {
@@ -296,7 +296,7 @@ useEffect(() => {
                  tabIndex="0"
                  className='annotation-container'
       >
-        <Row className='annotation-row'>
+        <Row className='annotation-row' ref={containerRef}>
           <Col>
             <ResponsiveAppBar
                   title={isGuidedAnnotation ? "Guided Annotation" : "Annotation"} 
@@ -324,10 +324,10 @@ useEffect(() => {
           </Col>
 
           <Col md={4}>
-            {/* <div id="summary-and-buttons"> */}
+            <div id={`${(isVisibleFullySummary) ?  '': 'fixed-summary-and-buttons'}`}>
             <Row>
               <Col>
-                <Card border="secondary" bg="light" id="summary-text" ref={containerRef}>
+                <Card border="secondary" bg="light" id="summary-text">
                   <Card.Header>Summary</Card.Header>
                   <Card.Body>
                     {getSummaryText()}
@@ -417,7 +417,7 @@ useEffect(() => {
                       <SendIcon sx={{ margin: '10%' }}  />
                   </Fab>
                 )} */}
-            {/* </div> */}
+            </div>
           </Col>
         </Row>
 
