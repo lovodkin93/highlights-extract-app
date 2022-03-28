@@ -247,7 +247,7 @@ const Annotation = ({isGuidedAnnotation, task_id,
         <Row className='annotation-row'>
           <Col>
             <ResponsiveAppBar
-                  title={isGuidedAnnotation ? "guidedAnnotation" : "Annotation"} 
+                  title={isGuidedAnnotation ? "Guided Annotation" : "Annotation"} 
                   StateMachineState = {StateMachineState} 
                   MachineStateHandlerWrapper={MachineStateHandlerWrapper}
                   boldState={boldState}

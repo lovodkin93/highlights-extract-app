@@ -14,7 +14,6 @@ import { MachineStateHandler } from './components/Annotation_event_handlers';
 import _ from 'underscore';
 
 
-
 const App = () => {
 
   // AVIVSL: GUIDED_ANNOTATION
