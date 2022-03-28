@@ -31,7 +31,7 @@ import { ChevronLeft, ChevronRight, SendFill } from 'react-bootstrap-icons';
 // import { Container, Row, Col } from 'react-bootstrap';
 
 
-const Annotation = ({task_id, 
+const Annotation = ({isGuidedAnnotation, task_id, 
                     doc_json, summary_json, 
                     all_lemma_match_mtx, important_lemma_match_mtx, doc_paragraph_breaks,
                     StateMachineState, SetStateMachineState,
@@ -247,7 +247,7 @@ const Annotation = ({task_id,
         <Row className='annotation-row'>
           <Col>
             <ResponsiveAppBar
-                  title={"Annotation"} 
+                  title={isGuidedAnnotation ? "guidedAnnotation" : "Annotation"} 
                   StateMachineState = {StateMachineState} 
                   MachineStateHandlerWrapper={MachineStateHandlerWrapper}
                   boldState={boldState}
