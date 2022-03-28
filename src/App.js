@@ -1085,6 +1085,11 @@ const App = () => {
           {error_message}
         </Alert>
       </Snackbar>
+      <Snackbar open={g_error_message !== ""} autoHideDuration={6000} onClose={g_handleErrorClose}>
+        <Alert onClose={g_handleErrorClose} severity="error" sx={{ width: '100%' }}>
+          {g_error_message}
+        </Alert>
+      </Snackbar>
     </Router>
   )
 }
