@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import DocWord from './DocWord';
 import SummaryWord from './SummaryWord';
 import ResponsiveAppBar from './ResponsiveAppBar';
@@ -227,6 +227,58 @@ const Annotation = ({isGuidedAnnotation, task_id,
                                                       </div>
                                                       )
   }
+  
+//   const hiddenRef = useRef();
+//   useEffect(() => {
+        
+//     window.addEventListener('scroll', scrollHandler);
+ 
+//     return () => window.removeEventListener('scroll', scrollHandler);
+    
+// }, []);
+
+// const scrollHandler = () => {
+    
+//     if(window.pageYOffset + window.outerHeight >= hiddenRef.current.offsetTop)
+//         console.log(`Hidden element is now visible`);
+    
+// }
+
+
+const containerRef = useRef(null)
+const prevIsVisible = useRef(false)
+const [ isVisible, setIsVisible ] = useState(false)
+
+const callbackFunction = (entries) => {
+  const [ entry ] = entries
+  if (!entry.isIntersecting && prevIsVisible.current){
+    alert("out of sight")
+  } 
+  else if (entry.isIntersecting && !prevIsVisible.current){
+    alert("back to sight")
+  }
+  prevIsVisible.current = isVisible;
+  setIsVisible(entry.isIntersecting)
+}
+
+const options = {
+  root: null,
+  rootMargin: "0px",
+  threshold:0.85
+}
+
+useEffect(() => {
+  
+  const observer = new IntersectionObserver(callbackFunction, options)
+  if (containerRef.current) observer.observe(containerRef.current)
+  
+  return () => {
+    if(containerRef.current) observer.unobserve(containerRef.current)
+  }
+}, [containerRef, options])
+
+
+
 
 
 
@@ -275,7 +327,7 @@ const Annotation = ({isGuidedAnnotation, task_id,
             {/* <div id="summary-and-buttons"> */}
             <Row>
               <Col>
-                <Card border="secondary" bg="light" id="summary-text">
+                <Card border="secondary" bg="light" id="summary-text" ref={containerRef}>
                   <Card.Header>Summary</Card.Header>
                   <Card.Body>
                     {getSummaryText()}
