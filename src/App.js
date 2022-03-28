@@ -996,7 +996,7 @@ const App = () => {
 
   return (
     <Router>
-      <div className='container'>
+      <div className='container-background'>
         <Routes>
           {/* <Route path='/' element={<StartPage />} /> */}
           {/* <Route path='/homepage' element={<StartPage />} /> */}

@@ -28,31 +28,22 @@
 }
 
 .annotation-container{
-    /* position:relative; */
-    /* width:100% !important; */
     padding-left: 0  !important;
     padding-right: 0  !important;
-    background-size: cover;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    /* background-color:rgba(199, 185, 185, 0.774); */
+    /* background-size: cover; */
 }
 
-.annotation-container:before {
-    content:"";
-    background-color:rgba(199, 185, 185, 0.774);
-    position: absolute;
-    height: 115%; 
-    width: 150%;
-    left: -50%;
+.container-background{
+    background-color: rgba(199, 185, 185, 0.774);
     z-index: -1;
+    min-height: 100vh;
+    height:max-content;
 }
 
 
 .annotation-row{
-    margin-left: -32%  !important;
-    margin-right: -32%  !important;
+    margin-left: -30%  !important;
+    margin-right: -30%  !important;
 }
 
 .bolding-slider-padding{
@@ -82,19 +73,11 @@
 @media(max-width:2000px){
 
     .annotation-row{
-        margin-left: -15%  !important;
-        margin-right: -15%  !important;
+        margin-left: -14%  !important;
+        margin-right: -14%  !important;
     }
 
-    .annotation-container:before {
-        content:"";
-        background-color:rgba(199, 185, 185, 0.774);
-        position: absolute;
-        height: 115%;
-        width: 150%;
-        left: -50%;
-        z-index: -1;
-    }
+
 
     .bolding-slider-padding{
         margin-right: -10%;
