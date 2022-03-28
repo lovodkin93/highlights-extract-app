@@ -264,7 +264,7 @@ const callbackFunction = (entries) => {
 const options = {
   root: null,
   rootMargin: "0px",
-  threshold:0
+  threshold:0.01
 }
 
 useEffect(() => {
