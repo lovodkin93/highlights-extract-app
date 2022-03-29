@@ -10,7 +10,7 @@ import GuidedAnnotation from './components/GuidedAnnotation'
 import Annotation from './components/Annotation'
 import json_file from './data/data_for_mturk.json'
 import g_json_file from './data/guided_annotation/data_for_mturk.json'
-import { MachineStateHandler } from './components/Annotation_event_handlers';
+import { MachineStateHandler, g_MachineStateHandler } from './components/Annotation_event_handlers';
 import _ from 'underscore';
 
 
@@ -44,6 +44,7 @@ const App = () => {
   const [g_hoverActivatedId, g_setHoverActivatedId] = useState("-1"); // value will be of tkn_id of elem hovered over
   const [g_hoverActivatedDocOrSummary, g_setHoverActivatedDocOrSummary] = useState("doc"); // value will be of tkn_id of elem hovered over
   const [g_sliderBoldStateActivated, g_setSliderBoldStateActivated] = useState(false);
+  const [guidedAnnotationMessage, setGuidedAnnotationMessage] = useState("To begin, press the \"START\" button.")
 
 
 
@@ -361,13 +362,7 @@ const App = () => {
 
   const g_MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
     g_setSliderBoldStateActivated(false);
-    if (typeof forceState === 'string') {
-      console.log(`forceState situation with: state ${forceState}`);
-    }
-    else{
-      console.log("not a forceState situation...");
-    }
-    MachineStateHandler(g_summary_json,
+    g_MachineStateHandler(g_summary_json,
                           g_StateMachineState, g_SetStateMachineState,
                           g_SetInfoMessage, g_handleErrorOpen, isPunct,
                           g_CurrSentInd, g_SetCurrSentInd, g_SetSummaryShadow,
@@ -377,7 +372,8 @@ const App = () => {
                           g_StartReviseStateHandler, g_ExitReviseHandler,
                           g_ReviseChooseAlignHandler, 
                           isBackBtn,
-                          g_setPrevSummaryJsonRevise, g_setPrevDocJsonRevise
+                          g_setPrevSummaryJsonRevise, g_setPrevDocJsonRevise,
+                          setGuidedAnnotationMessage
                          );
   }
 
@@ -1036,6 +1032,8 @@ const App = () => {
                                               summaryOnMouseDownActivated = {g_summaryOnMouseDownActivated}
                                               setHoverActivatedId = {g_setHoverActivatedId}
                                               setHoverActivatedDocOrSummary = {g_setHoverActivatedDocOrSummary}
+                                              guidedAnnotationMessage = {guidedAnnotationMessage}
+                                              setGuidedAnnotationMessage = {setGuidedAnnotationMessage}
                                               />} 
             />
 
@@ -1074,6 +1072,8 @@ const App = () => {
                                               summaryOnMouseDownActivated = {summaryOnMouseDownActivated}
                                               setHoverActivatedId = {setHoverActivatedId}
                                               setHoverActivatedDocOrSummary = {setHoverActivatedDocOrSummary}
+                                              guidedAnnotationMessage = {guidedAnnotationMessage}
+                                              setGuidedAnnotationMessage = {setGuidedAnnotationMessage}
                                               />} 
             />
 

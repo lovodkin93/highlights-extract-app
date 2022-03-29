@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import DocWord from './DocWord';
 import SummaryWord from './SummaryWord';
 import ResponsiveAppBar from './ResponsiveAppBar';
-import { MachineStateHandler, DocMouseClickHandler, SummaryHighlightHandler } from './Annotation_event_handlers';
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
 import { ArrowBackIosTwoTone, ArrowForwardIosTwoTone } from '@mui/icons-material';
@@ -27,6 +26,13 @@ import Col from 'react-bootstrap/Col'
 import Alert from 'react-bootstrap/Alert'
 import { ChevronLeft, ChevronRight, SendFill } from 'react-bootstrap-icons';
 
+
+import Toast from 'react-bootstrap/Toast'
+import ToastHeader from 'react-bootstrap/ToastHeader'
+import ToastBody from 'react-bootstrap/ToastBody'
+import ToastContainer from 'react-bootstrap/ToastContainer'
+
+
 // import Card from 'react-bootstrap/Card'
 // import { Container, Row, Col } from 'react-bootstrap';
 
@@ -46,7 +52,8 @@ const Annotation = ({isGuidedAnnotation, task_id,
                     oldAlignmentState, oldAlignmentStateHandler,
                     hoverHandler,
                     DocOnMouseDownID, SetDocOnMouseDownID, SummaryOnMouseDownID, SetSummaryOnMouseDownID,
-                    setDocOnMouseDownActivated, docOnMouseDownActivated, setSummaryOnMouseDownActivated, summaryOnMouseDownActivated, setHoverActivatedId, setHoverActivatedDocOrSummary
+                    setDocOnMouseDownActivated, docOnMouseDownActivated, setSummaryOnMouseDownActivated, summaryOnMouseDownActivated, setHoverActivatedId, setHoverActivatedDocOrSummary,
+                    guidedAnnotationMessage, setGuidedAnnotationMessage
                    }) => {
 
 
@@ -58,8 +65,7 @@ const Annotation = ({isGuidedAnnotation, task_id,
 
   const [summaryOnMouseDownInCorrectSent, setSummaryOnMouseDownInCorrectSent] = useState(true)
   const [ctrlButtonDown, setCtrlButtonDown] = useState(false)
-
-
+  const [toastVisible, setToastVisible] = useState(true)
 
   const nextButtonText = () => {
     if(StateMachineState==="START"){return "START";}
@@ -94,6 +100,11 @@ const Annotation = ({isGuidedAnnotation, task_id,
   }
 
 
+  const getGuidingMessageTitle = () => {
+    if(StateMachineState==="START"){return "START"}
+  }
+
+
   const GuideAlert = (InfoMessage) => {
     return (
       <Alert variant="info">
@@ -104,7 +115,20 @@ const Annotation = ({isGuidedAnnotation, task_id,
       </Alert>
     )}
 
-
+  
+    const GuidedAnnotationToast = () => {
+      return (
+        <ToastContainer className="p-3" position="top-start" style={{zIndex:"1"}}>
+          <Toast onClose={() => setToastVisible(false)} show={toastVisible} className="d-inline-block m-1" bg='warning'>
+            <Toast.Header  style={{fontSize:"larger"}}>
+              <strong className="me-auto">{getGuidingMessageTitle()}</strong>
+            </Toast.Header>
+            <Toast.Body style={{fontSize:"larger", fontFamily:"sans-serif"}}>
+              {guidedAnnotationMessage}
+            </Toast.Body>
+          </Toast>
+        </ToastContainer>
+      )}
 
 
   const DocOnMouseDownHandler = (tkn_id) => {
@@ -228,35 +252,14 @@ const Annotation = ({isGuidedAnnotation, task_id,
                                                       )
   }
   
-//   const hiddenRef = useRef();
-//   useEffect(() => {
-        
-//     window.addEventListener('scroll', scrollHandler);
- 
-//     return () => window.removeEventListener('scroll', scrollHandler);
-    
-// }, []);
 
-// const scrollHandler = () => {
-    
-//     if(window.pageYOffset + window.outerHeight >= hiddenRef.current.offsetTop)
-//         console.log(`Hidden element is now visible`);
-    
-// }
-
-
+/************ TO MAKE SURE THAT WHEN DOC TOO LONG THE SUMMARY IS ALWAYS VISIBLE ****************************** */
 const containerRef = useRef(null)
 const prevIsVisibleFullySummary = useRef(false)
 const [ isVisibleFullySummary, setIsVisibleFullySummary ] = useState(true)
 
 const callbackFunction = (entries) => {
   const [ entry ] = entries
-  // if (!entry.isIntersecting && prevIsVisibleFullySummary.current){
-  //   alert("out of sight")
-  // } 
-  // else if (entry.isIntersecting && !prevIsVisibleFullySummary.current){
-  //   alert("back to sight")
-  // }
   prevIsVisibleFullySummary.current = isVisibleFullySummary;
   setIsVisibleFullySummary(entry.isIntersecting)
 }
@@ -276,11 +279,19 @@ useEffect(() => {
     if(containerRef.current) observer.unobserve(containerRef.current)
   }
 }, [containerRef, options])
+/************************************************************************************************************* */
 
 
 
-
-
+// to make sure the guided annotation guiding messages start with something
+  useEffect(() => {
+    console.log(`StateMachineState is: ${StateMachineState}`)
+    if (StateMachineState==="START") {
+      console.log("guidedAnnotationMessage is: ")
+      console.log(guidedAnnotationMessage)
+      setGuidedAnnotationMessage("To begin, press the \"START\" button.")
+    }
+  }, []);
 
   // reset clickings between states
   useEffect(() => {
@@ -310,7 +321,12 @@ useEffect(() => {
             {InfoMessage !== "" && (GuideAlert(InfoMessage))}
           </Col>
         </Row>
-
+        {/* {isGuidedAnnotation && (
+          <button style={{position:"fixed", left:"0", top:"8%", height:"5%", zIndex:"1"}} type="button" className="btn btn-primary btn-lg" onClick={() => setToastVisible(true)}></button>
+        )} */}
+        {isGuidedAnnotation && (
+              GuidedAnnotationToast()
+        )}
         <Row className='annotation-row' id={`${(InfoMessage === "") ? 'doc-summary-row': ''}`}>
           <Col md={ 8 }>
             <Card border="secondary" bg="light"  id="doc-text">
@@ -398,104 +414,9 @@ useEffect(() => {
 
 
             </Row>
-                {/* {StateMachineState === "REVISE CLICKED" && (
-                  // <Col md={{span:3, offset:9}}></Col>
-                  <Fab className='NextStateButton' id="REVISE-CLICKED-BACK-BTN" color="secondary" variant="extended" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
-                    <ArrowBackIosTwoTone />
-                    BACK
-                  </Fab>
-                )} */}
-                {/* {!["REVISE HOVER", "SUMMARY END"].includes(StateMachineState) && (
-                  <Fab className='NextStateButton' id={nextButtonID()} color="success" variant="extended" onClick={MachineStateHandlerWrapper}>
-                    {nextButtonText()}
-                    {StateMachineState !== "START" && (<ArrowForwardIosTwoTone />) }
-                  </Fab>
-                )} */}
-                {/* {StateMachineState === "SUMMARY END" && (
-                  <Fab id="SubmitButton" color="success" variant="extended" onClick={SubmitHandler}>
-                      {nextButtonText()}
-                      <SendIcon sx={{ margin: '10%' }}  />
-                  </Fab>
-                )} */}
             </div>
           </Col>
         </Row>
-
-
-
-
-
-
-
-          {/* <Card  id="doc-text" variant="outlined" sx={{ backgroundColor:"rgb(241, 238, 238)" }}>
-            <CardHeader
-              title="Document"
-            />
-            <CardContent>
-              <body>
-                {doc_json.map((word_json, index) => (
-                  <DocWord key={index} word_json={word_json} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
-                ))};
-              </body>
-            </CardContent>
-          </Card>
-
-          <Card  id="summary-text" variant="outlined" sx={{ backgroundColor:"rgb(241, 238, 238)" }}>
-            <CardHeader
-              title="Summary"
-            />
-            <CardContent>
-              <p>
-              {summary_json.map((word_json, index) => (
-                <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
-              ))};
-              </p>
-            </CardContent>
-          </Card> */}
-          
-          
-          
-          
-{/*           
-          <div id="doc-text">
-              <Typography variant="h4" gutterBottom>
-                Document
-              </Typography>
-              <body>
-              {doc_json.map((word_json, index) => (
-                <DocWord key={index} word_json={word_json} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
-              ))};
-              </body>
-          </div>
-          <div id="summary-text">
-              <Typography variant="h4" gutterBottom>
-                Summary
-              </Typography>
-              <p>
-              {summary_json.map((word_json, index) => (
-                <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
-              ))};
-              </p>
-          </div> */}
-
-          {/* {StateMachineState === "REVISE CLICKED" && (
-            <Fab className='NextStateButton' id="REVISE-CLICKED-BACK-BTN" color="secondary" variant="extended" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
-              <ArrowBackIosTwoTone />
-              BACK
-            </Fab>
-          )}
-          {!["REVISE HOVER", "SUMMARY END"].includes(StateMachineState) && (
-            <Fab className='NextStateButton' id={nextButtonID()} color="success" variant="extended" onClick={MachineStateHandlerWrapper}>
-              {nextButtonText()}
-              {StateMachineState !== "START" && (<ArrowForwardIosTwoTone />) }
-            </Fab>
-          )}
-          {StateMachineState === "SUMMARY END" && (
-            <Fab id="SubmitButton" color="success" variant="extended" onClick={SubmitHandler}>
-                {nextButtonText()}
-                <SendIcon sx={{ margin: '10%' }}  />
-            </Fab>
-          )} */}
       </Container>
   )
 }
