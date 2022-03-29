@@ -78,24 +78,23 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
     <Navbar bg="secondary" variant="dark" className="w-100 p-2">
       <Container className='navbar-container'>
         <Row  className="navbar-row">
-        <Col md={3} className="navbar-column">
-        <Navbar.Brand>{title}</Navbar.Brand>
-        </Col>
-
-        <Col>
-          <Nav className="me-auto">
-              {Object.keys(pages).filter(key => key !== title).map((ttl) => (
-                      <Nav.Item as="li">
-                        <Nav.Link
-                          key={ttl}
-                          as={Link} to={`/${pages[ttl]}`}
-                        >
-                          {ttl}
-                          </Nav.Link>
-                      </Nav.Item>
-              ))}
-          </Nav>
-        </Col>
+          <Col md={(title === "Guided Annotation") ? 5:3} className="navbar-column">
+                    <Navbar.Brand>{title}</Navbar.Brand>
+          </Col>
+          <Col>
+            <Nav className="me-auto">
+                {Object.keys(pages).filter(key => key !== title).map((ttl) => (
+                        <Nav.Item as="li">
+                          <Nav.Link
+                            key={ttl}
+                            as={Link} to={`/${pages[ttl]}`}
+                          >
+                            {ttl}
+                            </Nav.Link>
+                        </Nav.Item>
+                ))}
+            </Nav>
+          </Col>
         </Row>
 
           { title !== "Instructions" && (
