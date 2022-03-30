@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import DocWord from './DocWord';
 import SummaryWord from './SummaryWord';
 import ResponsiveAppBar from './ResponsiveAppBar';
+import { getGuidedAnnotationToastTitle, getGuidedAnnotationToastText, GuidedAnnotationToast, guidingAnnotationAlert } from './GuidedAnnotation_utils';
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
 import { ArrowBackIosTwoTone, ArrowForwardIosTwoTone } from '@mui/icons-material';
@@ -27,12 +28,6 @@ import Alert from 'react-bootstrap/Alert'
 import { ChevronLeft, ChevronRight, SendFill } from 'react-bootstrap-icons';
 
 
-import Toast from 'react-bootstrap/Toast'
-import ToastHeader from 'react-bootstrap/ToastHeader'
-import ToastBody from 'react-bootstrap/ToastBody'
-import ToastContainer from 'react-bootstrap/ToastContainer'
-
-
 // import Card from 'react-bootstrap/Card'
 // import { Container, Row, Col } from 'react-bootstrap';
 
@@ -53,7 +48,8 @@ const Annotation = ({isGuidedAnnotation, task_id,
                     hoverHandler,
                     DocOnMouseDownID, SetDocOnMouseDownID, SummaryOnMouseDownID, SetSummaryOnMouseDownID,
                     setDocOnMouseDownActivated, docOnMouseDownActivated, setSummaryOnMouseDownActivated, summaryOnMouseDownActivated, setHoverActivatedId, setHoverActivatedDocOrSummary,
-                    guidedAnnotationMessage, setGuidedAnnotationMessage
+                    g_StateMachineStateIndex,
+                    guidingAnnotationAlertText, guidingAnnotationAlertTitle, guidingAnnotationAlertType, closeGuidingAnnotationAlert
                    }) => {
 
 
@@ -76,21 +72,7 @@ const Annotation = ({isGuidedAnnotation, task_id,
     if(StateMachineState==="REVISE CLICKED"){return "CONFIRM";}
   }
 
-  const nextButtonID = () => {
-    if(StateMachineState==="START"){return "state-START";}
-    if(StateMachineState==="ANNOTATION"){return "state-ANNOTATION";}
-    if(StateMachineState==="SENTENCE START"){return "state-SENTENCE-START";}
-    if(StateMachineState==="SENTENCE END"){return "state-SENTENCE-END";}
-    if(StateMachineState==="SUMMARY END"){return "state-SUMMARY-END";}
-    if(StateMachineState==="REVISE CLICKED"){return "state-REVISE-CLICKED";}
-  };
-
-
-  // const Alert = React.forwardRef(function Alert(props, ref) {
-  //   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  // });
-
-  const getGuideAlertTitle = () => {
+  const getInfoAlertTitle = () => {
     if(StateMachineState==="ANNOTATION"){return "Find Alignments"}
     if(StateMachineState==="SENTENCE START"){return "Find Alignments";}
     if(StateMachineState==="SENTENCE END"){return "Finished Sentence";}
@@ -99,36 +81,21 @@ const Annotation = ({isGuidedAnnotation, task_id,
     if(StateMachineState==="REVISE CLICKED"){return "Adjust Alignments";}
   }
 
-
-  const getGuidingMessageTitle = () => {
-    if(StateMachineState==="START"){return "START"}
-  }
-
-
-  const GuideAlert = (InfoMessage) => {
+  const InfoAlert = (InfoMessage) => {
     return (
-      <Alert variant="info">
-        <Alert.Heading>{getGuideAlertTitle()}</Alert.Heading>
+      <Alert variant="warning">
+        <Alert.Heading>{getInfoAlertTitle()}</Alert.Heading>
         <p className="mb-0">
           {InfoMessage}
         </p>
       </Alert>
     )}
+      
 
-  
-    const GuidedAnnotationToast = () => {
-      return (
-        <ToastContainer className="p-3" position="top-start" style={{zIndex:"1"}}>
-          <Toast onClose={() => setToastVisible(false)} show={toastVisible} className="d-inline-block m-1" bg='warning'>
-            <Toast.Header  style={{fontSize:"larger"}}>
-              <strong className="me-auto">{getGuidingMessageTitle()}</strong>
-            </Toast.Header>
-            <Toast.Body style={{fontSize:"larger", fontFamily:"sans-serif"}}>
-              {guidedAnnotationMessage}
-            </Toast.Body>
-          </Toast>
-        </ToastContainer>
-      )}
+
+
+
+
 
 
   const DocOnMouseDownHandler = (tkn_id) => {
@@ -284,14 +251,12 @@ useEffect(() => {
 
 
 // to make sure the guided annotation guiding messages start with something
-  useEffect(() => {
-    console.log(`StateMachineState is: ${StateMachineState}`)
-    if (StateMachineState==="START") {
-      console.log("guidedAnnotationMessage is: ")
-      console.log(guidedAnnotationMessage)
-      setGuidedAnnotationMessage("To begin, press the \"START\" button.")
-    }
-  }, []);
+  // useEffect(() => {
+  //   console.log(`StateMachineState is: ${StateMachineState}`)
+  //   if (StateMachineState==="START") {
+  //     setGuidedAnnotationMessage("To begin, press the \"START\" button.")
+  //   }
+  // }, []);
 
   // reset clickings between states
   useEffect(() => {
@@ -318,14 +283,19 @@ useEffect(() => {
                   oldAlignmentState={oldAlignmentState}
                   oldAlignmentStateHandler={oldAlignmentStateHandler}
             />
-            {InfoMessage !== "" && (GuideAlert(InfoMessage))}
+            {InfoMessage !== "" && (InfoAlert(InfoMessage))}
           </Col>
         </Row>
+
+        {(isGuidedAnnotation && guidingAnnotationAlertText!=="") && (
+          guidingAnnotationAlert(guidingAnnotationAlertText, guidingAnnotationAlertTitle, guidingAnnotationAlertType, closeGuidingAnnotationAlert)
+        )}
+        
         {/* {isGuidedAnnotation && (
           <button style={{position:"fixed", left:"0", top:"8%", height:"5%", zIndex:"1"}} type="button" className="btn btn-primary btn-lg" onClick={() => setToastVisible(true)}></button>
         )} */}
         {isGuidedAnnotation && (
-              GuidedAnnotationToast()
+              GuidedAnnotationToast(toastVisible, setToastVisible, g_StateMachineStateIndex)
         )}
         <Row className='annotation-row' id={`${(InfoMessage === "") ? 'doc-summary-row': ''}`}>
           <Col md={ 8 }>
@@ -388,7 +358,7 @@ useEffect(() => {
 
               {StateMachineState === "START"  && (
                     <Col md={{span:3, offset:9}}>
-                      <button type="button" className="btn btn-primary btn-lg right-button" onClick={MachineStateHandlerWrapper}>
+                      <button type="button" className={`btn btn-primary btn-lg right-button ${(isGuidedAnnotation) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                         {nextButtonText()}
                       </button>
                     </Col>

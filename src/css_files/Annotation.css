@@ -159,7 +159,6 @@
 
 .bordered_sent{
     border:3px solid red;
-    /* display:inline-block; */
 }
 
 .span-highlighted-word{
@@ -303,6 +302,36 @@
 #SubmitButton:hover{
     background: green;
     color: #fff;
+  }
+
+
+  .with-glow {
+    animation: glow 1s infinite alternate;
+  }
+  
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 20px -20px rgb(0, 255, 221);
+    }
+    to {
+      box-shadow: 0 0 20px 10px rgb(0, 255, 221);
+    }
+  }
+  
+  #guidingAnnotationAlert-danger .modal-content{
+    background-color: #f8d7da;
+  }
+
+  #guidingAnnotationAlert-danger .modal-header{
+    border-bottom: 1px solid #842029;
+  }
+
+  #guidingAnnotationAlert-success .modal-content{
+    background-color: #d1e7dd;
+  }
+
+  #guidingAnnotationAlert-success .modal-header{
+    border-bottom: 1px solid #0f5132;
   }
 
 

@@ -11,6 +11,7 @@ import Annotation from './components/Annotation'
 import json_file from './data/data_for_mturk.json'
 import g_json_file from './data/guided_annotation/data_for_mturk.json'
 import { MachineStateHandler, g_MachineStateHandler } from './components/Annotation_event_handlers';
+import { summarySpanIsOk } from './components/GuidedAnnotation_utils';
 import _ from 'underscore';
 
 
@@ -44,8 +45,12 @@ const App = () => {
   const [g_hoverActivatedId, g_setHoverActivatedId] = useState("-1"); // value will be of tkn_id of elem hovered over
   const [g_hoverActivatedDocOrSummary, g_setHoverActivatedDocOrSummary] = useState("doc"); // value will be of tkn_id of elem hovered over
   const [g_sliderBoldStateActivated, g_setSliderBoldStateActivated] = useState(false);
-  const [guidedAnnotationMessage, setGuidedAnnotationMessage] = useState("To begin, press the \"START\" button.")
+  const [g_StateMachineStateIndex, g_setStateMachineStateIndex] = useState(0) // for specific states messages 
 
+  const [guidingAnnotationAlertText, setGuidingAnnotationAlertText] = useState("")
+  const [guidingAnnotationAlertTitle, setGuidingAnnotationAlertTitle] = useState("")
+  const [guidingAnnotationAlertType, setGuidingAnnotationAlertType] = useState("success") // can be either "success" or "danger"
+  // const [guidingAnnotationAlertShow, setGuidingAnnotationAlertShow] = useState(true)
 
 
   // AVIVSL: ACTUAL ANNOTATION
@@ -169,10 +174,27 @@ const App = () => {
     turn_off: false
   }
 
+  const update_GuidingAnnotationAlertText = ({alert_title, alert_text, alert_type}) => {
+    setGuidingAnnotationAlertTitle(alert_title)
+    setGuidingAnnotationAlertText(alert_text)
+    setGuidingAnnotationAlertType(alert_type)
+  }
+  
+  const closeGuidingAnnotationAlert = () => {
+    update_GuidingAnnotationAlertText({alert_title:"", alert_text:"", alert_type:"danger"})
+  }
+
   const g_toggleSummarySpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
     g_setSliderBoldStateActivated(false)
     if (turn_on){
-      g_setSummaryJson(g_summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: true } : word));
+      if (summarySpanIsOk(g_StateMachineStateIndex, tkn_ids) == "too long") {
+        update_GuidingAnnotationAlertText({alert_title:"Span too long", alert_text:"The span chosen is too long, which can cause missing out little details. Please try again.", alert_type:"danger"})
+      } else if (summarySpanIsOk(g_StateMachineStateIndex, tkn_ids) == "too short") {
+        update_GuidingAnnotationAlertText({alert_title:"Span too short", alert_text:"The span chosen is too short and doesn't cover full events. please try again.", alert_type:"danger"})
+      } else {
+        update_GuidingAnnotationAlertText({alert_title:"Good Job!", alert_text:"The span chosen is not too long and also covers full events. Well done!", alert_type:"success"})
+        g_setSummaryJson(g_summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: true } : word));
+      }
     } else if (turn_off){
       g_setSummaryJson(g_summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: false } : word));
     } else {
@@ -373,7 +395,7 @@ const App = () => {
                           g_ReviseChooseAlignHandler, 
                           isBackBtn,
                           g_setPrevSummaryJsonRevise, g_setPrevDocJsonRevise,
-                          setGuidedAnnotationMessage
+                          g_StateMachineStateIndex, g_setStateMachineStateIndex
                          );
   }
 
@@ -792,6 +814,10 @@ const App = () => {
      }
    }, [g_docOnMouseDownActivated, g_summaryOnMouseDownActivated, g_hoverActivatedId]);
    /********************************************************************************/ 
+
+
+
+
 /*********************************************************************************************************************************************************************************************************************/
 
 
@@ -1032,8 +1058,11 @@ const App = () => {
                                               summaryOnMouseDownActivated = {g_summaryOnMouseDownActivated}
                                               setHoverActivatedId = {g_setHoverActivatedId}
                                               setHoverActivatedDocOrSummary = {g_setHoverActivatedDocOrSummary}
-                                              guidedAnnotationMessage = {guidedAnnotationMessage}
-                                              setGuidedAnnotationMessage = {setGuidedAnnotationMessage}
+                                              g_StateMachineStateIndex = {g_StateMachineStateIndex}
+                                              guidingAnnotationAlertText = {guidingAnnotationAlertText}
+                                              guidingAnnotationAlertTitle = {guidingAnnotationAlertTitle} 
+                                              guidingAnnotationAlertType = {guidingAnnotationAlertType}
+                                              closeGuidingAnnotationAlert = {closeGuidingAnnotationAlert}
                                               />} 
             />
 
@@ -1072,8 +1101,11 @@ const App = () => {
                                               summaryOnMouseDownActivated = {summaryOnMouseDownActivated}
                                               setHoverActivatedId = {setHoverActivatedId}
                                               setHoverActivatedDocOrSummary = {setHoverActivatedDocOrSummary}
-                                              guidedAnnotationMessage = {guidedAnnotationMessage}
-                                              setGuidedAnnotationMessage = {setGuidedAnnotationMessage}
+                                              g_StateMachineStateIndex = {g_StateMachineStateIndex}
+                                              guidingAnnotationAlertText = {guidingAnnotationAlertText}
+                                              guidingAnnotationAlertTitle = {guidingAnnotationAlertTitle} 
+                                              guidingAnnotationAlertType = {guidingAnnotationAlertType}
+                                              closeGuidingAnnotationAlert = {closeGuidingAnnotationAlert}
                                               />} 
             />
 
