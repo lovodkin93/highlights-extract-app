@@ -1,33 +1,48 @@
 
-// const resetDocJson = (setDocJson, origin_doc_json) => {
-//     setDocJson(origin_doc_json.map((word) => {return {...word }}))
-// }
+const resetDocJson = (setDocJson, doc_json) => {
+    setDocJson(doc_json.map((word) => {return {...word, alignment_id:[], all_highlighted:false, boldfaced:false, old_alignment_hover:false, old_alignments:false, red_color:false, span_alignment_hover:false, span_highlighted:false }}))
+}
+
+const resetSummaryJson = (setSummaryJson, summary_json) => {
+    setSummaryJson(summary_json.map((word) => {return {...word, alignment_id:[], all_highlighted:false, boldfaced:false, old_alignment_hover:false, old_alignments:false, shadowed:false, span_alignment_hover:false, span_highlighted:false }}))
+}
 
 
 
 
-const t_StateMachineStateIdHandler = ({IsNext, t_SetStateMachineStateId, t_StateMachineStateId, 
-                                        setDocJson, start_doc_json, t_middle_doc_json, t_sent_end_doc_json, t_submit_doc_json,
-                                        setSummaryJson, start_summary_json, t_middle_summary_json, t_sent_end_summary_json, t_submit_summary_json, 
+const t_StateMachineStateIdHandler = ({IsNext, SetStateMachineState, t_SetStateMachineStateId, t_StateMachineStateId, 
+                                        setDocJson, t_start_doc_json, t_middle_doc_json, t_sent_end_doc_json, t_submit_doc_json,
+                                        setSummaryJson, t_start_summary_json, t_middle_summary_json, t_sent_end_summary_json, t_submit_summary_json, 
                                         SetCurrSentInd}) => {
     const newStateId = (IsNext) ? t_StateMachineStateId+1 : t_StateMachineStateId-1;
     
-    const middle_states_start = 9
-    const middle_states_end = 14
+    const start_states_end = 10;
+    const middle_states_start = start_states_end;
+    const middle_states_end = 15;
 
+    if ([0,1].includes(newStateId)) {
+        SetStateMachineState("START");
+        resetDocJson(setDocJson, t_start_doc_json)
+        resetSummaryJson(setSummaryJson, t_start_summary_json)
+    }
 
-    // if(Array.from(Array(middle_states_start).keys()).includes(newStateId)){
-    //     SetCurrSentInd(0)
-    //     resetDocJson(setDocJson, origin_doc_json)
-    // } else if([...Array(middle_states_end - middle_states_start + 1).keys()].map(x => x + middle_states_start).includes(newStateId)){
-    //     SetCurrSentInd(1)
-    //     // alert(`now middle: ${newStateId}`)
-    // }
+    if(Array.from(Array(start_states_end).keys()).includes(newStateId)){
+        SetCurrSentInd(0)
+        setDocJson(t_start_doc_json)
+        setSummaryJson(t_start_summary_json)
+        SetStateMachineState("ANNOTATION");
+    } else if([...Array(middle_states_end - middle_states_start + 1).keys()].map(x => x + middle_states_start).includes(newStateId)){
+        SetCurrSentInd(1)
+        setDocJson(t_middle_doc_json)
+        setSummaryJson(t_middle_summary_json)
+        SetStateMachineState("ANNOTATION");
+        // alert(`now middle: ${newStateId}`)
+    }
 
 
     t_SetStateMachineStateId(newStateId)
-    setDocJson(start_doc_json)
-    setSummaryJson(start_summary_json)
+    // setDocJson(start_doc_json)
+    // setSummaryJson(start_summary_json)
   }
   
   const getTutorialCardTitle = (t_state_messages,t_StateMachineStateId) => {

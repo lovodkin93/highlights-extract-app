@@ -14,9 +14,9 @@ import _ from 'underscore';
 
 
 const Tutorial = ({doc_json, setDocJson,
-                  start_doc_json, t_middle_doc_json, t_sent_end_doc_json, t_submit_doc_json, 
+                  t_start_doc_json, t_middle_doc_json, t_sent_end_doc_json, t_submit_doc_json, 
                   summary_json, setSummaryJson,
-                  start_summary_json, t_middle_summary_json, t_sent_end_summary_json, t_submit_summary_json,
+                  t_start_summary_json, t_middle_summary_json, t_sent_end_summary_json, t_submit_summary_json,
                   all_lemma_match_mtx, setAllLemmaMtx,
                   important_lemma_match_mtx, setImportantLemmaMtx,
                   doc_paragraph_breaks, setDocParagraphBreaks,
@@ -513,16 +513,16 @@ const Tutorial = ({doc_json, setDocJson,
             </Card.Text>
             {(t_StateMachineStateId !== 0) && (
               <Button className="btn btn-dark btn-lg" onClick={() => {t_StateMachineStateIdHandler({IsNext:false, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
-                                                                                                    setDocJson:setDocJson, start_doc_json:start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
-                                                                                                    setSummaryJson:setSummaryJson, start_summary_json:start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
+                                                                                                    setDocJson:setDocJson, t_start_doc_json:t_start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
+                                                                                                    setSummaryJson:setSummaryJson, t_start_summary_json:t_start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
                                                                                                     SetCurrSentInd:SetCurrSentInd})}}
               >
                 Back
             </Button>
             )}
               <Button className="btn btn-primary btn-lg right-button" onClick={() => {t_StateMachineStateIdHandler({IsNext:true, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
-                                                                                                    setDocJson:setDocJson, start_doc_json:start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
-                                                                                                    setSummaryJson:setSummaryJson, start_summary_json:start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
+                                                                                                    setDocJson:setDocJson, t_start_doc_json:t_start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
+                                                                                                    setSummaryJson:setSummaryJson, t_start_summary_json:t_start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
                                                                                                     SetCurrSentInd:SetCurrSentInd})}}
               >
                 Next

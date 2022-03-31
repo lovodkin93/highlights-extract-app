@@ -1165,13 +1165,13 @@ const App = () => {
           <Route path='/instructions' element={<Instructions />} />
           <Route path='/tutorial' element=  {<Tutorial doc_json = {t_doc_json} 
                                                        setDocJson = {t_setDocJson}
-                                                       start_doc_json = {t_start_doc_json} 
+                                                       t_start_doc_json = {t_start_doc_json} 
                                                        t_middle_doc_json = {t_middle_doc_json}
                                                        t_sent_end_doc_json = {t_sent_end_doc_json}
                                                        t_submit_doc_json = {t_submit_doc_json}
                                                        summary_json = {t_summary_json} 
                                                        setSummaryJson = {t_setSummaryJson}
-                                                       start_summary_json = {t_start_summary_json}
+                                                       t_start_summary_json = {t_start_summary_json}
                                                        t_middle_summary_json = {t_middle_summary_json}
                                                        t_sent_end_summary_json = {t_sent_end_summary_json}
                                                        t_submit_summary_json = {t_submit_summary_json}
