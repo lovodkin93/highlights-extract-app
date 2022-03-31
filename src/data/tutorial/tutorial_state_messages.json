@@ -6,82 +6,92 @@
   },
     {
     "state_cnt": 1,
+    "title": "Start",
+    "message": ""
+  },
+    {
+    "state_cnt": 2,
     "title": "Highlighting",
     "message": ""
   },
       {
-    "state_cnt": 2,
+    "state_cnt": 3,
     "title": "Un-Highlighting",
     "message": ""
   },
       {
-    "state_cnt": 3,
+    "state_cnt": 4,
     "title": "Work Sentence-by-Sentence",
     "message": ""
   },
       {
-    "state_cnt": 4,
+    "state_cnt": 5,
     "title": "Confirm Alignments",
     "message": ""
   },
       {
-    "state_cnt": 5,
+    "state_cnt": 6,
     "title": "Bold - Full Sentence",
     "message": ""
   },
       {
-    "state_cnt": 6,
+    "state_cnt": 7,
     "title": "Bold - Span",
     "message": ""
   },
       {
-    "state_cnt": 7,
+    "state_cnt": 8,
     "title": "Bolding Control",
     "message": ""
   },
       {
-    "state_cnt": 8,
+    "state_cnt": 9,
     "title": "Single Word Hint",
     "message": ""
   },
       {
-    "state_cnt": 9,
+    "state_cnt": 10,
     "title": "Old Alignments",
     "message": ""
   },
       {
-    "state_cnt": 10,
+    "state_cnt": 11,
     "title": "Revise",
     "message": ""
   },
       {
-    "state_cnt": 11,
+    "state_cnt": 12,
     "title": "Revise - Choose Old Alignment",
     "message": ""
   },
       {
-    "state_cnt": 12,
+    "state_cnt": 13,
     "title": "Revise - Change Old Alignment",
     "message": ""
   },
       {
-    "state_cnt": 13,
+    "state_cnt": 14,
     "title": "Revise - Confirm or Undo Changes",
     "message": ""
   },
       {
-    "state_cnt": 14,
+    "state_cnt": 15,
     "title": "Revise - Finish",
     "message": ""
   },
       {
-    "state_cnt": 15,
+    "state_cnt": 16,
     "title": "End of Sentence",
     "message": ""
   },
       {
-    "state_cnt": 16,
+    "state_cnt": 17,
     "title": "Submit",
+    "message": ""
+  },
+        {
+    "state_cnt": 18,
+    "title": "Some Basic Instrcutions",
     "message": ""
   }
 ]

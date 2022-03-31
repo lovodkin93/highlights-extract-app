@@ -14,9 +14,9 @@ import _ from 'underscore';
 
 
 const Tutorial = ({doc_json, setDocJson,
-                  origin_doc_json, setOriginDocJson,
+                  start_doc_json, t_middle_doc_json, t_sent_end_doc_json, t_submit_doc_json, 
                   summary_json, setSummaryJson,
-                  origin_summary_json, setOriginSummaryJson,
+                  start_summary_json, t_middle_summary_json, t_sent_end_summary_json, t_submit_summary_json,
                   all_lemma_match_mtx, setAllLemmaMtx,
                   important_lemma_match_mtx, setImportantLemmaMtx,
                   doc_paragraph_breaks, setDocParagraphBreaks,
@@ -319,35 +319,6 @@ const Tutorial = ({doc_json, setDocJson,
     isBackBtn: false
   }
 
-/**************************************************************************************************************/
-
-/******************************************** tutorial related functions ***************************************/
-// const t_StateMachineStateIdHandler = (t_SetStateMachineStateId,t_StateMachineStateId,setDocJson,origin_doc_json,setSummaryJson,origin_summary_json) => {
-//   t_SetStateMachineStateId(t_StateMachineStateId+1)
-//   setDocJson(origin_doc_json)
-//   setSummaryJson(origin_summary_json)
-// }
-
-// const getTutorialCardTitle = (t_state_messages,t_StateMachineStateId) => {
-//   return t_state_messages.filter((t_state) => {return t_state.state_cnt === t_StateMachineStateId})[0].title
-// }
-
-// const getTutorialCardText = () => {
-//   return t_state_messages.filter((t_state) => {return t_state.state_cnt === t_StateMachineStateId})[0].message
-// }
-
-
-// const intro_message = () => {
-//   return (<div>
-//             In this task, you are presented with a document and its summary. 
-//             <br></br>
-//             The summary was constructed by an expert summarizer who first highlighted important information in the document and then merged it in a coherent manner. 
-//             <br></br>
-//             Your goal is to locate those spans the summarizer highlighted.
-//   </div>)
-// }
-
-
 
 /**************************************************************************************************************/
 
@@ -534,16 +505,28 @@ const Tutorial = ({doc_json, setDocJson,
                     closeGuidingAnnotationAlert = {undefined}
                     />
         )}
-        <Card className={`${(t_StateMachineStateId === 0) ? 'tutorial-card-intro' : 'tutorial-card-not-intro'}`} bg="info" border="primary" style={{ width: '40rem' }}>
+        <Card className={`${(t_StateMachineStateId === 0) ? 'tutorial-card-intro' : 'tutorial-card-not-intro'}`} bg="info" border="primary" style={{ width: '60rem' }}>
           <Card.Body>
-            <Card.Title>{getTutorialCardTitle(t_state_messages,t_StateMachineStateId)}</Card.Title>
+            <Card.Title className='tutorial-title'>{getTutorialCardTitle(t_state_messages,t_StateMachineStateId)}</Card.Title>
             <Card.Text>
               {getTutorialCardText(t_state_messages,t_StateMachineStateId)}
             </Card.Text>
             {(t_StateMachineStateId !== 0) && (
-              <Button className="btn btn-dark btn-lg" onClick={() => {t_StateMachineStateIdHandler({IsNext:false, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, setDocJson:setDocJson, origin_doc_json:origin_doc_json, setSummaryJson:setSummaryJson, origin_summary_json:origin_summary_json})}}>Back</Button>
+              <Button className="btn btn-dark btn-lg" onClick={() => {t_StateMachineStateIdHandler({IsNext:false, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
+                                                                                                    setDocJson:setDocJson, start_doc_json:start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
+                                                                                                    setSummaryJson:setSummaryJson, start_summary_json:start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
+                                                                                                    SetCurrSentInd:SetCurrSentInd})}}
+              >
+                Back
+            </Button>
             )}
-            <Button className="btn btn-primary btn-lg right-button" onClick={() => {t_StateMachineStateIdHandler({IsNext:true, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, setDocJson:setDocJson, origin_doc_json:origin_doc_json, setSummaryJson:setSummaryJson, origin_summary_json:origin_summary_json})}}>Next</Button>
+              <Button className="btn btn-primary btn-lg right-button" onClick={() => {t_StateMachineStateIdHandler({IsNext:true, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
+                                                                                                    setDocJson:setDocJson, start_doc_json:start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
+                                                                                                    setSummaryJson:setSummaryJson, start_summary_json:start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
+                                                                                                    SetCurrSentInd:SetCurrSentInd})}}
+              >
+                Next
+            </Button>
           </Card.Body>
         </Card>
     </>

@@ -40,7 +40,7 @@ const Instructions = () => {
             <br></br>
             <br></br>
             <br></br>
-            If no span was chosen, all the words in the docoment who have identical or relating words in current sentence will be <text className="boldfaced-word">boldfaced and increased</text>.
+            If no span was chosen, all the words in the document who have identical or relating words in current sentence will be <text className="boldfaced-word">boldfaced and increased</text>.
             <br></br>
             At any given time, you can adjust the level of bolding, using the slider at the top-right corner of the UI:
             <br></br>

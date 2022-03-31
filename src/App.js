@@ -12,7 +12,17 @@ import GuidedAnnotation from './components/GuidedAnnotation';
 import Annotation from './components/Annotation';
 import json_file from './data/data_for_mturk.json';
 import g_json_file from './data/guided_annotation/data_for_mturk.json';
-import t_json_file from './data/tutorial/tutorial_half_way_data_for_mturk.json';
+
+
+
+import t_start_json_file from './data/tutorial/tutorial_start.json';
+import t_middle_json_file from './data/tutorial/tutorial_middle.json';
+import t_sent_end_json_file from './data/tutorial/tutorial_sent_end.json';
+import t_submit_json_file from './data/tutorial/tutorial_submit.json';
+
+
+
+
 import tutorial_state_messages from './data/tutorial/tutorial_state_messages.json'
 
 import { MachineStateHandler, g_MachineStateHandler } from './components/Annotation_event_handlers';
@@ -25,8 +35,15 @@ const App = () => {
   // AVIVSL: TUTORIAL_ANNOTATION
   const [t_doc_json, t_setDocJson] = useState([]);
   const [t_summary_json, t_setSummaryJson] = useState([]); 
-  const [t_origin_doc_json, t_setOriginDocJson] = useState([]);
-  const [t_origin_summary_json, t_setOriginSummaryJson] = useState([]); 
+  const [t_start_doc_json, t_setStartDocJson] = useState([]);
+  const [t_start_summary_json, t_setStartSummaryJson] = useState([]); 
+  const [t_middle_doc_json, t_setMiddleDocJson] = useState([]);
+  const [t_middle_summary_json, t_setMiddleSummaryJson] = useState([]); 
+  const [t_sent_end_doc_json, t_setSentEndDocJson] = useState([]);
+  const [t_sent_end_summary_json, t_setSentEndSummaryJson] = useState([]); 
+  const [t_submit_doc_json, t_setSubmitDocJson] = useState([]);
+  const [t_submit_summary_json, t_setSubmitSummaryJson] = useState([]); 
+  
   const [t_all_lemma_match_mtx, t_setAllLemmaMtx] = useState([]);
   const [t_important_lemma_match_mtx, t_setImportantLemmaMtx] = useState([]);
   const [t_doc_paragraph_breaks, t_setDocParagraphBreaks] = useState([]);
@@ -995,33 +1012,62 @@ const App = () => {
 
     useEffect(() => {
 
+      const t_addWordComponents = (setJson, input_json) => {
+        let new_json = [];
+        input_json.forEach((word) => {new_json = [...new_json, word];})
+        setJson(new_json)
+      }
+
 
       const t_getTasks = () => {
+      
+
+
+        // get doc_jsons
+        t_addWordComponents(t_setDocJson, t_start_json_file["doc"])
+        t_addWordComponents(t_setStartDocJson, t_start_json_file["doc"])
+        t_addWordComponents(t_setMiddleDocJson, t_middle_json_file["doc"])
+        t_addWordComponents(t_setSentEndDocJson, t_sent_end_json_file["doc"])
+        t_addWordComponents(t_setSubmitDocJson, t_submit_json_file["doc"])
+        // get summary_jsons
+        t_addWordComponents(t_setSummaryJson, t_start_json_file["summary"])
+        t_addWordComponents(t_setStartSummaryJson, t_start_json_file["summary"])
+        t_addWordComponents(t_setMiddleSummaryJson, t_middle_json_file["summary"])
+        t_addWordComponents(t_setSentEndSummaryJson, t_sent_end_json_file["summary"])
+        t_addWordComponents(t_setSubmitSummaryJson, t_submit_json_file["summary"])
+
+
+        // let updated_doc_json = [];
+        // t_json_file["doc"].forEach((word) => {updated_doc_json = [...updated_doc_json, word];})
         
-        // get doc_json
-        let updated_doc_json = [];
-        t_json_file["doc"].forEach((word) => {updated_doc_json = [...updated_doc_json, word];})
-        t_setDocJson(updated_doc_json);
-        t_setOriginDocJson(updated_doc_json);
-        // get summary_json
-        let updated_summary_json = [];
-        t_json_file["summary"].forEach((word) => {updated_summary_json = [...updated_summary_json, word];})
-        t_setSummaryJson(updated_summary_json);
-        t_setOriginSummaryJson(updated_summary_json);
+        
+        
+        // t_setDocJson(updated_doc_json);
+        // t_setOriginDocJson(updated_doc_json);
+        
+        
+        
+        
+        
+        // // get summary_json
+        // let updated_summary_json = [];
+        // t_json_file["summary"].forEach((word) => {updated_summary_json = [...updated_summary_json, word];})
+        // t_setSummaryJson(updated_summary_json);
+        // t_setOriginSummaryJson(updated_summary_json);
         // get all the matrices and the paragraph breaks
-        t_setAllLemmaMtx(t_json_file["all_lemma_match_mtx"]);
-        t_setImportantLemmaMtx(t_json_file["important_lemma_match_mtx"]);
-        t_setDocParagraphBreaks(t_json_file["doc_paragraph_breaks"])
+        t_setAllLemmaMtx(t_start_json_file["all_lemma_match_mtx"]);
+        t_setImportantLemmaMtx(t_start_json_file["important_lemma_match_mtx"]);
+        t_setDocParagraphBreaks(t_start_json_file["doc_paragraph_breaks"])
         
         
         // get state messages
         t_setStateMessages(tutorial_state_messages)
+
         // let updated_state_messages_json = [];
         // tutorial_state_messages.forEach((t_state) => {updated_doc_json = [...updated_doc_json, t_state];})
         // t_setStateMessages(updated_state_messages_json)
         // console.log("tutorial_state_messages is:")
         // console.log(tutorial_state_messages)
-
 
 
         fetch(`/`).then(
@@ -1103,8 +1149,8 @@ const App = () => {
 
     //   export2txt({"doc":doc_json, "summary":summary_json, "all_lemma_match_mtx":all_lemma_match_mtx, "important_lemma_match_mtx":important_lemma_match_mtx, "doc_paragraph_breaks":doc_paragraph_breaks}, "tutorial_half_way_data_for_mturk.json")
 
-    //   export2txt(doc_json, "doc_json.json")
-    //   export2txt(summary_json, "summary_json.json")
+    //    // export2txt(doc_json, "doc_json.json")
+    //    // export2txt(summary_json, "summary_json.json")
     // }, [StateMachineState]);
     /*************************************************************************************** */
 
@@ -1117,15 +1163,30 @@ const App = () => {
           {/* <Route path='/' element={<StartPage />} /> */}
           {/* <Route path='/homepage' element={<StartPage />} /> */}
           <Route path='/instructions' element={<Instructions />} />
-          <Route path='/tutorial' element=  {<Tutorial doc_json = {t_doc_json} setDocJson = {t_setDocJson}
-                                                       origin_doc_json = {t_origin_doc_json} setOriginDocJson = {t_setOriginDocJson}
-                                                       summary_json = {t_summary_json} setSummaryJson = {t_setSummaryJson}
-                                                       origin_summary_json = {t_origin_summary_json} t_setOriginSummaryJson= {t_setOriginSummaryJson}
-                                                       all_lemma_match_mtx = {t_all_lemma_match_mtx} setAllLemmaMtx = {t_setAllLemmaMtx}
-                                                       important_lemma_match_mtx = {t_important_lemma_match_mtx} setImportantLemmaMtx = {t_setImportantLemmaMtx}
-                                                       doc_paragraph_breaks = {t_doc_paragraph_breaks} setDocParagraphBreaks = {t_setDocParagraphBreaks} 
-                                                       t_state_messages = {t_state_messages} />}
+          <Route path='/tutorial' element=  {<Tutorial doc_json = {t_doc_json} 
+                                                       setDocJson = {t_setDocJson}
+                                                       start_doc_json = {t_start_doc_json} 
+                                                       t_middle_doc_json = {t_middle_doc_json}
+                                                       t_sent_end_doc_json = {t_sent_end_doc_json}
+                                                       t_submit_doc_json = {t_submit_doc_json}
+                                                       summary_json = {t_summary_json} 
+                                                       setSummaryJson = {t_setSummaryJson}
+                                                       start_summary_json = {t_start_summary_json}
+                                                       t_middle_summary_json = {t_middle_summary_json}
+                                                       t_sent_end_summary_json = {t_sent_end_summary_json}
+                                                       t_submit_summary_json = {t_submit_summary_json}
+                                                       all_lemma_match_mtx = {t_all_lemma_match_mtx} 
+                                                       setAllLemmaMtx = {t_setAllLemmaMtx}
+                                                       important_lemma_match_mtx = {t_important_lemma_match_mtx} 
+                                                       setImportantLemmaMtx = {t_setImportantLemmaMtx}
+                                                       doc_paragraph_breaks = {t_doc_paragraph_breaks} 
+                                                       setDocParagraphBreaks = {t_setDocParagraphBreaks} 
+                                                       t_state_messages = {t_state_messages} 
+                                              />}
           />
+
+
+
 
           <Route path='/guidedAnnotation' element={<Annotation
                                               isTutorial={false}
