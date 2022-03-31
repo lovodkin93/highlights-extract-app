@@ -3,21 +3,26 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
+import Annotation from './Annotation';
 
-import Annotation from '../components/Annotation';
-
-import { MachineStateHandler,  } from '../components/Annotation_event_handlers';
+import { MachineStateHandler,  } from './Annotation_event_handlers';
+import { t_StateMachineStateIdHandler, getTutorialCardTitle, getTutorialCardText } from './Tutorial_utils'
 import _ from 'underscore';
 
 
 const Tutorial = ({doc_json, setDocJson,
+                  origin_doc_json, setOriginDocJson,
                   summary_json, setSummaryJson,
+                  origin_summary_json, setOriginSummaryJson,
                   all_lemma_match_mtx, setAllLemmaMtx,
                   important_lemma_match_mtx, setImportantLemmaMtx,
-                  doc_paragraph_breaks, setDocParagraphBreaks}) => {
+                  doc_paragraph_breaks, setDocParagraphBreaks,
+                  t_state_messages}) => {
 
-
+                    
   const [boldState, setBoldState] = useState("sent"); // for user to choose if want full sentence, span or no lemma matching (denoted as "sent", "span" and "none", accordingly)
   const [oldAlignmentState, setOldAlignmentState] = useState("all"); // for user to choose if want full highlighting history, only current sentence's highlighting history or no history (denoted as "all", "sent" and "none", accordingly)
   const [StateMachineState, SetStateMachineState] = useState("ANNOTATION");
@@ -41,6 +46,8 @@ const Tutorial = ({doc_json, setDocJson,
   const [hoverActivatedId, setHoverActivatedId] = useState("-1"); // value will be of tkn_id of elem hovered over
   const [hoverActivatedDocOrSummary, setHoverActivatedDocOrSummary] = useState("doc"); // value will be of tkn_id of elem hovered over
   const [sliderBoldStateActivated, setSliderBoldStateActivated] = useState(false);
+
+  const [t_StateMachineStateId, t_SetStateMachineStateId] = useState(0);
 
   /*************************************** error handling *************************************************/
   const Alert = React.forwardRef(function Alert(props, ref) {return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;});
@@ -172,10 +179,10 @@ const Tutorial = ({doc_json, setDocJson,
   }
 
   const checkIfLemmasMatch = ({doc_id, summary_ids, isHover}) => {
-    if (isHover){
-      console.log("AVIVSL: summary_ids are:")
-      console.log(summary_ids)
-    }
+    // if (isHover){
+    //   console.log("AVIVSL: summary_ids are:")
+    //   console.log(summary_ids)
+    // }
     const which_match_mtx = important_lemma_match_mtx;
     const matching_summary_ids = summary_ids.filter((summary_id) => {return all_lemma_match_mtx[doc_id][summary_id] === 1;})
     return matching_summary_ids.length > 0
@@ -314,6 +321,36 @@ const Tutorial = ({doc_json, setDocJson,
 
 /**************************************************************************************************************/
 
+/******************************************** tutorial related functions ***************************************/
+// const t_StateMachineStateIdHandler = (t_SetStateMachineStateId,t_StateMachineStateId,setDocJson,origin_doc_json,setSummaryJson,origin_summary_json) => {
+//   t_SetStateMachineStateId(t_StateMachineStateId+1)
+//   setDocJson(origin_doc_json)
+//   setSummaryJson(origin_summary_json)
+// }
+
+// const getTutorialCardTitle = (t_state_messages,t_StateMachineStateId) => {
+//   return t_state_messages.filter((t_state) => {return t_state.state_cnt === t_StateMachineStateId})[0].title
+// }
+
+// const getTutorialCardText = () => {
+//   return t_state_messages.filter((t_state) => {return t_state.state_cnt === t_StateMachineStateId})[0].message
+// }
+
+
+// const intro_message = () => {
+//   return (<div>
+//             In this task, you are presented with a document and its summary. 
+//             <br></br>
+//             The summary was constructed by an expert summarizer who first highlighted important information in the document and then merged it in a coherent manner. 
+//             <br></br>
+//             Your goal is to locate those spans the summarizer highlighted.
+//   </div>)
+// }
+
+
+
+/**************************************************************************************************************/
+
   /*******  useState for smooth transition to "SENTENCE END" or "SUMMARY END" *******/
   const finishedSent = useRef(false);
 
@@ -444,55 +481,72 @@ const Tutorial = ({doc_json, setDocJson,
 /**************************************************************************************************************/
 
 
+
     const SubmitHandler = (event) => {
       console.log(event);
       alert("Submitted!");
     }
 
 
-  return (
-        <Annotation 
-                isTutorial = {true}
-                isGuidedAnnotation={false} 
-                task_id={'0'} 
-                doc_json = {doc_json}
-                summary_json = {summary_json}
-                all_lemma_match_mtx = {all_lemma_match_mtx}
-                important_lemma_match_mtx = {important_lemma_match_mtx}
-                doc_paragraph_breaks = {doc_paragraph_breaks}
-                StateMachineState = {StateMachineState}
-                SetStateMachineState = {SetStateMachineState}
-                handleErrorOpen = {handleErrorOpen}
-                isPunct = {isPunct}
-                toggleSummarySpanHighlight = {toggleSummarySpanHighlight}
-                toggleDocSpanHighlight = {toggleDocSpanHighlight}
-                boldState = {boldState}
-                boldStateHandler = {boldStateHandler}
-                SubmitHandler = {SubmitHandler}
-                CurrSentInd = {CurrSentInd}
-                InfoMessage = {InfoMessage}
-                MachineStateHandlerWrapper = {MachineStateHandlerWrapper}
-                AlignmentCount = {AlignmentCount} 
-                SetAlignmentCount = {SetAlignmentCount}
-                oldAlignmentState = {oldAlignmentState}
-                oldAlignmentStateHandler = {oldAlignmentStateHandler}
-                hoverHandler = {hoverHandler}
-                DocOnMouseDownID = {DocOnMouseDownID}
-                SetDocOnMouseDownID = {SetDocOnMouseDownID}
-                SummaryOnMouseDownID = {SummaryOnMouseDownID}
-                SetSummaryOnMouseDownID = {SetSummaryOnMouseDownID}
-                setDocOnMouseDownActivated = {setDocOnMouseDownActivated}
-                docOnMouseDownActivated = {docOnMouseDownActivated}
-                setSummaryOnMouseDownActivated = {setSummaryOnMouseDownActivated}
-                summaryOnMouseDownActivated = {summaryOnMouseDownActivated}
-                setHoverActivatedId = {setHoverActivatedId}
-                setHoverActivatedDocOrSummary = {setHoverActivatedDocOrSummary}
-                g_StateMachineStateIndex = {undefined}
-                guidingAnnotationAlertText = {undefined}
-                guidingAnnotationAlertTitle = {undefined} 
-                guidingAnnotationAlertType = {undefined}
-                closeGuidingAnnotationAlert = {undefined}
-                />
+  return ( 
+      <>
+         {(t_StateMachineStateId !== 0) && (
+            <Annotation 
+                    isTutorial = {true}
+                    isGuidedAnnotation={false} 
+                    task_id={'0'} 
+                    doc_json = {doc_json}
+                    summary_json = {summary_json}
+                    all_lemma_match_mtx = {all_lemma_match_mtx}
+                    important_lemma_match_mtx = {important_lemma_match_mtx}
+                    doc_paragraph_breaks = {doc_paragraph_breaks}
+                    StateMachineState = {StateMachineState}
+                    SetStateMachineState = {SetStateMachineState}
+                    handleErrorOpen = {handleErrorOpen}
+                    isPunct = {isPunct}
+                    toggleSummarySpanHighlight = {toggleSummarySpanHighlight}
+                    toggleDocSpanHighlight = {toggleDocSpanHighlight}
+                    boldState = {boldState}
+                    boldStateHandler = {boldStateHandler}
+                    SubmitHandler = {SubmitHandler}
+                    CurrSentInd = {CurrSentInd}
+                    InfoMessage = {InfoMessage}
+                    MachineStateHandlerWrapper = {MachineStateHandlerWrapper}
+                    AlignmentCount = {AlignmentCount} 
+                    SetAlignmentCount = {SetAlignmentCount}
+                    oldAlignmentState = {oldAlignmentState}
+                    oldAlignmentStateHandler = {oldAlignmentStateHandler}
+                    hoverHandler = {hoverHandler}
+                    DocOnMouseDownID = {DocOnMouseDownID}
+                    SetDocOnMouseDownID = {SetDocOnMouseDownID}
+                    SummaryOnMouseDownID = {SummaryOnMouseDownID}
+                    SetSummaryOnMouseDownID = {SetSummaryOnMouseDownID}
+                    setDocOnMouseDownActivated = {setDocOnMouseDownActivated}
+                    docOnMouseDownActivated = {docOnMouseDownActivated}
+                    setSummaryOnMouseDownActivated = {setSummaryOnMouseDownActivated}
+                    summaryOnMouseDownActivated = {summaryOnMouseDownActivated}
+                    setHoverActivatedId = {setHoverActivatedId}
+                    setHoverActivatedDocOrSummary = {setHoverActivatedDocOrSummary}
+                    g_StateMachineStateIndex = {undefined}
+                    guidingAnnotationAlertText = {undefined}
+                    guidingAnnotationAlertTitle = {undefined} 
+                    guidingAnnotationAlertType = {undefined}
+                    closeGuidingAnnotationAlert = {undefined}
+                    />
+        )}
+        <Card className={`${(t_StateMachineStateId === 0) ? 'tutorial-card-intro' : 'tutorial-card-not-intro'}`} bg="info" border="primary" style={{ width: '40rem' }}>
+          <Card.Body>
+            <Card.Title>{getTutorialCardTitle(t_state_messages,t_StateMachineStateId)}</Card.Title>
+            <Card.Text>
+              {getTutorialCardText(t_state_messages,t_StateMachineStateId)}
+            </Card.Text>
+            {(t_StateMachineStateId !== 0) && (
+              <Button className="btn btn-dark btn-lg" onClick={() => {t_StateMachineStateIdHandler({IsNext:false, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, setDocJson:setDocJson, origin_doc_json:origin_doc_json, setSummaryJson:setSummaryJson, origin_summary_json:origin_summary_json})}}>Back</Button>
+            )}
+            <Button className="btn btn-primary btn-lg right-button" onClick={() => {t_StateMachineStateIdHandler({IsNext:true, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, setDocJson:setDocJson, origin_doc_json:origin_doc_json, setSummaryJson:setSummaryJson, origin_summary_json:origin_summary_json})}}>Next</Button>
+          </Card.Body>
+        </Card>
+    </>
   )
 }
 

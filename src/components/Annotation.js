@@ -299,7 +299,7 @@ useEffect(() => {
                   oldAlignmentStateHandler={oldAlignmentStateHandler}
                   g_StateMachineStateIndex = {g_StateMachineStateIndex}
             />
-            {InfoMessage !== "" && (InfoAlert(InfoMessage))}
+            {(InfoMessage !== "" && !isTutorial) && (InfoAlert(InfoMessage))}
           </Col>
         </Row>
 

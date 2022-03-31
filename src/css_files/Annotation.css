@@ -336,3 +336,20 @@
 
 
 
+
+
+  .tutorial-card-intro{
+    position: fixed !important;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+  }
+
+  .tutorial-card-not-intro{
+    margin-top: 0.5%;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+

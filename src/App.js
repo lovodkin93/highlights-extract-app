@@ -13,6 +13,7 @@ import Annotation from './components/Annotation';
 import json_file from './data/data_for_mturk.json';
 import g_json_file from './data/guided_annotation/data_for_mturk.json';
 import t_json_file from './data/tutorial/tutorial_half_way_data_for_mturk.json';
+import tutorial_state_messages from './data/tutorial/tutorial_state_messages.json'
 
 import { MachineStateHandler, g_MachineStateHandler } from './components/Annotation_event_handlers';
 import { summarySpanIsOk, g_StateMachineStateIndexHandler } from './components/GuidedAnnotation_utils';
@@ -24,10 +25,12 @@ const App = () => {
   // AVIVSL: TUTORIAL_ANNOTATION
   const [t_doc_json, t_setDocJson] = useState([]);
   const [t_summary_json, t_setSummaryJson] = useState([]); 
+  const [t_origin_doc_json, t_setOriginDocJson] = useState([]);
+  const [t_origin_summary_json, t_setOriginSummaryJson] = useState([]); 
   const [t_all_lemma_match_mtx, t_setAllLemmaMtx] = useState([]);
   const [t_important_lemma_match_mtx, t_setImportantLemmaMtx] = useState([]);
   const [t_doc_paragraph_breaks, t_setDocParagraphBreaks] = useState([]);
-
+  const [t_state_messages, t_setStateMessages] = useState([]);
 
   // AVIVSL: GUIDED_ANNOTATION
   const [g_doc_json, g_setDocJson] = useState([]);
@@ -999,20 +1002,31 @@ const App = () => {
         let updated_doc_json = [];
         t_json_file["doc"].forEach((word) => {updated_doc_json = [...updated_doc_json, word];})
         t_setDocJson(updated_doc_json);
+        t_setOriginDocJson(updated_doc_json);
         // get summary_json
         let updated_summary_json = [];
         t_json_file["summary"].forEach((word) => {updated_summary_json = [...updated_summary_json, word];})
         t_setSummaryJson(updated_summary_json);
+        t_setOriginSummaryJson(updated_summary_json);
         // get all the matrices and the paragraph breaks
         t_setAllLemmaMtx(t_json_file["all_lemma_match_mtx"]);
         t_setImportantLemmaMtx(t_json_file["important_lemma_match_mtx"]);
         t_setDocParagraphBreaks(t_json_file["doc_paragraph_breaks"])
+        
+        
+        // get state messages
+        t_setStateMessages(tutorial_state_messages)
+        // let updated_state_messages_json = [];
+        // tutorial_state_messages.forEach((t_state) => {updated_doc_json = [...updated_doc_json, t_state];})
+        // t_setStateMessages(updated_state_messages_json)
+        // console.log("tutorial_state_messages is:")
+        // console.log(tutorial_state_messages)
+
+
+
         fetch(`/`).then(
           res => console.log(res)
         )
-        // console.log("done with t_getTask")
-        // console.log("t_json_file:")
-        // console.log(t_json_file)
       }
 
 
@@ -1103,15 +1117,15 @@ const App = () => {
           {/* <Route path='/' element={<StartPage />} /> */}
           {/* <Route path='/homepage' element={<StartPage />} /> */}
           <Route path='/instructions' element={<Instructions />} />
-          <Route path='/tutorial' element=  {<Tutorial doc_json={t_doc_json} setDocJson={t_setDocJson}
-                                                       summary_json={t_summary_json} setSummaryJson={t_setSummaryJson}
-                                                       all_lemma_match_mtx={t_all_lemma_match_mtx} setAllLemmaMtx={t_setAllLemmaMtx}
-                                                       important_lemma_match_mtx={t_important_lemma_match_mtx} setImportantLemmaMtx={t_setImportantLemmaMtx}
-                                                       doc_paragraph_breaks={t_doc_paragraph_breaks} setDocParagraphBreaks={t_setDocParagraphBreaks} />} />
-
-
-
-
+          <Route path='/tutorial' element=  {<Tutorial doc_json = {t_doc_json} setDocJson = {t_setDocJson}
+                                                       origin_doc_json = {t_origin_doc_json} setOriginDocJson = {t_setOriginDocJson}
+                                                       summary_json = {t_summary_json} setSummaryJson = {t_setSummaryJson}
+                                                       origin_summary_json = {t_origin_summary_json} t_setOriginSummaryJson= {t_setOriginSummaryJson}
+                                                       all_lemma_match_mtx = {t_all_lemma_match_mtx} setAllLemmaMtx = {t_setAllLemmaMtx}
+                                                       important_lemma_match_mtx = {t_important_lemma_match_mtx} setImportantLemmaMtx = {t_setImportantLemmaMtx}
+                                                       doc_paragraph_breaks = {t_doc_paragraph_breaks} setDocParagraphBreaks = {t_setDocParagraphBreaks} 
+                                                       t_state_messages = {t_state_messages} />}
+          />
 
           <Route path='/guidedAnnotation' element={<Annotation
                                               isTutorial={false}

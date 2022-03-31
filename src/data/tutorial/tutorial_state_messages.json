@@ -1,0 +1,90 @@
+[
+  {
+    "state_cnt": 0,
+    "title": "Welcome to the Highlight Extraction UI",
+    "message": ""
+  },
+    {
+    "state_cnt": 1,
+    "title": "Highlighting",
+    "message": ""
+  },
+      {
+    "state_cnt": 2,
+    "title": "Un-Highlighting",
+    "message": ""
+  },
+      {
+    "state_cnt": 3,
+    "title": "Work Sentence-by-Sentence",
+    "message": ""
+  },
+      {
+    "state_cnt": 4,
+    "title": "Confirm Alignments",
+    "message": ""
+  },
+      {
+    "state_cnt": 5,
+    "title": "Bold - Full Sentence",
+    "message": ""
+  },
+      {
+    "state_cnt": 6,
+    "title": "Bold - Span",
+    "message": ""
+  },
+      {
+    "state_cnt": 7,
+    "title": "Bolding Control",
+    "message": ""
+  },
+      {
+    "state_cnt": 8,
+    "title": "Single Word Hint",
+    "message": ""
+  },
+      {
+    "state_cnt": 9,
+    "title": "Old Alignments",
+    "message": ""
+  },
+      {
+    "state_cnt": 10,
+    "title": "Revise",
+    "message": ""
+  },
+      {
+    "state_cnt": 11,
+    "title": "Revise - Choose Old Alignment",
+    "message": ""
+  },
+      {
+    "state_cnt": 12,
+    "title": "Revise - Change Old Alignment",
+    "message": ""
+  },
+      {
+    "state_cnt": 13,
+    "title": "Revise - Confirm or Undo Changes",
+    "message": ""
+  },
+      {
+    "state_cnt": 14,
+    "title": "Revise - Finish",
+    "message": ""
+  },
+      {
+    "state_cnt": 15,
+    "title": "End of Sentence",
+    "message": ""
+  },
+      {
+    "state_cnt": 16,
+    "title": "Submit",
+    "message": ""
+  }
+]
+
+
+

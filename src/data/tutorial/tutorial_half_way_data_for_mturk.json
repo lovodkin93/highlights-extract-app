@@ -6152,7 +6152,7 @@
       "all_highlighted": false,
       "old_alignments": false,
       "old_alignment_hover": false,
-      "span_alignment_hover": true,
+      "span_alignment_hover": false,
       "shadowed": true,
       "alignment_id": []
     },
@@ -6165,7 +6165,7 @@
       "all_highlighted": false,
       "old_alignments": false,
       "old_alignment_hover": false,
-      "span_alignment_hover": true,
+      "span_alignment_hover": false,
       "shadowed": true,
       "alignment_id": []
     },
@@ -6178,7 +6178,7 @@
       "all_highlighted": false,
       "old_alignments": false,
       "old_alignment_hover": false,
-      "span_alignment_hover": true,
+      "span_alignment_hover": false,
       "shadowed": true,
       "alignment_id": []
     },
@@ -6191,7 +6191,7 @@
       "all_highlighted": false,
       "old_alignments": false,
       "old_alignment_hover": false,
-      "span_alignment_hover": true,
+      "span_alignment_hover": false,
       "shadowed": true,
       "alignment_id": []
     },
@@ -6204,7 +6204,7 @@
       "all_highlighted": false,
       "old_alignments": false,
       "old_alignment_hover": false,
-      "span_alignment_hover": true,
+      "span_alignment_hover": false,
       "shadowed": true,
       "alignment_id": []
     },
@@ -6217,7 +6217,7 @@
       "all_highlighted": false,
       "old_alignments": false,
       "old_alignment_hover": false,
-      "span_alignment_hover": true,
+      "span_alignment_hover": false,
       "shadowed": true,
       "alignment_id": []
     },
@@ -6230,7 +6230,7 @@
       "all_highlighted": false,
       "old_alignments": false,
       "old_alignment_hover": false,
-      "span_alignment_hover": true,
+      "span_alignment_hover": false,
       "shadowed": true,
       "alignment_id": []
     },
@@ -6243,7 +6243,7 @@
       "all_highlighted": false,
       "old_alignments": false,
       "old_alignment_hover": false,
-      "span_alignment_hover": true,
+      "span_alignment_hover": false,
       "shadowed": true,
       "alignment_id": []
     },
@@ -6256,7 +6256,7 @@
       "all_highlighted": false,
       "old_alignments": false,
       "old_alignment_hover": false,
-      "span_alignment_hover": true,
+      "span_alignment_hover": false,
       "shadowed": true,
       "alignment_id": []
     },
