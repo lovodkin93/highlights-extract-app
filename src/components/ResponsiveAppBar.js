@@ -20,9 +20,9 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-const pages = {'Instructions': 'instructions', 'Guided Annotation': 'guidedAnnotation', 'Annotation': ''}; 
+const pages = {'Instructions': 'instructions', "Tutorial": "tutorial", 'Guided Annotation': 'guidedAnnotation', 'Annotation': ''}; 
 
-const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler, oldAlignmentState, oldAlignmentStateHandler }) => {
+const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler, oldAlignmentState, oldAlignmentStateHandler, g_StateMachineStateIndex }) => {
   const BlackTextTypography = withStyles({
     root: {
       color: "white",
@@ -126,6 +126,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
                   BOLDING
                 </BlackTextTypography>
                 <StyledSliderBolding
+                  className={`${(g_StateMachineStateIndex===1.1) ? 'with-glow':''}`}
                   aria-label="Bolding-option"
                   defaultValue={3}
                   getAriaValueText={BoldingSliderTags}

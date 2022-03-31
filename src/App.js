@@ -4,18 +4,30 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
 
-import StartPage from './components/StartPage'
-import Instructions from './components/Instructions'
-import GuidedAnnotation from './components/GuidedAnnotation'
-import Annotation from './components/Annotation'
-import json_file from './data/data_for_mturk.json'
-import g_json_file from './data/guided_annotation/data_for_mturk.json'
+import StartPage from './components/StartPage';
+import Tutorial from './components/Tutorial';
+import Instructions from './components/Instructions';
+import GuidedAnnotation from './components/GuidedAnnotation';
+
+import Annotation from './components/Annotation';
+import json_file from './data/data_for_mturk.json';
+import g_json_file from './data/guided_annotation/data_for_mturk.json';
+import t_json_file from './data/tutorial/tutorial_half_way_data_for_mturk.json';
+
 import { MachineStateHandler, g_MachineStateHandler } from './components/Annotation_event_handlers';
-import { summarySpanIsOk } from './components/GuidedAnnotation_utils';
+import { summarySpanIsOk, g_StateMachineStateIndexHandler } from './components/GuidedAnnotation_utils';
 import _ from 'underscore';
 
 
 const App = () => {
+
+  // AVIVSL: TUTORIAL_ANNOTATION
+  const [t_doc_json, t_setDocJson] = useState([]);
+  const [t_summary_json, t_setSummaryJson] = useState([]); 
+  const [t_all_lemma_match_mtx, t_setAllLemmaMtx] = useState([]);
+  const [t_important_lemma_match_mtx, t_setImportantLemmaMtx] = useState([]);
+  const [t_doc_paragraph_breaks, t_setDocParagraphBreaks] = useState([]);
+
 
   // AVIVSL: GUIDED_ANNOTATION
   const [g_doc_json, g_setDocJson] = useState([]);
@@ -123,6 +135,7 @@ const App = () => {
   }
 
   /************************************************************************************************* AVIVSL: GUIDED_ANNOTATION *****************************************************************************************/
+  
   function g_addDocWordComponents(doc) {
     let updated_doc_json = [];
     doc.forEach((word) => {
@@ -192,8 +205,11 @@ const App = () => {
       } else if (summarySpanIsOk(g_StateMachineStateIndex, tkn_ids) == "too short") {
         update_GuidingAnnotationAlertText({alert_title:"Span too short", alert_text:"The span chosen is too short and doesn't cover full events. please try again.", alert_type:"danger"})
       } else {
-        update_GuidingAnnotationAlertText({alert_title:"Good Job!", alert_text:"The span chosen is not too long and also covers full events. Well done!", alert_type:"success"})
         g_setSummaryJson(g_summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: true } : word));
+        if(g_StateMachineStateIndex===1.0){
+          update_GuidingAnnotationAlertText({alert_title:"Good Job!", alert_text:"The span chosen is not too long and also covers full events. Well done!", alert_type:"success"})
+          g_StateMachineStateIndexHandler(g_StateMachineStateIndex, g_setStateMachineStateIndex);
+        }
       }
     } else if (turn_off){
       g_setSummaryJson(g_summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: false } : word));
@@ -287,6 +303,9 @@ const App = () => {
   const g_boldStateHandler = (event, newValue) => {
     if (event !== undefined){
       g_setSliderBoldStateActivated(true)
+      if (g_StateMachineStateIndex===1.1){
+        g_StateMachineStateIndexHandler(g_StateMachineStateIndex, g_setStateMachineStateIndex)
+      }
     }
     if (newValue=='1'){
       g_setBoldState("none");
@@ -384,6 +403,7 @@ const App = () => {
 
   const g_MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
     g_setSliderBoldStateActivated(false);
+    g_StateMachineStateIndexHandler(g_StateMachineStateIndex, g_setStateMachineStateIndex);
     g_MachineStateHandler(g_summary_json,
                           g_StateMachineState, g_SetStateMachineState,
                           g_SetInfoMessage, g_handleErrorOpen, isPunct,
@@ -552,10 +572,10 @@ const App = () => {
   }
 
   const checkIfLemmasMatch = ({doc_id, summary_ids, isHover}) => {
-    if (isHover){
-      console.log("AVIVSL: summary_ids are:")
-      console.log(summary_ids)
-    }
+    // if (isHover){
+    //   console.log("AVIVSL: summary_ids are:")
+    //   console.log(summary_ids)
+    // }
     const which_match_mtx = important_lemma_match_mtx;
     const matching_summary_ids = summary_ids.filter((summary_id) => {return all_lemma_match_mtx[doc_id][summary_id] === 1;})
     return matching_summary_ids.length > 0
@@ -903,6 +923,10 @@ const App = () => {
     /********************************************************************************/
     useEffect(() => {
       console.log(`CurrSentInd is updated and is now ${CurrSentInd}`)
+      console.log('doc_json:')
+      console.log(doc_json)
+      console.log('t_doc_json:')
+      console.log(t_doc_json)
     }, [CurrSentInd]);
     
     
@@ -968,6 +992,33 @@ const App = () => {
 
     useEffect(() => {
 
+
+      const t_getTasks = () => {
+        
+        // get doc_json
+        let updated_doc_json = [];
+        t_json_file["doc"].forEach((word) => {updated_doc_json = [...updated_doc_json, word];})
+        t_setDocJson(updated_doc_json);
+        // get summary_json
+        let updated_summary_json = [];
+        t_json_file["summary"].forEach((word) => {updated_summary_json = [...updated_summary_json, word];})
+        t_setSummaryJson(updated_summary_json);
+        // get all the matrices and the paragraph breaks
+        t_setAllLemmaMtx(t_json_file["all_lemma_match_mtx"]);
+        t_setImportantLemmaMtx(t_json_file["important_lemma_match_mtx"]);
+        t_setDocParagraphBreaks(t_json_file["doc_paragraph_breaks"])
+        fetch(`/`).then(
+          res => console.log(res)
+        )
+        // console.log("done with t_getTask")
+        // console.log("t_json_file:")
+        // console.log(t_json_file)
+      }
+
+
+
+
+
       const g_getTasks = () => {
         const curr_id = '0';
 
@@ -1001,7 +1052,7 @@ const App = () => {
         )
           
         }
-
+      t_getTasks();
       g_getTasks();
       getTasks();
     }, [])
@@ -1016,6 +1067,35 @@ const App = () => {
       alert("Submitted!");
     }
 
+
+
+
+
+    /*********************************** TO SAVE THE JSONS ******************************** */ 
+    // function export2txt(words, dir) {
+    //   const a = document.createElement("a");
+    //   a.href = URL.createObjectURL(new Blob([JSON.stringify(words, null, 2)], {
+    //     type: "text/plain"
+    //   }));
+    //   a.setAttribute("download", dir);
+    //   document.body.appendChild(a);
+    //   a.click();
+    //   document.body.removeChild(a);
+    // }
+
+    // useEffect(() => {
+    //   console.log("saving current values")
+
+
+    //   export2txt({"doc":doc_json, "summary":summary_json, "all_lemma_match_mtx":all_lemma_match_mtx, "important_lemma_match_mtx":important_lemma_match_mtx, "doc_paragraph_breaks":doc_paragraph_breaks}, "tutorial_half_way_data_for_mturk.json")
+
+    //   export2txt(doc_json, "doc_json.json")
+    //   export2txt(summary_json, "summary_json.json")
+    // }, [StateMachineState]);
+    /*************************************************************************************** */
+
+
+
   return (
     <Router>
       <div className='container-background'>
@@ -1023,7 +1103,18 @@ const App = () => {
           {/* <Route path='/' element={<StartPage />} /> */}
           {/* <Route path='/homepage' element={<StartPage />} /> */}
           <Route path='/instructions' element={<Instructions />} />
+          <Route path='/tutorial' element=  {<Tutorial doc_json={t_doc_json} setDocJson={t_setDocJson}
+                                                       summary_json={t_summary_json} setSummaryJson={t_setSummaryJson}
+                                                       all_lemma_match_mtx={t_all_lemma_match_mtx} setAllLemmaMtx={t_setAllLemmaMtx}
+                                                       important_lemma_match_mtx={t_important_lemma_match_mtx} setImportantLemmaMtx={t_setImportantLemmaMtx}
+                                                       doc_paragraph_breaks={t_doc_paragraph_breaks} setDocParagraphBreaks={t_setDocParagraphBreaks} />} />
+
+
+
+
+
           <Route path='/guidedAnnotation' element={<Annotation
+                                              isTutorial={false}
                                               isGuidedAnnotation={true} 
                                               task_id={'0'}
                                               doc_json = {g_doc_json}
@@ -1067,6 +1158,7 @@ const App = () => {
             />
 
           <Route path='/' element={<Annotation 
+                                              isTutorial={false}
                                               isGuidedAnnotation={false} 
                                               task_id={task_id} 
                                               doc_json = {doc_json}

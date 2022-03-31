@@ -201,7 +201,7 @@ SetSummaryShadow(CurrSentInd+1);
 SetCurrSentInd(CurrSentInd+1);
 SetInfoMessage("Highlight document and summary alignment and then press \"CONFIRM\".");
 
-g_setStateMachineStateIndex(1.0)
+// g_setStateMachineStateIndex(1.0)
 }
 
 // "ANNOTATION" state --> "ANNOTATION" with next alignment

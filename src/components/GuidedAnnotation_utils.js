@@ -10,14 +10,16 @@ import Carousel from 'react-bootstrap/Carousel'
 const getGuidedAnnotationToastTitle = (g_StateMachineStateIndex) => {
 if(g_StateMachineStateIndex===0){return "START"}
 if(g_StateMachineStateIndex===1.0){return "CHOOSE SUMMARY SPAN"}
-if(g_StateMachineStateIndex===1.1){return "CHOOSE DOCUMENT SPAN"}
+if(g_StateMachineStateIndex===1.1){return "BOLDING OPTIONS"}
+if(g_StateMachineStateIndex===1.2){return "CHOOSE DOCUMENT SPAN"}
 
 }
 
 const getGuidedAnnotationToastText = (g_StateMachineStateIndex) => {
 if(g_StateMachineStateIndex===0){return <p style={{margin:"0"}}>To begin, press the "START" button</p>}
-if(g_StateMachineStateIndex===1.0){return <p style={{margin:"0"}}>Choose a summary span from the first sentence to align (by left-clicking at the beginning of the span and leaving the click at its end).<hr></hr>Make sure the span you choose <b>describes at least one scene</b> and that it is <b>not too long</b>.</p>}
-if(g_StateMachineStateIndex===1.1){return <p style={{margin:"0"}}>Now choose a span from the document aligning to the span you chose from the summary. Make sure you choose a span that covers all the information described in the summary span, and only it.</p>}
+if(g_StateMachineStateIndex===1.0){return <p style={{margin:"0"}}>Choose a summary span from the first sentence to align (by left-clicking at the beginning of the span and leaving the click at its end).<hr></hr>Make sure the span you choose <u>describes at least one scene</u> and that it is <u>not too long</u>.</p>}
+if(g_StateMachineStateIndex===1.1){return <p style={{margin:"0"}}>Notice how document words related to the words in the highlighted span are in bold, to help you find the alignments.<hr></hr>When nothing is highlighted, all the doc words relating to all the current sentence's words are in bold.<hr></hr>At any given time, you can adust the level of bolding (none, highlighted span or full sentence), by playing with the red slider in the top-right corner of the UI. Try it before continuing.</p>}
+if(g_StateMachineStateIndex===1.2){return <p style={{margin:"0"}}>Great! Now that you got familiarized with the bolding feature, let's continue with that annotation.<hr></hr>Choose a span from the document aligning to the span you chose from the summary. Make sure you choose a span that covers all the information described in the summary span, and only it.</p>}
 }
 
 const GuidedAnnotationToast = (toastVisible, setToastVisible, g_StateMachineStateIndex) => {
@@ -69,25 +71,24 @@ const guidingAnnotationAlert = (guidingAnnotationAlertText, guidingAnnotationAle
             </Modal.Header>
             <Modal.Body  style={{fontSize:"x-large"}} className={`alert-${guidingAnnotationAlertType}`}>{guidingAnnotationAlertText}</Modal.Body>
       </Modal>
-        
-        
-        
-        
-        // <Modal       
-        // // fullscreen={true}
-        // show={true} onHide={closeGuidingAnnotationAlert}
-        // >
-        // <Alert style={{position:"fixed", fontSize:"x-large"}} variant={guidingAnnotationAlertType} onClose={closeGuidingAnnotationAlert} dismissible>
-        //   <Alert.Heading style={{fontSize:"xx-large"}}>{guidingAnnotationAlertTitle}</Alert.Heading>
-        //   <p>
-        //     {guidingAnnotationAlertText}
-        //   </p>
-        // </Alert>
-        // </Modal>
-
       ); 
 }
 
 
 
-export { getGuidedAnnotationToastTitle, getGuidedAnnotationToastText, GuidedAnnotationToast, summarySpanIsOk, guidingAnnotationAlert }
+
+
+const g_StateMachineStateIndexHandler = (g_StateMachineStateIndex, g_setStateMachineStateIndex) => {
+    console.log(`g_StateMachineStateIndex is ${g_StateMachineStateIndex}`)
+    if(g_StateMachineStateIndex===0) {
+        g_setStateMachineStateIndex(1.0);
+    } else if (g_StateMachineStateIndex===1.0) {
+        g_setStateMachineStateIndex(1.1)
+    } else if (g_StateMachineStateIndex===1.1) {
+        g_setStateMachineStateIndex(1.2)
+    }
+}
+
+
+
+export { getGuidedAnnotationToastTitle, getGuidedAnnotationToastText, GuidedAnnotationToast, summarySpanIsOk, guidingAnnotationAlert, g_StateMachineStateIndexHandler }

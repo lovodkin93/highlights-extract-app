@@ -32,7 +32,7 @@ import { ChevronLeft, ChevronRight, SendFill } from 'react-bootstrap-icons';
 // import { Container, Row, Col } from 'react-bootstrap';
 
 
-const Annotation = ({isGuidedAnnotation, task_id, 
+const Annotation = ({isTutorial, isGuidedAnnotation, task_id, 
                     doc_json, summary_json, 
                     all_lemma_match_mtx, important_lemma_match_mtx, doc_paragraph_breaks,
                     StateMachineState, SetStateMachineState,
@@ -83,7 +83,7 @@ const Annotation = ({isGuidedAnnotation, task_id,
 
   const InfoAlert = (InfoMessage) => {
     return (
-      <Alert variant="warning">
+      <Alert variant="info">
         <Alert.Heading>{getInfoAlertTitle()}</Alert.Heading>
         <p className="mb-0">
           {InfoMessage}
@@ -218,6 +218,16 @@ const Annotation = ({isGuidedAnnotation, task_id,
                                                       </div>
                                                       )
   }
+
+  const getResponsiveAppBarTitle = () => {
+    if (isTutorial){
+      return "Tutorial";
+    } else if (isGuidedAnnotation) {
+      return "Guided Annotation";
+    } else {
+      return "Annotation";
+    }
+  }
   
 
 /************ TO MAKE SURE THAT WHEN DOC TOO LONG THE SUMMARY IS ALWAYS VISIBLE ****************************** */
@@ -249,7 +259,12 @@ useEffect(() => {
 /************************************************************************************************************* */
 
 
-
+useEffect(() => {
+  if (isTutorial){
+    console.log(`t_doc_json is:`)
+    console.log(doc_json)
+  }
+}, []);
 // to make sure the guided annotation guiding messages start with something
   // useEffect(() => {
   //   console.log(`StateMachineState is: ${StateMachineState}`)
@@ -265,7 +280,7 @@ useEffect(() => {
     SetSummaryMouseDownStartID("-1");
     SetSummaryMouseclicked(false);
   }, [StateMachineState]);
-
+  
   return (
       <Container onKeyDown={(event) => {if (event.ctrlKey) {setCtrlButtonDown(true)}}}
                  onKeyUp={() => {setCtrlButtonDown(false)}} 
@@ -275,13 +290,14 @@ useEffect(() => {
         <Row className='annotation-row' ref={containerRef}>
           <Col>
             <ResponsiveAppBar
-                  title={isGuidedAnnotation ? "Guided Annotation" : "Annotation"} 
+                  title={getResponsiveAppBarTitle()} 
                   StateMachineState = {StateMachineState} 
                   MachineStateHandlerWrapper={MachineStateHandlerWrapper}
                   boldState={boldState}
                   boldStateHandler={boldStateHandler}
                   oldAlignmentState={oldAlignmentState}
                   oldAlignmentStateHandler={oldAlignmentStateHandler}
+                  g_StateMachineStateIndex = {g_StateMachineStateIndex}
             />
             {InfoMessage !== "" && (InfoAlert(InfoMessage))}
           </Col>

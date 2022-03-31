@@ -1,0 +1,499 @@
+import { useState, useEffect, useRef } from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import * as React from 'react';
+
+
+import Annotation from '../components/Annotation';
+
+import { MachineStateHandler,  } from '../components/Annotation_event_handlers';
+import _ from 'underscore';
+
+
+const Tutorial = ({doc_json, setDocJson,
+                  summary_json, setSummaryJson,
+                  all_lemma_match_mtx, setAllLemmaMtx,
+                  important_lemma_match_mtx, setImportantLemmaMtx,
+                  doc_paragraph_breaks, setDocParagraphBreaks}) => {
+
+
+  const [boldState, setBoldState] = useState("sent"); // for user to choose if want full sentence, span or no lemma matching (denoted as "sent", "span" and "none", accordingly)
+  const [oldAlignmentState, setOldAlignmentState] = useState("all"); // for user to choose if want full highlighting history, only current sentence's highlighting history or no history (denoted as "all", "sent" and "none", accordingly)
+  const [StateMachineState, SetStateMachineState] = useState("ANNOTATION");
+  const [error_message, setErrorMessage] = React.useState("");
+  const [CurrSentInd, SetCurrSentInd] = useState(1);
+  const [InfoMessage, SetInfoMessage] = useState("");
+  const [AlignmentCount, SetAlignmentCount] = useState(3)
+
+  const [prevStateMachineState, setPrevStateMachineState] = useState("")
+  
+  const [prevSummarySpanHighlights, setPrevSummarySpanHighlights] = useState([]) // relevant for restoring span alignments before going to "revise" mode
+  const [prevDocSpanHighlights, setPrevDocSpanHighlights] = useState([]) // relevant for restoring span alignments before going to "revise" mode
+  const [prevSummaryJsonRevise, setPrevSummaryJsonRevise] = useState([]) // relevant for restoring All alignments before choosing an alignment in revise mode so can be restored if pressing the back button
+  const [prevDocJsonRevise, setPrevDocJsonRevise] = useState([]) // relevant for restoring All alignments before choosing an alignment in revise mode so can be restored if pressing the back button
+
+
+  const [DocOnMouseDownID, SetDocOnMouseDownID] = useState("-1");
+  const [SummaryOnMouseDownID, SetSummaryOnMouseDownID] = useState("-1");
+  const [docOnMouseDownActivated, setDocOnMouseDownActivated] = useState(false);
+  const [summaryOnMouseDownActivated, setSummaryOnMouseDownActivated] = useState(false);
+  const [hoverActivatedId, setHoverActivatedId] = useState("-1"); // value will be of tkn_id of elem hovered over
+  const [hoverActivatedDocOrSummary, setHoverActivatedDocOrSummary] = useState("doc"); // value will be of tkn_id of elem hovered over
+  const [sliderBoldStateActivated, setSliderBoldStateActivated] = useState(false);
+
+  /*************************************** error handling *************************************************/
+  const Alert = React.forwardRef(function Alert(props, ref) {return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;});
+  
+
+
+  const handleErrorOpen = ({ msg }) => { 
+    setErrorMessage(msg); 
+  };
+
+  const handleErrorClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setErrorMessage("");
+  };
+
+
+/************************************************************************************************************* */
+
+  const isPunct = (tkn_txt) => {
+    const regex = /[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g;
+    const result = tkn_txt.replace(regex, '').replace(/(\r\n|\n|\r)/gm, "");
+    return (result === '');
+  }
+
+  const toggleDocSpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
+    setSliderBoldStateActivated(false)
+    if (turn_on){
+      setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: true } : word))
+    } else if (turn_off){
+        setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: false } : word))
+    } else {
+        setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: !word.span_highlighted } : word))
+    }
+  }
+
+  toggleDocSpanHighlight.defaultProps = {
+    turn_on: false,
+    turn_off: false
+  }
+
+  const toggleSummarySpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
+    console.log("inside toggleSummarySpanHighlight:")
+    console.log(tkn_ids)
+    setSliderBoldStateActivated(false)
+    if (turn_on){
+      setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: true } : word));
+    } else if (turn_off){
+      setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: false } : word));
+    } else {
+      setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: !word.span_highlighted } : word));
+    }
+  }
+
+  toggleSummarySpanHighlight.defaultProps = {
+    turn_on: false,
+    turn_off: false
+  }
+
+
+  const approveHighlightHandler = () => {
+    const doc_tkn_ids = doc_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id});
+    setDocJson(doc_json.map((word) => doc_tkn_ids.includes(word.tkn_id) ? { ...word, all_highlighted: true, alignment_id: [...word.alignment_id, AlignmentCount], span_highlighted: false } : word));
+
+
+    const summary_tkn_ids = summary_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id});
+    setSummaryJson(summary_json.map((word) => summary_tkn_ids.includes(word.tkn_id) ? { ...word, all_highlighted: true, alignment_id: [...word.alignment_id, AlignmentCount], span_highlighted: false } : word));    
+ 
+  }
+
+  const StartReviseStateHandler = (isBackBtn) => {
+    if (isBackBtn){
+      setDocJson(doc_json.map((word, ind) => {return {...word, all_highlighted: prevDocJsonRevise[ind].all_highlighted, span_highlighted: prevDocJsonRevise[ind].span_highlighted, alignment_id: prevDocJsonRevise[ind].alignment_id}}))
+      setSummaryJson(summary_json.map((word, ind) => {return {...word, all_highlighted: prevSummaryJsonRevise[ind].all_highlighted, span_highlighted: prevSummaryJsonRevise[ind].span_highlighted, alignment_id: prevSummaryJsonRevise[ind].alignment_id}}))
+    } else{
+      setPrevStateMachineState(StateMachineState);
+      setPrevDocSpanHighlights(doc_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id}));
+      setPrevSummarySpanHighlights(summary_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id}));
+      
+      setDocJson(doc_json.map((word) => {return {...word, span_highlighted: false}}))
+      setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted: false}}))
+    }
+  }
+
+  const ExitReviseHandler = () => {
+    setDocJson(doc_json.map((word, ind) => prevDocSpanHighlights.includes(word.tkn_id) ? {...word, span_highlighted: true}:{...word, span_highlighted: false}))
+    setSummaryJson(summary_json.map((word, ind) => prevSummarySpanHighlights.includes(word.tkn_id) ? {...word, span_highlighted: true}:{...word, span_highlighted: false}))               
+    const prev_state = prevStateMachineState;
+    SetStateMachineState(prevStateMachineState);
+    setPrevStateMachineState("");
+    setPrevSummarySpanHighlights([]);
+    setPrevDocSpanHighlights([]);
+    return prev_state
+  }
+
+  const RemoveAlignmentId = (word, chosen_align_id) => {
+    const new_alignment_id = word.alignment_id.filter((elem) => {return elem !== chosen_align_id});
+    return new_alignment_id;
+  }
+
+  const ReviseChooseAlignHandler = (clickedWordInfo) => {
+    setPrevSummaryJsonRevise(summary_json);
+    setPrevDocJsonRevise(doc_json);
+
+    const chosen_align_id = (clickedWordInfo[0] === 'doc') ? doc_json.filter((word) => {return word.tkn_id === clickedWordInfo[1]})[0].alignment_id[0] : 
+                                                             summary_json.filter((word) => {return word.tkn_id === clickedWordInfo[1]})[0].alignment_id[0]
+
+    setSummaryJson(summary_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, old_alignments: false, old_alignment_hover:false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
+    setDocJson(doc_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, old_alignments: false, old_alignment_hover:false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
+  }
+
+
+  const SetSummaryShadow = (sent_id) => {
+    setSummaryJson(summary_json.map((word) => word.sent_id === sent_id ? { ...word, shadowed: true } : { ...word, shadowed: false }))
+  }
+
+
+  const SetSummaryShadowAndUpdateHighlights = (sent_id) => {
+    setSummaryJson(
+      summary_json.map((word) => word.sent_id === sent_id ? { ...word, shadowed: true } : { ...word, shadowed: false }).map(
+      (word) => word.span_highlighted ? {...word, span_highlighted: false, all_highlighted:true} : word)
+      )
+  }
+
+  const SetDocBoldface = (tkn_ids) => {
+    setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, boldfaced: true } : { ...word, boldfaced: false }))
+  }
+
+  const checkIfLemmasMatch = ({doc_id, summary_ids, isHover}) => {
+    if (isHover){
+      console.log("AVIVSL: summary_ids are:")
+      console.log(summary_ids)
+    }
+    const which_match_mtx = important_lemma_match_mtx;
+    const matching_summary_ids = summary_ids.filter((summary_id) => {return all_lemma_match_mtx[doc_id][summary_id] === 1;})
+    return matching_summary_ids.length > 0
+  }
+
+  const boldStateHandler = (event, newValue) => {
+    if (event !== undefined){
+      setSliderBoldStateActivated(true)
+    }
+    if (newValue=='1'){
+      setBoldState("none");
+      SetDocBoldface([]);
+    } else if (newValue=='2'){
+      setBoldState("span");
+      const summary_ids = summary_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id});
+      const isSpan = true;
+      const tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id:doc_id, summary_ids:summary_ids, isHover:false})});
+      SetDocBoldface(tkn_ids);
+    } else {
+      setBoldState("sent");
+      const isSpan = false;
+      const summary_ids = summary_json.filter((word) => {return word.shadowed}).map((word) => {return word.tkn_id});
+      const tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id:doc_id, summary_ids:summary_ids, isHover:false})});
+      SetDocBoldface(tkn_ids);
+    }
+  }
+
+
+  const SetDocOldHighlights = (tkn_ids) => {
+    setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, old_alignments: true } : { ...word, old_alignments: false }))
+  }
+
+  const SetSummaryOldHighlights = (tkn_ids) => {
+    setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, old_alignments: true } : { ...word, old_alignments: false }))
+  }
+
+  const FindDocAlignmentPerSent = (sent_ind) => {
+    let curr_sent_alignment_ids = summary_json.map((word) => {return (word.sent_id===sent_ind) ? word.alignment_id : []});
+    curr_sent_alignment_ids = [].concat.apply([], curr_sent_alignment_ids); // merge into a single array (before was an array of arrays)
+    const doc_ids = doc_json.filter((word) => {return word.alignment_id.some(r=> curr_sent_alignment_ids.includes(r))}).map((word) => {return word.tkn_id});
+    return doc_ids
+  }
+
+
+  const oldAlignmentStateHandler = ({event, newValue, sent_ind}) => {
+
+    if (newValue=='1'){
+      setOldAlignmentState("none");
+      SetDocOldHighlights([]);
+      SetSummaryOldHighlights([]);
+    } else if (newValue=='2'){
+      setOldAlignmentState("sent");
+      sent_ind = (sent_ind===-1) ? CurrSentInd : sent_ind
+      const doc_ids = FindDocAlignmentPerSent(sent_ind)
+      const summary_ids = summary_json.filter((word) => {return (word.all_highlighted && word.sent_id === sent_ind)}).map((word) => {return word.tkn_id});
+      SetDocOldHighlights(doc_ids);
+      SetSummaryOldHighlights(summary_ids);
+    } else {
+      setOldAlignmentState("all");
+      const doc_ids = doc_json.filter((word) => {return word.all_highlighted}).map((word) => {return word.tkn_id});
+      const summary_ids = summary_json.filter((word) => {return word.all_highlighted}).map((word) => {return word.tkn_id});
+      SetDocOldHighlights(doc_ids);
+      SetSummaryOldHighlights(summary_ids);
+    }
+  }
+
+  oldAlignmentStateHandler.defaultProps = {
+    sent_ind: -1
+  }
+
+
+  
+  const hoverHandler = ({inOrOut, curr_alignment_id, tkn_id, isSummary}) => {
+    // onMouseEnter for "REVISE HOVER"
+    if (inOrOut === "in" && StateMachineState==="REVISE HOVER") { 
+      setDocJson(doc_json.map((word) => word.alignment_id.includes(curr_alignment_id) ? {...word, old_alignment_hover: true} : {...word, old_alignment_hover: false}))
+      setSummaryJson(summary_json.map((word) => word.alignment_id.includes(curr_alignment_id) ? {...word, old_alignment_hover: true} : {...word, old_alignment_hover: false}))
+    } 
+    // onMouseLeave for "REVISE HOVER"
+    else if (inOrOut === "out" && StateMachineState==="REVISE HOVER") { 
+      setDocJson(doc_json.map((word) => {return {...word, old_alignment_hover:false}}))
+      setSummaryJson(summary_json.map((word) => {return {...word, old_alignment_hover:false}}))
+    }
+    // onMouseEnter for all the alignments choosing states
+    // else if (inOrOut === "in" && ["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState) && isSummary) { 
+      // const doc_tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id:doc_id, summary_ids:[tkn_id], isHover:true})});
+      // setDocJson(doc_json.map((word) => doc_tkn_ids.includes(word.tkn_id) ? {...word, red_color:true} : {...word, red_color:false}))
+    // } 
+    // onMouseLeave for all the alignments choosing states
+    else if (inOrOut === "out" && ["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState) && isSummary) { 
+      setDocJson(doc_json.map((word) => {return {...word, red_color:false}}))
+    }
+
+  }
+
+  const isRedLettered = (summary_tkn_id) => {
+    if ((StateMachineState === "REVISE CLICKED") && (summary_json.filter((word) => {return word.tkn_id === summary_tkn_id && word.sent_id > CurrSentInd}).length !== 0)){
+      return false
+    } else if ((summary_json.filter((word) => {return word.tkn_id === summary_tkn_id && word.sent_id !== CurrSentInd}).length !== 0) && !(["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState))) {
+      return false
+    } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
+      return true
+    }
+
+  }
+
+
+
+  const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
+    setSliderBoldStateActivated(false);
+    if (typeof forceState === 'string') {
+      console.log(`forceState situation with: state ${forceState}`);
+    }
+    else{
+      console.log("not a forceState situation...");
+    }
+    MachineStateHandler(summary_json,
+                          StateMachineState, SetStateMachineState,
+                          SetInfoMessage, handleErrorOpen, isPunct,
+                          CurrSentInd, SetCurrSentInd, SetSummaryShadow,
+                          AlignmentCount, SetAlignmentCount,
+                          approveHighlightHandler,
+                          clickedWordInfo, forceState, 
+                          StartReviseStateHandler, ExitReviseHandler,
+                          ReviseChooseAlignHandler, 
+                          isBackBtn,
+                          setPrevSummaryJsonRevise, setPrevDocJsonRevise
+                         );
+  }
+
+  MachineStateHandlerWrapper.defaultProps = {
+    forceState: '',
+    clickedWordInfo: [],
+    isBackBtn: false
+  }
+
+/**************************************************************************************************************/
+
+  /*******  useState for smooth transition to "SENTENCE END" or "SUMMARY END" *******/
+  const finishedSent = useRef(false);
+
+  useEffect(() => {
+    const isNotStart = (StateMachineState !== "START" && summary_json.filter((word) => {return word.sent_id===CurrSentInd && word.shadowed}).length !== 0);
+    const isAllSentHighlighted = (summary_json.filter((word) => { return word.sent_id===CurrSentInd && !(word.all_highlighted || word.span_highlighted) && !isPunct(word.word)}).length === 0); // need "isNotStart" because also for "START" state isAllSentHighlighted=true because no sentence is span-highlighted yet 
+    if (isAllSentHighlighted && isNotStart && !finishedSent.current && !["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState)) {
+      finishedSent.current = true;
+
+
+      const isLastSent = (Math.max.apply(Math, summary_json.map(word => { return word.sent_id; })) === CurrSentInd)
+      if (isLastSent) {
+        MachineStateHandlerWrapper({forceState:"SUMMARY END"});   
+      } else {
+        MachineStateHandlerWrapper({forceState:"SENTENCE END"});   
+      }
+    }
+
+    // if regretted summary highlighting
+    else if(!isAllSentHighlighted && isNotStart && finishedSent.current && !["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState)) { 
+      console.log(`curr state is ${StateMachineState}`);
+      console.log(`curr CurrSentInd is ${CurrSentInd}`)
+      console.log("back to square one");
+      finishedSent.current = false;
+      MachineStateHandlerWrapper({forceState:"ANNOTATION"});
+    }
+  }, [summary_json]);
+  /*********************************************************************************/ 
+
+
+  
+  /*********** useState to update the summary shadow when next sentence ***********/ 
+  useEffect(() => {
+    SetSummaryShadowAndUpdateHighlights(CurrSentInd);
+  }, [CurrSentInd]);
+  /********************************************************************************/
+
+
+  /***************************** bolding controlling *****************************/ 
+  useEffect(() => {
+    // when choosing a span - if nothing is span_highlighted then all sent matches are in bold, otherwise only span_highlighted matches (when highlighting - something must be span-highlighted so automatically is '2')
+    if (["ANNOTATION", "SENTENCE END", "SUMMARY END"].includes(StateMachineState) && !sliderBoldStateActivated) {
+      const bold_state = (summary_json.filter((word) => {return word.span_highlighted}).length === 0) ? '3' : '2'; // if no span is current highlighted - bold everything, otherwise bold only currently highlighted span
+      boldStateHandler(undefined, bold_state);
+    } else if (["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState) && !sliderBoldStateActivated) {
+      boldStateHandler(undefined, '1');
+    }
+  }, [StateMachineState, summary_json]);
+  /********************************************************************************/
+
+
+    /***************************** old alignments controlling *****************************/ 
+    const prevState = useRef("")
+    useEffect(() => {
+      if (["ANNOTATION", "SENTENCE END", "SUMMARY END"].includes(StateMachineState)) {
+        oldAlignmentStateHandler({event:undefined, newValue:'3', sent_ind:-1});
+      } else if (StateMachineState === "REVISE CLICKED"){
+        oldAlignmentStateHandler({event:undefined, newValue:'1', sent_ind:-1});
+      } else if (StateMachineState === "REVISE HOVER"){
+        oldAlignmentStateHandler({event:undefined, newValue:'3', sent_ind:-1});
+      }
+      prevState.current = StateMachineState;
+    }, [StateMachineState, AlignmentCount]);
+    /********************************************************************************/
+    useEffect(() => {
+      console.log(`t_doc_json is:`)
+      console.log(doc_json)
+    }, []);
+    
+    
+    
+    /******************* highlighting while choosing spans to help *******************/ 
+
+
+    useEffect(() => {
+      if (DocOnMouseDownID !== "-1"){
+        setDocOnMouseDownActivated(true)
+      } else if (DocOnMouseDownID === "-1"){
+        setDocOnMouseDownActivated(false)
+      } 
+      
+      if (SummaryOnMouseDownID !== "-1") {
+        setSummaryOnMouseDownActivated(true)
+      } else {
+        setSummaryOnMouseDownActivated(false)
+      }
+    }, [DocOnMouseDownID,SummaryOnMouseDownID]);
+    
+    //AVIVSL: TODO: find way to reset the whole hovering process when the onMouseUp occurs outside of the text (maybe when docOnMouseDownActivated===false or summaryOnMouseDownActivated===false) --> maybe use a useRef to remember which one was the one activated - summary or doc?
+    useEffect(() => {
+      if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)){
+        if(docOnMouseDownActivated) {
+          console.log(`DocOnMouseDownID is ${DocOnMouseDownID} and hoverActivatedId ia ${hoverActivatedId}`)
+          const min_ID =  (DocOnMouseDownID > hoverActivatedId) ? hoverActivatedId : DocOnMouseDownID;
+          const max_ID =  (DocOnMouseDownID > hoverActivatedId) ? DocOnMouseDownID : hoverActivatedId;
+          let chosen_IDs = [];
+          for(let i=min_ID; i<=max_ID; i++){
+            chosen_IDs.push(i);
+          }
+          setDocJson(doc_json.map((word) => chosen_IDs.includes(word.tkn_id)? {...word, span_alignment_hover:true}:{...word, span_alignment_hover:false}))
+        } else if (!docOnMouseDownActivated){
+          setDocJson(doc_json.map((word) => {return {...word, span_alignment_hover:false}}))
+        }
+        if(summaryOnMouseDownActivated) {
+          console.log(`SummaryOnMouseDownID is ${SummaryOnMouseDownID} and hoverActivatedId ia ${hoverActivatedId}`)
+          const min_ID =  (SummaryOnMouseDownID > hoverActivatedId) ? hoverActivatedId : SummaryOnMouseDownID;
+          const max_ID =  (SummaryOnMouseDownID > hoverActivatedId) ? SummaryOnMouseDownID : hoverActivatedId;
+          let chosen_IDs = [];
+          for(let i=min_ID; i<=max_ID; i++){
+            chosen_IDs.push(i);
+          }
+          setSummaryJson(summary_json.map((word) => chosen_IDs.includes(word.tkn_id)? {...word, span_alignment_hover:true}:{...word, span_alignment_hover:false}))
+        } else if (!summaryOnMouseDownActivated){
+          setSummaryJson(summary_json.map((word) => {return {...word, span_alignment_hover:false}}))
+          
+          if (isRedLettered(hoverActivatedId) && hoverActivatedDocOrSummary === "summary") {
+            const doc_tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id:doc_id, summary_ids:[hoverActivatedId], isHover:true})});
+            
+            console.log("red is activated:")
+            console.log(doc_json.filter((word) => {return doc_tkn_ids.includes(word.tkn_id)}).map((word) => {return word.word}))
+
+            setDocJson(doc_json.map((word) => doc_tkn_ids.includes(word.tkn_id) ? {...word, red_color:true} : {...word, red_color:false}))  
+          }  
+        }
+      }
+    }, [docOnMouseDownActivated, summaryOnMouseDownActivated, hoverActivatedId]);
+    /********************************************************************************/ 
+/**************************************************************************************************************/
+
+
+    const SubmitHandler = (event) => {
+      console.log(event);
+      alert("Submitted!");
+    }
+
+
+  return (
+        <Annotation 
+                isTutorial = {true}
+                isGuidedAnnotation={false} 
+                task_id={'0'} 
+                doc_json = {doc_json}
+                summary_json = {summary_json}
+                all_lemma_match_mtx = {all_lemma_match_mtx}
+                important_lemma_match_mtx = {important_lemma_match_mtx}
+                doc_paragraph_breaks = {doc_paragraph_breaks}
+                StateMachineState = {StateMachineState}
+                SetStateMachineState = {SetStateMachineState}
+                handleErrorOpen = {handleErrorOpen}
+                isPunct = {isPunct}
+                toggleSummarySpanHighlight = {toggleSummarySpanHighlight}
+                toggleDocSpanHighlight = {toggleDocSpanHighlight}
+                boldState = {boldState}
+                boldStateHandler = {boldStateHandler}
+                SubmitHandler = {SubmitHandler}
+                CurrSentInd = {CurrSentInd}
+                InfoMessage = {InfoMessage}
+                MachineStateHandlerWrapper = {MachineStateHandlerWrapper}
+                AlignmentCount = {AlignmentCount} 
+                SetAlignmentCount = {SetAlignmentCount}
+                oldAlignmentState = {oldAlignmentState}
+                oldAlignmentStateHandler = {oldAlignmentStateHandler}
+                hoverHandler = {hoverHandler}
+                DocOnMouseDownID = {DocOnMouseDownID}
+                SetDocOnMouseDownID = {SetDocOnMouseDownID}
+                SummaryOnMouseDownID = {SummaryOnMouseDownID}
+                SetSummaryOnMouseDownID = {SetSummaryOnMouseDownID}
+                setDocOnMouseDownActivated = {setDocOnMouseDownActivated}
+                docOnMouseDownActivated = {docOnMouseDownActivated}
+                setSummaryOnMouseDownActivated = {setSummaryOnMouseDownActivated}
+                summaryOnMouseDownActivated = {summaryOnMouseDownActivated}
+                setHoverActivatedId = {setHoverActivatedId}
+                setHoverActivatedDocOrSummary = {setHoverActivatedDocOrSummary}
+                g_StateMachineStateIndex = {undefined}
+                guidingAnnotationAlertText = {undefined}
+                guidingAnnotationAlertTitle = {undefined} 
+                guidingAnnotationAlertType = {undefined}
+                closeGuidingAnnotationAlert = {undefined}
+                />
+  )
+}
+
+export default Tutorial
