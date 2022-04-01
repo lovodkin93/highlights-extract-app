@@ -349,9 +349,12 @@
   }
 
   .tutorial-card-not-intro{
-    margin-top: 0.5%;
+    margin-top: 2%;
+    right:0%;
+    transform: translate(220%, -100%);
+    /* margin-top: 0.5%;
     left: 50%;
-    transform: translate(-50%, 0);
+    transform: translate(-50%, 0); */
   }
 
   .tutorial-text{

@@ -1,10 +1,16 @@
+import { Markup } from 'interweave';
 
-const resetDocJson = (setDocJson, doc_json) => {
-    setDocJson(doc_json.map((word) => {return {...word, alignment_id:[], all_highlighted:false, boldfaced:false, old_alignment_hover:false, old_alignments:false, red_color:false, span_alignment_hover:false, span_highlighted:false }}))
+
+const resetDocJson = (setDocJson, doc_json, withBold) => {
+    if (withBold) {
+        setDocJson(doc_json.map((word) => {return {...word, span_highlighted:false }}))
+    } else {
+        setDocJson(doc_json.map((word) => {return {...word, alignment_id:[], all_highlighted:false, boldfaced:false, old_alignment_hover:false, old_alignments:false, red_color:false, span_alignment_hover:false, span_highlighted:false }}))
+    }
 }
 
 const resetSummaryJson = (setSummaryJson, summary_json) => {
-    setSummaryJson(summary_json.map((word) => {return {...word, alignment_id:[], all_highlighted:false, boldfaced:false, old_alignment_hover:false, old_alignments:false, shadowed:false, span_alignment_hover:false, span_highlighted:false }}))
+    setSummaryJson(summary_json.map((word) => {return {...word, alignment_id:[], all_highlighted:false, boldfaced:false, old_alignment_hover:false, old_alignments:false, span_alignment_hover:false, span_highlighted:false }}))
 }
 
 
@@ -22,14 +28,22 @@ const t_StateMachineStateIdHandler = ({IsNext, SetStateMachineState, t_SetStateM
 
     if ([0,1].includes(newStateId)) {
         SetStateMachineState("START");
-        resetDocJson(setDocJson, t_start_doc_json)
+        resetDocJson(setDocJson, t_start_doc_json, false)
         resetSummaryJson(setSummaryJson, t_start_summary_json)
     }
 
-    if(Array.from(Array(start_states_end).keys()).includes(newStateId)){
+    else if(Array.from(Array(start_states_end).keys()).includes(newStateId)){
         SetCurrSentInd(0)
-        setDocJson(t_start_doc_json)
-        setSummaryJson(t_start_summary_json)
+        if (newStateId===6){
+            resetDocJson(setDocJson, t_start_doc_json, true)
+            resetSummaryJson(setSummaryJson, t_start_summary_json)
+        } else if ([7,8,9].includes(newStateId) ) {
+            resetDocJson(setDocJson, t_start_doc_json, true)
+            setSummaryJson(t_start_summary_json)
+        } else {
+            setDocJson(t_start_doc_json)
+            setSummaryJson(t_start_summary_json)
+        }
         SetStateMachineState("ANNOTATION");
     } else if([...Array(middle_states_end - middle_states_start + 1).keys()].map(x => x + middle_states_start).includes(newStateId)){
         SetCurrSentInd(1)
@@ -54,8 +68,8 @@ const t_StateMachineStateIdHandler = ({IsNext, SetStateMachineState, t_SetStateM
           return intro_message();
       } else {
           return (
-              <div>
-                  {t_state_messages.filter((t_state) => {return t_state.state_cnt === t_StateMachineStateId})[0].message}
+              <div className="tutorial-text">
+                  <Markup content={t_state_messages.filter((t_state) => {return t_state.state_cnt === t_StateMachineStateId})[0].message} />
               </div>
           )
       }

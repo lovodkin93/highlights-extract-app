@@ -27,7 +27,7 @@ const Tutorial = ({doc_json, setDocJson,
   const [oldAlignmentState, setOldAlignmentState] = useState("all"); // for user to choose if want full highlighting history, only current sentence's highlighting history or no history (denoted as "all", "sent" and "none", accordingly)
   const [StateMachineState, SetStateMachineState] = useState("ANNOTATION");
   const [error_message, setErrorMessage] = React.useState("");
-  const [CurrSentInd, SetCurrSentInd] = useState(1);
+  const [CurrSentInd, SetCurrSentInd] = useState(-1);
   const [InfoMessage, SetInfoMessage] = useState("");
   const [AlignmentCount, SetAlignmentCount] = useState(3)
 
@@ -179,10 +179,6 @@ const Tutorial = ({doc_json, setDocJson,
   }
 
   const checkIfLemmasMatch = ({doc_id, summary_ids, isHover}) => {
-    // if (isHover){
-    //   console.log("AVIVSL: summary_ids are:")
-    //   console.log(summary_ids)
-    // }
     const which_match_mtx = important_lemma_match_mtx;
     const matching_summary_ids = summary_ids.filter((summary_id) => {return all_lemma_match_mtx[doc_id][summary_id] === 1;})
     return matching_summary_ids.length > 0
@@ -293,11 +289,12 @@ const Tutorial = ({doc_json, setDocJson,
 
   const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
     setSliderBoldStateActivated(false);
-    if (typeof forceState === 'string') {
+    if ([5].includes(t_StateMachineStateId)) {
       console.log(`forceState situation with: state ${forceState}`);
     }
     else{
       console.log("not a forceState situation...");
+      return; // AVIVSL: added this so people can't change anything
     }
     MachineStateHandler(summary_json,
                           StateMachineState, SetStateMachineState,
@@ -503,9 +500,10 @@ const Tutorial = ({doc_json, setDocJson,
                     guidingAnnotationAlertTitle = {undefined} 
                     guidingAnnotationAlertType = {undefined}
                     closeGuidingAnnotationAlert = {undefined}
+                    t_StateMachineStateId = {t_StateMachineStateId}
                     />
         )}
-        <Card className={`${(t_StateMachineStateId === 0) ? 'tutorial-card-intro' : 'tutorial-card-not-intro'}`} bg="info" border="primary" style={{ width: '60rem' }}>
+        <Card className={`${(t_StateMachineStateId === 0) ? 'tutorial-card-intro' : 'tutorial-card-not-intro'}`} bg="info" border="primary" style={{ width: '30%' }}>
           <Card.Body>
             <Card.Title className='tutorial-title'>{getTutorialCardTitle(t_state_messages,t_StateMachineStateId)}</Card.Title>
             <Card.Text>

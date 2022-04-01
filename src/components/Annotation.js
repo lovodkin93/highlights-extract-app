@@ -49,7 +49,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation, task_id,
                     DocOnMouseDownID, SetDocOnMouseDownID, SummaryOnMouseDownID, SetSummaryOnMouseDownID,
                     setDocOnMouseDownActivated, docOnMouseDownActivated, setSummaryOnMouseDownActivated, summaryOnMouseDownActivated, setHoverActivatedId, setHoverActivatedDocOrSummary,
                     g_StateMachineStateIndex,
-                    guidingAnnotationAlertText, guidingAnnotationAlertTitle, guidingAnnotationAlertType, closeGuidingAnnotationAlert
+                    guidingAnnotationAlertText, guidingAnnotationAlertTitle, guidingAnnotationAlertType, closeGuidingAnnotationAlert,
+                    t_StateMachineStateId
                    }) => {
 
 
@@ -195,6 +196,37 @@ const Annotation = ({isTutorial, isGuidedAnnotation, task_id,
   }
 
 
+  const get_range = (start_i, end_i) => {
+    return [...Array(end_i - start_i + 1).keys()].map(x => x + start_i)
+  }
+
+  const getDocText = () => {
+    if (!isTutorial || t_StateMachineStateId !== 7){
+      return doc_json.map((word_json, index) => (
+                <DocWord key={index} word_json={word_json} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
+              ))
+    } else {
+        const start_1 = 0;
+        const end_1 = 13;
+        const start_2 = end_1+1;
+        const end_2 = 104;
+        const start_3 = end_2+1;
+        const end_3 = 108;
+        const start_4 = end_3+1;
+        const end_4 = 417;
+        const span_groups = [doc_json.filter((word, ind) => {return ind>=start_1 && ind <=end_1}), doc_json.filter((word, ind) => {return ind>=start_2 && ind <=end_2}), doc_json.filter((word, ind) => {return ind>=start_3 && ind <=end_3}), doc_json.filter((word, ind) => {return ind>=start_4 && ind <=end_4})]
+        
+        return span_groups.map((summary_words, index) => 
+                  <div className={`${([0,2].includes(index)) ?  'with-glow': ''}`}>
+                      {summary_words.map((word_json, index) => (
+                          <DocWord key={index} word_json={word_json} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
+                        ))}
+                  </div>
+                )
+    }
+  }
+
+
 
 
 
@@ -209,7 +241,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation, task_id,
     const summary_per_sent_id = [...Array(max_sent_id+1).keys()].map((sent_id) => {return summary_json.filter((word) => {return word.sent_id===sent_id})})
     return summary_per_sent_id.map((summary_words, index) => 
                                                       <div>
-                                                        <p  className={`${(index===CurrSentInd) ?  'bordered_sent': ''}`}>
+                                                        <p  className={`${(index===CurrSentInd) ?  'bordered_sent': ''} ${(isTutorial && t_StateMachineStateId===4 && index===CurrSentInd) ? 'with-glow' : ''}`}>
                                                           {summary_words.map((word_json, index) => (
                                                             <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
                                                             ))}
@@ -298,6 +330,7 @@ useEffect(() => {
                   oldAlignmentState={oldAlignmentState}
                   oldAlignmentStateHandler={oldAlignmentStateHandler}
                   g_StateMachineStateIndex = {g_StateMachineStateIndex}
+                  t_StateMachineStateId = {t_StateMachineStateId}
             />
             {(InfoMessage !== "" && !isTutorial) && (InfoAlert(InfoMessage))}
           </Col>
@@ -318,9 +351,10 @@ useEffect(() => {
             <Card border="secondary" bg="light"  id="doc-text">
                 <Card.Header>Document</Card.Header>
                 <Card.Body>
-                  {doc_json.map((word_json, index) => (
+                  {getDocText()}
+                  {/* {doc_json.map((word_json, index) => (
                       <DocWord key={index} word_json={word_json} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
-                    ))};
+                    ))}; */}
                 </Card.Body>
               </Card>
           </Col>
@@ -365,7 +399,7 @@ useEffect(() => {
 
               {!["REVISE HOVER", "SUMMARY END", "SENTENCE END", "START"].includes(StateMachineState) && (
                   <Col md={{span:5, offset:3}}>
-                    <button type="button" className="btn btn-primary btn-lg right-button" onClick={MachineStateHandlerWrapper}>
+                    <button type="button" className={`btn btn-primary btn-lg right-button ${(isTutorial && t_StateMachineStateId===5) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                       {nextButtonText()}
                       <ChevronRight className="button-icon"/>
                     </button>
@@ -374,7 +408,7 @@ useEffect(() => {
 
               {StateMachineState === "START"  && (
                     <Col md={{span:3, offset:9}}>
-                      <button type="button" className={`btn btn-primary btn-lg right-button ${(isGuidedAnnotation) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                      <button type="button" className={`btn btn-primary btn-lg right-button ${(isGuidedAnnotation || isTutorial) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                         {nextButtonText()}
                       </button>
                     </Col>

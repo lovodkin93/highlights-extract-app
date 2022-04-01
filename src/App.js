@@ -1229,6 +1229,7 @@ const App = () => {
                                               guidingAnnotationAlertTitle = {guidingAnnotationAlertTitle} 
                                               guidingAnnotationAlertType = {guidingAnnotationAlertType}
                                               closeGuidingAnnotationAlert = {closeGuidingAnnotationAlert}
+                                              t_StateMachineStateId = {undefined}
                                               />} 
             />
 
@@ -1273,6 +1274,7 @@ const App = () => {
                                               guidingAnnotationAlertTitle = {guidingAnnotationAlertTitle} 
                                               guidingAnnotationAlertType = {guidingAnnotationAlertType}
                                               closeGuidingAnnotationAlert = {closeGuidingAnnotationAlert}
+                                              t_StateMachineStateId = {undefined}
                                               />} 
             />
 

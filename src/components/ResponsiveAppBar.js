@@ -22,7 +22,7 @@ import Col from 'react-bootstrap/Col'
 
 const pages = {'Instructions': 'instructions', "Tutorial": "tutorial", 'Guided Annotation': 'guidedAnnotation', 'Annotation': ''}; 
 
-const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler, oldAlignmentState, oldAlignmentStateHandler, g_StateMachineStateIndex }) => {
+const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler, oldAlignmentState, oldAlignmentStateHandler, g_StateMachineStateIndex, t_StateMachineStateId }) => {
   const BlackTextTypography = withStyles({
     root: {
       color: "white",
@@ -126,7 +126,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
                   BOLDING
                 </BlackTextTypography>
                 <StyledSliderBolding
-                  className={`${(g_StateMachineStateIndex===1.1) ? 'with-glow':''}`}
+                  className={`${(g_StateMachineStateIndex === 1.1 || t_StateMachineStateId === 8) ? 'with-glow':''}`}
                   aria-label="Bolding-option"
                   defaultValue={3}
                   getAriaValueText={BoldingSliderTags}

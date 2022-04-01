@@ -7,47 +7,47 @@
     {
     "state_cnt": 1,
     "title": "Start",
-    "message": ""
+    "message": "To begin the annotation process - press the \"START\" button."
   },
     {
     "state_cnt": 2,
     "title": "Highlighting",
-    "message": ""
+    "message": "Choosing aligning spans is done by highlighting them (see example of highlighted spans). To do that, left click the first word and don't let go until all the span is covered (the covered span will be colored orange to guide you). <b>Give it a go</b>, and then proceed."
   },
       {
     "state_cnt": 3,
     "title": "Un-Highlighting",
-    "message": ""
+    "message": "If you need to undo a highlighting, you can do so by <b>pressing the ctrl button</b> and highlighting the relevant span (see previous section)."
   },
       {
     "state_cnt": 4,
     "title": "Work Sentence-by-Sentence",
-    "message": ""
+    "message": "You will work one summary sentence at a time, where you won't be able to proceed to the next sentence without highlighting all the current sentence. To help you focus, the current sentence will be in a red box."
   },
       {
     "state_cnt": 5,
     "title": "Confirm Alignments",
-    "message": ""
+    "message": "When you are satisfied with an alignment, press the \"CONFIRM\" button. When you do this, the alignment is saved (its color is changed to a faded yellow). <b>Give it a go</b>, and then proceed."
   },
       {
     "state_cnt": 6,
     "title": "Bold - Full Sentence",
-    "message": ""
+    "message": "To help you find the alignments, document words related to the words in the currently viewed summary sentence are in bold."
   },
       {
     "state_cnt": 7,
     "title": "Bold - Span",
-    "message": ""
+    "message": "When a summary span is chosen (highlighted), the bolding narrows down to words related to the highlighted summary span, to help you better focus. <br/><b>For example</b>, the bolding helps us see that the currently highlighted span is aligned to part of the first sentence, and to another span further along."
   },
       {
     "state_cnt": 8,
     "title": "Bolding Control",
-    "message": ""
+    "message": "In addition to the default bolding behavior, you can also control the level of bolding you want to see. <br/>To do that, use the red slider at the top-right corner of the screen. <br/>you can alter between:<ul><li>No bolding (leftmost)</li><li>Current higlighted span bolding (middle)</li><li>Current sentence bolding (rightmost)</li></ul><b>Play with it a little</b>, and then proceed."
   },
       {
     "state_cnt": 9,
     "title": "Single Word Hint",
-    "message": ""
+    "message": "If you want to find all the document words related to a specific summary word, without turning off the bolding option, you can simply hover with your mouse over the summary word, and it will \"activate\" the relevant document words (they will turn red). <br/><b>For example</b>, if you are overwhelmed by all the crash-related bolding, try to see where a \"1:30\" mention is found in the document by hovering over the \"1:30\" in the summary."
   },
       {
     "state_cnt": 10,
