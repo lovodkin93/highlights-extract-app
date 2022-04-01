@@ -289,7 +289,7 @@ const Tutorial = ({doc_json, setDocJson,
 
   const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
     setSliderBoldStateActivated(false);
-    if ([5].includes(t_StateMachineStateId)) {
+    if ([5,11,12,13].includes(t_StateMachineStateId)) {
       console.log(`forceState situation with: state ${forceState}`);
     }
     else{
@@ -513,7 +513,8 @@ const Tutorial = ({doc_json, setDocJson,
               <Button className="btn btn-dark btn-lg" onClick={() => {t_StateMachineStateIdHandler({IsNext:false, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
                                                                                                     setDocJson:setDocJson, t_start_doc_json:t_start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
                                                                                                     setSummaryJson:setSummaryJson, t_start_summary_json:t_start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
-                                                                                                    SetCurrSentInd:SetCurrSentInd})}}
+                                                                                                    SetCurrSentInd:SetCurrSentInd,
+                                                                                                    MachineStateHandlerWrapper:MachineStateHandlerWrapper})}}
               >
                 Back
             </Button>
@@ -521,7 +522,8 @@ const Tutorial = ({doc_json, setDocJson,
               <Button className="btn btn-primary btn-lg right-button" onClick={() => {t_StateMachineStateIdHandler({IsNext:true, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
                                                                                                     setDocJson:setDocJson, t_start_doc_json:t_start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
                                                                                                     setSummaryJson:setSummaryJson, t_start_summary_json:t_start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
-                                                                                                    SetCurrSentInd:SetCurrSentInd})}}
+                                                                                                    SetCurrSentInd:SetCurrSentInd,
+                                                                                                    MachineStateHandlerWrapper:MachineStateHandlerWrapper})}}
               >
                 Next
             </Button>

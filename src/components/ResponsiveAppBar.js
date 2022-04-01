@@ -102,7 +102,8 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
                   <BlackTextTypography  id="old-highlighting-slider-title">
                       OLD ALIGNMENTS
                   </BlackTextTypography>
-                  <StyledSliderHighlighting 
+                  <StyledSliderHighlighting
+                    className={`${(t_StateMachineStateId === 10) ? 'with-glow':''}`} 
                     aria-label="Old-Highlighting-option"
                     defaultValue={3}
                     getAriaValueText={OldHighlightingSliderTags}

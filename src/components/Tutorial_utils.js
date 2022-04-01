@@ -19,7 +19,8 @@ const resetSummaryJson = (setSummaryJson, summary_json) => {
 const t_StateMachineStateIdHandler = ({IsNext, SetStateMachineState, t_SetStateMachineStateId, t_StateMachineStateId, 
                                         setDocJson, t_start_doc_json, t_middle_doc_json, t_sent_end_doc_json, t_submit_doc_json,
                                         setSummaryJson, t_start_summary_json, t_middle_summary_json, t_sent_end_summary_json, t_submit_summary_json, 
-                                        SetCurrSentInd}) => {
+                                        SetCurrSentInd,
+                                        MachineStateHandlerWrapper}) => {
     const newStateId = (IsNext) ? t_StateMachineStateId+1 : t_StateMachineStateId-1;
     
     const start_states_end = 10;
@@ -46,11 +47,14 @@ const t_StateMachineStateIdHandler = ({IsNext, SetStateMachineState, t_SetStateM
         }
         SetStateMachineState("ANNOTATION");
     } else if([...Array(middle_states_end - middle_states_start + 1).keys()].map(x => x + middle_states_start).includes(newStateId)){
-        SetCurrSentInd(1)
-        setDocJson(t_middle_doc_json)
-        setSummaryJson(t_middle_summary_json)
-        SetStateMachineState("ANNOTATION");
-        // alert(`now middle: ${newStateId}`)
+        if (newStateId===12) {
+            MachineStateHandlerWrapper({forceState:"REVISE HOVER"});
+        } else {
+            SetCurrSentInd(1);
+            setDocJson(t_middle_doc_json);
+            setSummaryJson(t_middle_summary_json);
+            SetStateMachineState("ANNOTATION");
+        }
     }
 
 

@@ -378,7 +378,7 @@ useEffect(() => {
             <Row className="justify-content-md-center">
                 {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && (
                   <Col>
-                    <button type="button" className="btn btn-dark btn-lg" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>REVISE</button>
+                    <button type="button" className={`btn btn-dark btn-lg ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>REVISE</button>
                   </Col>
                 )}
 

@@ -27,7 +27,7 @@
       {
     "state_cnt": 5,
     "title": "Confirm Alignments",
-    "message": "When you are satisfied with an alignment, press the \"CONFIRM\" button. When you do this, the alignment is saved (its color is changed to a faded yellow). <b>Give it a go</b>, and then proceed."
+    "message": "When you are satisfied with an alignment, press the \"CONFIRM\" button. When you do this, the alignment is saved (its color is changed to a faded yellow). <br/><b>Give it a go</b>, and then proceed."
   },
       {
     "state_cnt": 6,
@@ -52,17 +52,17 @@
       {
     "state_cnt": 10,
     "title": "Old Alignments",
-    "message": ""
+    "message": "Every alignment that is approved, is saved and can be seen with a faded-yellow background. <br/>You can control how many of the old alignment to see, by toggling the blue slider adjacent to the bolding-control slider. <br/>You can alter between: <ul><li>No previous alignments (leftmost)</li><li>Only Current sentence's previous alignments (middle)</li><li>All previous alignments (rightmost)</li></ul><b>Play with it a little</b>, and then proceed."
   },
       {
     "state_cnt": 11,
     "title": "Revise",
-    "message": ""
+    "message": "If at any given point you regret one of your old alignments, you have the option to Revise them. To do that - you need to click the \"REVISE\" button. (proceed for further explanation)."
   },
       {
     "state_cnt": 12,
     "title": "Revise - Choose Old Alignment",
-    "message": ""
+    "message": "After clicking the \"REVISE\" button, you will enter the REVISE mode. Here, you first need to choose the alignment to revise. If you hover over the old alignment, the document-summary pairs over which you hover should become \"unfaded\" to help you find the correct alignment. If you click one of those pairs, it sticks and becomes available for revision. Now you can highlight and un-highlight section to \"fix\" the alignment you chose. <br/><b>Try it out and see what happens.</b> <br/>When you are finished, proceed to the next step."
   },
       {
     "state_cnt": 13,
