@@ -459,13 +459,14 @@ const Tutorial = ({doc_json, setDocJson,
 
   return ( 
       <>
-         {(![0,16].includes(t_StateMachineStateId)) && (
-            <Annotation 
+         <Annotation 
                     isTutorial = {true}
                     isGuidedAnnotation={false} 
                     task_id={'0'} 
                     doc_json = {doc_json}
+                    setDocJson = {setDocJson}
                     summary_json = {summary_json}
+                    setSummaryJson = {setSummaryJson}
                     all_lemma_match_mtx = {all_lemma_match_mtx}
                     important_lemma_match_mtx = {important_lemma_match_mtx}
                     doc_paragraph_breaks = {doc_paragraph_breaks}
@@ -479,6 +480,7 @@ const Tutorial = ({doc_json, setDocJson,
                     boldStateHandler = {boldStateHandler}
                     SubmitHandler = {SubmitHandler}
                     CurrSentInd = {CurrSentInd}
+                    SetCurrSentInd = {SetCurrSentInd}
                     InfoMessage = {InfoMessage}
                     MachineStateHandlerWrapper = {MachineStateHandlerWrapper}
                     AlignmentCount = {AlignmentCount} 
@@ -502,9 +504,18 @@ const Tutorial = ({doc_json, setDocJson,
                     guidingAnnotationAlertType = {undefined}
                     closeGuidingAnnotationAlert = {undefined}
                     t_StateMachineStateId = {t_StateMachineStateId}
+                    t_SetStateMachineStateId = {t_SetStateMachineStateId}
+                    t_state_messages = {t_state_messages}
+                    t_start_doc_json = {t_start_doc_json}
+                    t_middle_doc_json = {t_middle_doc_json}
+                    t_sent_end_doc_json = {t_sent_end_doc_json}
+                    t_submit_doc_json = {t_submit_doc_json}
+                    t_start_summary_json = {t_start_summary_json}
+                    t_middle_summary_json = {t_middle_summary_json}
+                    t_sent_end_summary_json = {t_sent_end_summary_json}
+                    t_submit_summary_json = {t_submit_summary_json}
                     />
-        )}
-        <Card className={`${([0,16].includes(t_StateMachineStateId)) ? 'tutorial-card-intro' : 'tutorial-card-not-intro'}`} bg="info" border="primary" style={{ width: '30%' }}>
+        {/* <Card className={`${([0,16].includes(t_StateMachineStateId)) ? 'tutorial-card-intro' : 'tutorial-card-not-intro'}`} bg="info" border="primary" style={{ width: '30%' }}>
           <Card.Body>
             <Card.Title className='tutorial-title'>{getTutorialCardTitle(t_state_messages,t_StateMachineStateId)}</Card.Title>
             <Card.Text>
@@ -546,7 +557,7 @@ const Tutorial = ({doc_json, setDocJson,
                   Next
               </Button>
           </Card.Body>
-        </Card>
+        </Card> */}
     </>
   )
 }

@@ -342,7 +342,7 @@
 
   .tutorial-card-intro{
     position: fixed !important;
-    top: 30%;
+    top:50%;
     left: 50%;
     width: 50% !important;
     /* bring your own prefixes */
@@ -350,12 +350,20 @@
   }
 
   .tutorial-card-not-intro{
-    margin-top: 2%;
-    right:0%;
-    transform: translate(220%, -100%);
-    /* margin-top: 0.5%;
+    margin-top: 0.5%;
+    margin-bottom: 0.3%;
+    /* transform: translate(-50%, -50%); */
+    width: fit-content;
+    min-width: 50% !important;
+
+  }
+
+  .tutorial-card-end{
+    margin-top: 1%;
     left: 50%;
-    transform: translate(-50%, 0); */
+    transform: translate(-50%, 0);
+    width: 80% !important;
+
   }
 
   .tutorial-text{

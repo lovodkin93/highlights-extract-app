@@ -1193,7 +1193,9 @@ const App = () => {
                                               isGuidedAnnotation={true} 
                                               task_id={'0'}
                                               doc_json = {g_doc_json}
+                                              setDocJson = {g_setDocJson}
                                               summary_json = {g_summary_json}
+                                              setSummaryJson = {g_setSummaryJson}
                                               all_lemma_match_mtx = {g_all_lemma_match_mtx}
                                               important_lemma_match_mtx = {g_important_lemma_match_mtx}
                                               doc_paragraph_breaks = {g_doc_paragraph_breaks}
@@ -1207,6 +1209,7 @@ const App = () => {
                                               boldStateHandler = {g_boldStateHandler}
                                               SubmitHandler = {g_SubmitHandler}
                                               CurrSentInd = {g_CurrSentInd}
+                                              SetCurrSentInd = {g_SetCurrSentInd}
                                               InfoMessage = {g_InfoMessage}
                                               MachineStateHandlerWrapper = {g_MachineStateHandlerWrapper}
                                               AlignmentCount = {g_AlignmentCount} 
@@ -1230,6 +1233,16 @@ const App = () => {
                                               guidingAnnotationAlertType = {guidingAnnotationAlertType}
                                               closeGuidingAnnotationAlert = {closeGuidingAnnotationAlert}
                                               t_StateMachineStateId = {undefined}
+                                              t_SetStateMachineStateId = {undefined}
+                                              t_state_messages = {undefined}
+                                              t_start_doc_json = {undefined}
+                                              t_middle_doc_json = {undefined}
+                                              t_sent_end_doc_json = {undefined}
+                                              t_submit_doc_json = {undefined}
+                                              t_start_summary_json = {undefined}
+                                              t_middle_summary_json = {undefined}
+                                              t_sent_end_summary_json = {undefined}
+                                              t_submit_summary_json = {undefined}
                                               />} 
             />
 
@@ -1238,7 +1251,9 @@ const App = () => {
                                               isGuidedAnnotation={false} 
                                               task_id={task_id} 
                                               doc_json = {doc_json}
+                                              setDocJson = {setDocJson}
                                               summary_json = {summary_json}
+                                              setSummaryJson = {setSummaryJson}
                                               all_lemma_match_mtx = {all_lemma_match_mtx}
                                               important_lemma_match_mtx = {important_lemma_match_mtx}
                                               doc_paragraph_breaks = {doc_paragraph_breaks}
@@ -1252,6 +1267,7 @@ const App = () => {
                                               boldStateHandler = {boldStateHandler}
                                               SubmitHandler = {SubmitHandler}
                                               CurrSentInd = {CurrSentInd}
+                                              SetCurrSentInd = {SetCurrSentInd}
                                               InfoMessage = {InfoMessage}
                                               MachineStateHandlerWrapper = {MachineStateHandlerWrapper}
                                               AlignmentCount = {AlignmentCount} 
@@ -1275,6 +1291,16 @@ const App = () => {
                                               guidingAnnotationAlertType = {guidingAnnotationAlertType}
                                               closeGuidingAnnotationAlert = {closeGuidingAnnotationAlert}
                                               t_StateMachineStateId = {undefined}
+                                              t_SetStateMachineStateId = {undefined}
+                                              t_state_messages = {undefined}
+                                              t_start_doc_json = {undefined}
+                                              t_middle_doc_json = {undefined}
+                                              t_sent_end_doc_json = {undefined}
+                                              t_submit_doc_json = {undefined}
+                                              t_start_summary_json = {undefined}
+                                              t_middle_summary_json = {undefined}
+                                              t_sent_end_summary_json = {undefined}
+                                              t_submit_summary_json = {undefined}
                                               />} 
             />
 

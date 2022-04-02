@@ -17,7 +17,7 @@
       {
     "state_cnt": 3,
     "title": "Un-Highlighting",
-    "message": "If you need to undo a highlighting, you can do so by <b>pressing the ctrl button</b> and highlighting the relevant span (see previous section)."
+    "message": "If you need to undo a highlighting, you can do so by <b>pressing the ctrl button</b> and highlighting the relevant span in the same manner as the previous section."
   },
       {
     "state_cnt": 4,
@@ -47,12 +47,12 @@
       {
     "state_cnt": 9,
     "title": "Single Word Hint",
-    "message": "If you want to find all the document words related to a specific summary word, without turning off the bolding option, you can simply hover with your mouse over the summary word, and it will \"activate\" the relevant document words (they will turn red). <br/><b>For example</b>, if you are overwhelmed by all the crash-related bolding, try to see where a \"1:30\" mention is found in the document by hovering over the \"1:30\" in the summary."
+    "message": "If you want to find all the document words related to a specific summary word, without turning off the bolding option, you can simply hover with your mouse over the summary word, and it will \"activate\" the relevant document words (will turn red). <br/><b>For example</b>, if you are overwhelmed by all the crash-related bolding, try to see where a \"1:30\" mention is found in the document by hovering over the \"1:30\" in the summary."
   },
       {
     "state_cnt": 10,
     "title": "Old Alignments",
-    "message": "Every alignment that is approved, is saved and can be seen with a faded-yellow background. <br/>You can control how many of the old alignment to see, by toggling the blue slider adjacent to the bolding-control slider. <br/>You can alter between: <ul><li>No previous alignments (leftmost)</li><li>Only Current sentence's previous alignments (middle)</li><li>All previous alignments (rightmost)</li></ul><b>Play with it a little</b>, and then proceed."
+    "message": "Every alignment that is approved, is saved and can be seen with a faded-yellow background. <br/>You can control how many of the old alignments to see, by toggling the blue slider adjacent to the bolding-control slider. <br/>You can alter between: <ul><li>No previous alignments (leftmost)</li><li>Only Current sentence's previous alignments (middle)</li><li>All previous alignments (rightmost)</li></ul><b>Play with it a little</b>, and then proceed."
   },
       {
     "state_cnt": 11,
@@ -62,7 +62,7 @@
       {
     "state_cnt": 12,
     "title": "Revise - Choose Old Alignment and Fix it",
-    "message": "After clicking the \"REVISE\" button, you will enter the REVISE mode. Here, you first need to choose the alignment to revise.<br/> If you hover over the old alignments, the document-summary pairs over which you hover would become \"unfaded\" to help you find the correct alignment. Once you found the alignment you want to revise, click it. This will leave only this alignment, and make it reviseable. Now you can highlight and un-highlight parts of the summary and document to fix the alignment. <br/>Once you are <b>satisfied</b>, press <b>\"CONFIRM\"</b>. <br/>If you <b>regret</b> your changes, dicard them by pressing the <b>\"BACK\"</b> button. <br/><b>Now, Try it out and make yourself comfortable with the \"REVISE\" option.</b> <br/>When you are finished, proceed to the next step."
+    "message": "After clicking the \"REVISE\" button, you will enter the REVISE mode. Here, you first need to choose the alignment to revise.<br/> If you hover over the old alignments, the document-summary pairs over which you hover would become \"unfaded\" to help you find the correct alignment. Once you found the alignment you want to revise, click it. This will leave only this alignment, and make it reviseable. Now you can highlight and un-highlight parts of the summary and document to fix the alignment. <br/>Once you are <b>satisfied</b>, press <b>\"CONFIRM\"</b>. <br/>If you <b>regret</b> your changes, dicard them by pressing the <b>\"BACK\"</b> button. <hr/><b>Now it's your turn: try to edit one of the old alignment and then approve or discard the changes.</b> <br/>When you are finished, proceed to the next step."
   },
       {
     "state_cnt": 13,

@@ -26,21 +26,21 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Alert from 'react-bootstrap/Alert'
 import { ChevronLeft, ChevronRight, SendFill } from 'react-bootstrap-icons';
-
+import { TutorialCard } from './TutorialCard';
 
 // import Card from 'react-bootstrap/Card'
 // import { Container, Row, Col } from 'react-bootstrap';
 
 
 const Annotation = ({isTutorial, isGuidedAnnotation, task_id, 
-                    doc_json, summary_json, 
+                    doc_json, setDocJson, summary_json, setSummaryJson,
                     all_lemma_match_mtx, important_lemma_match_mtx, doc_paragraph_breaks,
                     StateMachineState, SetStateMachineState,
                     handleErrorOpen, isPunct,
                     toggleSummarySpanHighlight, toggleDocSpanHighlight, 
                     boldState, boldStateHandler,
                     SubmitHandler,
-                    CurrSentInd,
+                    CurrSentInd, SetCurrSentInd,
                     InfoMessage,
                     MachineStateHandlerWrapper,
                     AlignmentCount, SetAlignmentCount,
@@ -50,8 +50,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation, task_id,
                     setDocOnMouseDownActivated, docOnMouseDownActivated, setSummaryOnMouseDownActivated, summaryOnMouseDownActivated, setHoverActivatedId, setHoverActivatedDocOrSummary,
                     g_StateMachineStateIndex,
                     guidingAnnotationAlertText, guidingAnnotationAlertTitle, guidingAnnotationAlertType, closeGuidingAnnotationAlert,
-                    t_StateMachineStateId
-                   }) => {
+                    t_StateMachineStateId, t_SetStateMachineStateId, t_state_messages, t_start_doc_json, t_middle_doc_json, t_sent_end_doc_json, t_submit_doc_json, t_start_summary_json, t_middle_summary_json, t_sent_end_summary_json, t_submit_summary_json    
+                  }) => {
 
 
 
@@ -313,6 +313,14 @@ useEffect(() => {
     SetSummaryMouseclicked(false);
   }, [StateMachineState]);
   
+    useEffect(() => {
+      if (isTutorial){
+        console.log("AVIVSL: Inside Tutorial biatch!")
+      }
+    }, []);
+
+
+
   return (
       <Container onKeyDown={(event) => {if (event.ctrlKey) {setCtrlButtonDown(true)}}}
                  onKeyUp={() => {setCtrlButtonDown(false)}} 
@@ -333,6 +341,22 @@ useEffect(() => {
                   t_StateMachineStateId = {t_StateMachineStateId}
             />
             {(InfoMessage !== "" && !isTutorial) && (InfoAlert(InfoMessage))}
+            {(isTutorial) && (<TutorialCard t_StateMachineStateId = {t_StateMachineStateId} 
+                                            t_SetStateMachineStateId = {t_SetStateMachineStateId}
+                                            t_state_messages = {t_state_messages}
+                                            SetStateMachineState = {SetStateMachineState}
+                                            setDocJson = {setDocJson} 
+                                            t_start_doc_json = {t_start_doc_json}
+                                            t_middle_doc_json = {t_middle_doc_json} 
+                                            t_sent_end_doc_json = {t_sent_end_doc_json} 
+                                            t_submit_doc_json = {t_submit_doc_json}
+                                            setSummaryJson = {setSummaryJson} 
+                                            t_start_summary_json = {t_start_summary_json} 
+                                            t_middle_summary_json = {t_middle_summary_json} 
+                                            t_sent_end_summary_json = {t_sent_end_summary_json} 
+                                            t_submit_summary_json = {t_submit_summary_json}
+                                            SetCurrSentInd = {SetCurrSentInd}
+                                            MachineStateHandlerWrapper = {MachineStateHandlerWrapper} />)}
           </Col>
         </Row>
 
@@ -346,97 +370,99 @@ useEffect(() => {
         {isGuidedAnnotation && (
               GuidedAnnotationToast(toastVisible, setToastVisible, g_StateMachineStateIndex)
         )}
-        <Row className='annotation-row' id={`${(InfoMessage === "") ? 'doc-summary-row': ''}`}>
-          <Col md={ 8 }>
-            <Card border="secondary" bg="light"  id="doc-text">
-                <Card.Header>Document</Card.Header>
-                <Card.Body>
-                  {getDocText()}
-                  {/* {doc_json.map((word_json, index) => (
-                      <DocWord key={index} word_json={word_json} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
-                    ))}; */}
-                </Card.Body>
-              </Card>
-          </Col>
-
-          <Col md={4}>
-            <div id={`${(isVisibleFullySummary) ?  '': 'fixed-summary-and-buttons'}`}>
-            <Row>
-              <Col>
-                <Card border="secondary" bg="light" id="summary-text">
-                  <Card.Header>Summary</Card.Header>
+        {(![0,16].includes(t_StateMachineStateId)) && (
+          <Row className='annotation-row' id={`${(InfoMessage === "") ? 'doc-summary-row': ''}`}>
+            <Col md={ 8 }>
+              <Card border="secondary" bg="light"  id="doc-text">
+                  <Card.Header>Document</Card.Header>
                   <Card.Body>
-                    {getSummaryText()}
-                    {/* {summary_json.map((word_json, index) => (
-                      <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
-                    ))}; */}
+                    {getDocText()}
+                    {/* {doc_json.map((word_json, index) => (
+                        <DocWord key={index} word_json={word_json} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
+                      ))}; */}
                   </Card.Body>
                 </Card>
-              </Col>
-            </Row>
+            </Col>
 
-            <Row className="justify-content-md-center">
-                {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && (
-                  <Col>
-                    <button type="button" className={`btn btn-dark btn-lg ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>REVISE</button>
-                  </Col>
-                )}
-
-                {StateMachineState === "REVISE HOVER" && (
-                  <Col>
-                    <button type="button" className={`btn btn-success btn-lg ${(isTutorial && t_StateMachineStateId===13) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>FINISH</button>
-                  </Col>
-                )}
-
-              {StateMachineState === "REVISE CLICKED" && (
-                  <Col md={{span:4, offset:0}}>
-                    <button type="button" className={`btn btn-danger btn-lg ${(isTutorial && t_StateMachineStateId===12) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
-                    <ChevronLeft className="button-icon"/>
-                    BACK
-                    </button>
-                  </Col>
-                )}
-
-              {!["REVISE HOVER", "SUMMARY END", "SENTENCE END", "START"].includes(StateMachineState) && (
-                  <Col md={{span:5, offset:3}}>
-                    <button type="button" className={`btn btn-primary btn-lg right-button ${(isTutorial && [5,12].includes(t_StateMachineStateId)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
-                      {nextButtonText()}
-                      <ChevronRight className="button-icon"/>
-                    </button>
-                  </Col>
-              )}
-
-              {StateMachineState === "START"  && (
-                    <Col md={{span:3, offset:9}}>
-                      <button type="button" className={`btn btn-primary btn-lg right-button ${(isGuidedAnnotation || isTutorial) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
-                        {nextButtonText()}
-                      </button>
-                    </Col>
-                )}
-
-              {StateMachineState === "SENTENCE END"  && (
-                    <Col md={{span:7, offset:1}}>
-                      <button type="button" className={`btn btn-success btn-lg right-button ${(isTutorial && t_StateMachineStateId===14) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
-                        {nextButtonText()}
-                        {StateMachineState !== "START" && (<ChevronRight className="button-icon"/>) }
-                      </button>
-                    </Col>
-                )}
-
-              {StateMachineState === "SUMMARY END" && (
-                <Col md={{span:5, offset:3}}>
-                  <button type="button" className={`btn btn-success btn-lg right-button ${(isTutorial && t_StateMachineStateId===15) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
-                    {nextButtonText()}
-                    {StateMachineState !== "START" && (<SendFill className="button-icon"/>) }
-                  </button>
+            <Col md={4}>
+              <div id={`${(isVisibleFullySummary) ?  '': 'fixed-summary-and-buttons'}`}>
+              <Row>
+                <Col>
+                  <Card border="secondary" bg="light" id="summary-text">
+                    <Card.Header>Summary</Card.Header>
+                    <Card.Body>
+                      {getSummaryText()}
+                      {/* {summary_json.map((word_json, index) => (
+                        <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
+                      ))}; */}
+                    </Card.Body>
+                  </Card>
                 </Col>
-              )}
+              </Row>
+
+              <Row className="justify-content-md-center">
+                  {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && (
+                    <Col>
+                      <button type="button" className={`btn btn-dark btn-lg ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>REVISE</button>
+                    </Col>
+                  )}
+
+                  {StateMachineState === "REVISE HOVER" && (
+                    <Col>
+                      <button type="button" className={`btn btn-success btn-lg ${(isTutorial && t_StateMachineStateId===13) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>FINISH</button>
+                    </Col>
+                  )}
+
+                {StateMachineState === "REVISE CLICKED" && (
+                    <Col md={{span:4, offset:0}}>
+                      <button type="button" className={`btn btn-danger btn-lg ${(isTutorial && t_StateMachineStateId===12) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
+                      <ChevronLeft className="button-icon"/>
+                      BACK
+                      </button>
+                    </Col>
+                  )}
+
+                {!["REVISE HOVER", "SUMMARY END", "SENTENCE END", "START"].includes(StateMachineState) && (
+                    <Col md={{span:5, offset:3}}>
+                      <button type="button" className={`btn btn-primary btn-lg right-button ${(isTutorial && [5,12].includes(t_StateMachineStateId)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                        {nextButtonText()}
+                        <ChevronRight className="button-icon"/>
+                      </button>
+                    </Col>
+                )}
+
+                {StateMachineState === "START"  && (
+                      <Col md={{span:3, offset:9}}>
+                        <button type="button" className={`btn btn-primary btn-lg right-button ${(isGuidedAnnotation || isTutorial) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                          {nextButtonText()}
+                        </button>
+                      </Col>
+                  )}
+
+                {StateMachineState === "SENTENCE END"  && (
+                      <Col md={{span:7, offset:1}}>
+                        <button type="button" className={`btn btn-success btn-lg right-button ${(isTutorial && t_StateMachineStateId===14) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                          {nextButtonText()}
+                          {StateMachineState !== "START" && (<ChevronRight className="button-icon"/>) }
+                        </button>
+                      </Col>
+                  )}
+
+                {StateMachineState === "SUMMARY END" && (
+                  <Col md={{span:5, offset:3}}>
+                    <button type="button" className={`btn btn-success btn-lg right-button ${(isTutorial && t_StateMachineStateId===15) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
+                      {nextButtonText()}
+                      {StateMachineState !== "START" && (<SendFill className="button-icon"/>) }
+                    </button>
+                  </Col>
+                )}
 
 
-            </Row>
-            </div>
-          </Col>
-        </Row>
+              </Row>
+              </div>
+            </Col>
+          </Row>
+        )}
       </Container>
   )
 }

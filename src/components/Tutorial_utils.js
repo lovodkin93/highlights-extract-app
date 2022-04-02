@@ -76,6 +76,8 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
   }
   
   const getTutorialCardText = (t_state_messages, t_StateMachineStateId) => {
+      console.log("t_state_messages:")
+      console.log(t_state_messages)
       if (t_StateMachineStateId===0){
           return intro_message();
       } else if (t_StateMachineStateId===16){
