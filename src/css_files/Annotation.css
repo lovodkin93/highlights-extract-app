@@ -342,8 +342,9 @@
 
   .tutorial-card-intro{
     position: fixed !important;
-    top: 50%;
+    top: 30%;
     left: 50%;
+    width: 50% !important;
     /* bring your own prefixes */
     transform: translate(-50%, -50%);
   }
@@ -367,6 +368,12 @@
     font-family:'Roboto', sans-serif;
     line-height: 1.5;
     font-size: xx-large !important;
+  }
+
+  .tutorial-drop-down-button{
+    position: absolute !important;
+    bottom: 4%;
+    /* bring your own prefixes */
   }
 
 

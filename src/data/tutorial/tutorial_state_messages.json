@@ -1,7 +1,7 @@
 [
   {
     "state_cnt": 0,
-    "title": "Welcome to the Highlight Extraction UI",
+    "title": "Intro",
     "message": ""
   },
     {
@@ -81,7 +81,7 @@
   },
         {
     "state_cnt": 16,
-    "title": "Some Basic Instrcutions",
+    "title": "Some Basic Instructions",
     "message": ""
   }
 ]

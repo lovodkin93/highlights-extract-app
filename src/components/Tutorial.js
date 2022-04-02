@@ -5,7 +5,10 @@ import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import Dropdown from 'react-bootstrap/Dropdown'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import Annotation from './Annotation';
 
 import { MachineStateHandler,  } from './Annotation_event_handlers';
@@ -456,7 +459,7 @@ const Tutorial = ({doc_json, setDocJson,
 
   return ( 
       <>
-         {(t_StateMachineStateId !== 0) && (
+         {(![0,16].includes(t_StateMachineStateId)) && (
             <Annotation 
                     isTutorial = {true}
                     isGuidedAnnotation={false} 
@@ -501,30 +504,47 @@ const Tutorial = ({doc_json, setDocJson,
                     t_StateMachineStateId = {t_StateMachineStateId}
                     />
         )}
-        <Card className={`${(t_StateMachineStateId === 0) ? 'tutorial-card-intro' : 'tutorial-card-not-intro'}`} bg="info" border="primary" style={{ width: '30%' }}>
+        <Card className={`${([0,16].includes(t_StateMachineStateId)) ? 'tutorial-card-intro' : 'tutorial-card-not-intro'}`} bg="info" border="primary" style={{ width: '30%' }}>
           <Card.Body>
             <Card.Title className='tutorial-title'>{getTutorialCardTitle(t_state_messages,t_StateMachineStateId)}</Card.Title>
             <Card.Text>
               {getTutorialCardText(t_state_messages,t_StateMachineStateId)}
             </Card.Text>
-            {(t_StateMachineStateId !== 0) && (
-              <Button className="btn btn-dark btn-lg" onClick={() => {t_StateMachineStateIdHandler({IsNext:false, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
-                                                                                                    setDocJson:setDocJson, t_start_doc_json:t_start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
-                                                                                                    setSummaryJson:setSummaryJson, t_start_summary_json:t_start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
-                                                                                                    SetCurrSentInd:SetCurrSentInd,
-                                                                                                    MachineStateHandlerWrapper:MachineStateHandlerWrapper})}}
-              >
-                Back
-            </Button>
-            )}
-              <Button className="btn btn-primary btn-lg right-button" onClick={() => {t_StateMachineStateIdHandler({IsNext:true, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
-                                                                                                    setDocJson:setDocJson, t_start_doc_json:t_start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
-                                                                                                    setSummaryJson:setSummaryJson, t_start_summary_json:t_start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
-                                                                                                    SetCurrSentInd:SetCurrSentInd,
-                                                                                                    MachineStateHandlerWrapper:MachineStateHandlerWrapper})}}
-              >
-                Next
-            </Button>
+              {(t_StateMachineStateId === 0) && (
+                <DropdownButton className="tutorial-drop-down-button" size="lg" variant="secondary" drop="end" id="dropdown-button-drop-end" title="Sections">
+                  {t_state_messages.map((t_state) => (
+                      <Dropdown.Item as="button" onClick={() => {t_StateMachineStateIdHandler({newStateId:t_state.state_cnt, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
+                                                                      setDocJson:setDocJson, t_start_doc_json:t_start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
+                                                                      setSummaryJson:setSummaryJson, t_start_summary_json:t_start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
+                                                                      SetCurrSentInd:SetCurrSentInd,
+                                                                      MachineStateHandlerWrapper:MachineStateHandlerWrapper}
+                                                                      )}}
+                        >
+                      {t_state.title}
+                      </Dropdown.Item>
+                    ))}
+              </DropdownButton>
+              )}
+              
+              {(t_StateMachineStateId !== 0) && (
+                <Button className="btn btn-dark btn-lg" onClick={() => {t_StateMachineStateIdHandler({newStateId:t_StateMachineStateId-1, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
+                                                                                                      setDocJson:setDocJson, t_start_doc_json:t_start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
+                                                                                                      setSummaryJson:setSummaryJson, t_start_summary_json:t_start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
+                                                                                                      SetCurrSentInd:SetCurrSentInd,
+                                                                                                      MachineStateHandlerWrapper:MachineStateHandlerWrapper})}}
+                >
+                  Back
+              </Button>
+              )}
+
+                <Button className="btn btn-primary btn-lg right-button" onClick={() => {t_StateMachineStateIdHandler({newStateId:t_StateMachineStateId+1, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
+                                                                                                      setDocJson:setDocJson, t_start_doc_json:t_start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
+                                                                                                      setSummaryJson:setSummaryJson, t_start_summary_json:t_start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
+                                                                                                      SetCurrSentInd:SetCurrSentInd,
+                                                                                                      MachineStateHandlerWrapper:MachineStateHandlerWrapper})}}
+                >
+                  Next
+              </Button>
           </Card.Body>
         </Card>
     </>

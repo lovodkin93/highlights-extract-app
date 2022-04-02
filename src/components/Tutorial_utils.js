@@ -16,13 +16,11 @@ const resetSummaryJson = (setSummaryJson, summary_json) => {
 
 
 
-const t_StateMachineStateIdHandler = ({IsNext, SetStateMachineState, t_SetStateMachineStateId, t_StateMachineStateId, 
+const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetStateMachineStateId, t_StateMachineStateId, 
                                         setDocJson, t_start_doc_json, t_middle_doc_json, t_sent_end_doc_json, t_submit_doc_json,
                                         setSummaryJson, t_start_summary_json, t_middle_summary_json, t_sent_end_summary_json, t_submit_summary_json, 
                                         SetCurrSentInd,
                                         MachineStateHandlerWrapper}) => {
-    const newStateId = (IsNext) ? t_StateMachineStateId+1 : t_StateMachineStateId-1;
-    
     const start_states_end = 10;
     const middle_states_start = start_states_end;
     const middle_states_end = 13;
@@ -80,7 +78,9 @@ const t_StateMachineStateIdHandler = ({IsNext, SetStateMachineState, t_SetStateM
   const getTutorialCardText = (t_state_messages, t_StateMachineStateId) => {
       if (t_StateMachineStateId===0){
           return intro_message();
-      } else {
+      } else if (t_StateMachineStateId===16){
+        return basic_instructions();
+      }else {
           return (
               <div className="tutorial-text">
                   <Markup content={t_state_messages.filter((t_state) => {return t_state.state_cnt === t_StateMachineStateId})[0].message} />
@@ -93,6 +93,8 @@ const t_StateMachineStateIdHandler = ({IsNext, SetStateMachineState, t_SetStateM
   const intro_message = () => {
     return (
         <div className="tutorial-text">
+            Welcome to the Highlight Extraction UI.
+            <br/>
             In this task, you are presented with a document and its summary. 
             <br/>
             The summary was written by an expert summarizer who first highlighted important spans in the document and then merged then into a coherent pagaraph. 
@@ -108,6 +110,55 @@ const t_StateMachineStateIdHandler = ({IsNext, SetStateMachineState, t_SetStateM
 
         </div>
     )}
+
+
+    const basic_instructions = () => {
+        return (
+            <div className="tutorial-text">
+                When a summary sentence is very long, we strongly suggest to break it down into smaller pieces, and align each of them separately.
+                This is to prevent you from missing out small details.
+                <br/>
+                For example, the sentence:
+                    <h4>
+                        Sixty Forest Service firefighters brought Michigan's four-day Hiawatha
+                        <br></br> 
+                        National Forest fire under control after it burned 1100 acres of woodlands.
+                    </h4>
+                should be broken down either into:
+                <ol>
+                    <li>Sixty Forest Service firefighters brought Michigan's four-day Hiawatha National Forest fire under control</li>
+                    <li>fire under control after it burned 1100 acres of woodlands.</li>
+                </ol>
+
+                or into:
+
+                <ol>
+                    <li>Sixty Forest Service firefighters brought ... fire under control</li>
+                    <li>Michigan's four-day Hiawatha National Forest fire</li>
+                    <li>fire under control after it burned 1100 acres of woodlands.</li>
+                </ol>
+                This way, there is less risk of missing out small details.
+
+                On the other hand, avoid working on spans that are too general or that don't cover complete events.
+                <br/>
+                Following the example above, working with spans like "Sixty Forest Service firefighters" or "1100 acres of woodlands" is too general, as those spans can appear in the document out of their summary's context.
+                <br/>
+                Alternatively, working with spans like "Sixty Forest Service firefighters brought" or "fire under control after it" is also problematic as it doesn't cover full events.
+                A few general rules of thumb for choosing a summary span to align are:
+                    <ul>
+                        <li>Is the information presented in the span missing something? Or is it self-informative?</li>
+                        <li>Can I imagine the information described in the span? Or do I feel like I need some extra information?</li>
+                        <li>Is the information presented in the span specific? Or is it too general?</li>
+                        <li>Do I feel like there are too many pieces of information in the span? If so, is there a way to get rid of some of it while keeping the span self-informative?</li>
+                    </ul>
+                <b>Lastly, make sure that what you highlight in the document covers all the information in the summary and only it!</b>
+    
+            </div>
+        )}
+
+    // const tutorial_table_of_contents = () => {
+    //     return 
+    // }
 
 
 
