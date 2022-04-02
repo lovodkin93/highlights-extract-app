@@ -384,13 +384,13 @@ useEffect(() => {
 
                 {StateMachineState === "REVISE HOVER" && (
                   <Col>
-                    <button type="button" className="btn btn-success btn-lg" onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>FINISH</button>
+                    <button type="button" className={`btn btn-success btn-lg ${(isTutorial && t_StateMachineStateId===13) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>FINISH</button>
                   </Col>
                 )}
 
               {StateMachineState === "REVISE CLICKED" && (
                   <Col md={{span:4, offset:0}}>
-                    <button type="button" className="btn btn-danger btn-lg" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
+                    <button type="button" className={`btn btn-danger btn-lg ${(isTutorial && t_StateMachineStateId===12) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
                     <ChevronLeft className="button-icon"/>
                     BACK
                     </button>
@@ -399,7 +399,7 @@ useEffect(() => {
 
               {!["REVISE HOVER", "SUMMARY END", "SENTENCE END", "START"].includes(StateMachineState) && (
                   <Col md={{span:5, offset:3}}>
-                    <button type="button" className={`btn btn-primary btn-lg right-button ${(isTutorial && t_StateMachineStateId===5) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                    <button type="button" className={`btn btn-primary btn-lg right-button ${(isTutorial && [5,12].includes(t_StateMachineStateId)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                       {nextButtonText()}
                       <ChevronRight className="button-icon"/>
                     </button>
@@ -416,7 +416,7 @@ useEffect(() => {
 
               {StateMachineState === "SENTENCE END"  && (
                     <Col md={{span:7, offset:1}}>
-                      <button type="button" className="btn btn-success btn-lg right-button" onClick={MachineStateHandlerWrapper}>
+                      <button type="button" className={`btn btn-success btn-lg right-button ${(isTutorial && t_StateMachineStateId===14) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                         {nextButtonText()}
                         {StateMachineState !== "START" && (<ChevronRight className="button-icon"/>) }
                       </button>
@@ -425,7 +425,7 @@ useEffect(() => {
 
               {StateMachineState === "SUMMARY END" && (
                 <Col md={{span:5, offset:3}}>
-                  <button type="button" className="btn btn-success btn-lg right-button" onClick={SubmitHandler}>
+                  <button type="button" className={`btn btn-success btn-lg right-button ${(isTutorial && t_StateMachineStateId===15) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
                     {nextButtonText()}
                     {StateMachineState !== "START" && (<SendFill className="button-icon"/>) }
                   </button>

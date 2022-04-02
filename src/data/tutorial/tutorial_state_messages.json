@@ -61,36 +61,26 @@
   },
       {
     "state_cnt": 12,
-    "title": "Revise - Choose Old Alignment",
-    "message": "After clicking the \"REVISE\" button, you will enter the REVISE mode. Here, you first need to choose the alignment to revise. If you hover over the old alignment, the document-summary pairs over which you hover should become \"unfaded\" to help you find the correct alignment. If you click one of those pairs, it sticks and becomes available for revision. Now you can highlight and un-highlight section to \"fix\" the alignment you chose. <br/><b>Try it out and see what happens.</b> <br/>When you are finished, proceed to the next step."
+    "title": "Revise - Choose Old Alignment and Fix it",
+    "message": "After clicking the \"REVISE\" button, you will enter the REVISE mode. Here, you first need to choose the alignment to revise.<br/> If you hover over the old alignments, the document-summary pairs over which you hover would become \"unfaded\" to help you find the correct alignment. Once you found the alignment you want to revise, click it. This will leave only this alignment, and make it reviseable. Now you can highlight and un-highlight parts of the summary and document to fix the alignment. <br/>Once you are <b>satisfied</b>, press <b>\"CONFIRM\"</b>. <br/>If you <b>regret</b> your changes, dicard them by pressing the <b>\"BACK\"</b> button. <br/><b>Now, Try it out and make yourself comfortable with the \"REVISE\" option.</b> <br/>When you are finished, proceed to the next step."
   },
       {
     "state_cnt": 13,
-    "title": "Revise - Change Old Alignment",
-    "message": ""
+    "title": "Revise - Finish",
+    "message": "You can fix as many old alignments as you wish. <br/>Once you are satisfied, click the \"FINISH\" button to save your changes and go back to the main annotation session."
   },
       {
     "state_cnt": 14,
-    "title": "Revise - Confirm or Undo Changes",
-    "message": ""
+    "title": "End of Sentence",
+    "message": "Once you highlighted a full sentence, you will automatically be prompted to proceed to the next sentence.<br/> Clicking the \"NEXT SENTENCE\" button will save the currently chosen alignment and will proceed to the next sentence.<br/><b>Try it out</b>, and when you are done, proceed to the next step."
   },
       {
     "state_cnt": 15,
-    "title": "Revise - Finish",
-    "message": ""
-  },
-      {
-    "state_cnt": 16,
-    "title": "End of Sentence",
-    "message": ""
-  },
-      {
-    "state_cnt": 17,
     "title": "Submit",
-    "message": ""
+    "message": "Once you are finished highlighting the summary, you will be prompted to submit your work. <br/>Clicking the \"SUBMIT\" button will save your last alignment and submit your whole work."
   },
         {
-    "state_cnt": 18,
+    "state_cnt": 16,
     "title": "Some Basic Instrcutions",
     "message": ""
   }

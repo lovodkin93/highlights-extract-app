@@ -289,11 +289,11 @@ const Tutorial = ({doc_json, setDocJson,
 
   const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
     setSliderBoldStateActivated(false);
-    if ([5,11,12,13].includes(t_StateMachineStateId)) {
+    if ([5].includes(t_StateMachineStateId) || ([11,13].includes(t_StateMachineStateId) && forceState==="REVISE HOVER") || (t_StateMachineStateId === 12 && forceState !== "FINISH REVISION") || ([14,15].includes(t_StateMachineStateId) && ["SENTENCE END", "ANNOTATION", "SUMMARY END", undefined].includes(forceState))) {
       console.log(`forceState situation with: state ${forceState}`);
     }
     else{
-      console.log("not a forceState situation...");
+      console.log("ignore MachineStateHandlerWrapper");
       return; // AVIVSL: added this so people can't change anything
     }
     MachineStateHandler(summary_json,
@@ -407,7 +407,6 @@ const Tutorial = ({doc_json, setDocJson,
       }
     }, [DocOnMouseDownID,SummaryOnMouseDownID]);
     
-    //AVIVSL: TODO: find way to reset the whole hovering process when the onMouseUp occurs outside of the text (maybe when docOnMouseDownActivated===false or summaryOnMouseDownActivated===false) --> maybe use a useRef to remember which one was the one activated - summary or doc?
     useEffect(() => {
       if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)){
         if(docOnMouseDownActivated) {
@@ -451,8 +450,7 @@ const Tutorial = ({doc_json, setDocJson,
 
 
     const SubmitHandler = (event) => {
-      console.log(event);
-      alert("Submitted!");
+      return
     }
 
 
