@@ -37,7 +37,16 @@ const TutorialCard = ({t_StateMachineStateId, t_SetStateMachineStateId, t_state_
                     ))}
               </DropdownButton>
               )}
-              
+                {(t_StateMachineStateId !== 0) && (
+                <Button style={{marginRight:"1%"}} className="btn btn-warning btn-lg" onClick={() => {t_StateMachineStateIdHandler({newStateId:0, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
+                                                                                                      setDocJson:setDocJson, t_start_doc_json:t_start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
+                                                                                                      setSummaryJson:setSummaryJson, t_start_summary_json:t_start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
+                                                                                                      SetCurrSentInd:SetCurrSentInd,
+                                                                                                      MachineStateHandlerWrapper:MachineStateHandlerWrapper})}}
+                >
+                  Beginning
+              </Button>
+              )}
               {(t_StateMachineStateId !== 0) && (
                 <Button className="btn btn-dark btn-lg" onClick={() => {t_StateMachineStateIdHandler({newStateId:t_StateMachineStateId-1, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
                                                                                                       setDocJson:setDocJson, t_start_doc_json:t_start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
@@ -49,6 +58,7 @@ const TutorialCard = ({t_StateMachineStateId, t_SetStateMachineStateId, t_state_
               </Button>
               )}
 
+            {(t_StateMachineStateId !== 16) && (
                 <Button className="btn btn-primary btn-lg right-button" onClick={() => {t_StateMachineStateIdHandler({newStateId:t_StateMachineStateId+1, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
                                                                                                       setDocJson:setDocJson, t_start_doc_json:t_start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
                                                                                                       setSummaryJson:setSummaryJson, t_start_summary_json:t_start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
@@ -57,6 +67,7 @@ const TutorialCard = ({t_StateMachineStateId, t_SetStateMachineStateId, t_state_
                 >
                   Next
               </Button>
+            )}
           </Card.Body>
         </Card>
     )
