@@ -1,71 +1,107 @@
-[
-    "goldMentions": [
-        {
-            "sent_id": 0,
-			"bad_summary_spans":[
-				{
-					"tkn_ids_covered":[[0,1,2], [0,2], [1,2]], 
-					"tkn_ids_not_covered":[[3]], 
-					"tkn_ids_excess_covered":[],
-					"error_title":"Span too short (too general)", 
-					"error_text":"The span chosen is too short and too general. \"The Agriculture Department\" on its own can be mentioned in unrelated context as well. please try again."
-				},
-				{
-					"tkn_ids_covered":[[2,3]], 
-					"tkn_ids_not_covered":[[8]], 
-					"tkn_ids_excess_covered":[],
+{
+	"default_too_short_summary_msg": {
+		"error_title":"Span too short",
+		"error_text":"The span chosen is too short. Please try again."
+	},
+	"default_too_long_summary_msg": {
+		"error_title":"Span too long",
+		"error_text":"The span chosen is too long, which can cause missing out little details. Please try again."
+	},
+	"default_not_full_alignment_msg": {
+		"error_title":"missing information in the alignment",
+		"error_text":"The alignment is not full (some parts of the summary span are not yet covered). Please highlight the full alignment and then confirm."
+	},
+	"default_redundant_alignment_msg":  {
+		"error_title":"irrelevant information highlighted",
+		"error_text":"You have highlighted redundant information in the document. Please adjust you alignment and then confirm."
+	},
+	"goldMentions": [
+		{
+			"sent_id":0,
+			"alignment_found_cnt":0,
+			"good_summary_spans": {
+				"1":["0-19"],
+				"2":["21-32", "8-8;21-32"]
+			},
+			"span_indicating_tkns": {
+				"1":[2,3],
+				"2":[21,26]
+			},
+			"too_short_summary_msgs": {
+				"1":[
+					{
+					"missing_tkns":["3-3"],
+					"error_title":"Span too short (too general)",
+					"error_text":"The span chosen is too short and too general. \"The Agriculture Department\" on its own can be mentioned in unrelated context as well. Please try again."
+					},
+					{
+					"missing_tkns":["8-8"],
 					"error_title":"Span too short (not full events)", 
 					"error_text":"The span chosen is too short, and doesn't cover full events (confirmed what?). Please choose a span that covers a full event."
-				},
-				{
-					"tkn_ids_covered":[[8]], 
-					"tkn_ids_not_covered":[[10]], 
-					"tkn_ids_excess_covered":[],
+					},
+					{
+					"missing_tkns":["10-10"],
 					"error_title":"Span too short (not full events)", 
 					"error_text":"The span chosen is too short, and doesn't cover full events (confirmed what about the drought?). Please choose a span that covers a full event."
-				},
-				{
-					"tkn_ids_covered":[[10]], 
-					"tkn_ids_not_covered":[[14]], 
-					"tkn_ids_excess_covered":[],
+					},
+					{
+					"missing_tkns":["14-14"],
 					"error_title":"Span too short (not full events)", 
 					"error_text":"The span chosen is too short, and doesn't cover full events (curtail what?). Please choose a span that covers a full event."
-				},
-				{
-					"tkn_ids_covered":[[10]], 
-					"tkn_ids_not_covered":[[15,16,17,18,19]], 
-					"tkn_ids_excess_covered":[],
+					},
+					{
+					"missing_tkns":["15-19"],
 					"error_title":"Span too short (not full events)", 
 					"error_text":"The span chosen is too short, and doesn't cover full events (curtail how?). Please choose a span that covers a full event."
-				},
-				{
-					"tkn_ids_covered":[[2,3]], 
-					"tkn_ids_not_covered":[], 
-					"tkn_ids_excess_covered":[[21]],
+					}
+				],
+				"2":[
+						{
+						"missing_tkns":["21-21"],
+						"error_title":"Span too short (too general)", 
+						"error_text":"The span chosen is too short and too general. The \"food prices\" on their own can be mentioned in unrelated context as well. Please try again."
+						},
+						{
+						"missing_tkns":["26-26"],
+						"error_title":"Span too short (not full events)", 
+						"error_text":"The span chosen is too short, and doesn't cover full events (resulting in what?). Please choose a span that covers a full event."
+						},
+						{
+						"missing_tkns":["27-32"],
+						"error_title":"Span too short (not full events)", 
+						"error_text":"The span chosen is too short, and doesn't cover full events (\"for months and years to come\" isn't an event on its own and is associated with this event). Please choose a span that covers a full event."
+						}
+					]
+			},
+			"too_long_summary_msgs": {
+				"1":[
+					{
+					"excess_tkns":["21-21"],
 					"error_title":"Span too long", 
 					"error_text":"The span chosen is too long, which can cause missing out little details. Leave the part of the sentence talking about the drought's results to the next alignment. <b>Reminder</b> - to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight. Please try again."
-				},
-				{
-					"tkn_ids_covered":[[21]], 
-					"tkn_ids_not_covered":[[23, 24, 25, 26]], 
-					"tkn_ids_excess_covered":[],
-					"error_title":"Span too short (not full events)", 
-					"error_text":"The span chosen is too short, and doesn't cover full events (resulting in what?). Please choose a span that covers a full event."
-				},
-				{
-					"tkn_ids_covered":[[21]], 
-					"tkn_ids_not_covered":[[27,28,29,30,31,32]], 
-					"tkn_ids_excess_covered":[],
-					"error_title":"Span too short (not full events)", 
-					"error_text":"The span chosen is too short, and doesn't cover full events (\"for months and years to come\" isn't an event on its own). Please choose a span that covers a full event."
-				}
-
-
+					}
+					],
+				"2":[
+					{
+					"excess_tkns":["2-3"],
+					"error_title":"Span too long", 
+					"error_text":"The span chosen is too long, which can cause missing out little details. Leave the part of the sentence talking about the drought's results to the next alignment. <b>Reminder</b> - to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight. Please try again."
+					}
 				]
-        }
-        }
-    ]
-]
+			},
+			"doc_tkns_alignments": {
+				"1":{
+					"tkns":["0-21", "2-21", "0; 2-21", "2-3; 5-21"]
+				},
+				"2":{
+					"tkns":["23-34"]
+				}
+			}
+			
+		}
+	]
+    
+}
 
 
 

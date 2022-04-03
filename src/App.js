@@ -23,7 +23,7 @@ import t_submit_json_file from './data/tutorial/tutorial_submit.json';
 
 
 
-// import guided_annotation_messages from './data/guided_annotation/guided_annotation_messages.json'
+import guided_annotation_messages from './data/guided_annotation/guided_annotation_messages.json'
 import tutorial_state_messages from './data/tutorial/tutorial_state_messages.json'
 // import tutorial_state_messages from './data/guided_annotation/guided_annotation_messages.json'
 
@@ -82,6 +82,8 @@ const App = () => {
   const [g_hoverActivatedId, g_setHoverActivatedId] = useState("-1"); // value will be of tkn_id of elem hovered over
   const [g_hoverActivatedDocOrSummary, g_setHoverActivatedDocOrSummary] = useState("doc"); // value will be of tkn_id of elem hovered over
   const [g_sliderBoldStateActivated, g_setSliderBoldStateActivated] = useState(false);
+  const [g_guiding_msgs, g_setGuidingMsgs] = useState([])
+
 
   const [guidingAnnotationAlertText, setGuidingAnnotationAlertText] = useState("")
   const [guidingAnnotationAlertTitle, setGuidingAnnotationAlertTitle] = useState("")
@@ -222,10 +224,9 @@ const App = () => {
   }
 
 
+  
 
   const g_toggleSummarySpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
-    console.log("inside toggleSummarySpanHighlight:")
-    console.log(tkn_ids)
     setSliderBoldStateActivated(false)
     if (turn_on){
       g_setSummaryJson(g_summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: true } : word));
@@ -732,6 +733,10 @@ const App = () => {
 
 /************************************************************************************************* AVIVSL: GUIDED_ANNOTATION *****************************************************************************************/
   /*******  useState for smooth transition to "SENTENCE END" or "SUMMARY END" *******/
+  
+  
+  
+  
   const g_finishedSent = useRef(false);
 
   useEffect(() => {
@@ -1030,23 +1035,7 @@ const App = () => {
         t_addWordComponents(t_setSubmitSummaryJson, t_submit_json_file["summary"])
 
 
-        // let updated_doc_json = [];
-        // t_json_file["doc"].forEach((word) => {updated_doc_json = [...updated_doc_json, word];})
-        
-        
-        
-        // t_setDocJson(updated_doc_json);
-        // t_setOriginDocJson(updated_doc_json);
-        
-        
-        
-        
-        
-        // // get summary_json
-        // let updated_summary_json = [];
-        // t_json_file["summary"].forEach((word) => {updated_summary_json = [...updated_summary_json, word];})
-        // t_setSummaryJson(updated_summary_json);
-        // t_setOriginSummaryJson(updated_summary_json);
+
         // get all the matrices and the paragraph breaks
         t_setAllLemmaMtx(t_start_json_file["all_lemma_match_mtx"]);
         t_setImportantLemmaMtx(t_start_json_file["important_lemma_match_mtx"]);
@@ -1055,12 +1044,6 @@ const App = () => {
         
         // get state messages
         t_setStateMessages(tutorial_state_messages)
-
-        // let updated_state_messages_json = [];
-        // tutorial_state_messages.forEach((t_state) => {updated_doc_json = [...updated_doc_json, t_state];})
-        // t_setStateMessages(updated_state_messages_json)
-        // console.log("tutorial_state_messages is:")
-        // console.log(tutorial_state_messages)
 
 
         fetch(`/`).then(
@@ -1075,11 +1058,13 @@ const App = () => {
       const g_getTasks = () => {
         const curr_id = '0';
 
-        g_addDocWordComponents(g_json_file[curr_id]["doc"])
-        g_addSummaryWordComponents(g_json_file[curr_id]["summary"])
+        g_addDocWordComponents(g_json_file[curr_id]["doc"]);
+        g_addSummaryWordComponents(g_json_file[curr_id]["summary"]);
         g_setAllLemmaMtx(g_json_file[curr_id]["all_lemma_match_mtx"]);
         g_setImportantLemmaMtx(g_json_file[curr_id]["important_lemma_match_mtx"]);
-        g_setDocParagraphBreaks(g_json_file[curr_id]["doc_paragraph_breaks"])
+        g_setDocParagraphBreaks(g_json_file[curr_id]["doc_paragraph_breaks"]);
+        g_setGuidingMsgs(guided_annotation_messages)
+
         fetch(`/`).then(
           res => console.log(res)
         )

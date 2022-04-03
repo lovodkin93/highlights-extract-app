@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import DocWord from './DocWord';
 import SummaryWord from './SummaryWord';
 import ResponsiveAppBar from './ResponsiveAppBar';
-import { getGuidedAnnotationToastTitle, getGuidedAnnotationToastText, GuidedAnnotationToast, guidingAnnotationAlert } from './GuidedAnnotation_utils';
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
 import { ArrowBackIosTwoTone, ArrowForwardIosTwoTone } from '@mui/icons-material';
@@ -437,7 +436,7 @@ useEffect(() => {
 
                 {StateMachineState === "SENTENCE END"  && (
                       <Col md={{span:7, offset:1}}>
-                        <button type="button" className={`btn btn-success btn-lg right-button ${(isTutorial && t_StateMachineStateId===14) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                        <button type="button" className={`btn btn-success btn-lg right-button ${((isTutorial && t_StateMachineStateId===14) || (isGuidedAnnotation)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                           {nextButtonText()}
                           {StateMachineState !== "START" && (<ChevronRight className="button-icon"/>) }
                         </button>
@@ -446,7 +445,7 @@ useEffect(() => {
 
                 {StateMachineState === "SUMMARY END" && (
                   <Col md={{span:5, offset:3}}>
-                    <button type="button" className={`btn btn-success btn-lg right-button ${(isTutorial && t_StateMachineStateId===15) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
+                    <button type="button" className={`btn btn-success btn-lg right-button ${((isTutorial && t_StateMachineStateId===15) || (isGuidedAnnotation)) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
                       {nextButtonText()}
                       {StateMachineState !== "START" && (<SendFill className="button-icon"/>) }
                     </button>
