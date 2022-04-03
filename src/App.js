@@ -23,10 +23,13 @@ import t_submit_json_file from './data/tutorial/tutorial_submit.json';
 
 
 
+// import guided_annotation_messages from './data/guided_annotation/guided_annotation_messages.json'
 import tutorial_state_messages from './data/tutorial/tutorial_state_messages.json'
+// import tutorial_state_messages from './data/guided_annotation/guided_annotation_messages.json'
+
+
 
 import { MachineStateHandler, g_MachineStateHandler } from './components/Annotation_event_handlers';
-import { summarySpanIsOk, g_StateMachineStateIndexHandler } from './components/GuidedAnnotation_utils';
 import _ from 'underscore';
 
 
@@ -49,6 +52,8 @@ const App = () => {
   const [t_doc_paragraph_breaks, t_setDocParagraphBreaks] = useState([]);
   const [t_state_messages, t_setStateMessages] = useState([]);
 
+
+  
   // AVIVSL: GUIDED_ANNOTATION
   const [g_doc_json, g_setDocJson] = useState([]);
   const [g_summary_json, g_setSummaryJson] = useState([]); 
@@ -77,7 +82,6 @@ const App = () => {
   const [g_hoverActivatedId, g_setHoverActivatedId] = useState("-1"); // value will be of tkn_id of elem hovered over
   const [g_hoverActivatedDocOrSummary, g_setHoverActivatedDocOrSummary] = useState("doc"); // value will be of tkn_id of elem hovered over
   const [g_sliderBoldStateActivated, g_setSliderBoldStateActivated] = useState(false);
-  const [g_StateMachineStateIndex, g_setStateMachineStateIndex] = useState(0) // for specific states messages 
 
   const [guidingAnnotationAlertText, setGuidingAnnotationAlertText] = useState("")
   const [guidingAnnotationAlertTitle, setGuidingAnnotationAlertTitle] = useState("")
@@ -217,20 +221,14 @@ const App = () => {
     update_GuidingAnnotationAlertText({alert_title:"", alert_text:"", alert_type:"danger"})
   }
 
+
+
   const g_toggleSummarySpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
-    g_setSliderBoldStateActivated(false)
+    console.log("inside toggleSummarySpanHighlight:")
+    console.log(tkn_ids)
+    setSliderBoldStateActivated(false)
     if (turn_on){
-      if (summarySpanIsOk(g_StateMachineStateIndex, tkn_ids) == "too long") {
-        update_GuidingAnnotationAlertText({alert_title:"Span too long", alert_text:"The span chosen is too long, which can cause missing out little details. Please try again.", alert_type:"danger"})
-      } else if (summarySpanIsOk(g_StateMachineStateIndex, tkn_ids) == "too short") {
-        update_GuidingAnnotationAlertText({alert_title:"Span too short", alert_text:"The span chosen is too short and doesn't cover full events. please try again.", alert_type:"danger"})
-      } else {
-        g_setSummaryJson(g_summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: true } : word));
-        if(g_StateMachineStateIndex===1.0){
-          update_GuidingAnnotationAlertText({alert_title:"Good Job!", alert_text:"The span chosen is not too long and also covers full events. Well done!", alert_type:"success"})
-          g_StateMachineStateIndexHandler(g_StateMachineStateIndex, g_setStateMachineStateIndex);
-        }
-      }
+      g_setSummaryJson(g_summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: true } : word));
     } else if (turn_off){
       g_setSummaryJson(g_summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: false } : word));
     } else {
@@ -323,9 +321,6 @@ const App = () => {
   const g_boldStateHandler = (event, newValue) => {
     if (event !== undefined){
       g_setSliderBoldStateActivated(true)
-      if (g_StateMachineStateIndex===1.1){
-        g_StateMachineStateIndexHandler(g_StateMachineStateIndex, g_setStateMachineStateIndex)
-      }
     }
     if (newValue=='1'){
       g_setBoldState("none");
@@ -423,7 +418,6 @@ const App = () => {
 
   const g_MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
     g_setSliderBoldStateActivated(false);
-    g_StateMachineStateIndexHandler(g_StateMachineStateIndex, g_setStateMachineStateIndex);
     g_MachineStateHandler(g_summary_json,
                           g_StateMachineState, g_SetStateMachineState,
                           g_SetInfoMessage, g_handleErrorOpen, isPunct,
@@ -435,7 +429,6 @@ const App = () => {
                           g_ReviseChooseAlignHandler, 
                           isBackBtn,
                           g_setPrevSummaryJsonRevise, g_setPrevDocJsonRevise,
-                          g_StateMachineStateIndex, g_setStateMachineStateIndex
                          );
   }
 
@@ -1227,11 +1220,6 @@ const App = () => {
                                               summaryOnMouseDownActivated = {g_summaryOnMouseDownActivated}
                                               setHoverActivatedId = {g_setHoverActivatedId}
                                               setHoverActivatedDocOrSummary = {g_setHoverActivatedDocOrSummary}
-                                              g_StateMachineStateIndex = {g_StateMachineStateIndex}
-                                              guidingAnnotationAlertText = {guidingAnnotationAlertText}
-                                              guidingAnnotationAlertTitle = {guidingAnnotationAlertTitle} 
-                                              guidingAnnotationAlertType = {guidingAnnotationAlertType}
-                                              closeGuidingAnnotationAlert = {closeGuidingAnnotationAlert}
                                               t_StateMachineStateId = {undefined}
                                               t_SetStateMachineStateId = {undefined}
                                               t_state_messages = {undefined}
@@ -1285,11 +1273,6 @@ const App = () => {
                                               summaryOnMouseDownActivated = {summaryOnMouseDownActivated}
                                               setHoverActivatedId = {setHoverActivatedId}
                                               setHoverActivatedDocOrSummary = {setHoverActivatedDocOrSummary}
-                                              g_StateMachineStateIndex = {g_StateMachineStateIndex}
-                                              guidingAnnotationAlertText = {guidingAnnotationAlertText}
-                                              guidingAnnotationAlertTitle = {guidingAnnotationAlertTitle} 
-                                              guidingAnnotationAlertType = {guidingAnnotationAlertType}
-                                              closeGuidingAnnotationAlert = {closeGuidingAnnotationAlert}
                                               t_StateMachineStateId = {undefined}
                                               t_SetStateMachineStateId = {undefined}
                                               t_state_messages = {undefined}

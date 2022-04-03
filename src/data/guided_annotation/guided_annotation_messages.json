@@ -1,0 +1,71 @@
+[
+    "goldMentions": [
+        {
+            "sent_id": 0,
+			"bad_summary_spans":[
+				{
+					"tkn_ids_covered":[[0,1,2], [0,2], [1,2]], 
+					"tkn_ids_not_covered":[[3]], 
+					"tkn_ids_excess_covered":[],
+					"error_title":"Span too short (too general)", 
+					"error_text":"The span chosen is too short and too general. \"The Agriculture Department\" on its own can be mentioned in unrelated context as well. please try again."
+				},
+				{
+					"tkn_ids_covered":[[2,3]], 
+					"tkn_ids_not_covered":[[8]], 
+					"tkn_ids_excess_covered":[],
+					"error_title":"Span too short (not full events)", 
+					"error_text":"The span chosen is too short, and doesn't cover full events (confirmed what?). Please choose a span that covers a full event."
+				},
+				{
+					"tkn_ids_covered":[[8]], 
+					"tkn_ids_not_covered":[[10]], 
+					"tkn_ids_excess_covered":[],
+					"error_title":"Span too short (not full events)", 
+					"error_text":"The span chosen is too short, and doesn't cover full events (confirmed what about the drought?). Please choose a span that covers a full event."
+				},
+				{
+					"tkn_ids_covered":[[10]], 
+					"tkn_ids_not_covered":[[14]], 
+					"tkn_ids_excess_covered":[],
+					"error_title":"Span too short (not full events)", 
+					"error_text":"The span chosen is too short, and doesn't cover full events (curtail what?). Please choose a span that covers a full event."
+				},
+				{
+					"tkn_ids_covered":[[10]], 
+					"tkn_ids_not_covered":[[15,16,17,18,19]], 
+					"tkn_ids_excess_covered":[],
+					"error_title":"Span too short (not full events)", 
+					"error_text":"The span chosen is too short, and doesn't cover full events (curtail how?). Please choose a span that covers a full event."
+				},
+				{
+					"tkn_ids_covered":[[2,3]], 
+					"tkn_ids_not_covered":[], 
+					"tkn_ids_excess_covered":[[21]],
+					"error_title":"Span too long", 
+					"error_text":"The span chosen is too long, which can cause missing out little details. Leave the part of the sentence talking about the drought's results to the next alignment. <b>Reminder</b> - to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight. Please try again."
+				},
+				{
+					"tkn_ids_covered":[[21]], 
+					"tkn_ids_not_covered":[[23, 24, 25, 26]], 
+					"tkn_ids_excess_covered":[],
+					"error_title":"Span too short (not full events)", 
+					"error_text":"The span chosen is too short, and doesn't cover full events (resulting in what?). Please choose a span that covers a full event."
+				},
+				{
+					"tkn_ids_covered":[[21]], 
+					"tkn_ids_not_covered":[[27,28,29,30,31,32]], 
+					"tkn_ids_excess_covered":[],
+					"error_title":"Span too short (not full events)", 
+					"error_text":"The span chosen is too short, and doesn't cover full events (\"for months and years to come\" isn't an event on its own). Please choose a span that covers a full event."
+				}
+
+
+				]
+        }
+        }
+    ]
+]
+
+
+

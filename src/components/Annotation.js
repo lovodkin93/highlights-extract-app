@@ -48,8 +48,6 @@ const Annotation = ({isTutorial, isGuidedAnnotation, task_id,
                     hoverHandler,
                     DocOnMouseDownID, SetDocOnMouseDownID, SummaryOnMouseDownID, SetSummaryOnMouseDownID,
                     setDocOnMouseDownActivated, docOnMouseDownActivated, setSummaryOnMouseDownActivated, summaryOnMouseDownActivated, setHoverActivatedId, setHoverActivatedDocOrSummary,
-                    g_StateMachineStateIndex,
-                    guidingAnnotationAlertText, guidingAnnotationAlertTitle, guidingAnnotationAlertType, closeGuidingAnnotationAlert,
                     t_StateMachineStateId, t_SetStateMachineStateId, t_state_messages, t_start_doc_json, t_middle_doc_json, t_sent_end_doc_json, t_submit_doc_json, t_start_summary_json, t_middle_summary_json, t_sent_end_summary_json, t_submit_summary_json    
                   }) => {
 
@@ -337,7 +335,6 @@ useEffect(() => {
                   boldStateHandler={boldStateHandler}
                   oldAlignmentState={oldAlignmentState}
                   oldAlignmentStateHandler={oldAlignmentStateHandler}
-                  g_StateMachineStateIndex = {g_StateMachineStateIndex}
                   t_StateMachineStateId = {t_StateMachineStateId}
             />
             {(InfoMessage !== "" && !isTutorial) && (InfoAlert(InfoMessage))}
@@ -360,16 +357,15 @@ useEffect(() => {
           </Col>
         </Row>
 
-        {(isGuidedAnnotation && guidingAnnotationAlertText!=="") && (
+        {/* {(isGuidedAnnotation && guidingAnnotationAlertText!=="") && (
           guidingAnnotationAlert(guidingAnnotationAlertText, guidingAnnotationAlertTitle, guidingAnnotationAlertType, closeGuidingAnnotationAlert)
-        )}
-        
-        {/* {isGuidedAnnotation && (
-          <button style={{position:"fixed", left:"0", top:"8%", height:"5%", zIndex:"1"}} type="button" className="btn btn-primary btn-lg" onClick={() => setToastVisible(true)}></button>
         )} */}
-        {isGuidedAnnotation && (
+        
+
+        {/* {isGuidedAnnotation && (
               GuidedAnnotationToast(toastVisible, setToastVisible, g_StateMachineStateIndex)
-        )}
+        )} */}
+
         {(![0,16].includes(t_StateMachineStateId)) && (
           <Row className='annotation-row' id={`${(InfoMessage === "") ? 'doc-summary-row': ''}`}>
             <Col md={ 8 }>

@@ -145,8 +145,7 @@ const MachineStateHandler = (summary_json,
     StartReviseStateHandler, ExitReviseHandler,
     ReviseChooseAlignHandler,
     isBackBtn,
-    setPrevSummaryJsonRevise, setPrevDocJsonRevise,
-    g_StateMachineStateIndex, g_setStateMachineStateIndex) => {
+    setPrevSummaryJsonRevise, setPrevDocJsonRevise) => {
 
 
 
