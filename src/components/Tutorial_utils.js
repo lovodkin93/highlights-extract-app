@@ -46,7 +46,9 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
         SetStateMachineState("ANNOTATION");
     } else if([...Array(middle_states_end - middle_states_start + 1).keys()].map(x => x + middle_states_start).includes(newStateId)){
         if ([12,13].includes(newStateId)) {
-            MachineStateHandlerWrapper({forceState:"REVISE HOVER"});
+            SetStateMachineState("REVISE HOVER");
+            setDocJson(t_middle_doc_json.map((word) => {return {...word, span_highlighted: false}}))
+            setSummaryJson(t_middle_summary_json.map((word) => {return {...word, span_highlighted: false}}))
         } else {
             SetCurrSentInd(1);
             setDocJson(t_middle_doc_json);
