@@ -460,55 +460,31 @@ const Tutorial = ({doc_json, setDocJson,
   return ( 
       <>
          <Annotation 
-                    isTutorial = {true}
-                    isGuidedAnnotation={false} 
-                    task_id={'0'} 
-                    doc_json = {doc_json}
-                    setDocJson = {setDocJson}
-                    summary_json = {summary_json}
-                    setSummaryJson = {setSummaryJson}
-                    all_lemma_match_mtx = {all_lemma_match_mtx}
-                    important_lemma_match_mtx = {important_lemma_match_mtx}
-                    doc_paragraph_breaks = {doc_paragraph_breaks}
-                    StateMachineState = {StateMachineState}
-                    SetStateMachineState = {SetStateMachineState}
-                    handleErrorOpen = {handleErrorOpen}
-                    isPunct = {isPunct}
-                    toggleSummarySpanHighlight = {toggleSummarySpanHighlight}
-                    toggleDocSpanHighlight = {toggleDocSpanHighlight}
-                    boldState = {boldState}
-                    boldStateHandler = {boldStateHandler}
-                    SubmitHandler = {SubmitHandler}
-                    CurrSentInd = {CurrSentInd}
-                    SetCurrSentInd = {SetCurrSentInd}
-                    InfoMessage = {InfoMessage}
-                    MachineStateHandlerWrapper = {MachineStateHandlerWrapper}
-                    AlignmentCount = {AlignmentCount} 
-                    SetAlignmentCount = {SetAlignmentCount}
-                    oldAlignmentState = {oldAlignmentState}
-                    oldAlignmentStateHandler = {oldAlignmentStateHandler}
-                    hoverHandler = {hoverHandler}
-                    DocOnMouseDownID = {DocOnMouseDownID}
-                    SetDocOnMouseDownID = {SetDocOnMouseDownID}
-                    SummaryOnMouseDownID = {SummaryOnMouseDownID}
-                    SetSummaryOnMouseDownID = {SetSummaryOnMouseDownID}
-                    setDocOnMouseDownActivated = {setDocOnMouseDownActivated}
-                    docOnMouseDownActivated = {docOnMouseDownActivated}
-                    setSummaryOnMouseDownActivated = {setSummaryOnMouseDownActivated}
-                    summaryOnMouseDownActivated = {summaryOnMouseDownActivated}
-                    setHoverActivatedId = {setHoverActivatedId}
-                    setHoverActivatedDocOrSummary = {setHoverActivatedDocOrSummary}
-                    t_StateMachineStateId = {t_StateMachineStateId}
-                    t_SetStateMachineStateId = {t_SetStateMachineStateId}
+                    isTutorial = {true}                                         isGuidedAnnotation={false} 
+                    task_id={'0'}                                               doc_paragraph_breaks = {doc_paragraph_breaks}
+                    doc_json = {doc_json}                                       setDocJson = {setDocJson}
+                    summary_json = {summary_json}                               setSummaryJson = {setSummaryJson}
+                    all_lemma_match_mtx = {all_lemma_match_mtx}                 important_lemma_match_mtx = {important_lemma_match_mtx}
+                    StateMachineState = {StateMachineState}                     SetStateMachineState = {SetStateMachineState}
+                    handleErrorOpen = {handleErrorOpen}                         isPunct = {isPunct}
+                    toggleSummarySpanHighlight = {toggleSummarySpanHighlight}   toggleDocSpanHighlight = {toggleDocSpanHighlight}
+                    boldState = {boldState}                                     boldStateHandler = {boldStateHandler}
+                    SubmitHandler = {SubmitHandler}                             hoverHandler = {hoverHandler}
+                    CurrSentInd = {CurrSentInd}                                 SetCurrSentInd = {SetCurrSentInd}
+                    InfoMessage = {InfoMessage}                                 MachineStateHandlerWrapper = {MachineStateHandlerWrapper}
+                    AlignmentCount = {AlignmentCount}                           SetAlignmentCount = {SetAlignmentCount}
+                    oldAlignmentState = {oldAlignmentState}                     oldAlignmentStateHandler = {oldAlignmentStateHandler}
+                    DocOnMouseDownID = {DocOnMouseDownID}                       SetDocOnMouseDownID = {SetDocOnMouseDownID}
+                    SummaryOnMouseDownID = {SummaryOnMouseDownID}               SetSummaryOnMouseDownID = {SetSummaryOnMouseDownID}
+                    docOnMouseDownActivated = {docOnMouseDownActivated}         setDocOnMouseDownActivated = {setDocOnMouseDownActivated}
+                    summaryOnMouseDownActivated = {summaryOnMouseDownActivated} setSummaryOnMouseDownActivated = {setSummaryOnMouseDownActivated}
+                    setHoverActivatedId = {setHoverActivatedId}                 setHoverActivatedDocOrSummary = {setHoverActivatedDocOrSummary}
+                    t_StateMachineStateId = {t_StateMachineStateId}             t_SetStateMachineStateId = {t_SetStateMachineStateId}
+                    t_start_doc_json = {t_start_doc_json}                       t_middle_doc_json = {t_middle_doc_json}
+                    t_sent_end_doc_json = {t_sent_end_doc_json}                 t_submit_doc_json = {t_submit_doc_json}
+                    t_start_summary_json = {t_start_summary_json}               t_middle_summary_json = {t_middle_summary_json}
+                    t_sent_end_summary_json = {t_sent_end_summary_json}         t_submit_summary_json = {t_submit_summary_json}
                     t_state_messages = {t_state_messages}
-                    t_start_doc_json = {t_start_doc_json}
-                    t_middle_doc_json = {t_middle_doc_json}
-                    t_sent_end_doc_json = {t_sent_end_doc_json}
-                    t_submit_doc_json = {t_submit_doc_json}
-                    t_start_summary_json = {t_start_summary_json}
-                    t_middle_summary_json = {t_middle_summary_json}
-                    t_sent_end_summary_json = {t_sent_end_summary_json}
-                    t_submit_summary_json = {t_submit_summary_json}
                     />
         {/* <Card className={`${([0,16].includes(t_StateMachineStateId)) ? 'tutorial-card-intro' : 'tutorial-card-not-intro'}`} bg="info" border="primary" style={{ width: '30%' }}>
           <Card.Body>

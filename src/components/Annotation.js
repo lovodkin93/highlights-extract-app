@@ -31,23 +31,32 @@ import { TutorialCard } from './TutorialCard';
 // import { Container, Row, Col } from 'react-bootstrap';
 
 
-const Annotation = ({isTutorial, isGuidedAnnotation, task_id, 
-                    doc_json, setDocJson, summary_json, setSummaryJson,
-                    all_lemma_match_mtx, important_lemma_match_mtx, doc_paragraph_breaks,
+const Annotation = ({isTutorial, isGuidedAnnotation, 
+                    task_id, doc_paragraph_breaks,
+                    doc_json, setDocJson, 
+                    summary_json, setSummaryJson,
+                    all_lemma_match_mtx, important_lemma_match_mtx, 
                     StateMachineState, SetStateMachineState,
                     handleErrorOpen, isPunct,
                     toggleSummarySpanHighlight, toggleDocSpanHighlight, 
                     boldState, boldStateHandler,
-                    SubmitHandler,
+                    SubmitHandler, hoverHandler,
                     CurrSentInd, SetCurrSentInd,
                     InfoMessage,
                     MachineStateHandlerWrapper,
                     AlignmentCount, SetAlignmentCount,
                     oldAlignmentState, oldAlignmentStateHandler,
-                    hoverHandler,
-                    DocOnMouseDownID, SetDocOnMouseDownID, SummaryOnMouseDownID, SetSummaryOnMouseDownID,
-                    setDocOnMouseDownActivated, docOnMouseDownActivated, setSummaryOnMouseDownActivated, summaryOnMouseDownActivated, setHoverActivatedId, setHoverActivatedDocOrSummary,
-                    t_StateMachineStateId, t_SetStateMachineStateId, t_state_messages, t_start_doc_json, t_middle_doc_json, t_sent_end_doc_json, t_submit_doc_json, t_start_summary_json, t_middle_summary_json, t_sent_end_summary_json, t_submit_summary_json    
+                    DocOnMouseDownID, SetDocOnMouseDownID, 
+                    SummaryOnMouseDownID, SetSummaryOnMouseDownID,
+                    docOnMouseDownActivated, setDocOnMouseDownActivated, 
+                    summaryOnMouseDownActivated, setSummaryOnMouseDownActivated, 
+                    setHoverActivatedId, setHoverActivatedDocOrSummary,
+                    t_StateMachineStateId, t_SetStateMachineStateId, 
+                    t_start_doc_json, t_middle_doc_json, 
+                    t_sent_end_doc_json, t_submit_doc_json, 
+                    t_start_summary_json, t_middle_summary_json, 
+                    t_sent_end_summary_json, t_submit_summary_json,
+                    t_state_messages    
                   }) => {
 
 
@@ -198,6 +207,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation, task_id,
   }
 
   const getDocText = () => {
+    console.log("summary_json:")
+    console.log(summary_json)
     if (!isTutorial || t_StateMachineStateId !== 7){
       return doc_json.map((word_json, index) => (
                 <DocWord key={index} word_json={word_json} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
