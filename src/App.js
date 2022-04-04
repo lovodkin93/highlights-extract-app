@@ -82,7 +82,6 @@ const App = () => {
   const [g_hoverActivatedId, g_setHoverActivatedId] = useState("-1"); // value will be of tkn_id of elem hovered over
   const [g_hoverActivatedDocOrSummary, g_setHoverActivatedDocOrSummary] = useState("doc"); // value will be of tkn_id of elem hovered over
   const [g_sliderBoldStateActivated, g_setSliderBoldStateActivated] = useState(false);
-  const [g_guiding_msgs, g_setGuidingMsgs] = useState([])
 
 
   // const [guidingAnnotationAlertText, setGuidingAnnotationAlertText] = useState("")
@@ -668,7 +667,6 @@ const App = () => {
         g_setAllLemmaMtx(g_json_file[curr_id]["all_lemma_match_mtx"]);
         g_setImportantLemmaMtx(g_json_file[curr_id]["important_lemma_match_mtx"]);
         g_setDocParagraphBreaks(g_json_file[curr_id]["doc_paragraph_breaks"]);
-        g_setGuidingMsgs(guided_annotation_messages)
 
         fetch(`/`).then(
           res => console.log(res)
@@ -795,7 +793,7 @@ const App = () => {
                                           hoverActivatedId={g_hoverActivatedId}                       setHoverActivatedId={g_setHoverActivatedId}
                                           hoverActivatedDocOrSummary={g_hoverActivatedDocOrSummary}   setHoverActivatedDocOrSummary={g_setHoverActivatedDocOrSummary}
                                           sliderBoldStateActivated={g_sliderBoldStateActivated}       setSliderBoldStateActivated={g_setSliderBoldStateActivated}
-                                          guiding_msgs={g_guiding_msgs}                               setGuidingMsgs={g_setGuidingMsgs}
+                                          guided_annotation_messages={guided_annotation_messages}
                                           />} 
           
           

@@ -207,8 +207,6 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   }
 
   const getDocText = () => {
-    console.log("summary_json:")
-    console.log(summary_json)
     if (!isTutorial || t_StateMachineStateId !== 7){
       return doc_json.map((word_json, index) => (
                 <DocWord key={index} word_json={word_json} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>

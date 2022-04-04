@@ -1,8 +1,8 @@
 import { g_MachineStateHandler } from './Annotation_event_handlers';
 import { useState, useEffect, useRef } from 'react'
 import Annotation from './Annotation';
-
-
+import Alert from 'react-bootstrap/Alert'
+import Fade from 'react-bootstrap/Fade'
 
 const GuidedAnnotation = ({isPunct,
                           handleErrorOpen, handleErrorClose,
@@ -30,10 +30,32 @@ const GuidedAnnotation = ({isPunct,
                           hoverActivatedId, setHoverActivatedId,
                           hoverActivatedDocOrSummary, setHoverActivatedDocOrSummary,
                           sliderBoldStateActivated, setSliderBoldStateActivated,
-                          guidinmsgs, setGuidingMsgs  }) => {
-    /*************************************** error handling *************************************************/
-  
+                          guided_annotation_messages  }) => {
+
+    
+    const [guiding_msg, setGuidingMsg] = useState({"text":"", "title":""});
+    const [guiding_msg_type, setGuidingMsgType] = useState("closed"); // success , danger or closed
+
+
+
+
+                            
     const toggleDocSpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
+
+      const isSummarySpanOkDict = isSummarySpanOk([], false, false)
+      // AVIVSL: stopped here - start making the custom messages here for when span is not good
+      if(!isSummarySpanOkDict["summary_span_ok"]) {
+        if (isSummarySpanOkDict["chosen_span_id"]===undefined){
+          setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
+          setGuidingMsgType("danger")
+        }
+      
+        return
+      }
+
+
+
+
       setSliderBoldStateActivated(false)
       if (turn_on){
         setDocJson(doc_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: true } : word))
@@ -53,6 +75,13 @@ const GuidedAnnotation = ({isPunct,
     
   
     const toggleSummarySpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
+      const isSummarySpanOkDict = isSummarySpanOk(tkn_ids, turn_on, turn_off)
+      if(isSummarySpanOkDict["summary_span_ok"]) {
+        setGuidingMsg(guided_annotation_messages["default_good_span_msg"])
+        setGuidingMsgType("success")
+      }
+
+
       setSliderBoldStateActivated(false)
       if (turn_on){
         setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: true } : word));
@@ -265,6 +294,58 @@ const GuidedAnnotation = ({isPunct,
       isBackBtn: false
     }
 
+
+    const string_to_span = (span_str) => {
+      const sub_strings = span_str.split(";");
+      const lims = sub_strings.map((sub_string) => sub_string.split("-").map((lim) => parseInt(lim)))
+      const ids = lims.map(([start, end]) => Array(end - start + 1).fill().map((_, idx) => start + idx)).flat(1)
+      return ids
+    }
+
+    const intersection = (arr1, arr2) => {
+      return arr1.filter((elem) => {return arr2.includes(elem)})
+    }
+
+
+    const isSummarySpanOk = (tkn_ids, turn_on, turn_off) => {
+
+      const gold_mentions = guided_annotation_messages["goldMentions"][CurrSentInd]
+
+      let highlighted_tkn_ids = summary_json.filter((word) => {return word.span_highlighted}).map((word) => word.tkn_id)
+      highlighted_tkn_ids = (turn_on) ? highlighted_tkn_ids.concat(tkn_ids) : highlighted_tkn_ids
+      highlighted_tkn_ids = (turn_off) ? highlighted_tkn_ids.filter((tkn) => {return (turn_off && !tkn_ids.includes(tkn))}) : highlighted_tkn_ids
+      highlighted_tkn_ids = [...new Set(highlighted_tkn_ids)] // remove duplicates
+      highlighted_tkn_ids = highlighted_tkn_ids.filter((tkn_id) => {return !isPunct(summary_json.filter((word) => {return word.tkn_id===tkn_id})[0].word)}) // ignore punctuation
+
+
+      let chosen_span_id = Object.keys(gold_mentions["span_indicating_tkns"]).filter((key) => {return intersection(highlighted_tkn_ids, gold_mentions["span_indicating_tkns"][key]).length !== 0})
+
+      if (chosen_span_id.length===0){
+        // setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
+        // setGuidingMsgType("danger")
+        return {"summary_span_ok":false, "chosen_span_id":undefined, "highlighted_tkn_ids":highlighted_tkn_ids}
+      } else {
+        chosen_span_id = chosen_span_id[0]
+      }
+
+      const good_summary_spans = Object.keys(gold_mentions["good_summary_spans"][chosen_span_id]).map((key) => {return string_to_span(gold_mentions["good_summary_spans"][chosen_span_id][key])})
+      const str_good_summary_spans = good_summary_spans.map((span) => JSON.stringify(span))
+
+      if (str_good_summary_spans.includes(JSON.stringify(highlighted_tkn_ids))) {
+        // setGuidingMsg(guided_annotation_messages["default_good_span_msg"])
+        // setGuidingMsgType("success")
+        return {"summary_span_ok":true, "chosen_span_id":chosen_span_id, "highlighted_tkn_ids":highlighted_tkn_ids}
+      } else {
+        // setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
+        // setGuidingMsgType("danger")
+        return {"summary_span_ok":false, "chosen_span_id":chosen_span_id, "highlighted_tkn_ids":highlighted_tkn_ids}
+      }
+    }
+
+
+
+  /********************************************************************************************************************************************************************* */
+
   /*******  useState for smooth transition to "SENTENCE END" or "SUMMARY END" *******/
   const finishedSent = useRef(false);
 
@@ -381,12 +462,25 @@ const GuidedAnnotation = ({isPunct,
      }
    }, [docOnMouseDownActivated, summaryOnMouseDownActivated, hoverActivatedId]);
 
+
+   // close the guiding message
+   useEffect(() => {
+    if(guiding_msg_type!=="closed") {
+      window.setTimeout(()=>{setGuidingMsgType("closed");setGuidingMsg({"text":"", "title":""});},8000)
+    }
+   }, [guiding_msg_type])
+
+
+
    const SubmitHandler = (event) => {
     alert("Submitted!");
   }
 
 
+
+
    return (
+     <>
           <Annotation
               isTutorial={false}                                            isGuidedAnnotation={true} 
               task_id={'0'}                                                 doc_paragraph_breaks = {doc_paragraph_breaks}
@@ -414,6 +508,15 @@ const GuidedAnnotation = ({isPunct,
               t_sent_end_summary_json = {undefined}                         t_submit_summary_json = {undefined}
               t_state_messages = {undefined}
             />
+
+                <Alert show={guiding_msg_type!=="closed"} style={{position:"fixed", bottom:"1%", left:"50%", transform:"translate(-50%, 0%)", width:"50%"}} variant={guiding_msg_type} onClose={() => setGuidingMsgType("closed")} dismissible>
+                        <Alert.Heading>{guiding_msg["title"]}</Alert.Heading>
+                        <p>
+                        {guiding_msg["text"]}
+                        </p>
+                </Alert>
+
+      </>
    )
 
 }

@@ -1,19 +1,27 @@
 {
 	"default_too_short_summary_msg": {
-		"error_title":"Span too short",
-		"error_text":"The span chosen is too short. Please try again."
+		"title":"Span too short",
+		"text":"The span chosen is too short."
 	},
 	"default_too_long_summary_msg": {
-		"error_title":"Span too long",
-		"error_text":"The span chosen is too long, which can cause missing out little details. Please try again."
+		"title":"Span too long",
+		"text":"The span chosen is too long, which can cause missing out little details. Please try again."
 	},
 	"default_not_full_alignment_msg": {
-		"error_title":"missing information in the alignment",
-		"error_text":"The alignment is not full (some parts of the summary span are not yet covered). Please highlight the full alignment and then confirm."
+		"title":"missing information in the alignment",
+		"text":"The alignment is not full (some parts of the summary span are not yet covered). Please highlight the full alignment and then confirm."
 	},
 	"default_redundant_alignment_msg":  {
-		"error_title":"irrelevant information highlighted",
-		"error_text":"You have highlighted redundant information in the document. Please adjust you alignment and then confirm."
+		"title":"irrelevant information highlighted",
+		"text":"You have highlighted redundant information in the document. Please adjust you alignment and then confirm."
+	},
+	"default_good_span_msg":  {
+	"title":"Well Done!",
+	"text":"The span you chose is very good! Now proceed to find its alignment."
+	},
+	"default_good_alignment_msg":  {
+	"title":"Good Job!",
+	"text":"The alignment you chose is very good!"
 	},
 	"goldMentions": [
 		{
@@ -31,45 +39,45 @@
 				"1":[
 					{
 					"missing_tkns":["3-3"],
-					"error_title":"Span too short (too general)",
-					"error_text":"The span chosen is too short and too general. \"The Agriculture Department\" on its own can be mentioned in unrelated context as well. Please try again."
+					"title":"Span too short (too general)",
+					"text":"The span chosen is too short and too general. \"The Agriculture Department\" on its own can be mentioned in unrelated context as well. Please try again."
 					},
 					{
 					"missing_tkns":["8-8"],
-					"error_title":"Span too short (not full events)", 
-					"error_text":"The span chosen is too short, and doesn't cover full events (confirmed what?). Please choose a span that covers a full event."
+					"title":"Span too short (not full events)", 
+					"text":"The span chosen is too short, and doesn't cover full events (confirmed what?). Please choose a span that covers a full event."
 					},
 					{
 					"missing_tkns":["10-10"],
-					"error_title":"Span too short (not full events)", 
-					"error_text":"The span chosen is too short, and doesn't cover full events (confirmed what about the drought?). Please choose a span that covers a full event."
+					"title":"Span too short (not full events)", 
+					"text":"The span chosen is too short, and doesn't cover full events (confirmed what about the drought?). Please choose a span that covers a full event."
 					},
 					{
 					"missing_tkns":["14-14"],
-					"error_title":"Span too short (not full events)", 
-					"error_text":"The span chosen is too short, and doesn't cover full events (curtail what?). Please choose a span that covers a full event."
+					"title":"Span too short (not full events)", 
+					"text":"The span chosen is too short, and doesn't cover full events (curtail what?). Please choose a span that covers a full event."
 					},
 					{
 					"missing_tkns":["15-19"],
-					"error_title":"Span too short (not full events)", 
-					"error_text":"The span chosen is too short, and doesn't cover full events (curtail how?). Please choose a span that covers a full event."
+					"title":"Span too short (not full events)", 
+					"text":"The span chosen is too short, and doesn't cover full events (curtail how?). Please choose a span that covers a full event."
 					}
 				],
 				"2":[
 						{
 						"missing_tkns":["21-21"],
-						"error_title":"Span too short (too general)", 
-						"error_text":"The span chosen is too short and too general. The \"food prices\" on their own can be mentioned in unrelated context as well. Please try again."
+						"title":"Span too short (too general)", 
+						"text":"The span chosen is too short and too general. The \"food prices\" on their own can be mentioned in unrelated context as well. Please try again."
 						},
 						{
 						"missing_tkns":["26-26"],
-						"error_title":"Span too short (not full events)", 
-						"error_text":"The span chosen is too short, and doesn't cover full events (resulting in what?). Please choose a span that covers a full event."
+						"title":"Span too short (not full events)", 
+						"text":"The span chosen is too short, and doesn't cover full events (resulting in what?). Please choose a span that covers a full event."
 						},
 						{
 						"missing_tkns":["27-32"],
-						"error_title":"Span too short (not full events)", 
-						"error_text":"The span chosen is too short, and doesn't cover full events (\"for months and years to come\" isn't an event on its own and is associated with this event). Please choose a span that covers a full event."
+						"title":"Span too short (not full events)", 
+						"text":"The span chosen is too short, and doesn't cover full events (\"for months and years to come\" isn't an event on its own and is associated with this event). Please choose a span that covers a full event."
 						}
 					]
 			},
@@ -77,15 +85,15 @@
 				"1":[
 					{
 					"excess_tkns":["21-21"],
-					"error_title":"Span too long", 
-					"error_text":"The span chosen is too long, which can cause missing out little details. Leave the part of the sentence talking about the drought's results to the next alignment. <b>Reminder</b> - to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight. Please try again."
+					"title":"Span too long", 
+					"text":"The span chosen is too long, which can cause missing out little details. Leave the part of the sentence talking about the drought's results to the next alignment. <b>Reminder</b> - to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight. Please try again."
 					}
 					],
 				"2":[
 					{
 					"excess_tkns":["2-3"],
-					"error_title":"Span too long", 
-					"error_text":"The span chosen is too long, which can cause missing out little details. Leave the part of the sentence talking about the drought's results to the next alignment. <b>Reminder</b> - to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight. Please try again."
+					"title":"Span too long", 
+					"text":"The span chosen is too long, which can cause missing out little details. Leave the part of the sentence talking about the drought's results to the next alignment. <b>Reminder</b> - to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight. Please try again."
 					}
 				]
 			},
