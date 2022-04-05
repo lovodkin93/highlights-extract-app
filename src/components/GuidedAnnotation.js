@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import Annotation from './Annotation';
 import Alert from 'react-bootstrap/Alert'
 import Fade from 'react-bootstrap/Fade'
+import { Markup } from 'interweave';
 
 const GuidedAnnotation = ({isPunct,
                           handleErrorOpen, handleErrorClose,
@@ -48,6 +49,10 @@ const GuidedAnnotation = ({isPunct,
         if (isSummarySpanOkDict["chosen_span_id"]===undefined){
           setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
           setGuidingMsgType("danger")
+        } else {
+          let gold_tkns = guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_spans"][isSummarySpanOkDict["chosen_span_id"]]
+          gold_tkns = gold_tkns.map((span) => {return string_to_span(span)})
+          update_summary_span_error_message(gold_tkns, isSummarySpanOkDict["highlighted_tkn_ids"], isSummarySpanOkDict["chosen_span_id"])
         }
       
         return
@@ -295,6 +300,12 @@ const GuidedAnnotation = ({isPunct,
     }
 
 
+
+
+
+
+    /**************************** GUIDING-RELATED FUNCTIONS ******************************/
+
     const string_to_span = (span_str) => {
       const sub_strings = span_str.split(";");
       const lims = sub_strings.map((sub_string) => sub_string.split("-").map((lim) => parseInt(lim)))
@@ -329,9 +340,9 @@ const GuidedAnnotation = ({isPunct,
       }
 
       const good_summary_spans = Object.keys(gold_mentions["good_summary_spans"][chosen_span_id]).map((key) => {return string_to_span(gold_mentions["good_summary_spans"][chosen_span_id][key])})
-      const str_good_summary_spans = good_summary_spans.map((span) => JSON.stringify(span))
+      const str_good_summary_spans = good_summary_spans.map((span) => JSON.stringify(span.sort(function(a, b) {return a - b;})))
 
-      if (str_good_summary_spans.includes(JSON.stringify(highlighted_tkn_ids))) {
+      if (str_good_summary_spans.includes(JSON.stringify(highlighted_tkn_ids.sort(function(a, b) {return a - b;})))) {
         // setGuidingMsg(guided_annotation_messages["default_good_span_msg"])
         // setGuidingMsgType("success")
         return {"summary_span_ok":true, "chosen_span_id":chosen_span_id, "highlighted_tkn_ids":highlighted_tkn_ids}
@@ -342,7 +353,65 @@ const GuidedAnnotation = ({isPunct,
       }
     }
 
+    const update_summary_span_error_message = (gold_tkns, actual_tkns, chosen_span_id) => {
+      const actual_tkns_no_punct = actual_tkns.filter((tkn) => {return !isPunct(summary_json.filter((word) => {return word.tkn_id===tkn})[0].word)})
+      if (actual_tkns_no_punct.filter((tkn) => {return gold_tkns.filter((span) => {return span.includes(tkn)}).length === 0}).length !== 0) {
+        update_summary_span_excess_message(gold_tkns, actual_tkns_no_punct, chosen_span_id)
+      } else {
+        update_summary_span_missing_message(gold_tkns, actual_tkns_no_punct, chosen_span_id)
+      }
+    }
 
+    const hasSubArray = (master, sub) => {
+      return sub.every((i => v => i = master.indexOf(v, i) + 1)(0));
+    }
+
+    const update_summary_span_excess_message = (gold_tkns, actual_tkns, chosen_span_id) => {
+      const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd]["too_long_summary_msgs"][chosen_span_id]
+      const excess_tkns = actual_tkns.filter((tkn) => {return gold_tkns.every((span) => {return !span.includes(tkn)})}).sort(function(a, b) {return a - b;})
+      const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["excess_tkns"].some((span) => {return intersection(excess_tkns, string_to_span(span)).length !==0 })})
+      
+      if(custom_message_json.length !== 0) {
+        setGuidingMsg(custom_message_json[0])
+        setGuidingMsgType("danger")
+      } else {
+        setGuidingMsg(guided_annotation_messages["default_too_long_summary_msg"])
+        setGuidingMsgType("danger")
+      }
+    }
+
+    const update_summary_span_missing_message = (gold_tkns, actual_tkns, chosen_span_id) => {
+      const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd]["too_short_summary_msgs"][chosen_span_id]
+      const merged_gold_tkns = [...new Set(gold_tkns.flat(1))].sort(function(a, b) {return a - b;})
+      const missing_tkns = merged_gold_tkns.filter((tkn) => {return !actual_tkns.includes(tkn)})
+      const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["missing_tkns"].some((span) => {return intersection(missing_tkns, string_to_span(span)).length !== 0 })})
+
+      if(custom_message_json.length !== 0) {
+        setGuidingMsg(custom_message_json[0])
+        setGuidingMsgType("danger")
+      } else {
+        setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
+        setGuidingMsgType("danger")
+      }
+      
+      // console.log(`merged_gold_tkns: ${JSON.stringify(merged_gold_tkns)}`)
+      // console.log(`actual_tkns: ${JSON.stringify(actual_tkns)}`)
+      // console.log(`missing_tkns: ${JSON.stringify(missing_tkns)}`)
+      // console.log(`custom_message_json: ${JSON.stringify(custom_message_json)}`)
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
   /********************************************************************************************************************************************************************* */
 
@@ -374,6 +443,8 @@ const GuidedAnnotation = ({isPunct,
 
   /*********** useState to update the summary shadow when next sentence ***********/ 
   useEffect(() => {
+    console.log("guided_annotation_messages:")
+    console.log(guided_annotation_messages);
     SetSummaryShadowAndUpdateHighlights(CurrSentInd);
   }, [CurrSentInd]);
   /********************************************************************************/
@@ -512,7 +583,7 @@ const GuidedAnnotation = ({isPunct,
                 <Alert show={guiding_msg_type!=="closed"} style={{position:"fixed", bottom:"1%", left:"50%", transform:"translate(-50%, 0%)", width:"50%"}} variant={guiding_msg_type} onClose={() => setGuidingMsgType("closed")} dismissible>
                         <Alert.Heading>{guiding_msg["title"]}</Alert.Heading>
                         <p>
-                        {guiding_msg["text"]}
+                          <Markup content={guiding_msg["text"]} />
                         </p>
                 </Alert>
 
