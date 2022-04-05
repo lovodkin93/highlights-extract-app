@@ -29,7 +29,7 @@
 			"alignment_found_cnt":0,
 			"good_summary_spans": {
 				"1":["0-19"],
-				"2":["21-32", "8-8;21-32"]
+				"2":["21-32", "8-8;21-32", "7-8;21-32", "6-8;21-32"]
 			},
 			"span_indicating_tkns": {
 				"1":[2,3],
@@ -99,12 +99,77 @@
 			},
 			"doc_tkns_alignments": {
 				"1":{
-					"tkns":["0-21", "2-21", "0; 2-21", "2-3; 5-21"]
+					"tkns":["0-21", "2-21", "0-0;2-21", "2-3;5-21"]
 				},
 				"2":{
-					"tkns":["23-34"]
+					"tkns":["23-34", "10-10;23-34", "9-10;23-34", "8-10;23-34"]
 				}
-			}
+			},
+		"not_full_alignment_msg": {
+		"1":[
+				{
+				"missing_tkns":["2-2"],
+				"title":"missing information in the alignment",
+				"text":"The alignment is not full (<u>hint</u>: What kind of Department?)"
+				},
+				{
+				"missing_tkns":["3-3"],
+				"title":"missing information in the alignment",
+				"text":"The alignment is not full (<u>hint</u>: Who confirmed?)"
+				},
+				{
+				"missing_tkns":["4-4"],
+				"title":"missing information in the alignment",
+				"text":"The alignment is not full (<u>hint</u>: What did the department do?)"
+				},
+				{
+				"missing_tkns":["9-9"],
+				"title":"missing information in the alignment",
+				"text":"The alignment is not full (<u>hint</u>: What drought?)"
+				},
+				{
+				"missing_tkns":["10-10"],
+				"title":"missing information in the alignment",
+				"text":"The alignment is not full (<u>hint</u>: What will curtail?)"
+				},
+				{
+				"missing_tkns":["13-16"],
+				"title":"missing information in the alignment",
+				"text":"The alignment is not full (<u>hint</u>: What will the drought curtail?)"
+				},
+				{
+				"missing_tkns":["17-21"],
+				"title":"missing information in the alignment",
+				"text":"The alignment is not full (<u>hint</u>: How will the drought curtail the harvest?)"
+				}
+			],
+		"2":[
+				{
+				"missing_tkns":["23-23"],
+				"title":"missing information in the alignment",
+				"text":"The alignment is not full - missing the connection of result"
+				},
+				{
+				"missing_tkns":["28-28"],
+				"title":"missing information in the alignment",
+				"text":"The alignment is not full (<u>hint</u>: Resulting in what?)"
+				},
+				{
+				"missing_tkns":["25-27"],
+				"title":"missing information in the alignment",
+				"text":"The alignment is not full (<u>hint</u>: What prices?)"
+				},
+				{
+				"missing_tkns":["29-34"],
+				"title":"missing information in the alignment",
+				"text":"The alignment is not full (<u>hint</u>: For how long will there be higher prices?)"
+				}
+			]
+		}
+			
+			
+			
+			
 			
 		}
 	]

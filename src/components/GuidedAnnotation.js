@@ -1,4 +1,4 @@
-import { g_MachineStateHandler } from './Annotation_event_handlers';
+import { MachineStateHandler, g_MachineStateHandler } from './Annotation_event_handlers';
 import { useState, useEffect, useRef } from 'react'
 import Annotation from './Annotation';
 import Alert from 'react-bootstrap/Alert'
@@ -278,8 +278,12 @@ const GuidedAnnotation = ({isPunct,
   
   
     const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
+      if (forceState === undefined) {
+        alert("undefined!")
+      }
+
       setSliderBoldStateActivated(false);
-      g_MachineStateHandler(summary_json,
+      MachineStateHandler(summary_json,
                             StateMachineState, SetStateMachineState,
                             SetInfoMessage, handleErrorOpen, isPunct,
                             CurrSentInd, SetCurrSentInd, SetSummaryShadow,
@@ -332,8 +336,6 @@ const GuidedAnnotation = ({isPunct,
       let chosen_span_id = Object.keys(gold_mentions["span_indicating_tkns"]).filter((key) => {return intersection(highlighted_tkn_ids, gold_mentions["span_indicating_tkns"][key]).length !== 0})
 
       if (chosen_span_id.length===0){
-        // setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
-        // setGuidingMsgType("danger")
         return {"summary_span_ok":false, "chosen_span_id":undefined, "highlighted_tkn_ids":highlighted_tkn_ids}
       } else {
         chosen_span_id = chosen_span_id[0]
@@ -343,12 +345,8 @@ const GuidedAnnotation = ({isPunct,
       const str_good_summary_spans = good_summary_spans.map((span) => JSON.stringify(span.sort(function(a, b) {return a - b;})))
 
       if (str_good_summary_spans.includes(JSON.stringify(highlighted_tkn_ids.sort(function(a, b) {return a - b;})))) {
-        // setGuidingMsg(guided_annotation_messages["default_good_span_msg"])
-        // setGuidingMsgType("success")
         return {"summary_span_ok":true, "chosen_span_id":chosen_span_id, "highlighted_tkn_ids":highlighted_tkn_ids}
       } else {
-        // setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
-        // setGuidingMsgType("danger")
         return {"summary_span_ok":false, "chosen_span_id":chosen_span_id, "highlighted_tkn_ids":highlighted_tkn_ids}
       }
     }
@@ -393,11 +391,6 @@ const GuidedAnnotation = ({isPunct,
         setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
         setGuidingMsgType("danger")
       }
-      
-      // console.log(`merged_gold_tkns: ${JSON.stringify(merged_gold_tkns)}`)
-      // console.log(`actual_tkns: ${JSON.stringify(actual_tkns)}`)
-      // console.log(`missing_tkns: ${JSON.stringify(missing_tkns)}`)
-      // console.log(`custom_message_json: ${JSON.stringify(custom_message_json)}`)
     }
 
 
