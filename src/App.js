@@ -83,7 +83,6 @@ const App = () => {
   const [g_hoverActivatedDocOrSummary, g_setHoverActivatedDocOrSummary] = useState("doc"); // value will be of tkn_id of elem hovered over
   const [g_sliderBoldStateActivated, g_setSliderBoldStateActivated] = useState(false);
 
-
   // const [guidingAnnotationAlertText, setGuidingAnnotationAlertText] = useState("")
   // const [guidingAnnotationAlertTitle, setGuidingAnnotationAlertTitle] = useState("")
   // const [guidingAnnotationAlertType, setGuidingAnnotationAlertType] = useState("success") // can be either "success" or "danger"

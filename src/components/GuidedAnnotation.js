@@ -36,10 +36,7 @@ const GuidedAnnotation = ({isPunct,
     
     const [guiding_msg, setGuidingMsg] = useState({"text":"", "title":""});
     const [guiding_msg_type, setGuidingMsgType] = useState("closed"); // success , danger or closed
-
-
-
-
+    const [curr_alignment_guiding_msg_id, setCurrAlignmentGuidingMsgId] = useState("-1")
                             
     const toggleDocSpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
 
@@ -82,8 +79,9 @@ const GuidedAnnotation = ({isPunct,
     const toggleSummarySpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
       const isSummarySpanOkDict = isSummarySpanOk(tkn_ids, turn_on, turn_off)
       if(isSummarySpanOkDict["summary_span_ok"]) {
-        setGuidingMsg(guided_annotation_messages["default_good_span_msg"])
+        setGuidingMsg(guided_annotation_messages["default_good_span_msg"]) // AVIVSL: add custom success messages
         setGuidingMsgType("success")
+        setCurrAlignmentGuidingMsgId(isSummarySpanOkDict["chosen_span_id"])
       }
 
 
@@ -278,8 +276,16 @@ const GuidedAnnotation = ({isPunct,
   
   
     const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
-      if (forceState === undefined) {
-        alert("undefined!")
+      if (forceState === undefined && StateMachineState!=="START") { 
+        const isAlignmentOkDict = isAlignmentOk();
+        if (isAlignmentOkDict["alignment_ok"]) {
+          setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"]) // AVIVSL: add custom success messages
+          setGuidingMsgType("success");
+          setCurrAlignmentGuidingMsgId("-1");
+        } else {
+          update_alignment_error_message(isAlignmentOkDict["gold_align_tkns"], isAlignmentOkDict["highlighted_doc_tkns"]);
+          return
+        }
       }
 
       setSliderBoldStateActivated(false);
@@ -314,7 +320,7 @@ const GuidedAnnotation = ({isPunct,
       const sub_strings = span_str.split(";");
       const lims = sub_strings.map((sub_string) => sub_string.split("-").map((lim) => parseInt(lim)))
       const ids = lims.map(([start, end]) => Array(end - start + 1).fill().map((_, idx) => start + idx)).flat(1)
-      return ids
+      return ids.sort(function(a, b) {return a - b;})
     }
 
     const intersection = (arr1, arr2) => {
@@ -394,9 +400,55 @@ const GuidedAnnotation = ({isPunct,
     }
 
 
+    const isAlignmentOk = () => {
+      const doc_tkns = doc_json.filter((word) => {return word.span_highlighted}).map((word) => word.tkn_id).sort(function(a, b) {return a - b;})
+      const msgs_json = guided_annotation_messages["goldMentions"][CurrSentInd]
+      const gold_align_tkns  = msgs_json["doc_tkns_alignments"][curr_alignment_guiding_msg_id].map((span) => string_to_span(span))
+      if (gold_align_tkns.map((span) => JSON.stringify(span)).includes(JSON.stringify(doc_tkns))) {
+          return {"alignment_ok":true, "highlighted_doc_tkns":doc_tkns, "gold_align_tkns":gold_align_tkns} 
+      } else {
+        return {"alignment_ok":false, "highlighted_doc_tkns":doc_tkns, "gold_align_tkns":gold_align_tkns} 
+      }
+    }
 
+    const update_alignment_error_message = (gold_tkns, actual_tkns) => {
+      const actual_tkns_no_punct = actual_tkns.filter((tkn) => {return !isPunct(doc_json.filter((word) => {return word.tkn_id===tkn})[0].word)})
+      if (actual_tkns_no_punct.filter((tkn) => {return gold_tkns.filter((span) => {return span.includes(tkn)}).length === 0}).length !== 0) {
+        update_alignment_excess_message(gold_tkns, actual_tkns_no_punct, curr_alignment_guiding_msg_id)
+      } else {
+        update_alignment_missing_message(gold_tkns, actual_tkns_no_punct, curr_alignment_guiding_msg_id)
+      }
+    }
 
+    const update_alignment_excess_message = (gold_tkns, actual_tkns, chosen_span_id) => {
+      const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd]["redundant_alignment_msg"][chosen_span_id]
+      const excess_tkns = actual_tkns.filter((tkn) => {return gold_tkns.every((span) => {return !span.includes(tkn)})}).sort(function(a, b) {return a - b;})
+      const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["excess_tkns"].some((span) => {return intersection(excess_tkns, string_to_span(span)).length !==0 })})
+      
+      if(custom_message_json.length !== 0) {
+        setGuidingMsg(custom_message_json[0])
+        setGuidingMsgType("danger")
+      } else {
+        setGuidingMsg(guided_annotation_messages["default_redundant_alignment_msg"])
+        setGuidingMsgType("danger")
+      }
+      // console.log(`custom_message_json:${JSON.stringify(custom_message_json)}`)
+    }
 
+    const update_alignment_missing_message = (gold_tkns, actual_tkns, chosen_span_id) => {
+      const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd]["missing_alignment_msg"][chosen_span_id]
+      const merged_gold_tkns = [...new Set(gold_tkns.flat(1))].sort(function(a, b) {return a - b;})
+      const missing_tkns = merged_gold_tkns.filter((tkn) => {return !actual_tkns.includes(tkn)})
+      const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["missing_tkns"].some((span) => {return intersection(missing_tkns, string_to_span(span)).length !== 0 })})
+      
+      if(custom_message_json.length !== 0) {
+        setGuidingMsg(custom_message_json[0])
+        setGuidingMsgType("danger")
+      } else {
+        setGuidingMsg(guided_annotation_messages["default_missing_alignment_msg"])
+        setGuidingMsgType("danger")
+      }
+    }
 
 
 
@@ -469,6 +521,7 @@ const GuidedAnnotation = ({isPunct,
    /********************************************************************************/
    useEffect(() => {
      console.log(`CurrSentInd is updated and is now ${CurrSentInd}`)
+    //  console.log(`AVIVSL: wanted words are:${JSON.stringify(doc_json.filter((word)=> { return ["came", "come"].includes(word.word)}).map((word) => word.tkn_id))}`)
    }, [CurrSentInd]);
    
    
