@@ -92,7 +92,7 @@
 					{
 					"excess_tkns":["0-7;9-19"],
 					"title":"Span too long", 
-					"text":"The span chosen is too long, which can cause missing out little details. Leave the part of the sentence talking about the drought's results to the next alignment. <b>Reminder</b> - to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight. Please try again."
+					"text":"The span chosen is too long, which can cause missing out little details. Leave the part of the sentence talking about the department's confirmation to the next alignment. <b>Reminder</b> - to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight. Please try again."
 					}
 				]
 			},

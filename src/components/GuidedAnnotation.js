@@ -49,7 +49,7 @@ const GuidedAnnotation = ({isPunct,
         } else {
           let gold_tkns = guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_spans"][isSummarySpanOkDict["chosen_span_id"]]
           gold_tkns = gold_tkns.map((span) => {return string_to_span(span)})
-          update_summary_span_error_message(gold_tkns, isSummarySpanOkDict["highlighted_tkn_ids"], isSummarySpanOkDict["chosen_span_id"])
+          update_error_message(gold_tkns, isSummarySpanOkDict["highlighted_tkn_ids"], isSummarySpanOkDict["chosen_span_id"], false)
         }
       
         return
@@ -283,7 +283,7 @@ const GuidedAnnotation = ({isPunct,
           setGuidingMsgType("success");
           setCurrAlignmentGuidingMsgId("-1");
         } else {
-          update_alignment_error_message(isAlignmentOkDict["gold_align_tkns"], isAlignmentOkDict["highlighted_doc_tkns"]);
+          update_error_message(isAlignmentOkDict["gold_align_tkns"], isAlignmentOkDict["highlighted_doc_tkns"], curr_alignment_guiding_msg_id, true);
           return
         }
       }
@@ -357,12 +357,17 @@ const GuidedAnnotation = ({isPunct,
       }
     }
 
-    const update_summary_span_error_message = (gold_tkns, actual_tkns, chosen_span_id) => {
-      const actual_tkns_no_punct = actual_tkns.filter((tkn) => {return !isPunct(summary_json.filter((word) => {return word.tkn_id===tkn})[0].word)})
-      if (actual_tkns_no_punct.filter((tkn) => {return gold_tkns.filter((span) => {return span.includes(tkn)}).length === 0}).length !== 0) {
-        update_summary_span_excess_message(gold_tkns, actual_tkns_no_punct, chosen_span_id)
+    const update_error_message = (gold_tkns, actual_tkns, chosen_span_id, isAlignError) => {
+      let actual_tkns_no_punct;
+      if (isAlignError) {
+        actual_tkns_no_punct = actual_tkns.filter((tkn) => {return !isPunct(doc_json.filter((word) => {return word.tkn_id===tkn})[0].word)})
       } else {
-        update_summary_span_missing_message(gold_tkns, actual_tkns_no_punct, chosen_span_id)
+        actual_tkns_no_punct = actual_tkns.filter((tkn) => {return !isPunct(summary_json.filter((word) => {return word.tkn_id===tkn})[0].word)})
+      }
+      if (actual_tkns_no_punct.filter((tkn) => {return gold_tkns.filter((span) => {return span.includes(tkn)}).length === 0}).length !== 0) {
+        update_excess_message(gold_tkns, actual_tkns_no_punct, chosen_span_id, isAlignError)
+      } else {
+        update_missing_message(gold_tkns, actual_tkns_no_punct, chosen_span_id, isAlignError)
       }
     }
 
@@ -370,8 +375,11 @@ const GuidedAnnotation = ({isPunct,
       return sub.every((i => v => i = master.indexOf(v, i) + 1)(0));
     }
 
-    const update_summary_span_excess_message = (gold_tkns, actual_tkns, chosen_span_id) => {
-      const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd]["too_long_summary_msgs"][chosen_span_id]
+    const update_excess_message = (gold_tkns, actual_tkns, chosen_span_id, isAlignError) => {
+      const msg_type_key = (isAlignError) ? "redundant_alignment_msg" : "too_long_summary_msgs" 
+      const default_msg_key = (isAlignError) ? "default_redundant_alignment_msg" : "default_too_long_summary_msg" 
+      
+      const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd][msg_type_key][chosen_span_id]
       const excess_tkns = actual_tkns.filter((tkn) => {return gold_tkns.every((span) => {return !span.includes(tkn)})}).sort(function(a, b) {return a - b;})
       const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["excess_tkns"].some((span) => {return intersection(excess_tkns, string_to_span(span)).length !==0 })})
       
@@ -379,13 +387,17 @@ const GuidedAnnotation = ({isPunct,
         setGuidingMsg(custom_message_json[0])
         setGuidingMsgType("danger")
       } else {
-        setGuidingMsg(guided_annotation_messages["default_too_long_summary_msg"])
+        setGuidingMsg(guided_annotation_messages[default_msg_key])
         setGuidingMsgType("danger")
       }
     }
 
-    const update_summary_span_missing_message = (gold_tkns, actual_tkns, chosen_span_id) => {
-      const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd]["too_short_summary_msgs"][chosen_span_id]
+    const update_missing_message = (gold_tkns, actual_tkns, chosen_span_id, isAlignError) => {
+
+      const msg_type_key = (isAlignError) ? "missing_alignment_msg" : "too_short_summary_msgs" 
+      const default_msg_key = (isAlignError) ? "default_missing_alignment_msg" : "default_too_short_summary_msg" 
+
+      const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd][msg_type_key][chosen_span_id]
       const merged_gold_tkns = [...new Set(gold_tkns.flat(1))].sort(function(a, b) {return a - b;})
       const missing_tkns = merged_gold_tkns.filter((tkn) => {return !actual_tkns.includes(tkn)})
       const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["missing_tkns"].some((span) => {return intersection(missing_tkns, string_to_span(span)).length !== 0 })})
@@ -394,7 +406,7 @@ const GuidedAnnotation = ({isPunct,
         setGuidingMsg(custom_message_json[0])
         setGuidingMsgType("danger")
       } else {
-        setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
+        setGuidingMsg(guided_annotation_messages[default_msg_key])
         setGuidingMsgType("danger")
       }
     }
@@ -411,44 +423,44 @@ const GuidedAnnotation = ({isPunct,
       }
     }
 
-    const update_alignment_error_message = (gold_tkns, actual_tkns) => {
-      const actual_tkns_no_punct = actual_tkns.filter((tkn) => {return !isPunct(doc_json.filter((word) => {return word.tkn_id===tkn})[0].word)})
-      if (actual_tkns_no_punct.filter((tkn) => {return gold_tkns.filter((span) => {return span.includes(tkn)}).length === 0}).length !== 0) {
-        update_alignment_excess_message(gold_tkns, actual_tkns_no_punct, curr_alignment_guiding_msg_id)
-      } else {
-        update_alignment_missing_message(gold_tkns, actual_tkns_no_punct, curr_alignment_guiding_msg_id)
-      }
-    }
+    // const update_alignment_error_message = (gold_tkns, actual_tkns, chosen_span_id) => {
+    //   const actual_tkns_no_punct = actual_tkns.filter((tkn) => {return !isPunct(doc_json.filter((word) => {return word.tkn_id===tkn})[0].word)})
+    //   if (actual_tkns_no_punct.filter((tkn) => {return gold_tkns.filter((span) => {return span.includes(tkn)}).length === 0}).length !== 0) {
+    //     update_alignment_excess_message(gold_tkns, actual_tkns_no_punct, chosen_span_id)
+    //   } else {
+    //     update_alignment_missing_message(gold_tkns, actual_tkns_no_punct, chosen_span_id)
+    //   }
+    // }
 
-    const update_alignment_excess_message = (gold_tkns, actual_tkns, chosen_span_id) => {
-      const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd]["redundant_alignment_msg"][chosen_span_id]
-      const excess_tkns = actual_tkns.filter((tkn) => {return gold_tkns.every((span) => {return !span.includes(tkn)})}).sort(function(a, b) {return a - b;})
-      const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["excess_tkns"].some((span) => {return intersection(excess_tkns, string_to_span(span)).length !==0 })})
+    // const update_alignment_excess_message = (gold_tkns, actual_tkns, chosen_span_id) => {
+    //   const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd]["redundant_alignment_msg"][chosen_span_id]
+    //   const excess_tkns = actual_tkns.filter((tkn) => {return gold_tkns.every((span) => {return !span.includes(tkn)})}).sort(function(a, b) {return a - b;})
+    //   const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["excess_tkns"].some((span) => {return intersection(excess_tkns, string_to_span(span)).length !==0 })})
       
-      if(custom_message_json.length !== 0) {
-        setGuidingMsg(custom_message_json[0])
-        setGuidingMsgType("danger")
-      } else {
-        setGuidingMsg(guided_annotation_messages["default_redundant_alignment_msg"])
-        setGuidingMsgType("danger")
-      }
-      // console.log(`custom_message_json:${JSON.stringify(custom_message_json)}`)
-    }
+    //   if(custom_message_json.length !== 0) {
+    //     setGuidingMsg(custom_message_json[0])
+    //     setGuidingMsgType("danger")
+    //   } else {
+    //     setGuidingMsg(guided_annotation_messages["default_redundant_alignment_msg"])
+    //     setGuidingMsgType("danger")
+    //   }
+    //   // console.log(`custom_message_json:${JSON.stringify(custom_message_json)}`)
+    // }
 
-    const update_alignment_missing_message = (gold_tkns, actual_tkns, chosen_span_id) => {
-      const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd]["missing_alignment_msg"][chosen_span_id]
-      const merged_gold_tkns = [...new Set(gold_tkns.flat(1))].sort(function(a, b) {return a - b;})
-      const missing_tkns = merged_gold_tkns.filter((tkn) => {return !actual_tkns.includes(tkn)})
-      const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["missing_tkns"].some((span) => {return intersection(missing_tkns, string_to_span(span)).length !== 0 })})
+    // const update_alignment_missing_message = (gold_tkns, actual_tkns, chosen_span_id) => {
+    //   const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd]["missing_alignment_msg"][chosen_span_id]
+    //   const merged_gold_tkns = [...new Set(gold_tkns.flat(1))].sort(function(a, b) {return a - b;})
+    //   const missing_tkns = merged_gold_tkns.filter((tkn) => {return !actual_tkns.includes(tkn)})
+    //   const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["missing_tkns"].some((span) => {return intersection(missing_tkns, string_to_span(span)).length !== 0 })})
       
-      if(custom_message_json.length !== 0) {
-        setGuidingMsg(custom_message_json[0])
-        setGuidingMsgType("danger")
-      } else {
-        setGuidingMsg(guided_annotation_messages["default_missing_alignment_msg"])
-        setGuidingMsgType("danger")
-      }
-    }
+    //   if(custom_message_json.length !== 0) {
+    //     setGuidingMsg(custom_message_json[0])
+    //     setGuidingMsgType("danger")
+    //   } else {
+    //     setGuidingMsg(guided_annotation_messages["default_missing_alignment_msg"])
+    //     setGuidingMsgType("danger")
+    //   }
+    // }
 
 
 
