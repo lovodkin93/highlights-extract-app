@@ -336,10 +336,8 @@ const GuidedAnnotation = ({isPunct,
       highlighted_tkn_ids = (turn_on) ? highlighted_tkn_ids.concat(tkn_ids) : highlighted_tkn_ids
       highlighted_tkn_ids = (turn_off) ? highlighted_tkn_ids.filter((tkn) => {return (turn_off && !tkn_ids.includes(tkn))}) : highlighted_tkn_ids
       highlighted_tkn_ids = [...new Set(highlighted_tkn_ids)] // remove duplicates
-      highlighted_tkn_ids = highlighted_tkn_ids.filter((tkn_id) => {return !isPunct(summary_json.filter((word) => {return word.tkn_id===tkn_id})[0].word)}) // ignore punctuation
-
-
-      let chosen_span_id = Object.keys(gold_mentions["span_indicating_tkns"]).filter((key) => {return intersection(highlighted_tkn_ids, gold_mentions["span_indicating_tkns"][key]).length !== 0})
+      highlighted_tkn_ids = highlighted_tkn_ids.filter((tkn_id) => {return !isPunct(summary_json.filter((word) => {return word.tkn_id===tkn_id})[0].word)}) // ignore punctuation      
+      let chosen_span_id = Object.keys(gold_mentions["span_indicating_tkns"]).filter((key) => {return gold_mentions["span_indicating_tkns"][key].some((span) => hasSubArray(highlighted_tkn_ids, string_to_span(span)))})
 
       if (chosen_span_id.length===0){
         return {"summary_span_ok":false, "chosen_span_id":undefined, "highlighted_tkn_ids":highlighted_tkn_ids}
@@ -413,7 +411,7 @@ const GuidedAnnotation = ({isPunct,
 
 
     const isAlignmentOk = () => {
-      const doc_tkns = doc_json.filter((word) => {return word.span_highlighted}).map((word) => word.tkn_id).sort(function(a, b) {return a - b;})
+      const doc_tkns = doc_json.filter((word) => {return word.span_highlighted && !isPunct(word.word)}).map((word) => word.tkn_id).sort(function(a, b) {return a - b;})
       const msgs_json = guided_annotation_messages["goldMentions"][CurrSentInd]
       const gold_align_tkns  = msgs_json["doc_tkns_alignments"][curr_alignment_guiding_msg_id].map((span) => string_to_span(span))
       if (gold_align_tkns.map((span) => JSON.stringify(span)).includes(JSON.stringify(doc_tkns))) {
@@ -422,45 +420,6 @@ const GuidedAnnotation = ({isPunct,
         return {"alignment_ok":false, "highlighted_doc_tkns":doc_tkns, "gold_align_tkns":gold_align_tkns} 
       }
     }
-
-    // const update_alignment_error_message = (gold_tkns, actual_tkns, chosen_span_id) => {
-    //   const actual_tkns_no_punct = actual_tkns.filter((tkn) => {return !isPunct(doc_json.filter((word) => {return word.tkn_id===tkn})[0].word)})
-    //   if (actual_tkns_no_punct.filter((tkn) => {return gold_tkns.filter((span) => {return span.includes(tkn)}).length === 0}).length !== 0) {
-    //     update_alignment_excess_message(gold_tkns, actual_tkns_no_punct, chosen_span_id)
-    //   } else {
-    //     update_alignment_missing_message(gold_tkns, actual_tkns_no_punct, chosen_span_id)
-    //   }
-    // }
-
-    // const update_alignment_excess_message = (gold_tkns, actual_tkns, chosen_span_id) => {
-    //   const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd]["redundant_alignment_msg"][chosen_span_id]
-    //   const excess_tkns = actual_tkns.filter((tkn) => {return gold_tkns.every((span) => {return !span.includes(tkn)})}).sort(function(a, b) {return a - b;})
-    //   const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["excess_tkns"].some((span) => {return intersection(excess_tkns, string_to_span(span)).length !==0 })})
-      
-    //   if(custom_message_json.length !== 0) {
-    //     setGuidingMsg(custom_message_json[0])
-    //     setGuidingMsgType("danger")
-    //   } else {
-    //     setGuidingMsg(guided_annotation_messages["default_redundant_alignment_msg"])
-    //     setGuidingMsgType("danger")
-    //   }
-    //   // console.log(`custom_message_json:${JSON.stringify(custom_message_json)}`)
-    // }
-
-    // const update_alignment_missing_message = (gold_tkns, actual_tkns, chosen_span_id) => {
-    //   const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd]["missing_alignment_msg"][chosen_span_id]
-    //   const merged_gold_tkns = [...new Set(gold_tkns.flat(1))].sort(function(a, b) {return a - b;})
-    //   const missing_tkns = merged_gold_tkns.filter((tkn) => {return !actual_tkns.includes(tkn)})
-    //   const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["missing_tkns"].some((span) => {return intersection(missing_tkns, string_to_span(span)).length !== 0 })})
-      
-    //   if(custom_message_json.length !== 0) {
-    //     setGuidingMsg(custom_message_json[0])
-    //     setGuidingMsgType("danger")
-    //   } else {
-    //     setGuidingMsg(guided_annotation_messages["default_missing_alignment_msg"])
-    //     setGuidingMsgType("danger")
-    //   }
-    // }
 
 
 
@@ -535,7 +494,12 @@ const GuidedAnnotation = ({isPunct,
      console.log(`CurrSentInd is updated and is now ${CurrSentInd}`)
     //  console.log(`AVIVSL: wanted words are:${JSON.stringify(doc_json.filter((word)=> { return ["came", "come"].includes(word.word)}).map((word) => word.tkn_id))}`)
    }, [CurrSentInd]);
-   
+  //  useEffect(() => {
+  //   console.log(`tkn_id of highlighted summary words: ${JSON.stringify(summary_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
+  // }, [summary_json]);
+  useEffect(() => {
+    console.log(`tkn_id of highlighted doc words: ${JSON.stringify(doc_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
+  }, [doc_json]);
    
    
    /******************* highlighting while choosing spans to help *******************/ 
