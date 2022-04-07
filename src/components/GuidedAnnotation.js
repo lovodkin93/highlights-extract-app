@@ -319,6 +319,7 @@ const GuidedAnnotation = ({isPunct,
     const string_to_span = (span_str) => {
       const sub_strings = span_str.split(";");
       const lims = sub_strings.map((sub_string) => sub_string.split("-").map((lim) => parseInt(lim)))
+      console.log(`lims:${JSON.stringify(span_str)}`)
       const ids = lims.map(([start, end]) => Array(end - start + 1).fill().map((_, idx) => start + idx)).flat(1)
       return ids.sort(function(a, b) {return a - b;})
     }
@@ -413,6 +414,16 @@ const GuidedAnnotation = ({isPunct,
     const isAlignmentOk = () => {
       const doc_tkns = doc_json.filter((word) => {return word.span_highlighted && !isPunct(word.word)}).map((word) => word.tkn_id).sort(function(a, b) {return a - b;})
       const msgs_json = guided_annotation_messages["goldMentions"][CurrSentInd]
+
+      // unalignable parts
+      if (msgs_json["doc_tkns_alignments"][curr_alignment_guiding_msg_id].length===0) {
+        if (doc_tkns.length===0){
+          return {"alignment_ok":true, "highlighted_doc_tkns":doc_tkns, "gold_align_tkns":[]} 
+        } else {
+          return {"alignment_ok":false, "highlighted_doc_tkns":doc_tkns, "gold_align_tkns":[]} 
+        }
+      }
+
       const gold_align_tkns  = msgs_json["doc_tkns_alignments"][curr_alignment_guiding_msg_id].map((span) => string_to_span(span))
       if (gold_align_tkns.map((span) => JSON.stringify(span)).includes(JSON.stringify(doc_tkns))) {
           return {"alignment_ok":true, "highlighted_doc_tkns":doc_tkns, "gold_align_tkns":gold_align_tkns} 
@@ -495,13 +506,13 @@ const GuidedAnnotation = ({isPunct,
   //   //  console.log(`AVIVSL: wanted words are:${JSON.stringify(doc_json.filter((word)=> { return ["came", "come"].includes(word.word)}).map((word) => word.tkn_id))}`)
   //  }, [CurrSentInd]);
 
-   useEffect(() => {
-    console.log(`tkn_id of highlighted summary words: ${JSON.stringify(summary_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
-  }, [summary_json]);
+  //  useEffect(() => {
+  //   console.log(`tkn_id of highlighted summary words: ${JSON.stringify(summary_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
+  // }, [summary_json]);
 
-  // useEffect(() => {
-  //   console.log(`tkn_id of highlighted doc words: ${JSON.stringify(doc_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
-  // }, [doc_json]);
+  useEffect(() => {
+    console.log(`tkn_id of highlighted doc words: ${JSON.stringify(doc_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
+  }, [doc_json]);
    
    
    /******************* highlighting while choosing spans to help *******************/ 
@@ -568,6 +579,15 @@ const GuidedAnnotation = ({isPunct,
 
 
    const SubmitHandler = (event) => {
+    const isAlignmentOkDict = isAlignmentOk();
+    if (isAlignmentOkDict["alignment_ok"]) {
+      setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"]) // AVIVSL: add custom success messages
+      setGuidingMsgType("success");
+      setCurrAlignmentGuidingMsgId("-1");
+    } else {
+      update_error_message(isAlignmentOkDict["gold_align_tkns"], isAlignmentOkDict["highlighted_doc_tkns"], curr_alignment_guiding_msg_id, true);
+      return
+    }
     alert("Submitted!");
   }
 
