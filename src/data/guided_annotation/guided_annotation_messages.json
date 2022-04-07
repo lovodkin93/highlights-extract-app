@@ -535,16 +535,17 @@
 						"title":"Implicit presence of \"While\" ", 
 						"text":"The relation represented by \"while\" is implicit in the document. <br/>Therefore, there isn't an actual alignment to \"while\".<br/>So, you can either save it unaligned (by un-highlighting all the document highlightings and hitting the \"CONFIRM\" button). <br/>Even better, you can include it with the the part of the sentence coming after it ('stating \"This bill....'), as this makes the most sense.<br/>If you opt for the second option, and you've already highlighted the part of the sentence coming after, <b>use the \"REVISE\" option.</b>"
 						}
-				
 					]	
 			}
 		},
+		
+		
 		{
 			"sent_id":2,
 			"good_summary_spans": {
 				"1":["71-74;76-80", "76-80"],
-				"2":["71-74;83-84", "83-84", "71-74;79-79;83-84", "79-79;83-84"],
-				"3":["71-74;87-90", "87-90", "71-74;88-90", "88-90", "71-74;79-79;87-90", "79-79;87-90", "71-74;79-79;88-90", "79-79;88-90"],
+				"2":["71-74;83-84", "83-84", "71-74;79-79;83-84", "79-79;83-84", "71-74;77-79;83-84", "77-79;83-84"],
+				"3":["71-74;87-90", "87-90", "71-74;88-90", "88-90", "71-74;79-79;87-90", "79-79;87-90", "71-74;79-79;88-90", "79-79;88-90", "71-74;77-79;87-90", "77-79;87-90", "71-74;77-79;88-90", "77-79;88-90"],
 				"4":["87-87"]
 			},
 			"span_indicating_tkns": {
@@ -552,6 +553,278 @@
 				"2":["83-83"],
 				"3":["89-89"],
 				"4":["87-87"]
+			},
+			"too_short_summary_msgs": {
+				"1":[
+						{
+						"missing_tkns":[],
+						"title":"",
+						"text":""
+						}
+					],
+				"2":[
+						{
+						"missing_tkns":[],
+						"title":"",
+						"text":""
+						}
+					],
+				"3":[
+						{
+						"missing_tkns":[],
+						"title":"",
+						"text":""
+						}
+					],
+				"4":[
+						{
+						"missing_tkns":[],
+						"title":"",
+						"text":""
+						}
+					]
+			},
+			"too_long_summary_msgs": {
+				"1":[
+						{
+						"excess_tkns":["83-84", "88-90"],
+						"title":"Summary span too long", 
+						"text":"Even though the part talking about the corn is very short, it is best to focus solely on it and leave the rest for other alignments, as they scattered across the document.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						}
+					],
+				"2":[
+						{
+						"excess_tkns":["76-76;80-80", "88-90"],
+						"title":"Summary span too long", 
+						"text":"Even though the part talking about the soybeans is very short, it is best to focus solely on it and leave the rest for other alignments, as they scattered across the document.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						}
+					],
+				"3":[
+						{
+						"excess_tkns":["76-76;80-80", "83-84"],
+						"title":"Summary span too long", 
+						"text":"Even though the part talking about the wheat is very short, it is best to focus solely on it and leave the rest for other alignments, as they scattered across the document.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						}
+					],
+				"4":[
+						{
+						"excess_tkns":["76-76;80-80", "83-84"],
+						"title":"Summary span with incomplete events", 
+						"text":"Highlighting \"and\" is more appropriate with ensuing part of the sentence rather than the preceding.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						}
+					]
+			},
+			"doc_tkns_alignments": {
+				"1":["145-148;158-159;164-165;167-169;171-171;173-177", "145-147;158-159;164-165;167-169;171-171;173-177", "145-146;158-159;164-165;167-169;171-171;173-177", "146-148;158-159;164-165;167-169;171-171;173-177", "146-147;158-159;164-165;167-169;171-171;173-177", "146-146;158-159;164-165;167-169;171-171;173-177", "145-146;148-148;158-159;164-165;167-169;171-171;173-177", "146-146;148-148;158-159;164-165;167-169;171-171;173-177",
+					"145-148;158-159;164-165;167-169;171-171;173-177", "145-147;158-159;164-165;167-169;171-171;173-177", "145-146;158-159;164-165;167-169;171-171;173-177", "146-148;158-159;164-165;167-169;171-171;173-177", "146-147;158-159;164-165;167-169;171-171;173-177", "146-146;158-159;164-165;167-169;171-171;173-177", "145-146;148-148;158-159;164-165;167-169;171-171;173-177", "146-146;148-148;158-159;164-165;167-169;171-171;173-177",
+					"145-148;158-159;164-165;174-177", "145-147;158-159;164-165;174-177", "145-146;158-159;164-165;174-177", "146-148;158-159;164-165;174-177", "146-147;158-159;164-165;174-177", "146-146;158-159;164-165;174-177", "145-146;148-148;158-159;164-165;174-177", "146-146;148-148;158-159;164-165;174-177",
+					"145-148;158-159;164-165;176-177", "145-147;158-159;164-165;176-177", "145-146;158-159;164-165;176-177", "146-148;158-159;164-165;176-177", "146-147;158-159;164-165;176-177", "146-146;158-159;164-165;176-177", "145-146;148-148;158-159;164-165;176-177", "146-146;148-148;158-159;164-165;176-177"],
+				"2":["455-458;465-468;473-474", "455-457;465-468;473-474", "455-456;465-468;473-474", "455-456;458-458;465-468;473-474", "456-458;465-468;473-474", "456-457;465-468;473-474", "456-456;458-458;465-468;473-474", "456-456;465-468;473-474"],
+				"3":["519-522;529-534", "519-521;529-534", "519-520;529-534", "519-520;522-522;529-534", "519-520;529-534"],
+				"4":[]
+			},
+			"missing_alignment_msg": {
+				"1":[
+						{
+						"missing_tkns":["146-146"],
+						"title":"missing information in the alignment",
+						"text":"The alignment is not full (<u>hint</u>: What is down?)"
+						},
+						{
+						"missing_tkns":["158-158"],
+						"title":"missing information in the alignment",
+						"text":"The alignment is not full (<u>hint</u>: What happened to the corn?)"
+						},
+						{
+						"missing_tkns":["159-159"],
+						"title":"missing information in the alignment",
+						"text":"The alignment is not full (<u>hint</u>: \"down\" needs to be accompanied by \"from\")"
+						},
+						{
+						"missing_tkns":["164-165"],
+						"title":"missing information in the alignment",
+						"text":"The alignment is not full (<u>hint</u>: To what time is the corn compared to?)"
+						},
+						{
+						"missing_tkns":["176-177"],
+						"title":"missing information in the alignment",
+						"text":"The alignment is not full (<u>hint</u>: How much is the corn down from last year?)"
+						}
+					],
+				"2":[
+						{
+						"missing_tkns":["456-456"],
+						"title":"missing information in the alignment",
+						"text":"The alignment is not full (<u>hint</u>: What was down?)"
+						},
+						{
+						"missing_tkns":["465-465"],
+						"title":"missing information in the alignment",
+						"text":"The alignment is not full (<u>hint</u>: What happened to the soybean?)"
+						},
+						{
+						"missing_tkns":["468-468"],
+						"title":"missing information in the alignment",
+						"text":"The alignment is not full (<u>hint</u>: \"down\" needs to be accompanied by \"from\")"
+						},
+						{
+						"missing_tkns":["473-474"],
+						"title":"missing information in the alignment",
+						"text":"The alignment is not full (<u>hint</u>: To what time is the soybean compared to?)"
+						},
+						{
+						"missing_tkns":["466-467"],
+						"title":"missing information in the alignment",
+						"text":"The alignment is not full (<u>hint</u>: How much is the soybean down from last year?)"
+						}
+					],
+				"3":[
+						{
+						"missing_tkns":["520-520"],
+						"title":"missing information in the alignment",
+						"text":"The alignment is not full (<u>hint</u>: What was down?)"
+						},
+						{
+						"missing_tkns":["519-519"],
+						"title":"missing information in the alignment",
+						"text":"The alignment is not full (<u>hint</u>: What knd of wheat?)"
+						},
+						{
+						"missing_tkns":["529-529"],
+						"title":"missing information in the alignment",
+						"text":"The alignment is not full (<u>hint</u>: What happened to the soybean?)"
+						},
+						{
+						"missing_tkns":["532-532"],
+						"title":"missing information in the alignment",
+						"text":"The alignment is not full (<u>hint</u>: \"down\" needs to be accompanied by \"from\")"
+						},
+						{
+						"missing_tkns":["533-534"],
+						"title":"missing information in the alignment",
+						"text":"The alignment is not full (<u>hint</u>: To what time is the soybean compared to?)"
+						},
+						{
+						"missing_tkns":["530-531"],
+						"title":"missing information in the alignment",
+						"text":"The alignment is not full (<u>hint</u>: How much is the soybean down from last year?)"
+						}
+					],
+				"4":[
+						{
+						"missing_tkns":[],
+						"title":"",
+						"text":""
+						}
+					]
+			},
+			"redundant_alignment_msg": {
+				"1":[
+						{
+						"excess_tkns":["149-156"],
+						"title":"Irrelevant information", 
+						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: the actual amount of corn this year wasn't mentioned). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						},
+						{
+						"excess_tkns":["160-163"],
+						"title":"Irrelevant information", 
+						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: the actual amount of corn last year wasn't mentioned). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						},
+						{
+						"excess_tkns":["180-180"],
+						"title":"Out of context", 
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: corn). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						},
+						{
+						"excess_tkns":["99-99", "141-141", "203-203", "497-497", "521-521", "592-592", "621-621"],
+						"title":"Out of context", 
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: production). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						},
+						{
+						"excess_tkns":["473-474", "533-534"],
+						"title":"Out of context", 
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: last year). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						}
+					],
+				"2":[
+						{
+						"excess_tkns":["459-463"],
+						"title":"Irrelevant information", 
+						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: the actual amount of soybean this year wasn't mentioned). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						},
+						{
+						"excess_tkns":["469-472"],
+						"title":"Irrelevant information", 
+						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: the actual amount of soybean last year wasn't mentioned). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						},
+						{
+						"excess_tkns":["649-649"],
+						"title":"Out of context", 
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: soybean). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						},
+						{
+						"excess_tkns":["99-99", "141-141", "203-203", "497-497", "521-521", "592-592", "621-621"],
+						"title":"Out of context", 
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: production). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						},
+						{
+						"excess_tkns":["164-165", "533-534"],
+						"title":"Out of context", 
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: last year). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						}
+					],
+				"3":[
+						{
+						"excess_tkns":["523-527"],
+						"title":"Irrelevant information", 
+						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: the actual amount of wheat this year wasn't mentioned). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						},
+						{
+						"excess_tkns":["500-500"],
+						"title":"Out of context", 
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: wheat). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						},
+						{
+						"excess_tkns":["99-99", "141-141", "203-203", "497-497", "592-592", "621-621"],
+						"title":"Out of context", 
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: production). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						},
+						{
+						"excess_tkns":["164-165", "473-474"],
+						"title":"Out of context", 
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: last year). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						}
+					],
+				"4":[
+						{
+						"excess_tkns":["0-678"],
+						"title":"Implicit presence of \"and\" ", 
+						"text":"The relation represented by \"and\" is implicit in the document. <br/>Therefore, there isn't an actual alignment to \"and\".<br/>So, you can either save it unaligned (by un-highlighting all the document highlightings and hitting the \"CONFIRM\" button). <br/>Even better, you can incorporate it into the part of the sentence coming after it ('Winter wheat...'), as this makes the most sense.<br/>If you opt for the second option, and you've already highlighted the part of the sentence coming after, <b>use the \"REVISE\" option.</b>"
+						}
+					]
+			}
+		},
+		{
+			"sent_id":3,
+			"good_summary_spans": {
+				"1":["94-96;98-103;105-119"],
+				"2":["94-96;98-103;105-115"],
+				"3":["94-96;98-103"],
+				"4":["94-96;105-119"],
+				"5":["94-96;105-115"],
+				"6":["98-103;105-119"],
+				"7":["98-103;105-115"],
+				"8":["116-119"]
+			},
+			"span_indicating_tkns": {
+				"1":["94-94;103-103;105-105;116-119"],
+				"2":["94-94;103-103;105-105"],
+				"3":["94-94;103-103"],
+				"4":["94-94;105-105;116-119"],
+				"5":["94-94;105-105"],
+				"6":["103-103;105-105;116-119"],
+				"7":["103-103;105-105"],
+				"8":["116-119"]
 			}
 		}
 	]
