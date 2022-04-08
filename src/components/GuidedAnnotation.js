@@ -397,6 +397,16 @@ const GuidedAnnotation = ({isPunct,
       
       const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd][msg_type_key][chosen_span_id]
       const excess_tkns = actual_tkns.filter((tkn) => {return gold_tkns.every((span) => {return !span.includes(tkn)})}).sort(function(a, b) {return a - b;})
+      
+
+      if (guiding_msgs.length===0){
+        setGuidingMsg(guided_annotation_messages[default_msg_key])
+        setGuidingMsgType("danger")
+        return
+      }
+      
+      
+      
       const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["excess_tkns"].some((span) => {return intersection(excess_tkns, string_to_span(span)).length !==0 })})
       
       if(custom_message_json.length !== 0) {

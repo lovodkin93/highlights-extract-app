@@ -92,19 +92,19 @@
 			},
 			"too_long_summary_msgs": {
 				"1":[
-					{
-					"excess_tkns":["21-32"],
-					"title":"Summary span too long", 
-					"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Leave the part talking about the drought's results for another alignment. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
-					}
+						{
+						"excess_tkns":["21-32"],
+						"title":"Summary span too long", 
+						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Leave the part talking about the drought's results for another alignment. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						}
 					],
 				"2":[
-					{
-					"excess_tkns":["0-7;9-19"],
-					"title":"Summary span too long", 
-					"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Leave the part talking about the department's confirmation for another alignment. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
-					}
-				]
+						{
+						"excess_tkns":["0-7;9-19"],
+						"title":"Summary span too long", 
+						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Leave the part talking about the department's confirmation for another alignment. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						}
+					]
 			},
 			"doc_tkns_alignments": {
 				"1":["0-21", "2-21", "0-0;2-21", "2-3;5-21"],
@@ -263,153 +263,147 @@
 			},
 			"too_short_summary_msgs": {
 				"1":[
-					{
-					"missing_tkns":["37-37"],
-					"title":"Summary span too short (too general)",
-					"text":"The highlighed summary span is too general (\"President Reagan\" on its own can be mentioned in unrelated context as well)."
-					},
-					{
-					"missing_tkns":["35-36"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:who signed?)."
-					},
-					{
-					"missing_tkns":["44-44"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:signed what?)."
-					},
-					{
-					"missing_tkns":["38-38;40-43"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what bill was signed?)."
-					},
-					{
-					"missing_tkns":["45-45"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what is the connection between the bill and the helping?)."
-					},
-					{
-					"missing_tkns":["47-47"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what is the bill aimed at?)."
-					},
-					{
-					"missing_tkns":["51-51"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:helping whom?)."
-					},
-					{
-					"missing_tkns":["48-48;50-50"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what farmers?)."
-					},
-					{
-					"missing_tkns":["52-52"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:help the farmers in what?)."
-					}
-				],
+						{
+						"missing_tkns":["37-37"],
+						"title":"Summary span too short (too general)",
+						"text":"The highlighed summary span is too general (\"President Reagan\" on its own can be mentioned in unrelated context as well)."
+						},
+						{
+						"missing_tkns":["35-36"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:who signed?)."
+						},
+						{
+						"missing_tkns":["44-44"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:signed what?)."
+						},
+						{
+						"missing_tkns":["38-38;40-43"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what bill was signed?)."
+						},
+						{
+						"missing_tkns":["45-45"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what is the connection between the bill and the helping?)."
+						},
+						{
+						"missing_tkns":["47-47"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what is the bill aimed at?)."
+						},
+						{
+						"missing_tkns":["51-51"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:helping whom?)."
+						},
+						{
+						"missing_tkns":["48-48;50-50"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what farmers?)."
+						},
+						{
+						"missing_tkns":["52-52"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:help the farmers in what?)."
+						}
+					],
 				"2":[
-					{
-					"missing_tkns":["37-37"],
-					"title":"Summary span too short (too general)",
-					"text":"The highlighed summary span is too general (\"President Reagan\" on its own can be mentioned in unrelated context as well)."
-					},
-					{
-					"missing_tkns":["35-36"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:who signed?)."
-					},
-					{
-					"missing_tkns":["44-44"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:signed what?)."
-					},
-					{
-					"missing_tkns":["38-38;40-43"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what bill was signed?)."
-					}
-				],
+						{
+						"missing_tkns":["37-37"],
+						"title":"Summary span too short (too general)",
+						"text":"The highlighed summary span is too general (\"President Reagan\" on its own can be mentioned in unrelated context as well)."
+						},
+						{
+						"missing_tkns":["35-36"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:who signed?)."
+						},
+						{
+						"missing_tkns":["44-44"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:signed what?)."
+						},
+						{
+						"missing_tkns":["38-38;40-43"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what bill was signed?)."
+						}
+					],
 				"3":[
-					{
-					"missing_tkns":["45-45"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what is the connection between the bill and the helping?)."
-					},
-					{
-					"missing_tkns":["47-47"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what is the bill aimed at?)."
-					},
-					{
-					"missing_tkns":["51-51"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:helping whom?)."
-					},
-					{
-					"missing_tkns":["48-48;50-50"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what farmers?)."
-					},
-					{
-					"missing_tkns":["52-52"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:help the farmers in what?)."
-					}
-				],
+						{
+						"missing_tkns":["45-45"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what is the connection between the bill and the helping?)."
+						},
+						{
+						"missing_tkns":["47-47"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what is the bill aimed at?)."
+						},
+						{
+						"missing_tkns":["51-51"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:helping whom?)."
+						},
+						{
+						"missing_tkns":["48-48;50-50"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what farmers?)."
+						},
+						{
+						"missing_tkns":["52-52"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:help the farmers in what?)."
+						}
+					],
 				"4":[
-					{
-					"missing_tkns":["56-65"],
-					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:stating what?)."
-					}
-				],
-				"5":[
-					{	
-					"missing_tkns":[],
-					"title":"", 
-					"text":""
-					}
-				]
+						{
+						"missing_tkns":["56-65"],
+						"title":"Summary span too short (not full events)", 
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:stating what?)."
+						}
+					],
+				"5":[]
 				
 			},
 			"too_long_summary_msgs": {
 				"1":[
-					{
-					"excess_tkns":["54-55;58-65"],
-					"title":"Summary span too long", 
-					"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Leave the part talking about the president's second statement for another alignment. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
-					}
-				],
+						{
+						"excess_tkns":["54-55;58-65"],
+						"title":"Summary span too long", 
+						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Leave the part talking about the president's second statement for another alignment. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						}
+					],
 				"2":[
-					{
-					"excess_tkns":["48-52", "54-55;58-65"],
-					"title":"Summary span too long", 
-					"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Stick to the bill-signing event for now. Leave the rest for other alignments.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
-					}
-				],
+						{
+						"excess_tkns":["48-52", "54-55;58-65"],
+						"title":"Summary span too long", 
+						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Stick to the bill-signing event for now. Leave the rest for other alignments.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						}
+					],
 				"3":[
-					{
-					"excess_tkns":["35-36", "54-55;58-65"],
-					"title":"Summary span too long", 
-					"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Stick to the helping-the-farmers event for now. Leave the rest for other alignments.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
-					}
-				],
+						{
+						"excess_tkns":["35-36", "54-55;58-65"],
+						"title":"Summary span too long", 
+						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Stick to the helping-the-farmers event for now. Leave the rest for other alignments.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						}
+					],
 				"4":[
-					{
-					"excess_tkns":["35-38;40-52"],
-					"title":"Summary span too long", 
-					"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Stick to the event of the president's second statement for now. Leave the rest for other alignments.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
-					}
-				],
+						{
+						"excess_tkns":["35-38;40-52"],
+						"title":"Summary span too long", 
+						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Stick to the event of the president's second statement for now. Leave the rest for other alignments.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						}
+					],
 				"5":[
-					{
-					"excess_tkns":["35-38;40-52"],
-					"title":"Summary span with incomplete events", 
-					"text":"Highlighting \"while\" is more appropriate with ensuing part of the sentence rather than the preceding.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
-					}
-				]
+						{
+						"excess_tkns":["35-38;40-52"],
+						"title":"Summary span with incomplete events", 
+						"text":"Highlighting \"while\" is more appropriate with ensuing part of the sentence rather than the preceding.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						}
+					]
 			},
 			"doc_tkns_alignments": {
 				
@@ -437,27 +431,9 @@
 				}
 			},
 			"missing_alignment_msg": {
-				"1":[
-						{
-						"missing_tkns":[],
-						"title":"",
-						"text":""
-						}
-					],
-				"2":[
-						{
-						"missing_tkns":[],
-						"title":"",
-						"text":""
-						}
-					],
-				"3":[
-						{
-						"missing_tkns":[],
-						"title":"",
-						"text":""
-						}
-					],
+				"1":[],
+				"2":[],
+				"3":[],
 				"4":[
 						{
 						"missing_tkns":["419-420"],
@@ -465,13 +441,7 @@
 						"text":"The alignment is not full (the fact this was said by someone is missing)."
 						}
 					],
-				"5":[
-						{
-						"missing_tkns":[],
-						"title":"",
-						"text":""
-						}
-					]
+				"5":[]
 			},
 			"redundant_alignment_msg": {
 				"1":[
@@ -608,34 +578,10 @@
 				"4":{}
 			},
 			"too_short_summary_msgs": {
-				"1":[
-						{
-						"missing_tkns":[],
-						"title":"",
-						"text":""
-						}
-					],
-				"2":[
-						{
-						"missing_tkns":[],
-						"title":"",
-						"text":""
-						}
-					],
-				"3":[
-						{
-						"missing_tkns":[],
-						"title":"",
-						"text":""
-						}
-					],
-				"4":[
-						{
-						"missing_tkns":[],
-						"title":"",
-						"text":""
-						}
-					]
+				"1":[],
+				"2":[],
+				"3":[],
+				"4":[]
 			},
 			"too_long_summary_msgs": {
 				"1":[
@@ -716,7 +662,7 @@
 						{
 						"missing_tkns":["164-165"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: To what time is the corn compared to?)"
+						"text":"The alignment is not full The alignment is not full (<u>hint</u>: Even if you didn't highlight \"last year\" in the summary, it still needs to be highlighed in the document in this case)."
 						},
 						{
 						"missing_tkns":["176-177"],
@@ -738,7 +684,7 @@
 						{
 						"missing_tkns":["473-474"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: Even if you didn't highlight \"this year\" in the summary, it still needs to be highlighed in the document in this case)."
+						"text":"The alignment is not full (<u>hint</u>: Even if you didn't highlight \"last year\" in the summary, it still needs to be highlighed in the document in this case)."
 						},
 						{
 						"missing_tkns":["466-467"],
@@ -765,7 +711,7 @@
 						{
 						"missing_tkns":["533-534"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: Even if you didn't highlight \"this year\" in the summary, it still needs to be highlighed in the document in this case)."
+						"text":"The alignment is not full (<u>hint</u>: Even if you didn't highlight \"last year\" in the summary, it still needs to be highlighed in the document in this case)."
 						},
 						{
 						"missing_tkns":["530-531"],
@@ -773,13 +719,7 @@
 						"text":"The alignment is not full (<u>hint</u>: How much is the soybean down from last year?)"
 						}
 					],
-				"4":[
-						{
-						"missing_tkns":[],
-						"title":"",
-						"text":""
-						}
-					]
+				"4":[]
 			},
 			"redundant_alignment_msg": {
 				"1":[
@@ -1004,22 +944,10 @@
 							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:What did the economist say about the US?)."
 						}
 					],
-				"8":[
-						{
-							"missing_tkns":[""],
-							"title":"", 
-							"text":""
-						}
-					]	
+				"8":[]	
 			},
 			"too_long_summary_msgs": {
-				"1":[
-						{
-						"excess_tkns":[""],
-						"title":"", 
-						"text":""
-						}
-					],
+				"1":[],
 				"2":[
 						{
 						"excess_tkns":["116-117"],
@@ -1119,13 +1047,7 @@
 							"text":"It is important to align everything mentioned in the summary(<u>hint</u>: according to the summary, the US <u>might</u> import)."
 						}
 					],
-				"3":[
-						{
-							"missing_tkns":[],
-							"title":"", 
-							"text":""
-						}
-					],
+				"3":[],
 				"4":[
 						{
 							"missing_tkns":["10000000-10000000"],
@@ -1154,13 +1076,7 @@
 							"text":"It is important to align everything mentioned in the summary(<u>hint</u>: according to the summary, the US <u>might</u> import)."
 						}
 					],
-				"8":[
-						{
-							"missing_tkns":[""],
-							"title":"", 
-							"text":""
-						}
-					]
+				"8":[]
 			},
 			"redundant_alignment_msg": {
 				"1":[
