@@ -15,7 +15,7 @@
 		"title":"Irrelevant information",
 		"text":"You have highlighted redundant information in the document. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
 	},
-	"default_good_span_msg":  {
+	"default_good_summary_span_msg":  {
 	"title":"Well Done!",
 	"text":"The span you chose is very good! Now proceed to find its alignment."
 	},
@@ -33,6 +33,16 @@
 			"span_indicating_tkns": {
 				"1":["2-2","3-3"],
 				"2":["21-21","26-26"]
+			},
+			"good_summary_span_msg":{
+				"1":{
+					"title":"Good summary span choosing. Well Done!",
+					"text":"The summary span is just the right length (covers full events and not too long)."
+				},
+				"2":{
+					"title":"Good summary span choosing. Well Done!",
+					"text":"The summary span is just the right length (covers full events and not too long)."
+				}
 			},
 			"too_short_summary_msgs": {
 				"1":[
@@ -99,6 +109,10 @@
 			"doc_tkns_alignments": {
 				"1":["0-21", "2-21", "0-0;2-21", "2-3;5-21"],
 				"2":["23-34", "10-10;23-34", "9-10;23-34", "8-10;23-34"]
+			},
+			"good_alignment_msg":{
+				"1":{},
+				"2":{}
 			},
 			"missing_alignment_msg": {
 				"1":[
@@ -238,6 +252,14 @@
 				"3":["45-45", "47-47"],
 				"4":["55-55"],
 				"5":["54-54"]
+			},
+			"good_summary_span_msg":{
+				"1":{},
+				"2":{},
+				"3":{},
+				"4":{},
+				"5":{}
+				
 			},
 			"too_short_summary_msgs": {
 				"1":[
@@ -398,6 +420,22 @@
 				"4":["408-415;419-420"],
 				"5":[]
 			},
+			"good_alignment_msg":{
+				"1":{
+					"title":"Very good! You didn't fall for the common trap.",
+					"text":"Good job for noticing and not highlighting \"on Thursday\"."
+				},
+				"2":{
+					"title":"Very good!  You didn't fall for the common trap.",
+					"text":"Good job for noticing and not highlighting \"on Thursday\"."
+				},
+				"3":{},
+				"4":{},
+				"5":{
+					"title":"Good job!",
+					"text":"As you have probably noticed, \"while\" is unalignable explicitly (it is only inferred). <br/> As such, <u>it needs to be submitted with no document alignments</u>. <br/>In this case, <u>it could also make sense</u> to include it in the ensuing span (starting with \"stating...\")."				
+				}
+			},
 			"missing_alignment_msg": {
 				"1":[
 						{
@@ -554,6 +592,21 @@
 				"3":["89-89"],
 				"4":["87-87"]
 			},
+			"good_summary_span_msg":{
+				"1":{
+					"title":"Good summary span choosing. Well Done!",
+					"text":"Even though the span is quite short, choosing a longer one might be harder to align because of how much this sentence is spread out across the document."
+				},
+				"2":{
+					"title":"Good summary span choosing. Well Done!",
+					"text":"Even though the span is quite short, choosing a longer one might be harder to align because of how much this sentence is spread out across the document."
+				},
+				"3":{
+					"title":"Good summary span choosing. Well Done!",
+					"text":"Even though the span is quite short, choosing a longer one might be harder to align because of how much this sentence is spread out across the document."
+				},
+				"4":{}
+			},
 			"too_short_summary_msgs": {
 				"1":[
 						{
@@ -618,10 +671,35 @@
 				"1":["145-148;158-159;164-165;167-169;171-171;173-177", "145-147;158-159;164-165;167-169;171-171;173-177", "145-146;158-159;164-165;167-169;171-171;173-177", "146-148;158-159;164-165;167-169;171-171;173-177", "146-147;158-159;164-165;167-169;171-171;173-177", "146-146;158-159;164-165;167-169;171-171;173-177", "145-146;148-148;158-159;164-165;167-169;171-171;173-177", "146-146;148-148;158-159;164-165;167-169;171-171;173-177",
 					"145-148;158-159;164-165;167-169;171-171;173-177", "145-147;158-159;164-165;167-169;171-171;173-177", "145-146;158-159;164-165;167-169;171-171;173-177", "146-148;158-159;164-165;167-169;171-171;173-177", "146-147;158-159;164-165;167-169;171-171;173-177", "146-146;158-159;164-165;167-169;171-171;173-177", "145-146;148-148;158-159;164-165;167-169;171-171;173-177", "146-146;148-148;158-159;164-165;167-169;171-171;173-177",
 					"145-148;158-159;164-165;174-177", "145-147;158-159;164-165;174-177", "145-146;158-159;164-165;174-177", "146-148;158-159;164-165;174-177", "146-147;158-159;164-165;174-177", "146-146;158-159;164-165;174-177", "145-146;148-148;158-159;164-165;174-177", "146-146;148-148;158-159;164-165;174-177",
-					"145-148;158-159;164-165;176-177", "145-147;158-159;164-165;176-177", "145-146;158-159;164-165;176-177", "146-148;158-159;164-165;176-177", "146-147;158-159;164-165;176-177", "146-146;158-159;164-165;176-177", "145-146;148-148;158-159;164-165;176-177", "146-146;148-148;158-159;164-165;176-177"],
-				"2":["455-458;465-468;473-474", "455-457;465-468;473-474", "455-456;465-468;473-474", "455-456;458-458;465-468;473-474", "456-458;465-468;473-474", "456-457;465-468;473-474", "456-456;458-458;465-468;473-474", "456-456;465-468;473-474"],
-				"3":["519-522;529-534", "519-521;529-534", "519-520;529-534", "519-520;522-522;529-534", "519-520;529-534"],
+					"145-148;158-159;164-165;176-177", "145-147;158-159;164-165;176-177", "145-146;158-159;164-165;176-177", "146-148;158-159;164-165;176-177", "146-147;158-159;164-165;176-177", "146-146;158-159;164-165;176-177", "145-146;148-148;158-159;164-165;176-177", "146-146;148-148;158-159;164-165;176-177",
+					"145-148;158-158;164-165;167-169;171-171;173-177", "145-147;158-158;164-165;167-169;171-171;173-177", "145-146;158-158;164-165;167-169;171-171;173-177", "146-148;158-158;164-165;167-169;171-171;173-177", "146-147;158-158;164-165;167-169;171-171;173-177", "146-146;158-158;164-165;167-169;171-171;173-177", "145-146;148-148;158-158;164-165;167-169;171-171;173-177", "146-146;148-148;158-158;164-165;167-169;171-171;173-177",
+					"145-148;158-158;164-165;167-169;171-171;173-177", "145-147;158-158;164-165;167-169;171-171;173-177", "145-146;158-158;164-165;167-169;171-171;173-177", "146-148;158-158;164-165;167-169;171-171;173-177", "146-147;158-158;164-165;167-169;171-171;173-177", "146-146;158-158;164-165;167-169;171-171;173-177", "145-146;148-148;158-158;164-165;167-169;171-171;173-177", "146-146;148-148;158-158;164-165;167-169;171-171;173-177",
+					"145-148;158-158;164-165;174-177", "145-147;158-158;164-165;174-177", "145-146;158-158;164-165;174-177", "146-148;158-158;164-165;174-177", "146-147;158-158;164-165;174-177", "146-146;158-158;164-165;174-177", "145-146;148-148;158-158;164-165;174-177", "146-146;148-148;158-158;164-165;174-177",
+					"145-148;158-158;164-165;176-177", "145-147;158-158;164-165;176-177", "145-146;158-158;164-165;176-177", "146-148;158-158;164-165;176-177", "146-147;158-158;164-165;176-177", "146-146;158-158;164-165;176-177", "145-146;148-148;158-158;164-165;176-177", "146-146;148-148;158-158;164-165;176-177"],
+
+				"2":["455-458;465-468;473-474", "455-457;465-468;473-474", "455-456;465-468;473-474", "455-456;458-458;465-468;473-474", "456-458;465-468;473-474", "456-457;465-468;473-474", "456-456;458-458;465-468;473-474", "456-456;465-468;473-474",
+					 "455-458;465-467;473-474", "455-457;465-467;473-474", "455-456;465-467;473-474", "455-456;458-458;465-467;473-474", "456-458;465-467;473-474", "456-457;465-467;473-474", "456-456;458-458;465-467;473-474", "456-456;465-467;473-474"],
+				"3":["519-522;529-534", "519-521;529-534", "519-520;529-534", "519-520;522-522;529-534", "519-520;529-534",
+					 "519-522;529-531;533-534", "519-521;529-531;533-534", "519-520;529-531;533-534", "519-520;522-522;529-531;533-534", "519-520;529-531;533-534"],
 				"4":[]
+			},
+			"good_alignment_msg":{
+				"1":{
+					"title":"Very good!",
+					"text":"This was a hard one, so good work on highlighting the most fitting alignment!"
+				},
+				"2":{
+					"title":"Very good!",
+					"text":"This was a hard one, so good work on highlighting the most fitting alignment!"
+				},
+				"3":{
+					"title":"Very good!",
+					"text":"This was a hard one, so good work on highlighting the most fitting alignment!"
+				},
+				"4":{
+					"title":"Good job!",
+					"text":"As you have probably noticed, \"and\" is unalignable explicitly (it is only inferred). <br/> As such, <u>it needs to be submitted with no document alignments</u>. <br/>In this case, <u>it could also make sense</u> to include it in the ensuing span (starting with \"Winter wheat...\")."				
+					}
 			},
 			"missing_alignment_msg": {
 				"1":[
@@ -634,11 +712,6 @@
 						"missing_tkns":["158-158"],
 						"title":"missing information in the alignment",
 						"text":"The alignment is not full (<u>hint</u>: What happened to the corn?)"
-						},
-						{
-						"missing_tkns":["159-159"],
-						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: \"down\" needs to be accompanied by \"from\")"
 						},
 						{
 						"missing_tkns":["164-165"],
@@ -660,17 +733,12 @@
 						{
 						"missing_tkns":["465-465"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: What happened to the soybean?)"
-						},
-						{
-						"missing_tkns":["468-468"],
-						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: \"down\" needs to be accompanied by \"from\")"
+						"text":"The alignment is not full (<u>hint</u>: Even if you didn't highlight \"down\" in the summary, it still needs to be highlighed in the document in this case)."
 						},
 						{
 						"missing_tkns":["473-474"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: To what time is the soybean compared to?)"
+						"text":"The alignment is not full (<u>hint</u>: Even if you didn't highlight \"this year\" in the summary, it still needs to be highlighed in the document in this case)."
 						},
 						{
 						"missing_tkns":["466-467"],
@@ -687,22 +755,17 @@
 						{
 						"missing_tkns":["519-519"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: What knd of wheat?)"
+						"text":"The alignment is not full (<u>hint</u>: What kind of wheat?)"
 						},
 						{
 						"missing_tkns":["529-529"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: What happened to the soybean?)"
-						},
-						{
-						"missing_tkns":["532-532"],
-						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: \"down\" needs to be accompanied by \"from\")"
+						"text":"The alignment is not full (<u>hint</u>: Even if you didn't highlight \"down\" in the summary, it still needs to be highlighed in the document in this case)."
 						},
 						{
 						"missing_tkns":["533-534"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: To what time is the soybean compared to?)"
+						"text":"The alignment is not full (<u>hint</u>: Even if you didn't highlight \"this year\" in the summary, it still needs to be highlighed in the document in this case)."
 						},
 						{
 						"missing_tkns":["530-531"],
@@ -827,6 +890,19 @@
 				"6":["103-103;105-105;116-119"],
 				"7":["103-103;105-105"],
 				"8":["116-119"]
+			},
+			"good_summary_span_msg":{
+				"1":{},
+				"2":{
+					"title":"Good span - but be careful",
+					"text":"The span is borderline - because it covers a lot of details.<br/> make sure you don't miss any detail when you align it."
+				},
+				"3":{},
+				"4":{},
+				"5":{},
+				"6":{},
+				"7":{},
+				"8":{}
 			},
 			"too_short_summary_msgs": {
 				"1":[
@@ -1006,6 +1082,22 @@
 					 "90-92;217-217;219-223;638-651;653-654", "90-92;217-217;219-223;643-651;653-654", "90-92;219-223;638-651;653-654", "90-92;219-223;643-651;653-654",
 					 "2-3;90-92;217-217;219-223;638-651;653-654", "2-3;90-92;217-217;219-223;643-651;653-654", "2-3;90-92;219-223;638-651;653-654", "2-3;90-92;219-223;643-651;653-654"],
 				"8":[]
+			},
+			"good_alignment_msg":{
+				"1":{},
+				"2":{
+					"title":"Good job!",
+					"text":"Good work for aligning also the part of the summary talking about Wilson being the Agriculture department's chief economist.<br/>It is important to cover <u>everything</u> in the summary span."
+				},
+				"3":{},
+				"4":{},
+				"5":{},
+				"6":{},
+				"7":{},
+				"8":{
+					"title":"Good job!",
+					"text":"As you have probably noticed, this summary span is unalignable.<br/> As such, <u>it needs to be submitted with no document alignments</u>."
+				}
 			},
 			"missing_alignment_msg": {
 				"1":[

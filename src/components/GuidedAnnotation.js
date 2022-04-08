@@ -41,7 +41,7 @@ const GuidedAnnotation = ({isPunct,
     const toggleDocSpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
 
       const isSummarySpanOkDict = isSummarySpanOk([], false, false)
-      // AVIVSL: stopped here - start making the custom messages here for when span is not good
+      
       if(!isSummarySpanOkDict["summary_span_ok"]) {
         if (isSummarySpanOkDict["chosen_span_id"]===undefined){
           setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
@@ -51,9 +51,21 @@ const GuidedAnnotation = ({isPunct,
           gold_tkns = gold_tkns.map((span) => {return string_to_span(span)})
           update_error_message(gold_tkns, isSummarySpanOkDict["highlighted_tkn_ids"], isSummarySpanOkDict["chosen_span_id"], false)
         }
-      
         return
       }
+
+      const isAlignmentOkDict = isAlignmentOk(tkn_ids, turn_on, turn_off);
+      if (isAlignmentOkDict["alignment_ok"]) {
+        if (Object.keys(guided_annotation_messages["goldMentions"][CurrSentInd]["good_alignment_msg"][curr_alignment_guiding_msg_id]).includes("text")) {
+          setGuidingMsg(guided_annotation_messages["goldMentions"][CurrSentInd]["good_alignment_msg"][curr_alignment_guiding_msg_id])
+        } else {
+          setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"]) // AVIVSL: add custom success messages
+        }
+        setGuidingMsgType("success");
+      } 
+
+
+
 
 
 
@@ -79,7 +91,12 @@ const GuidedAnnotation = ({isPunct,
     const toggleSummarySpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
       const isSummarySpanOkDict = isSummarySpanOk(tkn_ids, turn_on, turn_off)
       if(isSummarySpanOkDict["summary_span_ok"]) {
-        setGuidingMsg(guided_annotation_messages["default_good_span_msg"]) // AVIVSL: add custom success messages
+
+        if (Object.keys(guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_span_msg"][isSummarySpanOkDict["chosen_span_id"]]).includes("text")) {
+          setGuidingMsg(guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_span_msg"][isSummarySpanOkDict["chosen_span_id"]])
+        } else {
+          setGuidingMsg(guided_annotation_messages["default_good_summary_span_msg"]) 
+        }
         setGuidingMsgType("success")
         setCurrAlignmentGuidingMsgId(isSummarySpanOkDict["chosen_span_id"])
       }
@@ -279,8 +296,8 @@ const GuidedAnnotation = ({isPunct,
       if (forceState === undefined && StateMachineState!=="START") { 
         const isAlignmentOkDict = isAlignmentOk();
         if (isAlignmentOkDict["alignment_ok"]) {
-          setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"]) // AVIVSL: add custom success messages
-          setGuidingMsgType("success");
+          // setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"]) // AVIVSL: add custom success messages
+          // setGuidingMsgType("success");
           setCurrAlignmentGuidingMsgId("-1");
         } else {
           update_error_message(isAlignmentOkDict["gold_align_tkns"], isAlignmentOkDict["highlighted_doc_tkns"], curr_alignment_guiding_msg_id, true);
@@ -411,10 +428,25 @@ const GuidedAnnotation = ({isPunct,
     }
 
 
-    const isAlignmentOk = () => {
-      const doc_tkns = doc_json.filter((word) => {return word.span_highlighted && !isPunct(word.word)}).map((word) => word.tkn_id).sort(function(a, b) {return a - b;})
+    const isAlignmentOk = (tkn_ids, turn_on, turn_off) => {
+      // const doc_tkns = doc_json.filter((word) => {return word.span_highlighted && !isPunct(word.word)}).map((word) => word.tkn_id).sort(function(a, b) {return a - b;})
+      
+      let doc_tkns = doc_json.filter((word) => {return word.span_highlighted}).map((word) => word.tkn_id)
+      doc_tkns = (turn_on) ? doc_tkns.concat(tkn_ids) : doc_tkns
+      doc_tkns = (turn_off) ? doc_tkns.filter((tkn) => {return (turn_off && !tkn_ids.includes(tkn))}) : doc_tkns
+      doc_tkns = [...new Set(doc_tkns)] // remove duplicates
+      doc_tkns = doc_tkns.filter((tkn_id) => {return !isPunct(doc_json.filter((word) => {return word.tkn_id===tkn_id})[0].word)}) // ignore punctuation    
+      doc_tkns = doc_tkns.sort(function(a, b) {return a - b;}) // sort
+      
+      
+      
+      
+      
+      
       const msgs_json = guided_annotation_messages["goldMentions"][CurrSentInd]
-
+      console.log(`msgs_json:`)
+      console.log(msgs_json["doc_tkns_alignments"])
+      console.log(`curr_alignment_guiding_msg_id: ${curr_alignment_guiding_msg_id} and its type: ${typeof curr_alignment_guiding_msg_id}`)
       // unalignable parts
       if (msgs_json["doc_tkns_alignments"][curr_alignment_guiding_msg_id].length===0) {
         if (doc_tkns.length===0){
@@ -424,6 +456,10 @@ const GuidedAnnotation = ({isPunct,
         }
       }
 
+
+
+
+      
       const gold_align_tkns  = msgs_json["doc_tkns_alignments"][curr_alignment_guiding_msg_id].map((span) => string_to_span(span))
       if (gold_align_tkns.map((span) => JSON.stringify(span)).includes(JSON.stringify(doc_tkns))) {
           return {"alignment_ok":true, "highlighted_doc_tkns":doc_tkns, "gold_align_tkns":gold_align_tkns} 
@@ -581,8 +617,8 @@ const GuidedAnnotation = ({isPunct,
    const SubmitHandler = (event) => {
     const isAlignmentOkDict = isAlignmentOk();
     if (isAlignmentOkDict["alignment_ok"]) {
-      setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"]) // AVIVSL: add custom success messages
-      setGuidingMsgType("success");
+      // setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"]) // AVIVSL: add custom success messages
+      // setGuidingMsgType("success");
       setCurrAlignmentGuidingMsgId("-1");
     } else {
       update_error_message(isAlignmentOkDict["gold_align_tkns"], isAlignmentOkDict["highlighted_doc_tkns"], curr_alignment_guiding_msg_id, true);
