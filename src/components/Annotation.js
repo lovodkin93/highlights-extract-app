@@ -26,6 +26,7 @@ import Col from 'react-bootstrap/Col'
 import Alert from 'react-bootstrap/Alert'
 import { ChevronLeft, ChevronRight, SendFill } from 'react-bootstrap-icons';
 import { TutorialCard } from './TutorialCard';
+import { Markup } from 'interweave';
 
 // import Card from 'react-bootstrap/Card'
 // import { Container, Row, Col } from 'react-bootstrap';
@@ -56,7 +57,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                     t_sent_end_doc_json, t_submit_doc_json, 
                     t_start_summary_json, t_middle_summary_json, 
                     t_sent_end_summary_json, t_submit_summary_json,
-                    t_state_messages    
+                    t_state_messages,
+                    g_guiding_info_msg, g_is_good_alignment    
                   }) => {
 
 
@@ -97,6 +99,29 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
         </p>
       </Alert>
     )}
+
+
+    const add_text_to_GuidedAnnotationInfoAlert = () => {
+      if(g_is_good_alignment) {
+        if(StateMachineState==="ANNOTATION"){return "<br/><b>Hit the \"CONFIRM\" button to confirm&proceed.</b>"}
+        if(StateMachineState==="SENTENCE END"){return "<br/><b>Hit the \"NEXT SENTENCE\" button to confirm&proceed to the next sentence.</b>"}
+        if(StateMachineState==="SUMMARY END"){return "<br/><b>Hit the \"CONFIRM\" button to confirm&finish.</b>"}
+      } else {
+        if(StateMachineState==="SENTENCE END"){return "<br/>When you are finished, <b>hit the \"NEXT SENTENCE\" button</b> to confirm and proceed to the next sentence."}
+        if(StateMachineState==="SUMMARY END"){return "<br/>When you are finished, <b>hit the \"SUBMIT\" button</b> to confirm and finish."}
+      }
+      return ""
+    }
+
+    const GuidedAnnotationInfoAlert = () => {
+      return (
+        <Alert variant="warning">
+          <Alert.Heading><Markup content={g_guiding_info_msg["title"]} /></Alert.Heading>
+          <p className="mb-0">
+            <Markup content={`${g_guiding_info_msg["text"]}  ${add_text_to_GuidedAnnotationInfoAlert()}`} />
+          </p>
+        </Alert>
+      )}
       
 
 
@@ -345,7 +370,7 @@ useEffect(() => {
                   oldAlignmentStateHandler={oldAlignmentStateHandler}
                   t_StateMachineStateId = {t_StateMachineStateId}
             />
-            {(InfoMessage !== "" && !isTutorial) && (InfoAlert(InfoMessage))}
+            {(InfoMessage !== "" && !isTutorial && !isGuidedAnnotation) && (InfoAlert(InfoMessage))}
             {(isTutorial) && (<TutorialCard t_StateMachineStateId = {t_StateMachineStateId} 
                                             t_SetStateMachineStateId = {t_SetStateMachineStateId}
                                             t_state_messages = {t_state_messages}
@@ -362,6 +387,7 @@ useEffect(() => {
                                             t_submit_summary_json = {t_submit_summary_json}
                                             SetCurrSentInd = {SetCurrSentInd}
                                             MachineStateHandlerWrapper = {MachineStateHandlerWrapper} />)}
+            {(isGuidedAnnotation) && (GuidedAnnotationInfoAlert())}
           </Col>
         </Row>
 

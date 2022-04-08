@@ -1,0 +1,77 @@
+{
+	"Start": {
+		"title":"Start",
+		"text":"To begin, hit the \"START\" button."
+	},
+	"default_choose_summary_span": {
+		"title":"Choose Summary Span to Align",
+		"text":"Choose a summary span to align. <br/><u>Remember</u>: make sure it covers full events and that doesn't contain too many details (so you don't miss any when aligning it)."
+	},
+	"default_find_alignment": {
+		"title":"Find the Alignment",
+		"text":"Now it's time to find the alignment. <br/><u>Remember</u>: make sure the alignment covers all the information described in the summary span and nothing else."
+	},
+	"custom_messages":[
+		{
+			"tkn_id":0,
+			"choose_summary_span":{
+				"title":"Choose Summary Span to Align - Pay attention!",
+				"text":"Do not work with the full summary sentence, as it is very long and contains many details. <br/>Instead, opt to work one sub-span at a time. <br/>make sure the span you choose covers full events and also doesn't contain too many details (so you don't miss any when aligning it)."
+			},
+			"find_alignment":{
+				"1":{
+					"title":"Find the Alignment",
+					"text":"Now it's time to find the alignment. <br/><u>Remember</u>: make sure the alignment covers all the information described in the summary span and nothing else. <br/><b>Use the bolded words to guide you.</b>"
+				},
+				"2":{
+					"title":"Find the Alignment",
+					"text":"Now it's time to find the alignment. <br/><u>Remember</u>: make sure the alignment covers all the information described in the summary span and nothing else. <br/><b>Use the bolded words to guide you.</b>"
+				}
+			}
+		},
+		
+		{
+			"tkn_id":1,
+			"choose_summary_span":{},
+			"find_alignment":{
+				"1":{},
+				"2":{},
+				"3":{},
+				"4":{},
+				"5":{
+					"title":"",
+					"text":""
+				}
+			}
+		},
+		
+		{
+			"tkn_id":2,
+			"choose_summary_span":{
+				"title":"Choose Summary Span to Align - Pay attention!",
+				"text":"Even though the summary sentence is quite short and it is tempting to simply choose all of it, you will notice that the information in it is spread out across the whole document.<br/>Therefore, to make sure you don't miss anything, it is recommended to work in small summary spans. <br/>In other words, work on each \"grain\" separately.<br/><u>Notice</u>: summary spans can have overlapping words (for example \"Compared to last year\", or \"is down\"), though it is not necessary (as long as in the end all the summary sentence is covered)."
+			},
+			"find_alignment":{
+				"1":{},
+				"2":{},
+				"3":{},
+				"4":{}
+			}
+		},
+		
+		{
+			"tkn_id":3,
+			"choose_summary_span":{},
+			"find_alignment":{
+				"1":{},
+				"2":{},
+				"3":{},
+				"4":{},
+				"5":{},
+				"6":{},
+				"7":{},
+				"8":{}
+			}
+		}
+	]
+}

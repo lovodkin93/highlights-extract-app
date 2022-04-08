@@ -24,6 +24,7 @@ import t_submit_json_file from './data/tutorial/tutorial_submit.json';
 
 
 import guided_annotation_messages from './data/guided_annotation/guided_annotation_messages.json'
+import guided_annotation_info_messages from './data/guided_annotation/guided_annotation_info_messages.json'
 import tutorial_state_messages from './data/tutorial/tutorial_state_messages.json'
 // import tutorial_state_messages from './data/guided_annotation/guided_annotation_messages.json'
 
@@ -82,6 +83,16 @@ const App = () => {
   const [g_hoverActivatedId, g_setHoverActivatedId] = useState("-1"); // value will be of tkn_id of elem hovered over
   const [g_hoverActivatedDocOrSummary, g_setHoverActivatedDocOrSummary] = useState("doc"); // value will be of tkn_id of elem hovered over
   const [g_sliderBoldStateActivated, g_setSliderBoldStateActivated] = useState(false);
+
+
+  const [g_guiding_msg, g_setGuidingMsg] = useState({"text":"", "title":""});
+  const [g_guiding_msg_type, g_setGuidingMsgType] = useState("closed"); // success , danger or closed
+  const [g_curr_alignment_guiding_msg_id, g_setCurrAlignmentGuidingMsgId] = useState("-1")
+  const [g_guiding_info_msg, g_setGuidingInfoMsg] = useState({"text":"To begin, hit the \"START\" button.", "title":"Start"}); // the info message that describes what to do
+  const [g_is_good_alignment, g_setIsGoodAlignment] = useState(false)
+
+
+
 
   // const [guidingAnnotationAlertText, setGuidingAnnotationAlertText] = useState("")
   // const [guidingAnnotationAlertTitle, setGuidingAnnotationAlertTitle] = useState("")
@@ -513,6 +524,7 @@ const App = () => {
   useEffect(() => {
     SetSummaryShadowAndUpdateHighlights(CurrSentInd);
   }, [CurrSentInd]);
+
   /********************************************************************************/
 
 
@@ -767,32 +779,37 @@ const App = () => {
 
           <Route path='/guidedAnnotation' element={<GuidedAnnotation
                                           isPunct={isPunct} 
-                                          handleErrorOpen={g_handleErrorOpen}                         handleErrorClose={g_handleErrorClose}
-                                          doc_json={g_doc_json}                                       setDocJson={g_setDocJson}
-                                          summary_json={g_summary_json}                               setSummaryJson={g_setSummaryJson}
-                                          all_lemma_match_mtx={g_all_lemma_match_mtx}                 setAllLemmaMtx={g_setAllLemmaMtx}
-                                          important_lemma_match_mtx={g_important_lemma_match_mtx}     setImportantLemmaMtx={g_setImportantLemmaMtx}
-                                          doc_paragraph_breaks={g_doc_paragraph_breaks}               setDocParagraphBreaks={g_setDocParagraphBreaks}
-                                          boldState={g_boldState}                                     setBoldState={g_setBoldState}
-                                          oldAlignmentState={g_oldAlignmentState}                     setOldAlignmentState={g_setOldAlignmentState}
-                                          StateMachineState={g_StateMachineState}                     SetStateMachineState={g_SetStateMachineState}
-                                          error_message={g_error_message}                             setErrorMessage={g_setErrorMessage}
-                                          CurrSentInd={g_CurrSentInd}                                 SetCurrSentInd={g_SetCurrSentInd}
-                                          InfoMessage={g_InfoMessage}                                 SetInfoMessage={g_SetInfoMessage}
-                                          AlignmentCount={g_AlignmentCount}                           SetAlignmentCount={g_SetAlignmentCount}
-                                          prevStateMachineState={g_prevStateMachineState}             setPrevStateMachineState={g_setPrevStateMachineState}
-                                          prevSummarySpanHighlights={g_prevSummarySpanHighlights}     setPrevSummarySpanHighlights={g_setPrevSummarySpanHighlights}
-                                          prevDocSpanHighlights={g_prevDocSpanHighlights}             setPrevDocSpanHighlights={g_setPrevDocSpanHighlights}
-                                          prevSummaryJsonRevise={g_prevSummaryJsonRevise}             setPrevSummaryJsonRevise={g_setPrevSummaryJsonRevise}
-                                          prevDocJsonRevise={g_prevDocJsonRevise}                     setPrevDocJsonRevise={g_setPrevDocJsonRevise}
-                                          DocOnMouseDownID={g_DocOnMouseDownID}                       SetDocOnMouseDownID={g_SetDocOnMouseDownID}
-                                          SummaryOnMouseDownID={g_SummaryOnMouseDownID}               SetSummaryOnMouseDownID={g_SetSummaryOnMouseDownID}
-                                          docOnMouseDownActivated={g_docOnMouseDownActivated}         setDocOnMouseDownActivated={g_setDocOnMouseDownActivated}
-                                          summaryOnMouseDownActivated={g_summaryOnMouseDownActivated} setSummaryOnMouseDownActivated={g_setSummaryOnMouseDownActivated}
-                                          hoverActivatedId={g_hoverActivatedId}                       setHoverActivatedId={g_setHoverActivatedId}
-                                          hoverActivatedDocOrSummary={g_hoverActivatedDocOrSummary}   setHoverActivatedDocOrSummary={g_setHoverActivatedDocOrSummary}
-                                          sliderBoldStateActivated={g_sliderBoldStateActivated}       setSliderBoldStateActivated={g_setSliderBoldStateActivated}
-                                          guided_annotation_messages={guided_annotation_messages}
+                                          handleErrorOpen={g_handleErrorOpen}                             handleErrorClose={g_handleErrorClose}
+                                          doc_json={g_doc_json}                                           setDocJson={g_setDocJson}
+                                          summary_json={g_summary_json}                                   setSummaryJson={g_setSummaryJson}
+                                          all_lemma_match_mtx={g_all_lemma_match_mtx}                     setAllLemmaMtx={g_setAllLemmaMtx}
+                                          important_lemma_match_mtx={g_important_lemma_match_mtx}         setImportantLemmaMtx={g_setImportantLemmaMtx}
+                                          doc_paragraph_breaks={g_doc_paragraph_breaks}                   setDocParagraphBreaks={g_setDocParagraphBreaks}
+                                          boldState={g_boldState}                                         setBoldState={g_setBoldState}
+                                          oldAlignmentState={g_oldAlignmentState}                         setOldAlignmentState={g_setOldAlignmentState}
+                                          StateMachineState={g_StateMachineState}                         SetStateMachineState={g_SetStateMachineState}
+                                          error_message={g_error_message}                                 setErrorMessage={g_setErrorMessage}
+                                          CurrSentInd={g_CurrSentInd}                                     SetCurrSentInd={g_SetCurrSentInd}
+                                          InfoMessage={g_InfoMessage}                                     SetInfoMessage={g_SetInfoMessage}
+                                          AlignmentCount={g_AlignmentCount}                               SetAlignmentCount={g_SetAlignmentCount}
+                                          prevStateMachineState={g_prevStateMachineState}                 setPrevStateMachineState={g_setPrevStateMachineState}
+                                          prevSummarySpanHighlights={g_prevSummarySpanHighlights}         setPrevSummarySpanHighlights={g_setPrevSummarySpanHighlights}
+                                          prevDocSpanHighlights={g_prevDocSpanHighlights}                 setPrevDocSpanHighlights={g_setPrevDocSpanHighlights}
+                                          prevSummaryJsonRevise={g_prevSummaryJsonRevise}                 setPrevSummaryJsonRevise={g_setPrevSummaryJsonRevise}
+                                          prevDocJsonRevise={g_prevDocJsonRevise}                         setPrevDocJsonRevise={g_setPrevDocJsonRevise}
+                                          DocOnMouseDownID={g_DocOnMouseDownID}                           SetDocOnMouseDownID={g_SetDocOnMouseDownID}
+                                          SummaryOnMouseDownID={g_SummaryOnMouseDownID}                   SetSummaryOnMouseDownID={g_SetSummaryOnMouseDownID}
+                                          docOnMouseDownActivated={g_docOnMouseDownActivated}             setDocOnMouseDownActivated={g_setDocOnMouseDownActivated}
+                                          summaryOnMouseDownActivated={g_summaryOnMouseDownActivated}     setSummaryOnMouseDownActivated={g_setSummaryOnMouseDownActivated}
+                                          hoverActivatedId={g_hoverActivatedId}                           setHoverActivatedId={g_setHoverActivatedId}
+                                          hoverActivatedDocOrSummary={g_hoverActivatedDocOrSummary}       setHoverActivatedDocOrSummary={g_setHoverActivatedDocOrSummary}
+                                          sliderBoldStateActivated={g_sliderBoldStateActivated}           setSliderBoldStateActivated={g_setSliderBoldStateActivated}
+                                          guided_annotation_messages={guided_annotation_messages}         guided_annotation_info_messages={guided_annotation_info_messages}
+                                          guiding_msg={g_guiding_msg}                                     setGuidingMsg={g_setGuidingMsg}
+                                          guiding_msg_type={g_guiding_msg_type}                           setGuidingMsgType={g_setGuidingMsgType}
+                                          curr_alignment_guiding_msg_id={g_curr_alignment_guiding_msg_id} setCurrAlignmentGuidingMsgId={g_setCurrAlignmentGuidingMsgId}
+                                          guiding_info_msg={g_guiding_info_msg}                           setGuidingInfoMsg={g_setGuidingInfoMsg}
+                                          is_good_alignment={g_is_good_alignment}                           setIsGoodAlignment={g_setIsGoodAlignment}
                                           />} 
           
           
@@ -824,6 +841,7 @@ const App = () => {
                                               t_start_summary_json = {undefined}                          t_middle_summary_json = {undefined}
                                               t_sent_end_summary_json = {undefined}                       t_submit_summary_json = {undefined}
                                               t_state_messages = {undefined}
+                                              g_guiding_info_msg = {undefined}                            g_is_good_alignment = {undefined}
                                               />} 
             />
 

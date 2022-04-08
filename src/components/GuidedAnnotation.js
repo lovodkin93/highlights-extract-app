@@ -31,13 +31,15 @@ const GuidedAnnotation = ({isPunct,
                           hoverActivatedId, setHoverActivatedId,
                           hoverActivatedDocOrSummary, setHoverActivatedDocOrSummary,
                           sliderBoldStateActivated, setSliderBoldStateActivated,
-                          guided_annotation_messages  }) => {
+                          guided_annotation_messages, guided_annotation_info_messages,
+                          guiding_msg, setGuidingMsg,
+                          guiding_msg_type, setGuidingMsgType,
+                          curr_alignment_guiding_msg_id, setCurrAlignmentGuidingMsgId,
+                          guiding_info_msg, setGuidingInfoMsg,
+                          is_good_alignment, setIsGoodAlignment
+                        }) => {
 
     
-    const [guiding_msg, setGuidingMsg] = useState({"text":"", "title":""});
-    const [guiding_msg_type, setGuidingMsgType] = useState("closed"); // success , danger or closed
-    const [curr_alignment_guiding_msg_id, setCurrAlignmentGuidingMsgId] = useState("-1")
-                            
     const toggleDocSpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
 
       const isSummarySpanOkDict = isSummarySpanOk([], false, false)
@@ -58,10 +60,16 @@ const GuidedAnnotation = ({isPunct,
       if (isAlignmentOkDict["alignment_ok"]) {
         if (Object.keys(guided_annotation_messages["goldMentions"][CurrSentInd]["good_alignment_msg"][curr_alignment_guiding_msg_id]).includes("text")) {
           setGuidingMsg(guided_annotation_messages["goldMentions"][CurrSentInd]["good_alignment_msg"][curr_alignment_guiding_msg_id])
+          setGuidingInfoMsg(guided_annotation_messages["goldMentions"][CurrSentInd]["good_alignment_msg"][curr_alignment_guiding_msg_id])
         } else {
-          setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"]) // AVIVSL: add custom success messages
+          setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"])
+          setGuidingInfoMsg(guided_annotation_messages["default_good_alignment_msg"])
         }
         setGuidingMsgType("success");
+        // setIsGoodAlignment(true);
+      }
+      else {
+        // setIsGoodAlignment(false)
       } 
 
 
@@ -91,7 +99,7 @@ const GuidedAnnotation = ({isPunct,
     const toggleSummarySpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
       const isSummarySpanOkDict = isSummarySpanOk(tkn_ids, turn_on, turn_off)
       if(isSummarySpanOkDict["summary_span_ok"]) {
-
+        // updating the success alert
         if (Object.keys(guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_span_msg"][isSummarySpanOkDict["chosen_span_id"]]).includes("text")) {
           setGuidingMsg(guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_span_msg"][isSummarySpanOkDict["chosen_span_id"]])
         } else {
@@ -99,6 +107,23 @@ const GuidedAnnotation = ({isPunct,
         }
         setGuidingMsgType("success")
         setCurrAlignmentGuidingMsgId(isSummarySpanOkDict["chosen_span_id"])
+
+
+        // updating the info message
+        if (Object.keys(guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][isSummarySpanOkDict["chosen_span_id"]]).includes("text")) {
+          setGuidingInfoMsg(guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][isSummarySpanOkDict["chosen_span_id"]])
+        } else {
+          setGuidingInfoMsg(guided_annotation_info_messages["default_find_alignment"])
+        }
+      } 
+      else {
+        // updating the info message
+        const guiding_info_sent_id = (["START", "SENTENCE END"].includes(StateMachineState)) ? CurrSentInd+1 : CurrSentInd
+        if (Object.keys(guided_annotation_info_messages["custom_messages"][guiding_info_sent_id]["choose_summary_span"]).includes("text")) {
+          setGuidingInfoMsg(guided_annotation_info_messages["custom_messages"][guiding_info_sent_id]["choose_summary_span"])
+        } else {
+          setGuidingInfoMsg(guided_annotation_info_messages["default_choose_summary_span"])
+        }
       }
 
 
@@ -293,6 +318,7 @@ const GuidedAnnotation = ({isPunct,
   
   
     const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
+      // check if alignment is good
       if (forceState === undefined && StateMachineState!=="START") { 
         const isAlignmentOkDict = isAlignmentOk();
         if (isAlignmentOkDict["alignment_ok"]) {
@@ -305,6 +331,36 @@ const GuidedAnnotation = ({isPunct,
         }
       }
 
+      // check if span is ok (for the case when the summary span was changed after the alignment was approved)
+      if (forceState === undefined && StateMachineState!=="START") { 
+        const isSummarySpanOkDict = isSummarySpanOk([], false, false)
+      
+        if(!isSummarySpanOkDict["summary_span_ok"]) {
+          setGuidingMsg({"text":"Summary highlighting was changed and is not aligned to the document highlighting anymore.", "title":"Summary highlighting changed and is not good"})
+          setGuidingMsgType("danger")
+          return
+        }
+
+
+
+      }
+
+
+
+
+
+
+      // info messages(alerts)
+      if (forceState===undefined) {
+        const guiding_info_sent_id = (["START", "SENTENCE END"].includes(StateMachineState)) ? CurrSentInd+1 : CurrSentInd
+        if (Object.keys(guided_annotation_info_messages["custom_messages"][guiding_info_sent_id]["choose_summary_span"]).includes("text")) {
+          setGuidingInfoMsg(guided_annotation_info_messages["custom_messages"][guiding_info_sent_id]["choose_summary_span"])
+        } else {
+          setGuidingInfoMsg(guided_annotation_info_messages["default_choose_summary_span"])
+        }
+      }
+
+      // updating the state (if there is no alignment error)
       setSliderBoldStateActivated(false);
       MachineStateHandler(summary_json,
                             StateMachineState, SetStateMachineState,
@@ -452,10 +508,12 @@ const GuidedAnnotation = ({isPunct,
       
       
       
-      
+      console.log(`tkn_ids:${JSON.stringify(tkn_ids)}`)
+      console.log(`doc_tkns:${JSON.stringify(doc_tkns)}`)
+
       const msgs_json = guided_annotation_messages["goldMentions"][CurrSentInd]
-      console.log(`msgs_json:`)
-      console.log(msgs_json["doc_tkns_alignments"])
+      console.log(`CurrSentInd:`)
+      console.log(CurrSentInd)
       console.log(`curr_alignment_guiding_msg_id: ${curr_alignment_guiding_msg_id} and its type: ${typeof curr_alignment_guiding_msg_id}`)
       // unalignable parts
       if (msgs_json["doc_tkns_alignments"][curr_alignment_guiding_msg_id].length===0) {
@@ -556,10 +614,13 @@ const GuidedAnnotation = ({isPunct,
   //   console.log(`tkn_id of highlighted summary words: ${JSON.stringify(summary_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
   // }, [summary_json]);
 
+  // useEffect(() => {
+  //   console.log(`tkn_id of highlighted doc words: ${JSON.stringify(doc_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
+  // }, [doc_json]);
   useEffect(() => {
-    console.log(`tkn_id of highlighted doc words: ${JSON.stringify(doc_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
-  }, [doc_json]);
-   
+    console.log(`is_good_alignment here: ${is_good_alignment}`)
+  }, []);
+
    
    /******************* highlighting while choosing spans to help *******************/ 
 
@@ -623,6 +684,16 @@ const GuidedAnnotation = ({isPunct,
    }, [guiding_msg_type])
 
 
+   // check if alignment ok (for guidinbg annotation message)
+   useEffect(() => {
+     if(CurrSentInd>=0 && curr_alignment_guiding_msg_id!=="-1") {
+      const isAlignmentOkDict = isAlignmentOk(doc_json.filter((word) => {return word.span_highlighted}).map((word) => word.tkn_id), false, false)
+      const isSummarySpanOkDict = isSummarySpanOk(summary_json.filter((word) => {return word.span_highlighted}).map((word) => word.tkn_id), false, false) // if changes summary span after was approved
+      setIsGoodAlignment(isAlignmentOkDict["alignment_ok"] && isSummarySpanOkDict["summary_span_ok"])
+     }
+   }, [doc_json, summary_json])
+
+
 
    const SubmitHandler = (event) => {
     const isAlignmentOkDict = isAlignmentOk();
@@ -643,8 +714,8 @@ const GuidedAnnotation = ({isPunct,
    return (
      <>
           <Annotation
-              isTutorial={false}                                            isGuidedAnnotation={true} 
-              task_id={'0'}                                                 doc_paragraph_breaks = {doc_paragraph_breaks}
+              isTutorial = {false}                                        isGuidedAnnotation = {true} 
+              task_id = {'0'}                                             doc_paragraph_breaks = {doc_paragraph_breaks}
               doc_json = {doc_json}                                       setDocJson = {setDocJson}
               summary_json = {summary_json}                               setSummaryJson = {setSummaryJson}
               all_lemma_match_mtx = {all_lemma_match_mtx}                 important_lemma_match_mtx = {important_lemma_match_mtx}
@@ -662,12 +733,13 @@ const GuidedAnnotation = ({isPunct,
               docOnMouseDownActivated = {docOnMouseDownActivated}         setDocOnMouseDownActivated = {setDocOnMouseDownActivated}
               summaryOnMouseDownActivated = {summaryOnMouseDownActivated} setSummaryOnMouseDownActivated = {setSummaryOnMouseDownActivated}
               setHoverActivatedId = {setHoverActivatedId}                 setHoverActivatedDocOrSummary = {setHoverActivatedDocOrSummary}
-              t_StateMachineStateId = {undefined}                           t_SetStateMachineStateId = {undefined}
-              t_start_doc_json = {undefined}                                t_middle_doc_json = {undefined}
-              t_sent_end_doc_json = {undefined}                             t_submit_doc_json = {undefined}
-              t_start_summary_json = {undefined}                            t_middle_summary_json = {undefined}
-              t_sent_end_summary_json = {undefined}                         t_submit_summary_json = {undefined}
+              t_StateMachineStateId = {undefined}                          t_SetStateMachineStateId = {undefined}
+              t_start_doc_json = {undefined}                               t_middle_doc_json = {undefined}
+              t_sent_end_doc_json = {undefined}                            t_submit_doc_json = {undefined}
+              t_start_summary_json = {undefined}                           t_middle_summary_json = {undefined}
+              t_sent_end_summary_json = {undefined}                        t_submit_summary_json = {undefined}
               t_state_messages = {undefined}
+              g_guiding_info_msg = {guiding_info_msg}                      g_is_good_alignment = {is_good_alignment}
             />
 
                 <Alert show={guiding_msg_type!=="closed"} style={{position:"fixed", bottom:"1%", left:"50%", transform:"translate(-50%, 0%)", width:"50%"}} variant={guiding_msg_type} onClose={() => setGuidingMsgType("closed")} dismissible>
