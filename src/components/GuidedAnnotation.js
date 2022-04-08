@@ -69,7 +69,12 @@ const GuidedAnnotation = ({isPunct,
         // setIsGoodAlignment(true);
       }
       else {
-        // setIsGoodAlignment(false)
+        // updating the info message
+        if (Object.keys(guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][curr_alignment_guiding_msg_id]).includes("text")) {
+          setGuidingInfoMsg(guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][curr_alignment_guiding_msg_id])
+        } else {
+          setGuidingInfoMsg(guided_annotation_info_messages["default_find_alignment"])
+        }
       } 
 
 
