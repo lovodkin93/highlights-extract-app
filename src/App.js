@@ -754,7 +754,7 @@ const App = () => {
         <Routes>
           {/* <Route path='/' element={<StartPage />} /> */}
           {/* <Route path='/homepage' element={<StartPage />} /> */}
-          <Route path='/instructions' element={<Instructions />} />
+          {/* <Route path='/instructions' element={<Instructions />} /> */}
           <Route path='/tutorial' element=  {<Tutorial doc_json = {t_doc_json} 
                                                        setDocJson = {t_setDocJson}
                                                        t_start_doc_json = {t_start_doc_json} 

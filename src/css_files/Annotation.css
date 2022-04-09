@@ -68,6 +68,13 @@
 .navbar-column{
     align-self:auto;
     float: left;
+    margin-right: 3%;
+}
+
+.navbar-column-tutorial{
+    align-self:auto;
+    float: left;
+    margin-right: -4%;
 }
 
 

@@ -20,7 +20,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-const pages = {'Instructions': 'instructions', "Tutorial": "tutorial", 'Guided Annotation': 'guidedAnnotation', 'Annotation': ''}; 
+const pages = {"Tutorial": "tutorial", 'Guided Annotation': 'guidedAnnotation', 'Annotation': ''}; 
 
 const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler, oldAlignmentState, oldAlignmentStateHandler, t_StateMachineStateId }) => {
   const BlackTextTypography = withStyles({
@@ -78,7 +78,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
     <Navbar bg="secondary" variant="dark" className="w-100 p-2">
       <Container className='navbar-container'>
         <Row  className="navbar-row">
-          <Col md={(title === "Guided Annotation") ? 5:3} className="navbar-column">
+          <Col md={(title === "Guided Annotation") ? 5:3} className={`${(title === "Tutorial") ? "navbar-column-tutorial" : "navbar-column"}`}>
                     <Navbar.Brand>{title}</Navbar.Brand>
           </Col>
           <Col>

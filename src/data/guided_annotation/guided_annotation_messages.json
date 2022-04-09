@@ -1,27 +1,33 @@
 {
 	"default_too_short_summary_msg": {
 		"title":"Summary span too short",
-		"text":"The highlighted summary span is too short."
+		"text":"The highlighted summary span is too short.",
+		"timeout":6000
 	},
 	"default_too_long_summary_msg": {
 		"title":"Summary span too long",
-		"text":"The highlighted summary span is too long, which can cause missing out little details."
+		"text":"The highlighted summary span is too long, which can cause missing out little details.",
+		"timeout":8000
 	},
 	"default_missing_alignment_msg": {
 		"title":"Missing information in the alignment",
-		"text":"The alignment is not full."
+		"text":"The alignment is not full.",
+		"timeout":6000
 	},
 	"default_redundant_alignment_msg":  {
 		"title":"Irrelevant information",
-		"text":"You have highlighted redundant information in the document. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+		"text":"You have highlighted redundant information in the document. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+		"timeout":10000
 	},
 	"default_good_summary_span_msg":  {
 	"title":"Well Done!",
-	"text":"The span you chose is very good! Now proceed to find its alignment."
+	"text":"The span you chose is very good! Now proceed to find its alignment.",
+	"timeout":8000
 	},
 	"default_good_alignment_msg":  {
 	"title":"Good Job!",
-	"text":"The alignment you chose is very good!"
+	"text":"The alignment you chose is very good!",
+	"timeout":6000
 	},
 	"goldMentions": [
 		{
@@ -37,11 +43,13 @@
 			"good_summary_span_msg":{
 				"1":{
 					"title":"Good summary span choosing. Well Done!",
-					"text":"The summary span is just the right length (covers full events and not too long)."
+					"text":"The summary span is just the right length (covers full events and not too long).",
+					"timeout":8000
 				},
 				"2":{
 					"title":"Good summary span choosing. Well Done!",
-					"text":"The summary span is just the right length (covers full events and not too long)."
+					"text":"The summary span is just the right length (covers full events and not too long).",
+					"timeout":8000
 				}
 			},
 			"too_short_summary_msgs": {
@@ -49,44 +57,52 @@
 					{
 					"missing_tkns":["3-3"],
 					"title":"Summary span too short (too general)",
-					"text":"The highlighed summary span is too general (\"The Agriculture Department\" on its own can be mentioned in unrelated context as well)."
+					"text":"The highlighed summary span is too general (\"The Agriculture Department\" on its own can be mentioned in unrelated context as well).",
+					"timeout":10000
 					},
 					{
 					"missing_tkns":["8-8"],
 					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:confirmed what?)."
+					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:confirmed what?).",
+					"timeout":8000
 					},
 					{
 					"missing_tkns":["10-10"],
 					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:confirmed what about the drought?)."
+					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:confirmed what about the drought?).",
+					"timeout":8000
 					},
 					{
 					"missing_tkns":["14-14"],
 					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:curtail what?)."
+					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:curtail what?).",
+					"timeout":8000
 					},
 					{
 					"missing_tkns":["15-19"],
 					"title":"Summary span too short (not full events)", 
-					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:curtail how?)."
+					"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:curtail how?).",
+					"timeout":8000
 					}
 				],
 				"2":[
 						{
 						"missing_tkns":["21-21"],
 						"title":"Summary span too short (too general)", 
-						"text":"The span chosen is too general. (The \"food prices\" on their own can be mentioned in unrelated context as well)."
+						"text":"The span chosen is too general. (The \"food prices\" on their own can be mentioned in unrelated context as well).",
+						"timeout":10000
 						},
 						{
 						"missing_tkns":["26-26"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:resulting in what?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:resulting in what?).",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["27-32"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>: \"for months and years to come\" isn't an event on its own and is associated with this event)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>: \"for months and years to come\" isn't an event on its own and is associated with this event).",
+						"timeout":12000
 						}
 					]
 			},
@@ -95,14 +111,16 @@
 						{
 						"excess_tkns":["21-32"],
 						"title":"Summary span too long", 
-						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Leave the part talking about the drought's results for another alignment. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Leave the part talking about the drought's results for another alignment. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"2":[
 						{
 						"excess_tkns":["0-7;9-19"],
 						"title":"Summary span too long", 
-						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Leave the part talking about the department's confirmation for another alignment. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Leave the part talking about the department's confirmation for another alignment. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					]
 			},
@@ -119,59 +137,70 @@
 						{
 						"missing_tkns":["3-3"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: Who confirmed?)"
+						"text":"The alignment is not full (<u>hint</u>: Who confirmed?)",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["2-2"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: What kind of Department?)"
+						"text":"The alignment is not full (<u>hint</u>: What kind of Department?)",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["5-5"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: What did the department do?)"
+						"text":"The alignment is not full (<u>hint</u>: What did the department do?)",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["10-12"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: What did the Department confirm?)"
+						"text":"The alignment is not full (<u>hint</u>: What did the Department confirm?)",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["9-9"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: What drought?)"
+						"text":"The alignment is not full (<u>hint</u>: What drought?)",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["13-16"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: What will the drought curtail?)"
+						"text":"The alignment is not full (<u>hint</u>: What will the drought curtail?)",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["17-21"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: How will the drought curtail the harvest?)"
+						"text":"The alignment is not full (<u>hint</u>: How will the drought curtail the harvest?)",
+						"timeout":8000
 						}
 					],
 				"2":[
 						{
 						"missing_tkns":["23-23"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full - missing the connection of result"
+						"text":"The alignment is not full - missing the connection of result",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["28-28"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: Resulting in what?)"
+						"text":"The alignment is not full (<u>hint</u>: Resulting in what?)",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["25-27"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: What prices?)"
+						"text":"The alignment is not full (<u>hint</u>: What prices?)",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["29-34"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: For how long will there be higher prices?)"
+						"text":"The alignment is not full (<u>hint</u>: For how long will there be higher prices?)",
+						"timeout":8000
 						}
 					]
 			},
@@ -180,54 +209,64 @@
 						{
 						"excess_tkns":["90-90","92-92","220-220","328-328"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the agricultural department)."
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the agricultural department).",
+						"timeout":10000
 						},
 						{
 						"excess_tkns":["137-137","227-227","254-254","353-353","399-399","608-608"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the drought)."
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the drought).",
+						"timeout":10000
 						},
 						{
 						"excess_tkns":["155-155","457-457"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the harvest)."
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the harvest).",
+						"timeout":10000
 						},
 						{
 						"excess_tkns":["387-387"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: Thursday)."
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: Thursday).",
+						"timeout":10000
 						},
 						{
 						"excess_tkns":["180-180"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: corn)."
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: corn).",
+						"timeout":10000
 						}
 					],
 				"2":[
 						{
 						"excess_tkns":["137-137","227-227","254-254","353-353","399-399","608-608"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the drought)"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the drought)",
+						"timeout":10000
 						},
 						{
 						"excess_tkns":["51-51"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: higher)"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: higher)",
+						"timeout":10000
 						},
 						{ 
 						"excess_tkns":["68-68", "236-236", "295-295", "306-306", "603-603", "620-620"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: food)"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: food)",
+						"timeout":10000
 						},
 						{
 						"excess_tkns":["46-46", "115-115", "117-117", "165-165", "169-169", "173-173", "238-238", "243-243", "262-262", "371-371", "474-474", "534-534", "584-584", "651-651"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: years)"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: years)",
+						"timeout":10000
 						},
 						{
 						"excess_tkns":["73-73", "381-381"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: come)"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: come)",
+						"timeout":10000
 						}
 					]
 			}			
@@ -266,103 +305,122 @@
 						{
 						"missing_tkns":["37-37"],
 						"title":"Summary span too short (too general)",
-						"text":"The highlighed summary span is too general (\"President Reagan\" on its own can be mentioned in unrelated context as well)."
+						"text":"The highlighed summary span is too general (\"President Reagan\" on its own can be mentioned in unrelated context as well).",
+						"timeout":10000
 						},
 						{
 						"missing_tkns":["35-36"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:who signed?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:who signed?).",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["44-44"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:signed what?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:signed what?).",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["38-38;40-43"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what bill was signed?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what bill was signed?).",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["45-45"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what is the connection between the bill and the helping?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what is the connection between the bill and the helping?).",
+						"timeout":10000
 						},
 						{
 						"missing_tkns":["47-47"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what is the bill aimed at?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what is the bill aimed at?).",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["51-51"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:helping whom?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:helping whom?).",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["48-48;50-50"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what farmers?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what farmers?).",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["52-52"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:help the farmers in what?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:help the farmers in what?).",
+						"timeout":8000
 						}
 					],
 				"2":[
 						{
 						"missing_tkns":["37-37"],
 						"title":"Summary span too short (too general)",
-						"text":"The highlighed summary span is too general (\"President Reagan\" on its own can be mentioned in unrelated context as well)."
+						"text":"The highlighed summary span is too general (\"President Reagan\" on its own can be mentioned in unrelated context as well).",
+						"timeout":10000
 						},
 						{
 						"missing_tkns":["35-36"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:who signed?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:who signed?).",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["44-44"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:signed what?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:signed what?).",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["38-38;40-43"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what bill was signed?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what bill was signed?).",
+						"timeout":8000
 						}
 					],
 				"3":[
 						{
 						"missing_tkns":["45-45"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what is the connection between the bill and the helping?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what is the connection between the bill and the helping?).",
+						"timeout":10000
 						},
 						{
 						"missing_tkns":["47-47"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what is the bill aimed at?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what is the bill aimed at?).",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["51-51"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:helping whom?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:helping whom?).",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["48-48;50-50"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what farmers?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what farmers?).",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["52-52"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:help the farmers in what?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:help the farmers in what?).",
+						"timeout":8000
 						}
 					],
 				"4":[
 						{
 						"missing_tkns":["56-65"],
 						"title":"Summary span too short (not full events)", 
-						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:stating what?)."
+						"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:stating what?).",
+						"timeout":8000
 						}
 					],
 				"5":[]
@@ -373,35 +431,40 @@
 						{
 						"excess_tkns":["54-55;58-65"],
 						"title":"Summary span too long", 
-						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Leave the part talking about the president's second statement for another alignment. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Leave the part talking about the president's second statement for another alignment. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"2":[
 						{
 						"excess_tkns":["48-52", "54-55;58-65"],
 						"title":"Summary span too long", 
-						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Stick to the bill-signing event for now. Leave the rest for other alignments.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Stick to the bill-signing event for now. Leave the rest for other alignments.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"3":[
 						{
 						"excess_tkns":["35-36", "54-55;58-65"],
 						"title":"Summary span too long", 
-						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Stick to the helping-the-farmers event for now. Leave the rest for other alignments.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Stick to the helping-the-farmers event for now. Leave the rest for other alignments.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"4":[
 						{
 						"excess_tkns":["35-38;40-52"],
 						"title":"Summary span too long", 
-						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Stick to the event of the president's second statement for now. Leave the rest for other alignments.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"The highlighed summary span is too long, which can cause missing out little details. <br/>Stick to the event of the president's second statement for now. Leave the rest for other alignments.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"5":[
 						{
 						"excess_tkns":["35-38;40-52"],
 						"title":"Summary span with incomplete events", 
-						"text":"Highlighting \"while\" is more appropriate with ensuing part of the sentence rather than the preceding.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Highlighting \"while\" is more appropriate with ensuing part of the sentence rather than the preceding.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					]
 			},
@@ -417,17 +480,20 @@
 			"good_alignment_msg":{
 				"1":{
 					"title":"Very good! You didn't fall for the common trap.",
-					"text":"Good job for noticing and not highlighting \"on Thursday\"."
+					"text":"Good job for noticing and not highlighting \"on Thursday\".",
+					"timeout":8000
 				},
 				"2":{
 					"title":"Very good!  You didn't fall for the common trap.",
-					"text":"Good job for noticing and not highlighting \"on Thursday\"."
+					"text":"Good job for noticing and not highlighting \"on Thursday\".",
+					"timeout":8000
 				},
 				"3":{},
 				"4":{},
 				"5":{
 					"title":"Good job!",
-					"text":"As you have probably noticed, \"while\" is unalignable explicitly (it is only inferred). <br/> As such, <u>it needs to be submitted with no document alignments</u>. <br/>In this case, <u>it could also make sense</u> to include it in the ensuing span (starting with \"stating...\")."				
+					"text":"As you have probably noticed, \"while\" is unalignable explicitly (it is only inferred). <br/> As such, <u>it needs to be submitted with no document alignments</u>. <br/>In this case, <u>it could also make sense</u> to include it in the ensuing span (starting with \"stating...\").",
+					"timeout":20000					
 				}
 			},
 			"missing_alignment_msg": {
@@ -438,7 +504,8 @@
 						{
 						"missing_tkns":["419-420"],
 						"title":"Missing information in the alignment",
-						"text":"The alignment is not full (the fact this was said by someone is missing)."
+						"text":"The alignment is not full (the fact this was said by someone is missing).",
+						"timeout":8000
 						}
 					],
 				"5":[]
@@ -448,100 +515,118 @@
 						{
 						"excess_tkns":["76-79;81-84"],
 						"title":"Out of context", 
-						"text":"The alignments must be in context. <br/>There is a better in-context mention of the bill-signing. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"The alignments must be in context. <br/>There is a better in-context mention of the bill-signing. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["386-387"],
 						"title":"Irrelevant information", 
-						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: it wasn't said when the bill was signed). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: it wasn't said when the bill was signed). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["408-415"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only alignments of the current summary span you work on. Leave other highlightings to next alignments. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only alignments of the current summary span you work on. Leave other highlightings to next alignments. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["191-191","425-425"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the farmers). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the farmers). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["462-462","470-470","484-484", "493-493", "505-505", "513-513", "526-526"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: billion). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: billion). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["10-10","137-137","227-227", "254-254", "353-353", "608-608"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: drought). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: drought). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["419-419"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: Reagan). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: Reagan). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"2":[
 						{
 						"excess_tkns":["386-387"],
 						"title":"Irrelevant information", 
-						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: it wasn't said when the bill was signed.). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: it wasn't said when the bill was signed.). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["462-462","470-470","484-484", "493-493", "505-505", "513-513", "526-526"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: billion). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: billion). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["419-419"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: Reagan). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: Reagan). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"3":[
 						{
 						"excess_tkns":["79-79;81-84"],
 						"title":"Out of context", 
-						"text":"The alignments must be in context. <br/>There is a better in-context mention of the relief bill. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"The alignments must be in context. <br/>There is a better in-context mention of the relief bill. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["408-415"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only alignments of the current summary span you work on. Leave other highlightings to next alignments. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only alignments of the current summary span you work on. Leave other highlightings to next alignments. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["191-191","425-425"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the farmers). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the farmers). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["462-462","470-470","484-484", "493-493", "505-505", "513-513", "526-526"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: billion). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: billion). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["10-10","137-137","227-227", "254-254", "353-353", "608-608"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: drought). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: drought). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"4":[
 						{
 						"excess_tkns":["576-580"],
 						"title":"Out of context", 
-						"text":"The alignments must be in context. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"The alignments must be in context. <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":16000
 						},
 						{
 						"excess_tkns":["84-84","395-395"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: bill). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: bill). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"5":[
 						{
 						"excess_tkns":["0-714"],
 						"title":"Implicit presence of \"While\" ", 
-						"text":"The relation represented by \"while\" is implicit in the document. <br/>Therefore, there isn't an actual alignment to \"while\".<br/>So, you can either save it unaligned (by un-highlighting all the document highlightings and hitting the \"CONFIRM\" button). <br/>Even better, you can include it with the the part of the sentence coming after it ('stating \"This bill....'), as this makes the most sense.<br/>If you opt for the second option, and you've already highlighted the part of the sentence coming after, <b>use the \"REVISE\" option.</b>"
+						"text":"The relation represented by \"while\" is implicit in the document. <br/>Therefore, there isn't an actual alignment to \"while\".<br/>So, you can either save it unaligned (by un-highlighting all the document highlightings and hitting the \"CONFIRM\" button). <br/>Even better, you can include it with the the part of the sentence coming after it ('starting \"This bill....'), as this makes the most sense.<br/>If you opt for the second option, and you've already highlighted the part of the sentence coming after, <b>use the \"REVISE\" option.</b>",
+						"timeout":40000
 						}
 					]	
 			}
@@ -565,15 +650,18 @@
 			"good_summary_span_msg":{
 				"1":{
 					"title":"Good summary span choosing. Well Done!",
-					"text":"Even though the span is quite short, choosing a longer one might be harder to align because of how much this sentence is spread out across the document."
+					"text":"Even though the span is quite short, choosing a longer one might be harder to align because of how much this sentence is spread out across the document.",
+					"timeout":10000
 				},
 				"2":{
 					"title":"Good summary span choosing. Well Done!",
-					"text":"Even though the span is quite short, choosing a longer one might be harder to align because of how much this sentence is spread out across the document."
+					"text":"Even though the span is quite short, choosing a longer one might be harder to align because of how much this sentence is spread out across the document.",
+					"timeout":10000
 				},
 				"3":{
 					"title":"Good summary span choosing. Well Done!",
-					"text":"Even though the span is quite short, choosing a longer one might be harder to align because of how much this sentence is spread out across the document."
+					"text":"Even though the span is quite short, choosing a longer one might be harder to align because of how much this sentence is spread out across the document.",
+					"timeout":10000
 				},
 				"4":{}
 			},
@@ -588,28 +676,32 @@
 						{
 						"excess_tkns":["83-84", "88-90"],
 						"title":"Summary span too long", 
-						"text":"Even though the part talking about the corn is very short, it is best to focus solely on it and leave the rest for other alignments, as they scattered across the document.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Even though the part talking about the corn is very short, it is best to focus solely on it and leave the rest for other alignments, as they scattered across the document.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"2":[
 						{
 						"excess_tkns":["76-76;80-80", "88-90"],
 						"title":"Summary span too long", 
-						"text":"Even though the part talking about the soybeans is very short, it is best to focus solely on it and leave the rest for other alignments, as they scattered across the document.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Even though the part talking about the soybeans is very short, it is best to focus solely on it and leave the rest for other alignments, as they scattered across the document.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"3":[
 						{
 						"excess_tkns":["76-76;80-80", "83-84"],
 						"title":"Summary span too long", 
-						"text":"Even though the part talking about the wheat is very short, it is best to focus solely on it and leave the rest for other alignments, as they scattered across the document.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Even though the part talking about the wheat is very short, it is best to focus solely on it and leave the rest for other alignments, as they scattered across the document.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"4":[
 						{
 						"excess_tkns":["76-76;80-80", "83-84"],
 						"title":"Summary span with incomplete events", 
-						"text":"Highlighting \"and\" is more appropriate with ensuing part of the sentence rather than the preceding.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Highlighting \"and\" is more appropriate with ensuing part of the sentence rather than the preceding.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					]
 			},
@@ -632,19 +724,23 @@
 			"good_alignment_msg":{
 				"1":{
 					"title":"Very good!",
-					"text":"This was a hard one, so good work on highlighting the most fitting alignment!"
+					"text":"This was a hard one, so good work on highlighting the most fitting alignment!",
+					"timeout":8000
 				},
 				"2":{
 					"title":"Very good!",
-					"text":"This was a hard one, so good work on highlighting the most fitting alignment!"
+					"text":"This was a hard one, so good work on highlighting the most fitting alignment!",
+					"timeout":8000
 				},
 				"3":{
 					"title":"Very good!",
-					"text":"This was a hard one, so good work on highlighting the most fitting alignment!"
+					"text":"This was a hard one, so good work on highlighting the most fitting alignment!",
+					"timeout":8000
 				},
 				"4":{
 					"title":"Good job!",
-					"text":"As you have probably noticed, \"and\" is unalignable explicitly (it is only inferred). <br/> As such, <u>it needs to be submitted with no document alignments</u>. <br/>In this case, <u>it could also make sense</u> to include it in the ensuing span (starting with \"Winter wheat...\")."				
+					"text":"As you have probably noticed, \"and\" is unalignable explicitly (it is only inferred). <br/> As such, <u>it needs to be submitted with no document alignments</u>. <br/>In this case, <u>it could also make sense</u> to include it in the ensuing span (starting with \"Winter wheat...\").",
+					"timeout":20000					
 					}
 			},
 			"missing_alignment_msg": {
@@ -652,71 +748,84 @@
 						{
 						"missing_tkns":["146-146"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: What is down?)"
+						"text":"The alignment is not full (<u>hint</u>: What is down?)",
+						"timeout":6000
 						},
 						{
 						"missing_tkns":["158-158"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: What happened to the corn?)"
+						"text":"The alignment is not full (<u>hint</u>: What happened to the corn?)",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["164-165"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full The alignment is not full (<u>hint</u>: Even if you didn't highlight \"last year\" in the summary, it still needs to be highlighed in the document in this case)."
+						"text":"The alignment is not full The alignment is not full (<u>hint</u>: Even if you didn't highlight \"last year\" in the summary, it still needs to be highlighed in the document in this case).",
+						"timeout":12000
 						},
 						{
 						"missing_tkns":["176-177"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: How much is the corn down from last year?)"
+						"text":"The alignment is not full (<u>hint</u>: How much is the corn down from last year?)",
+						"timeout":8000
 						}
 					],
 				"2":[
 						{
 						"missing_tkns":["456-456"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: What was down?)"
+						"text":"The alignment is not full (<u>hint</u>: What was down?)",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["465-465"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: Even if you didn't highlight \"down\" in the summary, it still needs to be highlighed in the document in this case)."
+						"text":"The alignment is not full (<u>hint</u>: Even if you didn't highlight \"down\" in the summary, it still needs to be highlighed in the document in this case).",
+						"timeout":12000
 						},
 						{
 						"missing_tkns":["473-474"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: Even if you didn't highlight \"last year\" in the summary, it still needs to be highlighed in the document in this case)."
+						"text":"The alignment is not full (<u>hint</u>: Even if you didn't highlight \"last year\" in the summary, it still needs to be highlighed in the document in this case).",
+						"timeout":12000
 						},
 						{
 						"missing_tkns":["466-467"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: How much is the soybean down from last year?)"
+						"text":"The alignment is not full (<u>hint</u>: How much is the soybean down from last year?)",
+						"timeout":10000
 						}
 					],
 				"3":[
 						{
 						"missing_tkns":["520-520"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: What was down?)"
+						"text":"The alignment is not full (<u>hint</u>: What was down?)",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["519-519"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: What kind of wheat?)"
+						"text":"The alignment is not full (<u>hint</u>: What kind of wheat?)",
+						"timeout":8000
 						},
 						{
 						"missing_tkns":["529-529"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: Even if you didn't highlight \"down\" in the summary, it still needs to be highlighed in the document in this case)."
+						"text":"The alignment is not full (<u>hint</u>: Even if you didn't highlight \"down\" in the summary, it still needs to be highlighed in the document in this case).",
+						"timeout":12000
 						},
 						{
 						"missing_tkns":["533-534"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: Even if you didn't highlight \"last year\" in the summary, it still needs to be highlighed in the document in this case)."
+						"text":"The alignment is not full (<u>hint</u>: Even if you didn't highlight \"last year\" in the summary, it still needs to be highlighed in the document in this case).",
+						"timeout":12000
 						},
 						{
 						"missing_tkns":["530-531"],
 						"title":"missing information in the alignment",
-						"text":"The alignment is not full (<u>hint</u>: How much is the soybean down from last year?)"
+						"text":"The alignment is not full (<u>hint</u>: How much is the soybean down from last year?)",
+						"timeout":10000
 						}
 					],
 				"4":[]
@@ -726,83 +835,98 @@
 						{
 						"excess_tkns":["149-156"],
 						"title":"Irrelevant information", 
-						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: the actual amount of corn this year wasn't mentioned). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: the actual amount of corn this year wasn't mentioned). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["160-163"],
 						"title":"Irrelevant information", 
-						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: the actual amount of corn last year wasn't mentioned). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: the actual amount of corn last year wasn't mentioned). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["180-180"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: corn). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: corn). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":16000
 						},
 						{
 						"excess_tkns":["99-99", "141-141", "203-203", "497-497", "521-521", "592-592", "621-621"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: production). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: production). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":16000
 						},
 						{
 						"excess_tkns":["473-474", "533-534"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: last year). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: last year). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":16000
 						}
 					],
 				"2":[
 						{
 						"excess_tkns":["459-463"],
 						"title":"Irrelevant information", 
-						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: the actual amount of soybean this year wasn't mentioned). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: the actual amount of soybean this year wasn't mentioned). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["469-472"],
 						"title":"Irrelevant information", 
-						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: the actual amount of soybean last year wasn't mentioned). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: the actual amount of soybean last year wasn't mentioned). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["649-649"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: soybean). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: soybean). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":18000
 						},
 						{
 						"excess_tkns":["99-99", "141-141", "203-203", "497-497", "521-521", "592-592", "621-621"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: production). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: production). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":18000
 						},
 						{
 						"excess_tkns":["164-165", "533-534"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: last year). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: last year). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":18000
 						}
 					],
 				"3":[
 						{
 						"excess_tkns":["523-527"],
 						"title":"Irrelevant information", 
-						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: the actual amount of wheat this year wasn't mentioned). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"When highlighing continuous document spans, make sure everything highlighted was mentioned in the summary (<u>hint</u>: the actual amount of wheat this year wasn't mentioned). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["500-500"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: wheat). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: wheat). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":18000
 						},
 						{
 						"excess_tkns":["99-99", "141-141", "203-203", "497-497", "592-592", "621-621"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: production). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: production). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":18000
 						},
 						{
 						"excess_tkns":["164-165", "473-474"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: last year). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: last year). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":18000
 						}
 					],
 				"4":[
 						{
 						"excess_tkns":["0-678"],
 						"title":"Implicit presence of \"and\" ", 
-						"text":"The relation represented by \"and\" is implicit in the document. <br/>Therefore, there isn't an actual alignment to \"and\".<br/>So, you can either save it unaligned (by un-highlighting all the document highlightings and hitting the \"CONFIRM\" button). <br/>Even better, you can incorporate it into the part of the sentence coming after it ('Winter wheat...'), as this makes the most sense.<br/>If you opt for the second option, and you've already highlighted the part of the sentence coming after, <b>use the \"REVISE\" option.</b>"
+						"text":"The relation represented by \"and\" is implicit in the document. <br/>Therefore, there isn't an actual alignment to \"and\".<br/>So, you can either save it unaligned (by un-highlighting all the document highlightings and hitting the \"CONFIRM\" button). <br/>Even better, you can incorporate it into the part of the sentence coming after it ('Winter wheat...'), as this makes the most sense.<br/>If you opt for the second option, and you've already highlighted the part of the sentence coming after, <b>use the \"REVISE\" option.</b>",
+						"timeout":30000
 						}
 					]
 			}
@@ -835,7 +959,8 @@
 				"1":{},
 				"2":{
 					"title":"Good span - but be careful",
-					"text":"The span is borderline - because it covers a lot of details.<br/> make sure you don't miss any detail when you align it."
+					"text":"The span is borderline - because it covers a lot of details.<br/> make sure you don't miss any detail when you align it.",
+					"timeout":10000
 				},
 				"3":{},
 				"4":{},
@@ -849,99 +974,116 @@
 						{
 							"missing_tkns":["98-102"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what kind of economist?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what kind of economist?).",
+							"timeout":10000
 						},
 						{
 							"missing_tkns":["107-109"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:Who did Wilson talk about?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:Who did Wilson talk about?).",
+							"timeout":10000
 						},
 						{
 							"missing_tkns":["110-115"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:What did Wilson say about the US?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:What did Wilson say about the US?).",
+							"timeout":10000
 						}
 					],
 				"2":[
 						{
 							"missing_tkns":["98-102"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what kind of economist?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what kind of economist?).",
+							"timeout":10000
 						},
 						{
 							"missing_tkns":["107-109"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:Who did Wilson talk about?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:Who did Wilson talk about?).",
+							"timeout":10000
 						},
 						{
 							"missing_tkns":["110-115"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:What did Wilson say about the US?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:What did Wilson say about the US?).",
+							"timeout":10000
 						}
 					],
 				"3":[
 						{
 							"missing_tkns":["98-102"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what kind of economist?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what kind of economist?).",
+							"timeout":10000
 						}
 					],
 				"4":[
 						{
 							"missing_tkns":["107-109"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:Who did Wilson talk about?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:Who did Wilson talk about?).",
+							"timeout":10000
 						},
 						{
 							"missing_tkns":["110-115"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:What did Wilson say about the US?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:What did Wilson say about the US?).",
+							"timeout":10000
 						}
 					],
 				"5":[
 						{
 							"missing_tkns":["107-109"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:Who did Wilson talk about?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:Who did Wilson talk about?).",
+							"timeout":10000
 						},
 						{
 							"missing_tkns":["110-115"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:What did Wilson say about the US?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:What did Wilson say about the US?).",
+							"timeout":10000
 						}
 					],
 				"6":[
 						{
 							"missing_tkns":["98-102"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what kind of economist?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what kind of economist?).",
+							"timeout":8000
 						},
 						{
 							"missing_tkns":["107-109"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:Who did the economist talk about?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:Who did the economist talk about?).",
+							"timeout":10000
 						},
 						{
 							"missing_tkns":["110-115"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:What did the economist say about the US?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:What did the economist say about the US?).",
+							"timeout":10000
 						}
 					],
 				"7":[
 						{
 							"missing_tkns":["98-102"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what kind of economist?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:what kind of economist?).",
+							"timeout":8000
 						},
 						{
 							"missing_tkns":["107-109"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:Who did the economist talk about?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:Who did the economist talk about?).",
+							"timeout":8000
 						},
 						{
 							"missing_tkns":["110-115"],
 							"title":"Summary span too short (not full events)", 
-							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:What did the economist say about the US?)."
+							"text":"The highlighed summary span doesn't cover full events (<u>hint</u>:What did the economist say about the US?).",
+							"timeout":10000
 						}
 					],
 				"8":[]	
@@ -952,49 +1094,56 @@
 						{
 						"excess_tkns":["116-117"],
 						"title":"Summary span has an incomplete event", 
-						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts(<u>hint</u>: What countries?).<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts(<u>hint</u>: What countries?).<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"3":[
 						{
 						"excess_tkns":["106-119"],
 						"title":"Summary span has an incomplete event", 
-						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts(<u>hint</u>: The United States).<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts(<u>hint</u>: The United States).<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"4":[
 						{
 						"excess_tkns":["98-102"],
 						"title":"Summary span has an incomplete event", 
-						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts(<u>hint</u>: How is the department connected to Wilson?).<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts(<u>hint</u>: How is the department connected to Wilson?).<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"5":[
 						{
 						"excess_tkns":["98-102"],
 						"title":"Summary span has an incomplete event", 
-						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts(<u>hint</u>: How is the department connected to Wilson?).<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts(<u>hint</u>: How is the department connected to Wilson?).<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"6":[
 						{
 						"excess_tkns":["94-95"],
 						"title":"Summary span has an incomplete event", 
-						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts(<u>hint</u>: \"Ewan M.\" is not the economist's full name).<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts(<u>hint</u>: \"Ewan M.\" is not the economist's full name).<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"7":[
 						{
 						"excess_tkns":["94-95"],
 						"title":"Summary span has an incomplete event", 
-						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts(<u>hint</u>: \"Ewan M.\" is not the economist's full name).<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts(<u>hint</u>: \"Ewan M.\" is not the economist's full name).<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"8":[
 						{
 						"excess_tkns":["94-95", "98-102", "106-115"],
 						"title":"Summary span has an incomplete event", 
-						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts.<br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":16000
 						}
 					]
 			},
@@ -1015,7 +1164,8 @@
 				"1":{},
 				"2":{
 					"title":"Good job!",
-					"text":"Good work for aligning also the part of the summary talking about Wilson being the Agriculture department's chief economist.<br/>It is important to cover <u>everything</u> in the summary span."
+					"text":"Good work for aligning also the part of the summary talking about Wilson being the Agriculture department's chief economist.<br/>It is important to cover <u>everything</u> in the summary span.",
+					"timeout":12000
 				},
 				"3":{},
 				"4":{},
@@ -1024,7 +1174,8 @@
 				"7":{},
 				"8":{
 					"title":"Good job!",
-					"text":"As you have probably noticed, this summary span is unalignable.<br/> As such, <u>it needs to be submitted with no document alignments</u>."
+					"text":"As you have probably noticed, this summary span is unalignable.<br/> As such, <u>it needs to be submitted with no document alignments</u>.",
+					"timeout":10000
 				}
 			},
 			"missing_alignment_msg": {
@@ -1032,19 +1183,22 @@
 						{
 						"missing_tkns":["10000000-10000000"],
 						"title":"Unalignable Summary part",
-						"text":"Notice that some part of the summary is unalignable (<u>hint</u>: Brazil). <br/>Rarely, you might encounter this. When you do, simply submit it unaligned(by highlighting only the summary information, with no document highlighting, and hitting the \"REVISE\" button). <br/>Adjust the summary span only to alignable sections and try to align them."
+						"text":"Notice that some part of the summary is unalignable (<u>hint</u>: Brazil). <br/>Rarely, you might encounter this. When you do, align only the alignable parts, and the unalignable ones submit unaligned(by highlighting only the summary information, with no document highlighting, and hitting the \"REVISE\" button). <br/>Adjust the summary span only to alignable sections and try to align them.",
+						"timeout":24000
 						}
 					],
 				"2":[
 						{
 							"missing_tkns":["219-223"],
 							"title":"Missing Information in Alignment", 
-							"text":"It is important to align everything mentioned in the summary(<u>hint</u>: who is Wilson?)"
+							"text":"It is important to align everything mentioned in the summary(<u>hint</u>: who is Wilson?)",
+							"timeout":10000
 						},
 						{
 							"missing_tkns":["638-641"],
 							"title":"Missing Information in Alignment", 
-							"text":"It is important to align everything mentioned in the summary(<u>hint</u>: according to the summary, the US <u>might</u> import)."
+							"text":"It is important to align everything mentioned in the summary(<u>hint</u>: according to the summary, the US <u>might</u> import).",
+							"timeout":10000
 						}
 					],
 				"3":[],
@@ -1052,28 +1206,32 @@
 						{
 							"missing_tkns":["10000000-10000000"],
 							"title":"Unalignable Summary part",
-							"text":"Notice that some part of the summary is unalignable (<u>hint</u>: Brazil). <br/>Rarely, you might encounter this. When you do, simply submit it unaligned(by highlighting only the summary information, with no document highlighting, and hitting the \"REVISE\" button). <br/>Adjust the summary span only to alignable sections and try to align them."
+							"text":"Notice that some part of the summary is unalignable (<u>hint</u>: Brazil). <br/>Rarely, you might encounter this. When you do, align only the alignable parts, and the unalignable ones submit unaligned(by highlighting only the summary information, with no document highlighting, and hitting the \"REVISE\" button). <br/>Adjust the summary span only to alignable sections and try to align them.",
+							"timeout":24000
 						}
 					],
 				"5":[
 						{
 							"missing_tkns":["638-641"],
 							"title":"Missing Information in Alignment", 
-							"text":"It is important to align everything mentioned in the summary(<u>hint</u>: according to the summary, the US <u>might</u> import)."
+							"text":"It is important to align everything mentioned in the summary(<u>hint</u>: according to the summary, the US <u>might</u> import).",
+							"timeout":10000
 						}
 					],
 				"6":[
 						{
 							"missing_tkns":["10000000-10000000"],
 							"title":"Unalignable Summary part",
-							"text":"Notice that some part of the summary is unalignable (<u>hint</u>: Brazil). <br/>Rarely, you might encounter this. When you do, simply submit it unaligned(by highlighting only the summary information, with no document highlighting, and hitting the \"REVISE\" button). <br/>Adjust the summary span only to alignable sections and try to align them."
+							"text":"Notice that some part of the summary is unalignable (<u>hint</u>: Brazil). <br/>Rarely, you might encounter this. When you do, align only the alignable parts, and the unalignable ones submit unaligned(by highlighting only the summary information, with no document highlighting, and hitting the \"REVISE\" button). <br/>Adjust the summary span only to alignable sections and try to align them.",
+							"timeout":24000
 						}
 					],
 				"7":[
 						{
 							"missing_tkns":["638-641"],
 							"title":"Missing Information in Alignment", 
-							"text":"It is important to align everything mentioned in the summary(<u>hint</u>: according to the summary, the US <u>might</u> import)."
+							"text":"It is important to align everything mentioned in the summary(<u>hint</u>: according to the summary, the US <u>might</u> import).",
+							"timeout":10000
 						}
 					],
 				"8":[]
@@ -1083,151 +1241,178 @@
 						{
 						"excess_tkns":["0-678"],
 						"title":"Unalignable Summary part",
-						"text":"Notice that some part of the summary is unalignable (<u>hint</u>: Brazil). <br/>Rarely, you might encounter this. When you do, simply submit it unaligned(by highlighting only the summary information, with no document highlighting, and hitting the \"REVISE\" button). <br/>Adjust the summary span only to alignable sections and try to align them."
+						"text":"Notice that some part of the summary is unalignable (<u>hint</u>: Brazil). <br/>Rarely, you might encounter this. When you do, simply submit it unaligned(by highlighting only the summary information, with no document highlighting, and hitting the \"REVISE\" button). <br/>Adjust the summary span only to alignable sections and try to align them.",
+						"timeout":22000
 						}
 					],
 				"2":[
 						{
 						"excess_tkns":["213-214"],
 						"title":"Irrelevant information", 
-						"text":"Make sure you cover only what was mentioned in the summary (<u>hint</u>: It wasn't said Wilson was Assistant Secretary). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you cover only what was mentioned in the summary (<u>hint</u>: It wasn't said Wilson was Assistant Secretary). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["225-264", "657-678"],
 						"title":"Irrelevant information", 
-						"text":"Make sure you cover only what was mentioned in the summary (<u>hint</u>: Notice what exactly Wilson said). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you cover only what was mentioned in the summary (<u>hint</u>: Notice what exactly Wilson said). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["52-54", "564-566", "666-668"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the United States). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the United States). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":22000
 						},
 						{
 						"excess_tkns":["456-456"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: soybeans). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: soybeans). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["237-238", "261-262"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: \"this year\"). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: \"this year\"). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":22000
 						},
 						{
 						"excess_tkns":["328-328"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: agriculture). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: agriculture). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":21000
 						},
 						{
 						"excess_tkns":["268-268"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: Wilson). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: Wilson). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"3":[
 						{
 						"excess_tkns":["213-214"],
 						"title":"Irrelevant information", 
-						"text":"Make sure you cover only what was mentioned in the summary (<u>hint</u>: It wasn't said Wilson was Assistant Secretary). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you cover only what was mentioned in the summary (<u>hint</u>: It wasn't said Wilson was Assistant Secretary). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":22000
 						},
 						{
 						"excess_tkns":["268-268"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: Wilson). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: Wilson). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"4":[
 						{
 						"excess_tkns":["0-678"],
 						"title":"Unalignable Summary part",
-						"text":"Notice that some part of the summary is unalignable (<u>hint</u>: Brazil). <br/>Rarely, you might encounter this. When you do, simply submit it unaligned(by highlighting only the summary information, with no document highlighting, and hitting the \"REVISE\" button). <br/>Adjust the summary span only to alignable sections and try to align them."
+						"text":"Notice that some part of the summary is unalignable (<u>hint</u>: Brazil). <br/>Rarely, you might encounter this. When you do, simply submit it unaligned(by highlighting only the summary information, with no document highlighting, and hitting the \"REVISE\" button). <br/>Adjust the summary span only to alignable sections and try to align them.",
+						"timeout":26000
 						}
 					],
 				"5":[
 						{
 						"excess_tkns":["213-214"],
 						"title":"Irrelevant information", 
-						"text":"Make sure you cover only what was mentioned in the summary (<u>hint</u>: It wasn't said Wilson was Assistant Secretary). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you cover only what was mentioned in the summary (<u>hint</u>: It wasn't said Wilson was Assistant Secretary). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["225-264", "657-678"],
 						"title":"Irrelevant information", 
-						"text":"Make sure you cover only what was mentioned in the summary (<u>hint</u>: Notice what exactly Wilson said). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you cover only what was mentioned in the summary (<u>hint</u>: Notice what exactly Wilson said). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["52-54", "564-566", "666-668"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the United States). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the United States). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["456-456"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: soybeans). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: soybeans). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["237-238", "261-262"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: \"this year\"). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: \"this year\"). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["328-328"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: agriculture). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: agriculture). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["268-268"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: Wilson). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: Wilson). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"6":[
 						{
 						"excess_tkns":["0-678"],
 						"title":"Unalignable summary part",
-						"text":"Notice that some part of the summary is unalignable (<u>hint</u>: Brazil). <br/>Rarely, you might encounter this. When you do, simply submit it unaligned(by highlighting only the summary information, with no document highlighting, and hitting the \"REVISE\" button). <br/>Adjust the summary span only to alignable sections and try to align them."
+						"text":"Notice that some part of the summary is unalignable (<u>hint</u>: Brazil). <br/>Rarely, you might encounter this. When you do, simply submit it unaligned(by highlighting only the summary information, with no document highlighting, and hitting the \"REVISE\" button). <br/>Adjust the summary span only to alignable sections and try to align them.",
+						"timeout":24000
 						}
 					],
 				"7":[
 						{
 						"excess_tkns":["213-214"],
 						"title":"Irrelevant information", 
-						"text":"Make sure you cover only what was mentioned in the summary (<u>hint</u>: It wasn't said Wilson was Assistant Secretary). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you cover only what was mentioned in the summary (<u>hint</u>: It wasn't said Wilson was Assistant Secretary). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["225-264", "657-678"],
 						"title":"Irrelevant information", 
-						"text":"Make sure you cover only what was mentioned in the summary (<u>hint</u>: Notice what exactly Wilson said). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you cover only what was mentioned in the summary (<u>hint</u>: Notice what exactly Wilson said). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["52-54", "564-566", "666-668"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the United States). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: the United States). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["456-456"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: soybeans). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: soybeans). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["237-238", "261-262"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: \"this year\"). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: \"this year\"). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["328-328"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: agriculture). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: agriculture). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						},
 						{
 						"excess_tkns":["268-268"],
 						"title":"Out of context", 
-						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: Wilson). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>"
+						"text":"Make sure you highlight only what is described in the summary span and in the same context (<u>hint</u>: Wilson). <br/><b><u>Reminder</u>: to undo highlighting - press ctrl while simultaneously \"highlighting\" the span you want to unhighlight.</b>",
+						"timeout":20000
 						}
 					],
 				"8":[
 						{
 						"excess_tkns":["0-678"],
 						"title":"Unalignable Summary span", 
-						"text":" <u>\"importing <b>from countries like Brazil</b>\" has no mention in the document</u>. <br/>In such cases, please save it unaligned (by un-highlighting all the document highlightings and hitting the \"CONFIRM\" button)."
+						"text":" <u>\"importing <b>from countries like Brazil</b>\" has no mention in the document</u>. <br/>In such cases, please save it unaligned (by un-highlighting all the document highlightings and hitting the \"CONFIRM\" button).",
+						"timeout":20000
 						}
 					]
 				

@@ -34,13 +34,19 @@
 			"tkn_id":1,
 			"choose_summary_span":{},
 			"find_alignment":{
-				"1":{},
-				"2":{},
+				"1":{
+					"title":"Find the Alignment - Be Careful",
+					"text":"Make sure the alignment covers only the information mentioned in the summary span and nothing else."
+				},
+				"2":{
+					"title":"Find the Alignment - Be Careful",
+					"text":"Make sure the alignment covers only the information mentioned in the summary span and nothing else."
+				},
 				"3":{},
 				"4":{},
 				"5":{
-					"title":"",
-					"text":""
+					"title":"Find the Alignment - Pay Attention",
+					"text":"Notice that the relation represented by \"while\" is not mentioned explicitly in document."
 				}
 			}
 		},
@@ -52,10 +58,22 @@
 				"text":"Even though the summary sentence is quite short and it is tempting to simply choose all of it, you will notice that the information in it is spread out across the whole document.<br/>Therefore, to make sure you don't miss anything, it is recommended to work in small summary spans. <br/>In other words, work on each \"grain\" separately.<br/><u>Notice</u>: summary spans can have overlapping words (for example \"Compared to last year\", or \"is down\"), though it is not necessary (as long as in the end all the summary sentence is covered)."
 			},
 			"find_alignment":{
-				"1":{},
-				"2":{},
-				"3":{},
-				"4":{}
+				"1":{
+					"title":"Find the Alignment - Pay Attention",
+					"text":"This is a tough one. <br/>Make sure the alignment covers only the information mentioned in the summary span and nothing else. <br/>If you are overwhelmed by all the boldfaced words, remember that you don't have to turn it off. <br/>Instead, hover over summary words, and it will color their document counterparts in <b style=\"color:red\">red</b>, to help you find the best alignment. <br/>For example, try to hover over \"34\"."
+				},
+				"2":{
+					"title":"Find the Alignment - Pay Attention",
+					"text":"This is a tough one. <br/>Make sure the alignment covers only the information mentioned in the summary span and nothing else. <br/>If you are overwhelmed by all the boldfaced words, try to hover over \"soybeans\" and \"23\". <br/>In addition, notice that even if you didn't highlight in the summary \"Compared to last year\", or \"down\", it is still implied in the summary span and should be included in the alignment."
+				},
+				"3":{
+					"title":"Find the Alignment - Pay Attention",
+					"text":"This is a tough one. <br/>Make sure the alignment covers only the information mentioned in the summary span and nothing else. <br/>In addition, notice that even if you didn't highlight in the summary \"Compared to last year\", or \"down\", it is still implied in the summary span and should be included in the alignment."
+				},
+				"4":{
+					"title":"Find the Alignment - Pay Attention",
+					"text":"Notice that the relation represented by \"and\" is not mentioned explicitly in document."
+				}
 			}
 		},
 		
@@ -63,14 +81,30 @@
 			"tkn_id":3,
 			"choose_summary_span":{},
 			"find_alignment":{
-				"1":{},
-				"2":{},
+				"1":{
+					"title":"Find the Alignment - Pay Attention",
+					"text":"Does everything mentioned in the summary span appear in the document?"
+				},
+				"2":{
+					"title":"Find the Alignment - Pay Attention",
+					"text":"Though the span you chose is good, it does have many details. <br/>Therefore, make sure you don't miss anything in the alignment."
+				},
 				"3":{},
-				"4":{},
+				"4":{
+					"title":"Find the Alignment - Pay Attention",
+					"text":"Does everything mentioned in the summary span appear in the document?"
+				},
 				"5":{},
-				"6":{},
+				"6":{
+					"title":"Find the Alignment - Pay Attention",
+					"text":"Does everything mentioned in the summary span appear in the document?"
+				},
 				"7":{},
-				"8":{}
+				"8":{
+					"title":"Find the Alignment - Pay Attention",
+					"text":"Notice that this information is is not mentioned in document (unalignable).<br/>This can happen sometimes. <br/>When it does, you should confirm it unaligned (namely, only the summary highligted)."
+
+				}
 			}
 		}
 	]

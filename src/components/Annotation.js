@@ -454,7 +454,7 @@ useEffect(() => {
 
                 {!["REVISE HOVER", "SUMMARY END", "SENTENCE END", "START"].includes(StateMachineState) && (
                     <Col md={{span:5, offset:3}}>
-                      <button type="button" className={`btn btn-primary btn-lg right-button ${(isTutorial && [5,12].includes(t_StateMachineStateId)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                      <button type="button" className={`btn btn-primary btn-lg right-button ${((isTutorial && [5,12].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                         {nextButtonText()}
                         <ChevronRight className="button-icon"/>
                       </button>
@@ -471,7 +471,7 @@ useEffect(() => {
 
                 {StateMachineState === "SENTENCE END"  && (
                       <Col md={{span:7, offset:1}}>
-                        <button type="button" className={`btn btn-success btn-lg right-button ${((isTutorial && t_StateMachineStateId===14) || (isGuidedAnnotation)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                        <button type="button" className={`btn btn-success btn-lg right-button ${((isTutorial && t_StateMachineStateId===14) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                           {nextButtonText()}
                           {StateMachineState !== "START" && (<ChevronRight className="button-icon"/>) }
                         </button>
@@ -480,7 +480,7 @@ useEffect(() => {
 
                 {StateMachineState === "SUMMARY END" && (
                   <Col md={{span:5, offset:3}}>
-                    <button type="button" className={`btn btn-success btn-lg right-button ${((isTutorial && t_StateMachineStateId===15) || (isGuidedAnnotation)) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
+                    <button type="button" className={`btn btn-success btn-lg right-button ${((isTutorial && t_StateMachineStateId===15) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
                       {nextButtonText()}
                       {StateMachineState !== "START" && (<SendFill className="button-icon"/>) }
                     </button>

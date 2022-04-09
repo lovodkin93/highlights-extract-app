@@ -104,6 +104,9 @@ const GuidedAnnotation = ({isPunct,
     const toggleSummarySpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
       const isSummarySpanOkDict = isSummarySpanOk(tkn_ids, turn_on, turn_off)
       if(isSummarySpanOkDict["summary_span_ok"]) {
+        console.log("I am ok")
+        console.log("isSummarySpanOkDict:")
+        console.log(isSummarySpanOkDict)
         // updating the success alert
         if (Object.keys(guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_span_msg"][isSummarySpanOkDict["chosen_span_id"]]).includes("text")) {
           setGuidingMsg(guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_span_msg"][isSummarySpanOkDict["chosen_span_id"]])
@@ -122,6 +125,9 @@ const GuidedAnnotation = ({isPunct,
         }
       } 
       else {
+        console.log("I am not ok")
+        console.log("isSummarySpanOkDict:")
+        console.log(isSummarySpanOkDict)
         // updating the info message
         const guiding_info_sent_id = (["START", "SENTENCE END"].includes(StateMachineState)) ? CurrSentInd+1 : CurrSentInd
         if (Object.keys(guided_annotation_info_messages["custom_messages"][guiding_info_sent_id]["choose_summary_span"]).includes("text")) {
@@ -129,6 +135,10 @@ const GuidedAnnotation = ({isPunct,
         } else {
           setGuidingInfoMsg(guided_annotation_info_messages["default_choose_summary_span"])
         }
+
+        // if the span/alignment were good - updating it.
+        setIsGoodAlignment(false)
+        setCurrAlignmentGuidingMsgId("-1")
       }
 
 
@@ -364,6 +374,8 @@ const GuidedAnnotation = ({isPunct,
           setGuidingInfoMsg(guided_annotation_info_messages["default_choose_summary_span"])
         }
       }
+      //returning to alignment not being ok (because no alignment)
+      setIsGoodAlignment(false)
 
       // updating the state (if there is no alignment error)
       setSliderBoldStateActivated(false);
@@ -397,7 +409,7 @@ const GuidedAnnotation = ({isPunct,
     const string_to_span = (span_str) => {
       const sub_strings = span_str.split(";");
       const lims = sub_strings.map((sub_string) => sub_string.split("-").map((lim) => parseInt(lim)))
-      console.log(`lims:${JSON.stringify(span_str)}`)
+      // console.log(`lims:${JSON.stringify(span_str)}`)
       const ids = lims.map(([start, end]) => Array(end - start + 1).fill().map((_, idx) => start + idx)).flat(1)
       return ids.sort(function(a, b) {return a - b;})
     }
@@ -415,9 +427,12 @@ const GuidedAnnotation = ({isPunct,
       highlighted_tkn_ids = (turn_on) ? highlighted_tkn_ids.concat(tkn_ids) : highlighted_tkn_ids
       highlighted_tkn_ids = (turn_off) ? highlighted_tkn_ids.filter((tkn) => {return (turn_off && !tkn_ids.includes(tkn))}) : highlighted_tkn_ids
       highlighted_tkn_ids = [...new Set(highlighted_tkn_ids)] // remove duplicates
-      highlighted_tkn_ids = highlighted_tkn_ids.filter((tkn_id) => {return !isPunct(summary_json.filter((word) => {return word.tkn_id===tkn_id})[0].word)}) // ignore punctuation      
+      highlighted_tkn_ids = highlighted_tkn_ids.filter((tkn_id) => {return !isPunct(summary_json.filter((word) => {return word.tkn_id===tkn_id})[0].word)}) // ignore punctuation  
+      highlighted_tkn_ids = highlighted_tkn_ids.sort(function(a, b) {return a - b;}) // order    
       let chosen_span_id = Object.keys(gold_mentions["span_indicating_tkns"]).filter((key) => {return gold_mentions["span_indicating_tkns"][key].some((span) => hasSubArray(highlighted_tkn_ids, string_to_span(span)))})
 
+      console.log(`chosen_span_id:${JSON.stringify(chosen_span_id)}`)
+      console.log(`highlighted_tkn_ids:${JSON.stringify(highlighted_tkn_ids)}`)
       if (chosen_span_id.length===0){
         return {"summary_span_ok":false, "chosen_span_id":undefined, "highlighted_tkn_ids":highlighted_tkn_ids}
       } else {
@@ -517,9 +532,11 @@ const GuidedAnnotation = ({isPunct,
       console.log(`doc_tkns:${JSON.stringify(doc_tkns)}`)
 
       const msgs_json = guided_annotation_messages["goldMentions"][CurrSentInd]
-      console.log(`CurrSentInd:`)
-      console.log(CurrSentInd)
-      console.log(`curr_alignment_guiding_msg_id: ${curr_alignment_guiding_msg_id} and its type: ${typeof curr_alignment_guiding_msg_id}`)
+      console.log(`msgs_json:`)
+      console.log(msgs_json)
+      console.log('msgs_json["doc_tkns_alignments"]:')
+      console.log(msgs_json["doc_tkns_alignments"])
+      // console.log(`curr_alignment_guiding_msg_id: ${curr_alignment_guiding_msg_id} and its type: ${typeof curr_alignment_guiding_msg_id}`)
       // unalignable parts
       if (msgs_json["doc_tkns_alignments"][curr_alignment_guiding_msg_id].length===0) {
         if (doc_tkns.length===0){
@@ -684,7 +701,7 @@ const GuidedAnnotation = ({isPunct,
    // close the guiding message
    useEffect(() => {
     if(guiding_msg_type!=="closed") {
-      window.setTimeout(()=>{setGuidingMsgType("closed");setGuidingMsg({"text":"", "title":""});},8000)
+      window.setTimeout(()=>{setGuidingMsgType("closed");setGuidingMsg({"text":"", "title":""});},guiding_msg["timeout"])
     }
    }, [guiding_msg_type])
 
