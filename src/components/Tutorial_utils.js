@@ -103,10 +103,10 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
             <br/>
             The summary was written by an expert summarizer who first highlighted important spans in the document and then merged then into a coherent pagaraph. 
             <br/>
-            <b>Your goal</b> is to locate all those document spans, and align them to the summary spans they have contributed to.
+            <b>Your goal</b> is to locate all those document spans, and align them to their summary counterparts.
             <hr/>
-            This tutorial will walk you through the different elements of the UI, which are aimed to ease the search process, whereas the Guided Annotation option should help
-            you understand the correct way to perform this work. 
+            This tutorial will walk you through the different elements of the UI, which are aimed to ease the search process, whereas the Guided Annotation section should help
+            you understand the correct way to perform this task. 
             <br/>
             <b>It is crucial</b> to complete both sections before starting to annotate.
             {/* <hr/>
@@ -142,7 +142,7 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
                     <li>fire under control after it burned 1100 acres of woodlands.</li>
                 </ol>
                 This way, there is less risk of missing out small details.
-
+                <br/>
                 On the other hand, avoid working on spans that are too general or that don't cover complete events.
                 <br/>
                 Following the example above, working with spans like "Sixty Forest Service firefighters" or "1100 acres of woodlands" is too general, as those spans can appear in the document out of their summary's context.
@@ -153,7 +153,7 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
                         <li>Is the information presented in the span missing something? Or is it self-informative?</li>
                         <li>Can I imagine the information described in the span? Or do I feel like I need some extra information?</li>
                         <li>Is the information presented in the span specific? Or is it too general?</li>
-                        <li>Do I feel like there are too many pieces of information in the span? If so, is there a way to get rid of some of it while keeping the span self-informative?</li>
+                        <li>Do I feel like there are too many pieces of information in the span? If so, is there a way to leave some of it out while keeping the span self-informative?</li>
                     </ul>
                 <b>Lastly, make sure that what you highlight in the document covers all the information in the summary and only it!</b>
     

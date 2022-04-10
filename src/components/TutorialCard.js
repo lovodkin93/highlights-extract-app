@@ -44,7 +44,7 @@ const TutorialCard = ({t_StateMachineStateId, t_SetStateMachineStateId, t_state_
                                                                                                       SetCurrSentInd:SetCurrSentInd,
                                                                                                       MachineStateHandlerWrapper:MachineStateHandlerWrapper})}}
                 >
-                  Beginning
+                  Back to Intro
               </Button>
               )}
               {(t_StateMachineStateId !== 0) && (
