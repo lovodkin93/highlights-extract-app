@@ -17,7 +17,7 @@
       {
     "state_cnt": 3,
     "title": "Un-Highlighting",
-    "message": "If you need to undo a highlighting, you can do so by <b>pressing the ctrl button</b> and highlighting the relevant span in the same manner as the previous section."
+    "message": "To un-highlighting: <b>hold the ctrl button (for windows) or the alt button (for MacOS)</b> and highlight the relevant span in the same manner as the previous section."
   },
       {
     "state_cnt": 4,

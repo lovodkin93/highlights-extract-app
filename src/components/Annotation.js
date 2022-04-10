@@ -322,13 +322,15 @@ useEffect(() => {
 /************************************************************************************************************* */
 
 
-useEffect(() => {
-  if (isTutorial){
-    console.log(`t_doc_json is:`)
-    console.log(doc_json)
-  }
-}, []);
-// to make sure the guided annotation guiding messages start with something
+// useEffect(() => {
+//   if (isTutorial){
+//     console.log(`t_doc_json is:`)
+//     console.log(doc_json)
+//   }
+// }, []);
+
+
+// // to make sure the guided annotation guiding messages start with something
   // useEffect(() => {
   //   console.log(`StateMachineState is: ${StateMachineState}`)
   //   if (StateMachineState==="START") {
@@ -344,16 +346,23 @@ useEffect(() => {
     SetSummaryMouseclicked(false);
   }, [StateMachineState]);
   
+
+
     useEffect(() => {
-      if (isTutorial){
-        console.log("AVIVSL: Inside Tutorial biatch!")
+      if (!ctrlButtonDown){
+        if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
+        const doc_chosen_IDs = doc_json.filter((word) => {return word.span_alignment_hover}).map((word) => {return word.tkn_id})
+        toggleDocSpanHighlight({tkn_ids:doc_chosen_IDs, turn_off:true});
+        const summary_chosen_IDs = summary_json.filter((word) => {return word.span_alignment_hover}).map((word) => {return word.tkn_id})
+        toggleSummarySpanHighlight({tkn_ids:summary_chosen_IDs, turn_off:true});
+        }
       }
-    }, []);
+    }, [ctrlButtonDown]);
 
 
 
   return (
-      <Container onKeyDown={(event) => {if (event.ctrlKey) {setCtrlButtonDown(true)}}}
+      <Container onKeyDown={(event) => {if (event.ctrlKey || event.altKey) {setCtrlButtonDown(true)}}}
                  onKeyUp={() => {setCtrlButtonDown(false)}} 
                  tabIndex="0"
                  className='annotation-container'
