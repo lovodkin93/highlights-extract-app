@@ -5,7 +5,7 @@
 	},
 	"default_choose_summary_span": {
 		"title":"Choose Summary Span to Align",
-		"text":"Choose a summary span to align. <br/><u>Remember</u>: make sure it covers full events and that doesn't contain too many details (so you don't miss any when aligning it)."
+		"text":"Choose a summary span to align. <br/><u>Remember</u>: make sure it covers full events and doesn't contain too many details (so you don't miss any when aligning it)."
 	},
 	"default_find_alignment": {
 		"title":"Find the Alignment",
@@ -55,16 +55,16 @@
 			"tkn_id":2,
 			"choose_summary_span":{
 				"title":"Choose Summary Span to Align - Pay attention!",
-				"text":"Even though the summary sentence is quite short and it is tempting to simply choose all of it, you will notice that the information in it is spread out across the whole document.<br/>Therefore, to make sure you don't miss anything, it is recommended to work in small summary spans. <br/>In other words, work on each \"grain\" separately.<br/><u>Notice</u>: summary spans can have overlapping words (for example \"Compared to last year\", or \"is down\"), though it is not necessary (as long as in the end all the summary sentence is covered)."
+				"text":"Even though the summary sentence is quite short and it is tempting to simply choose all of it, you will notice that the information in it is spread out across the whole document.<br/>Therefore, to make sure you don't miss anything, it is recommended to work in small summary spans. <br/>In other words, work on each \"grain\" separately."
 			},
 			"find_alignment":{
 				"1":{
 					"title":"Find the Alignment - Pay Attention",
-					"text":"This is a tough one. <br/>Make sure the alignment covers only the information mentioned in the summary span and nothing else. <br/>If you are overwhelmed by all the boldfaced words, remember that you don't have to turn it off. <br/>Instead, hover over summary words, and it will color their document counterparts in <b style=\"color:red\">red</b>, to help you find the best alignment. <br/>For example, try to hover over \"34\"."
+					"text":"This is a tough one. <br/>Make sure the alignment covers only the information mentioned in the summary span and nothing else. <br/>If you are overwhelmed by all the boldfaced words, try hovering over \"34\" (should color in <b style=\"color:red\">red</b> the relevant document words)."
 				},
 				"2":{
 					"title":"Find the Alignment - Pay Attention",
-					"text":"This is a tough one. <br/>Make sure the alignment covers only the information mentioned in the summary span and nothing else. <br/>If you are overwhelmed by all the boldfaced words, try to hover over \"soybeans\" and \"23\". <br/>In addition, notice that even if you didn't highlight in the summary \"Compared to last year\", or \"down\", it is still implied in the summary span and should be included in the alignment."
+					"text":"This is a tough one. <br/>Make sure the alignment covers only the information mentioned in the summary span and nothing else. <br/>If you are overwhelmed by all the boldfaced words, try hovering over \"soybeans\" and \"23\". <br/>In addition, notice that even if you didn't highlight in the summary \"Compared to last year\", or \"down\", it is still implied in the summary span and should be included in the alignment."
 				},
 				"3":{
 					"title":"Find the Alignment - Pay Attention",
@@ -102,7 +102,7 @@
 				"7":{},
 				"8":{
 					"title":"Find the Alignment - Pay Attention",
-					"text":"Notice that this information is is not mentioned in document (unalignable).<br/>This can happen sometimes. <br/>When it does, you should confirm it unaligned (namely, only the summary highligted)."
+					"text":"Notice that this information is is not mentioned in document (unalignable).<br/>This can happen sometimes. <br/>When it does, you should submit it as unaligned (by highlighting only the summary span and hitting the \"CONFIRM\" button)."
 
 				}
 			}

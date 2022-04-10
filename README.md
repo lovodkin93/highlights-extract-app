@@ -17,6 +17,8 @@ npm install bootstrap@3
 npm install underscore
 npm i fs
 npm install interweave react
+npm i util
+npm install aws-sdk
 ```
 to install all the packages used in this project and serve (which will be used to build the project for production).
 

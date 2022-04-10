@@ -328,6 +328,21 @@ const GuidedAnnotation = ({isPunct,
   
   
     const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
+      // check if alignment is ok
+      const isSummarySpanOkDict = isSummarySpanOk([], false, false)
+      
+      if(!isSummarySpanOkDict["summary_span_ok"]) {
+        if (isSummarySpanOkDict["chosen_span_id"]===undefined){
+          setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
+          setGuidingMsgType("danger")
+        } else {
+          let gold_tkns = guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_spans"][isSummarySpanOkDict["chosen_span_id"]]
+          gold_tkns = gold_tkns.map((span) => {return string_to_span(span)})
+          update_error_message(gold_tkns, isSummarySpanOkDict["highlighted_tkn_ids"], isSummarySpanOkDict["chosen_span_id"], false)
+        }
+        return
+      }
+      
       // check if alignment is good
       if (forceState === undefined && StateMachineState!=="START") { 
         const isAlignmentOkDict = isAlignmentOk();
@@ -713,6 +728,22 @@ const GuidedAnnotation = ({isPunct,
 
 
    const SubmitHandler = (event) => {
+    //hitting submit when the summary span is bad....
+    const isSummarySpanOkDict = isSummarySpanOk([], false, false)
+    
+    if(!isSummarySpanOkDict["summary_span_ok"]) {
+      if (isSummarySpanOkDict["chosen_span_id"]===undefined){
+        setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
+        setGuidingMsgType("danger")
+      } else {
+        let gold_tkns = guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_spans"][isSummarySpanOkDict["chosen_span_id"]]
+        gold_tkns = gold_tkns.map((span) => {return string_to_span(span)})
+        update_error_message(gold_tkns, isSummarySpanOkDict["highlighted_tkn_ids"], isSummarySpanOkDict["chosen_span_id"], false)
+      }
+      return
+    }
+
+    
     const isAlignmentOkDict = isAlignmentOk();
     if (isAlignmentOkDict["alignment_ok"]) {
       // setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"]) // AVIVSL: add custom success messages

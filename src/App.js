@@ -32,7 +32,7 @@ import tutorial_state_messages from './data/tutorial/tutorial_state_messages.jso
 
 import { MachineStateHandler, g_MachineStateHandler } from './components/Annotation_event_handlers';
 import _ from 'underscore';
-
+import AWS from 'aws-sdk';
 
 const App = () => {
 
@@ -130,6 +130,22 @@ const App = () => {
   const [hoverActivatedId, setHoverActivatedId] = useState("-1"); // value will be of tkn_id of elem hovered over
   const [hoverActivatedDocOrSummary, setHoverActivatedDocOrSummary] = useState("doc"); // value will be of tkn_id of elem hovered over
   const [sliderBoldStateActivated, setSliderBoldStateActivated] = useState(false);
+
+  //mturk
+  const [mturkAccountBalance, SetMturkAccountBalance] = useState(null)
+  
+  
+  
+
+
+    /*************************************** MTURK *****************************************/ 
+
+
+
+    /***************************************************************************************/
+
+
+
 
   /*************************************** error handling *************************************************/
   const Alert = React.forwardRef(function Alert(props, ref) {return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;});
@@ -714,6 +730,11 @@ const App = () => {
       console.log(event);
       alert("Submitted!");
     }
+
+
+
+
+
 
     // const g_SubmitHandler = (event) => {
     //   alert("Submitted!");
