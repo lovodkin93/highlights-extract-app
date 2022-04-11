@@ -4,6 +4,7 @@ import Annotation from './Annotation';
 import Alert from 'react-bootstrap/Alert'
 import Fade from 'react-bootstrap/Fade'
 import { Markup } from 'interweave';
+import { statSync } from 'fs';
 
 const GuidedAnnotation = ({isPunct,
                           handleErrorOpen, handleErrorClose,
@@ -328,19 +329,21 @@ const GuidedAnnotation = ({isPunct,
   
   
     const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
-      // check if alignment is ok
-      const isSummarySpanOkDict = isSummarySpanOk([], false, false)
-      
-      if(!isSummarySpanOkDict["summary_span_ok"]) {
-        if (isSummarySpanOkDict["chosen_span_id"]===undefined){
-          setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
-          setGuidingMsgType("danger")
-        } else {
-          let gold_tkns = guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_spans"][isSummarySpanOkDict["chosen_span_id"]]
-          gold_tkns = gold_tkns.map((span) => {return string_to_span(span)})
-          update_error_message(gold_tkns, isSummarySpanOkDict["highlighted_tkn_ids"], isSummarySpanOkDict["chosen_span_id"], false)
+      if(!["START", "SENTENCE START"].includes(StateMachineState)) {
+        // check if alignment is ok
+        const isSummarySpanOkDict = isSummarySpanOk([], false, false)
+        // console.log(`state: ${StateMachineState} and ${JSON.stringify(isSummarySpanOkDict)}`)
+        if(!isSummarySpanOkDict["summary_span_ok"]) {
+          if (isSummarySpanOkDict["chosen_span_id"]===undefined){
+            setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
+            setGuidingMsgType("danger")
+          } else {
+            let gold_tkns = guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_spans"][isSummarySpanOkDict["chosen_span_id"]]
+            gold_tkns = gold_tkns.map((span) => {return string_to_span(span)})
+            update_error_message(gold_tkns, isSummarySpanOkDict["highlighted_tkn_ids"], isSummarySpanOkDict["chosen_span_id"], false)
+          }
+          return
         }
-        return
       }
       
       // check if alignment is good
