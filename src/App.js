@@ -6,7 +6,7 @@ import * as React from 'react';
 
 import StartPage from './components/StartPage';
 import Tutorial from './components/Tutorial';
-import Instructions from './components/Instructions';
+// import Instructions from './components/Instructions';
 import GuidedAnnotation from './components/GuidedAnnotation';
 
 import Annotation from './components/Annotation';
@@ -31,6 +31,7 @@ import tutorial_state_messages from './data/tutorial/tutorial_state_messages.jso
 
 
 import { MachineStateHandler, g_MachineStateHandler } from './components/Annotation_event_handlers';
+import { turkGetAssignmentId, turkGetSubmitToHost, handleSubmit } from './components/mturk_utils'
 import _ from 'underscore';
 import AWS from 'aws-sdk';
 
@@ -90,7 +91,7 @@ const App = () => {
   const [g_curr_alignment_guiding_msg_id, g_setCurrAlignmentGuidingMsgId] = useState("-1")
   const [g_guiding_info_msg, g_setGuidingInfoMsg] = useState({"text":"To begin, hit the \"START\" button.", "title":"Start"}); // the info message that describes what to do
   const [g_is_good_alignment, g_setIsGoodAlignment] = useState(false)
-
+  const [g_completed, g_setCompleted] = useState(false)
 
 
 
@@ -132,10 +133,11 @@ const App = () => {
   const [sliderBoldStateActivated, setSliderBoldStateActivated] = useState(false);
 
   //mturk
-  const [mturkAccountBalance, SetMturkAccountBalance] = useState(null)
-  
-  
-  
+  const [assignmentId, SetAssignmentId] = useState("")
+  const [turkSubmitTo, SetMturkTurkSubmitTo] = useState("https://www.mturk.com")
+  const [isFinished, SetIsFinished] = useState(false)
+  const [OpeningModalShow, setOpeningModalShow] = useState(true);
+
 
 
     /*************************************** MTURK *****************************************/ 
@@ -571,11 +573,11 @@ const App = () => {
     }, [StateMachineState, AlignmentCount]);
     /********************************************************************************/
     useEffect(() => {
-      console.log(`CurrSentInd is updated and is now ${CurrSentInd}`)
-      console.log('doc_json:')
-      console.log(doc_json)
-      console.log('t_doc_json:')
-      console.log(t_doc_json)
+      // console.log(`CurrSentInd is updated and is now ${CurrSentInd}`)
+      // console.log('doc_json:')
+      // console.log(doc_json)
+      // console.log('t_doc_json:')
+      // console.log(t_doc_json)
     }, [CurrSentInd]);
     
     
@@ -638,6 +640,21 @@ const App = () => {
     /********************************************************************************/ 
 /**************************************************************************************************************/
 
+    const g_resetGuidedAnnotation = () => {
+      const curr_id = '0';
+
+      g_addDocWordComponents(g_json_file[curr_id]["doc"]);
+      g_addSummaryWordComponents(g_json_file[curr_id]["summary"]);
+      g_setAllLemmaMtx(g_json_file[curr_id]["all_lemma_match_mtx"]);
+      g_setImportantLemmaMtx(g_json_file[curr_id]["important_lemma_match_mtx"]);
+      g_setDocParagraphBreaks(g_json_file[curr_id]["doc_paragraph_breaks"]);
+      g_SetStateMachineState("START")
+      g_SetCurrSentInd(-1)
+      g_SetAlignmentCount(0)
+      g_setPrevStateMachineState("")
+      g_setIsGoodAlignment(false)
+      g_setGuidingInfoMsg({"text":"To begin, hit the \"START\" button.", "title":"Start"})
+    }
 
     useEffect(() => {
 
@@ -687,13 +704,7 @@ const App = () => {
 
 
       const g_getTasks = () => {
-        const curr_id = '0';
-
-        g_addDocWordComponents(g_json_file[curr_id]["doc"]);
-        g_addSummaryWordComponents(g_json_file[curr_id]["summary"]);
-        g_setAllLemmaMtx(g_json_file[curr_id]["all_lemma_match_mtx"]);
-        g_setImportantLemmaMtx(g_json_file[curr_id]["important_lemma_match_mtx"]);
-        g_setDocParagraphBreaks(g_json_file[curr_id]["doc_paragraph_breaks"]);
+        g_resetGuidedAnnotation()
 
         fetch(`/`).then(
           res => console.log(res)
@@ -708,6 +719,12 @@ const App = () => {
         const urlParams = new URLSearchParams(queryString);
 
         const curr_id = urlParams.get('id');
+
+        const assignment_id = turkGetAssignmentId();
+        const turk_submit_to = turkGetSubmitToHost();
+
+        SetAssignmentId(assignment_id)
+        SetMturkTurkSubmitTo(turk_submit_to)
         setTaskID(curr_id);
 
         addDocWordComponents(json_file[curr_id]["doc"])
@@ -727,9 +744,19 @@ const App = () => {
 
 
     const SubmitHandler = (event) => {
-      console.log(event);
-      alert("Submitted!");
+      approveHighlightHandler()
+      SetIsFinished(true)
+
+      // console.log(event);
+      // alert("Submitted!");
+      // handleSubmit(assignmentId, turkSubmitTo, doc_json, summary_json)
     }
+
+    useEffect(() => {
+      if (isFinished) {
+        handleSubmit(assignmentId, turkSubmitTo, doc_json, summary_json, g_completed)
+      }
+    }, [isFinished]);
 
 
 
@@ -830,7 +857,8 @@ const App = () => {
                                           guiding_msg_type={g_guiding_msg_type}                           setGuidingMsgType={g_setGuidingMsgType}
                                           curr_alignment_guiding_msg_id={g_curr_alignment_guiding_msg_id} setCurrAlignmentGuidingMsgId={g_setCurrAlignmentGuidingMsgId}
                                           guiding_info_msg={g_guiding_info_msg}                           setGuidingInfoMsg={g_setGuidingInfoMsg}
-                                          is_good_alignment={g_is_good_alignment}                           setIsGoodAlignment={g_setIsGoodAlignment}
+                                          is_good_alignment={g_is_good_alignment}                         setIsGoodAlignment={g_setIsGoodAlignment}
+                                          setCompleted={g_setCompleted}                                   resetGuidedAnnotation={g_resetGuidedAnnotation}
                                           />} 
           
           
@@ -863,6 +891,7 @@ const App = () => {
                                               t_sent_end_summary_json = {undefined}                       t_submit_summary_json = {undefined}
                                               t_state_messages = {undefined}
                                               g_guiding_info_msg = {undefined}                            g_is_good_alignment = {undefined}
+                                              OpeningModalShow = {OpeningModalShow}                       setOpeningModalShow = {setOpeningModalShow}
                                               />} 
             />
 

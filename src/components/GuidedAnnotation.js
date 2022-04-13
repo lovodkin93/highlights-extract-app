@@ -5,6 +5,9 @@ import Alert from 'react-bootstrap/Alert'
 import Fade from 'react-bootstrap/Fade'
 import { Markup } from 'interweave';
 import { statSync } from 'fs';
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
 
 const GuidedAnnotation = ({isPunct,
                           handleErrorOpen, handleErrorClose,
@@ -37,8 +40,12 @@ const GuidedAnnotation = ({isPunct,
                           guiding_msg_type, setGuidingMsgType,
                           curr_alignment_guiding_msg_id, setCurrAlignmentGuidingMsgId,
                           guiding_info_msg, setGuidingInfoMsg,
-                          is_good_alignment, setIsGoodAlignment
+                          is_good_alignment, setIsGoodAlignment,
+                          setCompleted, resetGuidedAnnotation
                         }) => {
+
+    const [FinishedModalShow, setFinishedModalShow] = useState(false);
+                      
 
     
     const toggleDocSpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
@@ -100,9 +107,6 @@ const GuidedAnnotation = ({isPunct,
     const toggleSummarySpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
       const isSummarySpanOkDict = isSummarySpanOk(tkn_ids, turn_on, turn_off)
       if(isSummarySpanOkDict["summary_span_ok"]) {
-        console.log("I am ok")
-        console.log("isSummarySpanOkDict:")
-        console.log(isSummarySpanOkDict)
         // updating the success alert
         if (Object.keys(guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_span_msg"][isSummarySpanOkDict["chosen_span_id"]]).includes("text")) {
           setGuidingMsg(guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_span_msg"][isSummarySpanOkDict["chosen_span_id"]])
@@ -121,9 +125,6 @@ const GuidedAnnotation = ({isPunct,
         }
       } 
       else {
-        console.log("I am not ok")
-        console.log("isSummarySpanOkDict:")
-        console.log(isSummarySpanOkDict)
         // updating the info message
         const guiding_info_sent_id = (["START", "SENTENCE END"].includes(StateMachineState)) ? CurrSentInd+1 : CurrSentInd
         if (Object.keys(guided_annotation_info_messages["custom_messages"][guiding_info_sent_id]["choose_summary_span"]).includes("text")) {
@@ -536,20 +537,9 @@ const GuidedAnnotation = ({isPunct,
       doc_tkns = [...new Set(doc_tkns)] // remove duplicates
       doc_tkns = doc_tkns.filter((tkn_id) => {return !isPunct(doc_json.filter((word) => {return word.tkn_id===tkn_id})[0].word)}) // ignore punctuation    
       doc_tkns = doc_tkns.sort(function(a, b) {return a - b;}) // sort
-      
-      
-      
-      
-      
-      console.log(`tkn_ids:${JSON.stringify(tkn_ids)}`)
-      console.log(`doc_tkns:${JSON.stringify(doc_tkns)}`)
 
       const msgs_json = guided_annotation_messages["goldMentions"][CurrSentInd]
-      console.log(`msgs_json:`)
-      console.log(msgs_json)
-      console.log('msgs_json["doc_tkns_alignments"]:')
-      console.log(msgs_json["doc_tkns_alignments"])
-      // console.log(`curr_alignment_guiding_msg_id: ${curr_alignment_guiding_msg_id} and its type: ${typeof curr_alignment_guiding_msg_id}`)
+
       // unalignable parts
       if (msgs_json["doc_tkns_alignments"][curr_alignment_guiding_msg_id].length===0) {
         if (doc_tkns.length===0){
@@ -756,7 +746,16 @@ const GuidedAnnotation = ({isPunct,
       update_error_message(isAlignmentOkDict["gold_align_tkns"], isAlignmentOkDict["highlighted_doc_tkns"], curr_alignment_guiding_msg_id, true);
       return
     }
-    alert("Submitted!");
+
+    setCompleted(true)
+    setFinishedModalShow(true)
+    resetGuidedAnnotation()
+    
+
+
+
+
+    // alert("Submitted!");
   }
 
 
@@ -791,6 +790,7 @@ const GuidedAnnotation = ({isPunct,
               t_sent_end_summary_json = {undefined}                        t_submit_summary_json = {undefined}
               t_state_messages = {undefined}
               g_guiding_info_msg = {guiding_info_msg}                      g_is_good_alignment = {is_good_alignment}
+              OpeningModalShow = {undefined}                               setOpeningModalShow = {undefined}
             />
 
                 <Alert show={guiding_msg_type!=="closed"} style={{position:"fixed", bottom:"1%", left:"50%", transform:"translate(-50%, 0%)", width:"50%"}} variant={guiding_msg_type} onClose={() => setGuidingMsgType("closed")} dismissible>
@@ -799,6 +799,26 @@ const GuidedAnnotation = ({isPunct,
                           <Markup content={guiding_msg["text"]} />
                         </p>
                 </Alert>
+
+                <Modal show={FinishedModalShow} onHide={() => {setFinishedModalShow(false)}}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>{guided_annotation_messages["submitted_msg"]['title']}</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>{<Markup content={guided_annotation_messages["submitted_msg"]["text"]} />}</Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="btn btn-secondary btn-lg right-button" onClick={() => {setFinishedModalShow(false)}}>
+                      REDO
+                    </Button>
+                    <Link to="/">
+                      <Button className="btn btn-success btn-lg right-button">
+                        ANNOTATION
+                      </Button>
+                    </Link>
+                  </Modal.Footer>
+                </Modal>
+
+
+
 
       </>
    )

@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { t_StateMachineStateIdHandler, getTutorialCardTitle, getTutorialCardText } from './Tutorial_utils'
-
+import { Link } from 'react-router-dom';
 
 
 
@@ -67,6 +67,13 @@ const TutorialCard = ({t_StateMachineStateId, t_SetStateMachineStateId, t_state_
                 >
                   Next
               </Button>
+            )}
+            {(t_StateMachineStateId === 16) && (
+              <Link to="/guidedAnnotation">
+                <Button className="btn btn-success btn-lg right-button">
+              To Guided Annotation
+              </Button>
+              </Link>
             )}
           </Card.Body>
         </Card>

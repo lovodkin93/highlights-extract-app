@@ -27,6 +27,7 @@ import Alert from 'react-bootstrap/Alert'
 import { ChevronLeft, ChevronRight, SendFill } from 'react-bootstrap-icons';
 import { TutorialCard } from './TutorialCard';
 import { Markup } from 'interweave';
+import Modal from 'react-bootstrap/Modal'
 
 // import Card from 'react-bootstrap/Card'
 // import { Container, Row, Col } from 'react-bootstrap';
@@ -58,7 +59,9 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                     t_start_summary_json, t_middle_summary_json, 
                     t_sent_end_summary_json, t_submit_summary_json,
                     t_state_messages,
-                    g_guiding_info_msg, g_is_good_alignment    
+                    g_guiding_info_msg, g_is_good_alignment,
+                    OpeningModalShow, setOpeningModalShow
+    
                   }) => {
 
 
@@ -360,8 +363,19 @@ useEffect(() => {
     }, [ctrlButtonDown]);
 
 
+  // whenever entering the guided annotation - will go to the top
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
+    // ask turkers to go over the tutorial and the guided annotation
+    // useEffect(() => {
+    //   setOpeningModalShow(false)
+    // }, [])
+
 
   return (
+    <>
       <Container onKeyDown={(event) => {if (event.ctrlKey || event.altKey) {setCtrlButtonDown(true)}}}
                  onKeyUp={() => {setCtrlButtonDown(false)}} 
                  tabIndex="0"
@@ -503,6 +517,22 @@ useEffect(() => {
           </Row>
         )}
       </Container>
+
+      <Modal  show={OpeningModalShow && !isTutorial && !isGuidedAnnotation} onHide={() => {setOpeningModalShow(false)}}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Attention!</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    Please get the required training by going over the Tutorial and performing the Guided Annotation at least once.
+                    <br/>
+                    <b>You can find the links</b> to both in the <b>navigation bar</b> at the top-left corner of the page.
+                    <hr/>
+                    If you have already done both, you may proceed to the task.
+                  </Modal.Body>
+        </Modal>
+
+
+    </>
   )
 }
 
