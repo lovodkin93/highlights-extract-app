@@ -29,6 +29,7 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
         SetStateMachineState("START");
         resetDocJson(setDocJson, t_start_doc_json, false)
         resetSummaryJson(setSummaryJson, t_start_summary_json)
+        SetCurrSentInd(-1)
     }
 
     else if(Array.from(Array(start_states_end).keys()).includes(newStateId)){
@@ -47,6 +48,7 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
     } else if([...Array(middle_states_end - middle_states_start + 1).keys()].map(x => x + middle_states_start).includes(newStateId)){
         if ([12,13].includes(newStateId)) {
             SetStateMachineState("REVISE HOVER");
+            SetCurrSentInd(1)
             setDocJson(t_middle_doc_json.map((word) => {return {...word, span_highlighted: false}}))
             setSummaryJson(t_middle_summary_json.map((word) => {return {...word, span_highlighted: false}}))
         } else {
@@ -78,8 +80,8 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
   }
   
   const getTutorialCardText = (t_state_messages, t_StateMachineStateId) => {
-      console.log("t_state_messages:")
-      console.log(t_state_messages)
+    //   console.log("t_state_messages:")
+    //   console.log(t_state_messages)
       if (t_StateMachineStateId===0){
           return intro_message();
       } else if (t_StateMachineStateId===16){

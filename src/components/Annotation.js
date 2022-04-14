@@ -183,6 +183,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
       handleErrorOpen({ msg : "Span chosen is not from the correct sentence." });
     } 
     else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState) && summaryOnMouseDownInCorrectSent){   
+      console.log("up!")
       const chosen_IDs = summary_json.filter((word) => {return word.span_alignment_hover}).map((word) => {return word.tkn_id})
       if (ctrlButtonDown) {
         toggleSummarySpanHighlight({tkn_ids:chosen_IDs, turn_off:true});
