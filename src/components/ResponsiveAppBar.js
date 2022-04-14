@@ -20,7 +20,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-const pages = {"Tutorial": "tutorial", 'Guided Annotation': 'guidedAnnotation', 'Annotation': ''}; 
+const pages = {'Guided Annotation': 'guidedAnnotation', "Tutorial": "tutorial",  'Annotation': ''}; 
 
 const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler, oldAlignmentState, oldAlignmentStateHandler, t_StateMachineStateId }) => {
   const BlackTextTypography = withStyles({
@@ -73,17 +73,29 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
     }
   }
 
+  const margin_left = (curr_ttl) =>{
+    if (title==="Guided Annotation" && curr_ttl=="Tutorial") {
+      return "6%"
+    } else if (title="Annotation" && curr_ttl==="Guided Annotation") {
+      return "-2%"
+    } else {
+      return "-4%"
+    }
+  }
+
   return (
 
     <Navbar bg="secondary" variant="dark" className="w-100 p-2">
       <Container className='navbar-container'>
-        <Row  className="navbar-row">
-          <Col md={(title === "Guided Annotation") ? 5:3} className={`${(title === "Tutorial") ? "navbar-column-tutorial" : "navbar-column"}`}>
+        {/* <Row  className="navbar-row"> */}
+          <Col md={{span:1, offset:0}}>
                     <Navbar.Brand>{title}</Navbar.Brand>
           </Col>
-          <Col>
-            <Nav className="me-auto">
-                {Object.keys(pages).filter(key => key !== title).map((ttl) => (
+          {/* <Col md={{span:12, offset:0}}>
+            <Nav className="me-auto"> */}
+                {Object.keys(pages).filter(key => key !== title).map((ttl, index) => (
+                    <Col style={{marginLeft:`${margin_left(ttl)}`}} md={(ttl==="Guided Annotation")? {span:2, offset:0}:{span:1, offset:0}}>
+                      <Nav className="me-auto">
                         <Nav.Item as="li">
                           <Nav.Link
                             key={ttl}
@@ -92,13 +104,15 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
                             {ttl}
                             </Nav.Link>
                         </Nav.Item>
+                        </Nav>
+                    </Col>
                 ))}
-            </Nav>
-          </Col>
-        </Row>
+            {/* </Nav>
+          </Col> */}
+        {/* </Row> */}
 
           { title !== "Instructions" && (
-                <Col className="old-highlighting-slider-padding">
+                <Col md={{span:2, offset:3}}>
                   <BlackTextTypography  id="old-highlighting-slider-title">
                       OLD ALIGNMENTS
                   </BlackTextTypography>
@@ -122,7 +136,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
 
 
           { title !== "Instructions" && (
-              <Col className="bolding-slider-padding">
+              <Col style={{marginLeft:"3%"}} md={{span:2, offset:0}}>
                 <BlackTextTypography  id="bolding-slider-title">
                   BOLDING
                 </BlackTextTypography>
