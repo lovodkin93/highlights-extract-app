@@ -486,7 +486,8 @@ const Tutorial = ({doc_json, setDocJson,
                     t_sent_end_summary_json = {t_sent_end_summary_json}         t_submit_summary_json = {t_submit_summary_json}
                     t_state_messages = {t_state_messages}
                     g_guiding_info_msg = {undefined}                            g_is_good_alignment = {undefined}
-                    OpeningModalShow = {undefined}                               setOpeningModalShow = {undefined}
+                    g_show_hint = {undefined}                                  g_setShowHint = {undefined}
+                    OpeningModalShow = {undefined}                              setOpeningModalShow = {undefined}
                     />
         {/* <Card className={`${([0,16].includes(t_StateMachineStateId)) ? 'tutorial-card-intro' : 'tutorial-card-not-intro'}`} bg="info" border="primary" style={{ width: '30%' }}>
           <Card.Body>

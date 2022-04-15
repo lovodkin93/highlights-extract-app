@@ -42,6 +42,7 @@ const GuidedAnnotation = ({isPunct,
                           guiding_info_msg, setGuidingInfoMsg,
                           is_good_alignment, setIsGoodAlignment,
                           setCompleted, resetGuidedAnnotation,
+                          g_show_hint, g_setShowHint,
                           noAlignModalShow, setNoAlignModalShow,
                           noAlignApproved, setNoAlignApproved
 
@@ -80,6 +81,7 @@ const GuidedAnnotation = ({isPunct,
           setGuidingInfoMsg(guided_annotation_messages["default_good_alignment_msg"])
         }
         setGuidingMsgType("success");
+        g_setShowHint(false);
         // setIsGoodAlignment(true);
       }
       else {
@@ -353,7 +355,7 @@ const GuidedAnnotation = ({isPunct,
 
 
       if(!["START", "SENTENCE START"].includes(StateMachineState)) {
-        // check if alignment is ok
+        // check if span is ok
         const isSummarySpanOkDict = isSummarySpanOk([], false, false)
         // console.log(`state: ${StateMachineState} and ${JSON.stringify(isSummarySpanOkDict)}`)
         if(!isSummarySpanOkDict["summary_span_ok"]) {
@@ -376,8 +378,10 @@ const GuidedAnnotation = ({isPunct,
           // setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"]) // AVIVSL: add custom success messages
           // setGuidingMsgType("success");
           setCurrAlignmentGuidingMsgId("-1");
+          g_setShowHint(false);
         } else {
           update_error_message(isAlignmentOkDict["gold_align_tkns"], isAlignmentOkDict["highlighted_doc_tkns"], curr_alignment_guiding_msg_id, true);
+          g_setShowHint(true)
           return
         }
       }
@@ -772,7 +776,9 @@ const GuidedAnnotation = ({isPunct,
       // setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"]) // AVIVSL: add custom success messages
       // setGuidingMsgType("success");
       setCurrAlignmentGuidingMsgId("-1");
+      g_setShowHint(false);
     } else {
+      g_setShowHint(true)
       update_error_message(isAlignmentOkDict["gold_align_tkns"], isAlignmentOkDict["highlighted_doc_tkns"], curr_alignment_guiding_msg_id, true);
       return
     }
@@ -820,6 +826,7 @@ const GuidedAnnotation = ({isPunct,
               t_sent_end_summary_json = {undefined}                        t_submit_summary_json = {undefined}
               t_state_messages = {undefined}
               g_guiding_info_msg = {guiding_info_msg}                      g_is_good_alignment = {is_good_alignment}
+              g_show_hint = {g_show_hint}                                  g_setShowHint = {g_setShowHint}
               OpeningModalShow = {undefined}                               setOpeningModalShow = {undefined}
               noAlignModalShow = {noAlignModalShow}                        setNoAlignModalShow = {setNoAlignModalShow}
               noAlignApproved = {noAlignApproved}                          setNoAlignApproved = {setNoAlignApproved}

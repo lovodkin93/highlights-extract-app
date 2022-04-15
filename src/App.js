@@ -91,6 +91,8 @@ const App = () => {
   const [g_guiding_info_msg, g_setGuidingInfoMsg] = useState({"text":"To begin, hit the \"START\" button.", "title":"Start"}); // the info message that describes what to do
   const [g_is_good_alignment, g_setIsGoodAlignment] = useState(false)
   const [g_completed, g_setCompleted] = useState(false)
+  const [g_show_hint, g_setShowHint] = useState(false)
+
   const [g_noAlignModalShow, g_setNoAlignModalShow] = useState(false)
   const [g_noAlignApproved, g_setNoAlignApproved] = useState(false)
 
@@ -880,6 +882,7 @@ const App = () => {
                                           guiding_info_msg={g_guiding_info_msg}                           setGuidingInfoMsg={g_setGuidingInfoMsg}
                                           is_good_alignment={g_is_good_alignment}                         setIsGoodAlignment={g_setIsGoodAlignment}
                                           setCompleted={g_setCompleted}                                   resetGuidedAnnotation={g_resetGuidedAnnotation}
+                                          g_show_hint={g_show_hint}                                       g_setShowHint={g_setShowHint}
                                           noAlignModalShow={g_noAlignModalShow}                           setNoAlignModalShow={g_setNoAlignModalShow}
                                           noAlignApproved={g_noAlignApproved}                             setNoAlignApproved={g_setNoAlignApproved}
                                           />} 
@@ -914,6 +917,7 @@ const App = () => {
                                               t_sent_end_summary_json = {undefined}                       t_submit_summary_json = {undefined}
                                               t_state_messages = {undefined}
                                               g_guiding_info_msg = {undefined}                            g_is_good_alignment = {undefined}
+                                              g_show_hint = {undefined}                                   g_setShowHint = {undefined}
                                               OpeningModalShow = {OpeningModalShow}                       setOpeningModalShow = {setOpeningModalShow}
 
                                               noAlignModalShow = {noAlignModalShow}                       setNoAlignModalShow = {setNoAlignModalShow}

@@ -47,12 +47,12 @@
 			},
 			"good_summary_span_msg":{
 				"1":{
-					"title":"Good summary span choosing. Well Done!",
+					"title":"Great summary span. Well Done!",
 					"text":"The summary span is just the right length (covers full events and not too long).",
 					"timeout":8000
 				},
 				"2":{
-					"title":"Good summary span choosing. Well Done!",
+					"title":"Great summary span. Well Done!",
 					"text":"The summary span is just the right length (covers full events and not too long).",
 					"timeout":8000
 				}

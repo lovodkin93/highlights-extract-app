@@ -30,6 +30,9 @@ import { Markup } from 'interweave';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
+import Overlay from 'react-bootstrap/Overlay'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Popover from 'react-bootstrap/Popover'
 
 // import Card from 'react-bootstrap/Card'
 // import { Container, Row, Col } from 'react-bootstrap';
@@ -62,6 +65,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                     t_sent_end_summary_json, t_submit_summary_json,
                     t_state_messages,
                     g_guiding_info_msg, g_is_good_alignment,
+                    g_show_hint, g_setShowHint,
                     OpeningModalShow, setOpeningModalShow,
 
                     noAlignModalShow, setNoAlignModalShow,
@@ -136,10 +140,29 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
         <Alert variant="warning">
           <Alert.Heading><Markup content={g_guiding_info_msg["title"]} /></Alert.Heading>
           <p className="mb-0">
+          {(g_show_hint) &&
+                    <OverlayTrigger trigger="click" placement="left" overlay={GuidedAnnotationHint}>
+                      <Button active variant="btn btn-primary btn-lg right-button" onClick={() => {}}>
+                          HINT
+                      </Button>
+                    </OverlayTrigger>
+          }
             <Markup content={`${g_guiding_info_msg["text"]}  ${add_text_to_GuidedAnnotationInfoAlert()}`} />
           </p>
         </Alert>
       )}
+
+
+
+      const GuidedAnnotationHint = (
+        <Popover variant="primary" className="hintText" id="popover-basic">
+          <Popover.Header as="h3">Popover right</Popover.Header>
+          <Popover.Body as="h4">
+            And here's some <strong>amazing</strong> content. It's very engaging.
+            right?
+          </Popover.Body>
+        </Popover>
+      );
       
 
 
