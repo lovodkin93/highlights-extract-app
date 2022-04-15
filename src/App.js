@@ -54,7 +54,6 @@ const App = () => {
   const [t_doc_paragraph_breaks, t_setDocParagraphBreaks] = useState([]);
   const [t_state_messages, t_setStateMessages] = useState([]);
 
-
   
   // AVIVSL: GUIDED_ANNOTATION
   const [g_doc_json, g_setDocJson] = useState([]);
@@ -92,7 +91,8 @@ const App = () => {
   const [g_guiding_info_msg, g_setGuidingInfoMsg] = useState({"text":"To begin, hit the \"START\" button.", "title":"Start"}); // the info message that describes what to do
   const [g_is_good_alignment, g_setIsGoodAlignment] = useState(false)
   const [g_completed, g_setCompleted] = useState(false)
-
+  const [g_noAlignModalShow, g_setNoAlignModalShow] = useState(false)
+  const [g_noAlignApproved, g_setNoAlignApproved] = useState(false)
 
 
   // const [guidingAnnotationAlertText, setGuidingAnnotationAlertText] = useState("")
@@ -131,6 +131,9 @@ const App = () => {
   const [hoverActivatedId, setHoverActivatedId] = useState("-1"); // value will be of tkn_id of elem hovered over
   const [hoverActivatedDocOrSummary, setHoverActivatedDocOrSummary] = useState("doc"); // value will be of tkn_id of elem hovered over
   const [sliderBoldStateActivated, setSliderBoldStateActivated] = useState(false);
+  const [noAlignModalShow, setNoAlignModalShow] = useState(false)
+  const [noAlignApproved, setNoAlignApproved] = useState(false)
+
 
   //mturk
   const [assignmentId, SetAssignmentId] = useState("")
@@ -478,6 +481,16 @@ const App = () => {
 
 
   const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
+    
+
+    // no alignment
+    if ((typeof forceState !== 'string') && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
+      setNoAlignModalShow(true)
+      return
+    }
+    setNoAlignApproved(false)
+
+
     setSliderBoldStateActivated(false);
     if (typeof forceState === 'string') {
       console.log(`forceState situation with: state ${forceState}`);
@@ -744,6 +757,14 @@ const App = () => {
 
 
     const SubmitHandler = (event) => {
+      // no alignment
+      if ((typeof forceState !== 'string') && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
+        setNoAlignModalShow(true)
+        return
+      }
+      setNoAlignApproved(false)
+      
+      
       approveHighlightHandler()
       SetIsFinished(true)
 
@@ -821,7 +842,7 @@ const App = () => {
                                                        setImportantLemmaMtx = {t_setImportantLemmaMtx}
                                                        doc_paragraph_breaks = {t_doc_paragraph_breaks} 
                                                        setDocParagraphBreaks = {t_setDocParagraphBreaks} 
-                                                       t_state_messages = {t_state_messages} 
+                                                       t_state_messages = {t_state_messages}
                                               />}
           />
 
@@ -859,6 +880,8 @@ const App = () => {
                                           guiding_info_msg={g_guiding_info_msg}                           setGuidingInfoMsg={g_setGuidingInfoMsg}
                                           is_good_alignment={g_is_good_alignment}                         setIsGoodAlignment={g_setIsGoodAlignment}
                                           setCompleted={g_setCompleted}                                   resetGuidedAnnotation={g_resetGuidedAnnotation}
+                                          noAlignModalShow={g_noAlignModalShow}                           setNoAlignModalShow={g_setNoAlignModalShow}
+                                          noAlignApproved={g_noAlignApproved}                             setNoAlignApproved={g_setNoAlignApproved}
                                           />} 
           
           
@@ -892,6 +915,9 @@ const App = () => {
                                               t_state_messages = {undefined}
                                               g_guiding_info_msg = {undefined}                            g_is_good_alignment = {undefined}
                                               OpeningModalShow = {OpeningModalShow}                       setOpeningModalShow = {setOpeningModalShow}
+
+                                              noAlignModalShow = {noAlignModalShow}                       setNoAlignModalShow = {setNoAlignModalShow}
+                                              noAlignApproved = {noAlignApproved}                         setNoAlignApproved = {setNoAlignApproved}
                                               />} 
             />
 

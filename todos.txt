@@ -1,5 +1,4 @@
-1. bolding all always goes back to bolding span (and in revise hover - goes back to none)... fix this 
-2. order paragraphs - empty line in between and different font. 
-3. edit the openPage buttons to adjust to different window sizes (with the query). 
-4. rewrite "oldHighlightStateHandler" in a more elegant way (w\o the "if else...." --> include the newValue inside filter condition).
-5. when choosing spans - make an event lister that if onMouseUp occurs outside of text --> resets everything (probably through thr useEffect?).
+1. paragraph-clustering has bugs (the "Canadian" document --> quote is divided between two paragraphs).
+2. bolding all always goes back to bolding span (and in revise hover - goes back to none)... fix this 
+3. rewrite "oldHighlightStateHandler" in a more elegant way (w\o the "if else...." --> include the newValue inside filter condition).
+4. when choosing spans - make an event lister that if onMouseUp occurs outside of text --> resets everything (probably through thr useEffect?).

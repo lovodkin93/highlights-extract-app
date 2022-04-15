@@ -15,7 +15,7 @@ import { Card } from 'react-bootstrap';
 import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { borderColor } from '@mui/system';
 
@@ -28,6 +28,8 @@ import { ChevronLeft, ChevronRight, SendFill } from 'react-bootstrap-icons';
 import { TutorialCard } from './TutorialCard';
 import { Markup } from 'interweave';
 import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
 
 // import Card from 'react-bootstrap/Card'
 // import { Container, Row, Col } from 'react-bootstrap';
@@ -60,8 +62,10 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                     t_sent_end_summary_json, t_submit_summary_json,
                     t_state_messages,
                     g_guiding_info_msg, g_is_good_alignment,
-                    OpeningModalShow, setOpeningModalShow
-    
+                    OpeningModalShow, setOpeningModalShow,
+
+                    noAlignModalShow, setNoAlignModalShow,
+                    noAlignApproved, setNoAlignApproved
                   }) => {
 
 
@@ -74,14 +78,25 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   const [summaryOnMouseDownInCorrectSent, setSummaryOnMouseDownInCorrectSent] = useState(true)
   const [ctrlButtonDown, setCtrlButtonDown] = useState(false)
   const [toastVisible, setToastVisible] = useState(true)
+  
+  const isDocSpanExist = () => {
+    return doc_json.filter((word) => {return word.span_highlighted}).length !== 0
+  }
 
   const nextButtonText = () => {
-    if(StateMachineState==="START"){return "START";}
-    if(StateMachineState==="ANNOTATION"){return "CONFIRM";}
-    if(StateMachineState==="SENTENCE START"){return "CONFIRM";}
-    if(StateMachineState==="SENTENCE END"){return "NEXT SENTENCE";}
-    if(StateMachineState==="SUMMARY END"){return "SUBMIT";}
-    if(StateMachineState==="REVISE CLICKED"){return "CONFIRM";}
+    let btn_text = ""
+    if(StateMachineState==="START"){btn_text = "START";}
+    else if(StateMachineState==="ANNOTATION"){btn_text = "CONFIRM";}
+    else if(StateMachineState==="SENTENCE START"){btn_text = "CONFIRM";}
+    else if(StateMachineState==="SENTENCE END"){btn_text = "NEXT SENTENCE";}
+    else if(StateMachineState==="SUMMARY END"){btn_text = "SUBMIT";}
+    else if(StateMachineState==="REVISE CLICKED"){btn_text = "CONFIRM";}
+
+    // add no align
+    if (StateMachineState!=="START" && !isDocSpanExist()) {
+      btn_text = btn_text + "<br/>(NO ALIGN)"
+    }
+    return btn_text
   }
 
   const getInfoAlertTitle = () => {
@@ -363,6 +378,17 @@ useEffect(() => {
       }
     }, [ctrlButtonDown]);
 
+    // when approving no alignment - close modal and call MachineStateHandlerWrapper
+    useEffect(() => {
+      if (noAlignApproved) {
+        setNoAlignModalShow(false);
+        if (StateMachineState === "SUMMARY END") {
+          SubmitHandler()
+        } else {
+          MachineStateHandlerWrapper({});
+        }
+      }
+    }, [noAlignApproved])
 
   // whenever entering the guided annotation - will go to the top
   useEffect(() => {
@@ -469,7 +495,7 @@ useEffect(() => {
 
                 {StateMachineState === "REVISE CLICKED" && (
                     <Col md={{span:4, offset:0}}>
-                      <button type="button" className={`btn btn-danger btn-lg ${(isTutorial && t_StateMachineStateId===12) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
+                      <button type="button" className={`btn btn-secondary btn-lg ${(isTutorial && t_StateMachineStateId===12) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
                       <ChevronLeft className="button-icon"/>
                       BACK
                       </button>
@@ -478,9 +504,9 @@ useEffect(() => {
 
                 {!["REVISE HOVER", "SUMMARY END", "SENTENCE END", "START"].includes(StateMachineState) && (
                     <Col md={{span:5, offset:3}}>
-                      <button type="button" className={`btn btn-primary btn-lg right-button ${((isTutorial && [5,12].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
-                        {nextButtonText()}
-                        <ChevronRight className="button-icon"/>
+                      <button type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && [5,12].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                      <Markup content={nextButtonText()} />
+                        {(isDocSpanExist()) && <ChevronRight className="button-icon"/>}
                       </button>
                     </Col>
                 )}
@@ -488,30 +514,28 @@ useEffect(() => {
                 {StateMachineState === "START"  && (
                       <Col md={{span:3, offset:9}}>
                         <button type="button" className={`btn btn-primary btn-lg right-button ${(isGuidedAnnotation || isTutorial) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
-                          {nextButtonText()}
+                        <Markup content={nextButtonText()} />
                         </button>
                       </Col>
                   )}
 
                 {StateMachineState === "SENTENCE END"  && (
                       <Col md={{span:7, offset:1}}>
-                        <button type="button" className={`btn btn-success btn-lg right-button ${((isTutorial && t_StateMachineStateId===14) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
-                          {nextButtonText()}
-                          {StateMachineState !== "START" && (<ChevronRight className="button-icon"/>) }
+                        <button type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && t_StateMachineStateId===14) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                          <Markup content={nextButtonText()} /> 
+                          {(StateMachineState !== "START" && isDocSpanExist()) && (<ChevronRight className="button-icon"/>) }
                         </button>
                       </Col>
                   )}
 
                 {StateMachineState === "SUMMARY END" && (
                   <Col md={{span:5, offset:3}}>
-                    <button type="button" className={`btn btn-success btn-lg right-button ${((isTutorial && t_StateMachineStateId===15) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
-                      {nextButtonText()}
-                      {StateMachineState !== "START" && (<SendFill className="button-icon"/>) }
+                    <button type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && t_StateMachineStateId===15) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
+                      <Markup content={nextButtonText()} />
+                      {(StateMachineState !== "START" && isDocSpanExist()) && (<SendFill className="button-icon"/>) }
                     </button>
                   </Col>
                 )}
-
-
               </Row>
               </div>
             </Col>
@@ -527,9 +551,36 @@ useEffect(() => {
                     Please get the required training by going over the Tutorial and performing the Guided Annotation at least once.
                     <br/>
                     <b>You can find the links</b> to both in the <b>navigation bar</b> at the top-left corner of the page.
-                    <hr/>
-                    If you have already done both, you may proceed to the task.
+                    <br/>
+                    If you have already done both, you may skip the training and proceed directly to the task.
                   </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="btn btn-secondary btn-lg right-button" onClick={() => {setOpeningModalShow(false)}}>
+                      SKIP TRAINING
+                    </Button>
+                    <Link to="/tutorial">
+                      <Button className="btn btn-success btn-lg right-button">
+                        TO TUTORIAL
+                      </Button>
+                    </Link>
+                  </Modal.Footer>
+        </Modal>
+
+        <Modal  show={noAlignModalShow} onHide={() => {setNoAlignModalShow(false)}}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Are You Sure?</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    Are you sure this summary span is un-aligned?
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="btn btn-danger btn-lg right-button" onClick={() => {setNoAlignModalShow(false)}}>
+                      NO
+                    </Button>
+                    <Button variant="btn btn-success btn-lg right-button" onClick={() => {setNoAlignApproved(true)}}>
+                        YES
+                    </Button>
+                  </Modal.Footer>
         </Modal>
 
 

@@ -41,7 +41,10 @@ const GuidedAnnotation = ({isPunct,
                           curr_alignment_guiding_msg_id, setCurrAlignmentGuidingMsgId,
                           guiding_info_msg, setGuidingInfoMsg,
                           is_good_alignment, setIsGoodAlignment,
-                          setCompleted, resetGuidedAnnotation
+                          setCompleted, resetGuidedAnnotation,
+                          noAlignModalShow, setNoAlignModalShow,
+                          noAlignApproved, setNoAlignApproved
+
                         }) => {
 
     const [FinishedModalShow, setFinishedModalShow] = useState(false);
@@ -49,6 +52,9 @@ const GuidedAnnotation = ({isPunct,
 
     
     const toggleDocSpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
+      if (tkn_ids.length===0) {
+        return
+      }
 
       const isSummarySpanOkDict = isSummarySpanOk([], false, false)
       
@@ -105,6 +111,11 @@ const GuidedAnnotation = ({isPunct,
     
   
     const toggleSummarySpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
+       // if no change was done to the summary - no need to update
+      if(tkn_ids.length===0) {
+        return
+      }
+
       const isSummarySpanOkDict = isSummarySpanOk(tkn_ids, turn_on, turn_off)
       if(isSummarySpanOkDict["summary_span_ok"]) {
         // updating the success alert
@@ -330,6 +341,16 @@ const GuidedAnnotation = ({isPunct,
   
   
     const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
+      // no alignment
+      if ((typeof forceState !== 'string') && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
+        setNoAlignModalShow(true)
+        return
+      }
+      setNoAlignApproved(false)
+
+
+
+
       if(!["START", "SENTENCE START"].includes(StateMachineState)) {
         // check if alignment is ok
         const isSummarySpanOkDict = isSummarySpanOk([], false, false)
@@ -721,6 +742,14 @@ const GuidedAnnotation = ({isPunct,
 
 
    const SubmitHandler = (event) => {
+      // no alignment
+      if ((typeof forceState !== 'string') && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
+        setNoAlignModalShow(true)
+        return
+      }
+      setNoAlignApproved(false)
+
+
     //hitting submit when the summary span is bad....
     const isSummarySpanOkDict = isSummarySpanOk([], false, false)
     
@@ -791,6 +820,8 @@ const GuidedAnnotation = ({isPunct,
               t_state_messages = {undefined}
               g_guiding_info_msg = {guiding_info_msg}                      g_is_good_alignment = {is_good_alignment}
               OpeningModalShow = {undefined}                               setOpeningModalShow = {undefined}
+              noAlignModalShow = {noAlignModalShow}                        setNoAlignModalShow = {setNoAlignModalShow}
+              noAlignApproved = {noAlignApproved}                          setNoAlignApproved = {setNoAlignApproved}
             />
 
                 <Alert show={guiding_msg_type!=="closed"} style={{position:"fixed", bottom:"1%", left:"50%", transform:"translate(-50%, 0%)", width:"50%"}} variant={guiding_msg_type} onClose={() => setGuidingMsgType("closed")} dismissible>
