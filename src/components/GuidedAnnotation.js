@@ -129,6 +129,7 @@ const GuidedAnnotation = ({isPunct,
 
 
         // updating the info message
+        console.log(`CurrSentInd:${CurrSentInd}`)
         if (Object.keys(guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][isSummarySpanOkDict["chosen_span_id"]]).includes("text")) {
           setGuidingInfoMsg(guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][isSummarySpanOkDict["chosen_span_id"]])
         } else {
@@ -656,16 +657,16 @@ const GuidedAnnotation = ({isPunct,
   //   //  console.log(`AVIVSL: wanted words are:${JSON.stringify(doc_json.filter((word)=> { return ["came", "come"].includes(word.word)}).map((word) => word.tkn_id))}`)
   //  }, [CurrSentInd]);
 
-  //  useEffect(() => {
-  //   console.log(`tkn_id of highlighted summary words: ${JSON.stringify(summary_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
-  // }, [summary_json]);
+   useEffect(() => {
+    console.log(`tkn_id of highlighted summary words: ${JSON.stringify(summary_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
+  }, [summary_json]);
 
   // useEffect(() => {
   //   console.log(`tkn_id of highlighted doc words: ${JSON.stringify(doc_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
   // }, [doc_json]);
-  useEffect(() => {
-    console.log(`is_good_alignment here: ${is_good_alignment}`)
-  }, []);
+  // useEffect(() => {
+  //   console.log(`is_good_alignment here: ${is_good_alignment}`)
+  // }, []);
 
    
    /******************* highlighting while choosing spans to help *******************/ 

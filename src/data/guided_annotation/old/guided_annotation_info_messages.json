@@ -51,9 +51,34 @@
 			}
 		},
 		
-		
 		{
 			"tkn_id":2,
+			"choose_summary_span":{
+				"title":"Choose Summary Span to Align - Pay attention!",
+				"text":"Even though the summary sentence is quite short and it is tempting to simply choose all of it, you will notice that the information in it is spread out across the whole document.<br/>Therefore, to make sure you don't miss anything, it is recommended to work in small summary spans. <br/>In other words, work on each \"grain\" separately."
+			},
+			"find_alignment":{
+				"1":{
+					"title":"Find the Alignment - Pay Attention",
+					"text":"This is a tough one. <br/>Make sure the alignment covers only the information mentioned in the summary span and nothing else. <br/>If you are overwhelmed by all the boldfaced words, try hovering over \"34\" (should color in <b style=\"color:red\">red</b> the relevant document words)."
+				},
+				"2":{
+					"title":"Find the Alignment - Pay Attention",
+					"text":"This is a tough one. <br/>Make sure the alignment covers only the information mentioned in the summary span and nothing else. <br/>If you are overwhelmed by all the boldfaced words, try hovering over \"soybeans\" and \"23\". <br/>In addition, notice that even if you didn't highlight in the summary \"Compared to last year\", or \"down\", it is still implied in the summary span and should be included in the alignment."
+				},
+				"3":{
+					"title":"Find the Alignment - Pay Attention",
+					"text":"This is a tough one. <br/>Make sure the alignment covers only the information mentioned in the summary span and nothing else. <br/>In addition, notice that even if you didn't highlight in the summary \"Compared to last year\", or \"down\", it is still implied in the summary span and should be included in the alignment."
+				},
+				"4":{
+					"title":"Find the Alignment - Pay Attention",
+					"text":"Notice that the relation represented by \"and\" is not mentioned explicitly in document."
+				}
+			}
+		},
+		
+		{
+			"tkn_id":3,
 			"choose_summary_span":{},
 			"find_alignment":{
 				"1":{
