@@ -24,6 +24,7 @@ import t_submit_json_file from './data/tutorial/tutorial_submit.json';
 
 
 import guided_annotation_messages from './data/guided_annotation/guided_annotation_messages.json'
+import guided_annotation_hints from './data/guided_annotation/guided_annotation_hints.json'
 import guided_annotation_info_messages from './data/guided_annotation/guided_annotation_info_messages.json'
 import tutorial_state_messages from './data/tutorial/tutorial_state_messages.json'
 // import tutorial_state_messages from './data/guided_annotation/guided_annotation_messages.json'
@@ -92,6 +93,7 @@ const App = () => {
   const [g_is_good_alignment, g_setIsGoodAlignment] = useState(false)
   const [g_completed, g_setCompleted] = useState(false)
   const [g_show_hint, g_setShowHint] = useState(false)
+  const [g_hint_msg, g_setHintMsg] = useState({"text":"", "title":""})
 
   const [g_noAlignModalShow, g_setNoAlignModalShow] = useState(false)
   const [g_noAlignApproved, g_setNoAlignApproved] = useState(false)
@@ -283,8 +285,8 @@ const App = () => {
   }
 
   const toggleSummarySpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
-    console.log("inside toggleSummarySpanHighlight:")
-    console.log(tkn_ids)
+    // console.log("inside toggleSummarySpanHighlight:")
+    // console.log(tkn_ids)
     setSliderBoldStateActivated(false)
     if (turn_on){
       setSummaryJson(summary_json.map((word) => tkn_ids.includes(word.tkn_id) ? { ...word, span_highlighted: true } : word));
@@ -542,9 +544,9 @@ const App = () => {
 
     // if regretted summary highlighting
     else if(!isAllSentHighlighted && isNotStart && finishedSent.current && !["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState)) { 
-      console.log(`curr state is ${StateMachineState}`);
-      console.log(`curr CurrSentInd is ${CurrSentInd}`)
-      console.log("back to square one");
+      // console.log(`curr state is ${StateMachineState}`);
+      // console.log(`curr CurrSentInd is ${CurrSentInd}`)
+      // console.log("back to square one");
       finishedSent.current = false;
       MachineStateHandlerWrapper({forceState:"ANNOTATION"});
     }
@@ -618,7 +620,7 @@ const App = () => {
     useEffect(() => {
       if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)){
         if(docOnMouseDownActivated) {
-          console.log(`DocOnMouseDownID is ${DocOnMouseDownID} and hoverActivatedId ia ${hoverActivatedId}`)
+          // console.log(`DocOnMouseDownID is ${DocOnMouseDownID} and hoverActivatedId ia ${hoverActivatedId}`)
           const min_ID =  (DocOnMouseDownID > hoverActivatedId) ? hoverActivatedId : DocOnMouseDownID;
           const max_ID =  (DocOnMouseDownID > hoverActivatedId) ? DocOnMouseDownID : hoverActivatedId;
           let chosen_IDs = [];
@@ -630,7 +632,7 @@ const App = () => {
           setDocJson(doc_json.map((word) => {return {...word, span_alignment_hover:false}}))
         }
         if(summaryOnMouseDownActivated) {
-          console.log(`SummaryOnMouseDownID is ${SummaryOnMouseDownID} and hoverActivatedId ia ${hoverActivatedId}`)
+          // console.log(`SummaryOnMouseDownID is ${SummaryOnMouseDownID} and hoverActivatedId ia ${hoverActivatedId}`)
           const min_ID =  (SummaryOnMouseDownID > hoverActivatedId) ? hoverActivatedId : SummaryOnMouseDownID;
           const max_ID =  (SummaryOnMouseDownID > hoverActivatedId) ? SummaryOnMouseDownID : hoverActivatedId;
           let chosen_IDs = [];
@@ -883,6 +885,8 @@ const App = () => {
                                           is_good_alignment={g_is_good_alignment}                         setIsGoodAlignment={g_setIsGoodAlignment}
                                           setCompleted={g_setCompleted}                                   resetGuidedAnnotation={g_resetGuidedAnnotation}
                                           g_show_hint={g_show_hint}                                       g_setShowHint={g_setShowHint}
+                                          g_hint_msg={g_hint_msg}                                         g_setHintMsg={g_setHintMsg} 
+                                          guided_annotation_hints={guided_annotation_hints}
                                           noAlignModalShow={g_noAlignModalShow}                           setNoAlignModalShow={g_setNoAlignModalShow}
                                           noAlignApproved={g_noAlignApproved}                             setNoAlignApproved={g_setNoAlignApproved}
                                           />} 
@@ -918,6 +922,7 @@ const App = () => {
                                               t_state_messages = {undefined}
                                               g_guiding_info_msg = {undefined}                            g_is_good_alignment = {undefined}
                                               g_show_hint = {undefined}                                   g_setShowHint = {undefined}
+                                              g_hint_msg = {{"text":"", "title":""}}
                                               OpeningModalShow = {OpeningModalShow}                       setOpeningModalShow = {setOpeningModalShow}
 
                                               noAlignModalShow = {noAlignModalShow}                       setNoAlignModalShow = {setNoAlignModalShow}

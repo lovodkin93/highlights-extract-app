@@ -66,6 +66,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                     t_state_messages,
                     g_guiding_info_msg, g_is_good_alignment,
                     g_show_hint, g_setShowHint,
+                    g_hint_msg,
                     OpeningModalShow, setOpeningModalShow,
 
                     noAlignModalShow, setNoAlignModalShow,
@@ -137,12 +138,12 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
 
     const GuidedAnnotationInfoAlert = () => {
       return (
-        <Alert variant="warning">
+        <Alert variant="warning" className='guidedAnnotationInfoAlert'>
           <Alert.Heading><Markup content={g_guiding_info_msg["title"]} /></Alert.Heading>
           <p className="mb-0">
-          {(g_show_hint) &&
+          {(isGuidedAnnotation && g_show_hint && g_hint_msg!==undefined && g_hint_msg["Text"]!=="") &&
                     <OverlayTrigger trigger="click" placement="left" overlay={GuidedAnnotationHint}>
-                      <Button active variant="btn btn-primary btn-lg right-button" onClick={() => {}}>
+                      <Button className="guidedAnnotationHintButton" active variant="btn btn-primary btn-lg right-button" onClick={() => {}}>
                           HINT
                       </Button>
                     </OverlayTrigger>
@@ -156,10 +157,9 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
 
       const GuidedAnnotationHint = (
         <Popover variant="primary" className="hintText" id="popover-basic">
-          <Popover.Header as="h3">Popover right</Popover.Header>
+          <Popover.Header as="h3">{g_hint_msg["title"]}</Popover.Header>
           <Popover.Body as="h4">
-            And here's some <strong>amazing</strong> content. It's very engaging.
-            right?
+            <Markup content={`${g_hint_msg["text"]}`} />
           </Popover.Body>
         </Popover>
       );
@@ -364,12 +364,10 @@ useEffect(() => {
 /************************************************************************************************************* */
 
 
-// useEffect(() => {
-//   if (isTutorial){
-//     console.log(`t_doc_json is:`)
-//     console.log(doc_json)
-//   }
-// }, []);
+useEffect(() => {
+  console.log(`g_hint_msg:`)
+  console.log(g_hint_msg)
+}, []);
 
 
 // // to make sure the guided annotation guiding messages start with something

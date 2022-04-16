@@ -1,0 +1,892 @@
+{
+	"goldMentions": [
+		{
+			"sent_id":0,
+			"good_summary_spans": {
+				"1":["0-19"],
+				"2":["21-32", "8-8;21-32", "7-8;21-32", "6-8;21-32"]
+			},
+			"span_indicating_tkns": {
+				"1":["2-2","3-3"],
+				"2":["21-21","26-26"]
+			},
+			"too_short_summary_msgs": {
+				"1":[
+					{
+					"missing_tkns":["3-3"],
+					"title":"Too general span",
+					"text":"Try adding more context to \"The Agriculture Department\"."
+					},
+					{
+					"missing_tkns":["8-8"],
+					"title":"Span not full", 
+					"text":"Confirmed what?"
+					},
+					{
+					"missing_tkns":["10-10"],
+					"title":"Span not full", 
+					"text":"Confirmed what about the drought?"
+					},
+					{
+					"missing_tkns":["14-14"],
+					"title":"Span not full", 
+					"text":"Curtail what?"
+					},
+					{
+					"missing_tkns":["15-19"],
+					"title":"Span not full", 
+					"text":"Curtail how?"
+					}
+				],
+				"2":[
+						{
+						"missing_tkns":["21-21"],
+						"title":"Too general span", 
+						"text":"Try adding more context to the \"food prices\"."
+						},
+						{
+						"missing_tkns":["26-26"],
+						"title":"Span not full", 
+						"text":"Resulting in what?"
+						},
+						{
+						"missing_tkns":["27-32"],
+						"title":"Span not full", 
+						"text":"Resulting in higher prices for how long?"
+						}
+					]
+			},
+			"too_long_summary_msgs": {
+				"1":[
+						{
+						"excess_tkns":["21-32"],
+						"title":"Summary span too long", 
+						"text":"summary sentence should be divided into two sub-spans:<ol><li>The depratment's confirmation of the drought.</li><li>The drought's results.</li></ol>"
+						}
+					],
+				"2":[
+						{
+						"excess_tkns":["0-7;9-19"],
+						"title":"Summary span too long", 
+						"text":"summary sentence should be divided into two sub-spans:<ol><li>The depratment's confirmation of the drought.</li><li>The drought's results.</li></ol>"
+						}
+					]
+			},
+			"doc_tkns_alignments": {
+				"1":["0-21", "2-21", "0-0;2-21", "2-3;5-21"],
+				"2":["23-34", "10-10;23-34", "9-10;23-34", "8-10;23-34"]
+			},
+			"missing_alignment_msg": {
+				"1":[
+						{
+						"missing_tkns":["3-3"],
+						"title":"Missing info in document highlight",
+						"text":"Who confirmed?"
+						},
+						{
+						"missing_tkns":["2-2"],
+						"title":"Missing info in document highlight",
+						"text":"What kind of Department?"
+						},
+						{
+						"missing_tkns":["5-5"],
+						"title":"Missing info in document highlight",
+						"text":"What did the department do?"
+						},
+						{
+						"missing_tkns":["10-12"],
+						"title":"Missing info in document highlight",
+						"text":"What did the Department confirm?"
+						},
+						{
+						"missing_tkns":["9-9"],
+						"title":"Missing info in document highlight",
+						"text":"What drought?"
+						},
+						{
+						"missing_tkns":["13-16"],
+						"title":"Missing info in document highlight",
+						"text":"What will the drought curtail?"
+						},
+						{
+						"missing_tkns":["17-21"],
+						"title":"Missing info in document highlight",
+						"text":"How will the drought curtail the harvest?"
+						}
+					],
+				"2":[
+						{
+						"missing_tkns":["23-23"],
+						"title":"Missing info in document highlight",
+						"text":"missing the connection of result."
+						},
+						{
+						"missing_tkns":["28-28"],
+						"title":"Missing info in document highlight",
+						"text":"Resulting in what?"
+						},
+						{
+						"missing_tkns":["25-27"],
+						"title":"Missing info in document highlight",
+						"text":"What prices?"
+						},
+						{
+						"missing_tkns":["29-34"],
+						"title":"Missing info in document highlight",
+						"text":"For how long will there be higher prices?"
+						}
+					]
+			},
+			"redundant_alignment_msg": {
+				"1":[
+						{
+						"excess_tkns":["90-90","92-92","220-220","328-328"],
+						"title":"Out of context", 
+						"text":"\"The agricultural department\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["137-137","227-227","254-254","353-353","399-399","608-608"],
+						"title":"Out of context", 
+						"text":"The \"drought\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["155-155","457-457"],
+						"title":"Out of context", 
+						"text":"The \"harvest\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["387-387"],
+						"title":"Out of context", 
+						"text":"\"Thursday\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["180-180"],
+						"title":"Out of context", 
+						"text":"\"Corn\" is highlighted in the document out of context."
+						}
+					],
+				"2":[
+						{
+						"excess_tkns":["137-137","227-227","254-254","353-353","399-399","608-608"],
+						"title":"Out of context", 
+						"text":"The \"drought\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["51-51"],
+						"title":"Out of context", 
+						"text":"\"higher\" is highlighted in the document out of context."
+						},
+						{ 
+						"excess_tkns":["68-68", "236-236", "295-295", "306-306", "603-603", "620-620"],
+						"title":"Out of context", 
+						"text":"\"food\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["46-46", "115-115", "117-117", "165-165", "169-169", "173-173", "238-238", "243-243", "262-262", "371-371", "474-474", "534-534", "584-584", "651-651"],
+						"title":"Out of context", 
+						"text":"\"years\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["73-73", "381-381"],
+						"title":"Out of context", 
+						"text":"\"come\" is highlighted in the document out of context."
+						}
+					]
+			}			
+		},
+		
+		
+		
+		
+		{
+			"sent_id":1,
+			"good_summary_spans": {
+				
+				"1":["35-38;40-48;50-52"],
+				"2":["35-38;40-44"],
+				"3":["38-38;40-48;50-52", "42-48;50-52", "43-48;50-52", "44-48;50-52", "45-48;50-52"],
+				"4":["54-55;58-65", "55-55;58-65", "35-36;54-55;58-65", "35-36;55-55;58-65", "36-36;54-55;58-65", "36-36;55-55;58-65"],
+				"5":["54-54"]
+			},
+			"span_indicating_tkns": {
+				"1":["37-37;45-45", "37-37;47-47"],
+				"2":["37-37"],
+				"3":["45-45", "47-47"],
+				"4":["55-55"],
+				"5":["54-54"]
+			},
+			"too_short_summary_msgs": {
+				"1":[
+						{
+						"missing_tkns":["37-37"],
+						"title":"Too general span",
+						"text":"Try adding more context to \"President Reagan\"."
+						},
+						{
+						"missing_tkns":["35-36"],						
+						"title":"Span not full", 
+						"text":"Who signed?"
+						},
+						{
+						"missing_tkns":["44-44"],
+						"title":"Span not full", 
+						"text":"Signed what?"
+						},
+						{
+						"missing_tkns":["38-38;40-43"],
+						"title":"Span not full", 
+						"text":"What bill was signed?"
+						},
+						{
+						"missing_tkns":["45-45"],
+						"title":"Span not full", 
+						"text":"What is the connection between the bill and the helping?"
+						},
+						{
+						"missing_tkns":["47-47"],
+						"title":"Span not full", 
+						"text":"What is the bill aimed at?"
+						},
+						{
+						"missing_tkns":["51-51"],
+						"title":"Span not full", 
+						"text":"Helping whom?"
+						},
+						{
+						"missing_tkns":["48-48;50-50"],
+						"title":"Span not full", 
+						"text":"What farmers?"
+						},
+						{
+						"missing_tkns":["52-52"],
+						"title":"Span not full", 
+						"text":"Help the farmers in what?"
+						}
+					],
+				"2":[
+						{
+						"missing_tkns":["37-37"],
+						"title":"Too general span",
+						"text":"Try adding more context to \"President Reagan\"."
+						},
+						{
+						"missing_tkns":["35-36"],
+						"title":"Span not full", 
+						"text":"Who signed?"
+						},
+						{
+						"missing_tkns":["44-44"],
+						"title":"Span not full", 
+						"text":"Signed what?"
+						},
+						{
+						"missing_tkns":["38-38;40-43"],
+						"title":"Span not full", 
+						"text":"What bill was signed?"
+						}
+					],
+				"3":[
+						{
+						"missing_tkns":["45-45"],
+						"title":"Span not full", 
+						"text":"What is the connection between the bill and the helping?"
+						},
+						{
+						"missing_tkns":["47-47"],
+						"title":"Span not full", 
+						"text":"What is the bill aimed at?"
+						},
+						{
+						"missing_tkns":["51-51"],
+						"title":"Span not full", 
+						"text":"Helping whom?"
+						},
+						{
+						"missing_tkns":["48-48;50-50"],
+						"title":"Span not full", 
+						"text":"What farmers?"
+						},
+						{
+						"missing_tkns":["52-52"],
+						"title":"Span not full", 
+						"text":"Help the farmers in what?"
+						}
+					],
+				"4":[
+						{
+						"missing_tkns":["56-65"],
+						"title":"Span not full", 
+						"text":"Stating what?"
+						}
+					],
+				"5":[]
+				
+			},
+			"too_long_summary_msgs": {
+				"1":[
+						{
+						"excess_tkns":["54-55;58-65"],
+						"title":"Summary span too long", 
+						"text":"summary sentence should be divided into two sub-spans:<ol><li>The signing of the relief bill.</li><li>The president's statement</li></ol>"
+						}
+					],
+				"2":[
+						{
+						"excess_tkns":["48-52", "54-55;58-65"],
+						"title":"Summary span too long", 
+						"text":"Stick to the bill-signing event for now. Leave the rest for other alignments."
+						}
+					],
+				"3":[
+						{
+						"excess_tkns":["35-36", "54-55;58-65"],
+						"title":"Summary span too long", 
+						"text":"Stick to the helping-the-farmers event for now. Leave the rest for other alignments."
+						}
+					],
+				"4":[
+						{
+						"excess_tkns":["35-38;40-52"],
+						"title":"Summary span too long", 
+						"text":"Stick to the event of the president's second statement for now. Leave the rest for other alignments."
+						}
+					],
+				"5":[
+						{
+						"excess_tkns":["35-38;40-52"],
+						"title":"\"while\" association.", 
+						"text":"Highlighting \"while\" is more appropriate with ensuing part of the sentence rather than the preceding."
+						}
+					]
+			},
+			"doc_tkns_alignments": {
+				
+				
+				"1":["384-385;388-389;391-399;401-403", "76-79;81-84;384-385;388-389;391-399;401-403"],
+				"2":["384-385;388-389;391-395", "76-79;81-84"],
+				"3":["389-389;391-399;401-403", "393-399;401-403", "394-399;401-403", "395-399;401-403", "396-399;401-403"],
+				"4":["408-415;419-420"],
+				"5":[]
+			},
+			"missing_alignment_msg": {
+				"1":[],
+				"2":[],
+				"3":[],
+				"4":[
+						{
+						"missing_tkns":["419-420"],
+						"title":"Missing info in document alignment",
+						"text":"Who said \"this bill is n't as good as rain\"?"
+						}
+					],
+				"5":[]
+			},
+			"redundant_alignment_msg": {
+				"1":[
+						{
+						"excess_tkns":["76-79;81-84"],
+						"title":"Out of context", 
+						"text":"The alignments must be in context. <br/>There is a better in-context mention of the bill-signing."
+						},
+						{
+						"excess_tkns":["386-387"],
+						"title":"Irrelevant information", 
+						"text":"It wasn't said in the summary when the bill was signed."
+						},
+						{
+						"excess_tkns":["408-415"],
+						"title":"Out of context", 
+						"text":"Make sure you highlight only alignments of the current summary span you work on."
+						},
+						{
+						"excess_tkns":["191-191","425-425"],
+						"title":"Out of context", 
+						"text":"The \"farmers\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["462-462","470-470","484-484", "493-493", "505-505", "513-513", "526-526"],
+						"title":"Out of context", 
+						"text":"\"billion\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["10-10","137-137","227-227", "254-254", "353-353", "608-608"],
+						"title":"Out of context", 
+						"text":"\"drought\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["419-419"],
+						"title":"Out of context", 
+						"text":"\"Reagan\" is highlighted in the document out of context."
+						}
+					],
+				"2":[
+						{
+						"excess_tkns":["386-387"],
+						"title":"Irrelevant information", 
+						"text":"It wasn't said in the summary when the bill was signed."
+						},
+						{
+						"excess_tkns":["462-462","470-470","484-484", "493-493", "505-505", "513-513", "526-526"],
+						"title":"Out of context", 
+						"text":"\"billion\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["419-419"],
+						"title":"Out of context", 
+						"text":"\"Reagan\" is highlighted in the document out of context."
+						}
+					],
+				"3":[
+						{
+						"excess_tkns":["79-79;81-84"],
+						"title":"Out of context", 
+						"text":"The alignments must be in context. <br/>There is a better in-context mention of the relief bill."
+						},
+						{
+						"excess_tkns":["408-415"],
+						"title":"Out of context", 
+						"text":"Make sure you highlight only alignments of the current summary span you work on. Leave other highlightings to next alignments."
+						},
+						{
+						"excess_tkns":["191-191","425-425"],
+						"title":"Out of context", 
+						"text":"The \"farmers\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["462-462","470-470","484-484", "493-493", "505-505", "513-513", "526-526"],
+						"title":"Out of context", 
+						"text":"\"billion\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["10-10","137-137","227-227", "254-254", "353-353", "608-608"],
+						"title":"Out of context", 
+						"text":"\"drought\" is highlighted in the document out of context."
+						}
+					],
+				"4":[
+						{
+						"excess_tkns":["576-580"],
+						"title":"Out of context", 
+						"text":"\"is not as good as\" is out of context."
+						},
+						{
+						"excess_tkns":["84-84","395-395"],
+						"title":"Out of context", 
+						"text":"\"bill\" is highlighted in the document out of context."
+						}
+					],
+				"5":[
+						{
+						"excess_tkns":["0-714"],
+						"title":"Implicit presence of \"While\" ", 
+						"text":"The relation represented by \"while\" is implicit in the document. <br/>Therefore, there isn't an actual alignment to \"while\".<br/>So, you can either save it unaligned, or better yet, you can include it with the the part of the sentence coming after it ('starting \"This bill....'), as this makes the most sense."
+						}
+					]	
+			}
+		},
+		
+		
+		
+		
+		{
+			"sent_id":2,
+			"good_summary_spans": {
+				"1":["71-73;75-79;81-95"],
+				"2":["71-73;75-79;81-91"],
+				"3":["71-73;75-79"],
+				"4":["71-73;81-95"],
+				"5":["71-73;81-91"],
+				"6":["75-79;81-95"],
+				"7":["75-79;81-91"],
+				"8":["92-95"]
+			},
+			"span_indicating_tkns": {
+				"1":["71-71;79-79;81-81;92-95"],
+				"2":["71-71;79-79;81-81"],
+				"3":["71-71;79-79"],
+				"4":["71-71;81-81;92-95"],
+				"5":["71-71;81-81"],
+				"6":["79-79;81-81;92-95"],
+				"7":["79-79;81-81"],
+				"8":["92-95"]
+			},
+			"too_short_summary_msgs": {
+				"1":[
+						{
+							"missing_tkns":["75-78"],
+							"title":"Span not full", 
+							"text":"What kind of economist?"
+						},
+						{
+							"missing_tkns":["83-85"],
+							"title":"Span not full", 
+							"text":"Who did Wilson talk about?"
+						},
+						{
+							"missing_tkns":["86-91"],
+							"title":"Span not full", 
+							"text":"What did Wilson say about the US?"
+						}
+					],
+				"2":[
+						{
+							"missing_tkns":["75-78"],
+							"title":"Span not full", 
+							"text":"What kind of economist?"
+						},
+						{
+							"missing_tkns":["83-85"],
+							"title":"Span not full", 
+							"text":"Who did Wilson talk about?"
+						},
+						{
+							"missing_tkns":["86-91"],
+							"title":"Span not full", 
+							"text":"What did Wilson say about the US?"
+						}
+					],
+				"3":[
+						{
+							"missing_tkns":["75-78"],
+							"title":"Span not full", 
+							"text":"What kind of economist?"
+						}
+					],
+				"4":[
+						{
+							"missing_tkns":["83-85"],
+							"title":"Span not full", 
+							"text":"Who did Wilson talk about?"
+						},
+						{
+							"missing_tkns":["86-91"],
+							"title":"Span not full", 
+							"text":"What did Wilson say about the US?"
+						}
+					],
+				"5":[
+						{
+							"missing_tkns":["83-85"],
+							"title":"Span not full", 
+							"text":"Who did Wilson talk about?"
+						},
+						{
+							"missing_tkns":["86-91"],
+							"title":"Span not full", 
+							"text":"What did Wilson say about the US?"
+						}
+					],
+				"6":[
+						{
+							"missing_tkns":["75-78"],
+							"title":"Span not full", 
+							"text":"What kind of economist?"
+						},
+						{
+							"missing_tkns":["83-85"],
+							"title":"Span not full", 
+							"text":"Who did the economist talk about?"
+						},
+						{
+							"missing_tkns":["86-91"],
+							"title":"Span not full", 
+							"text":"What did the economist say about the US?"
+						}
+					],
+				"7":[
+						{
+							"missing_tkns":["75-78"],
+							"title":"Span not full", 
+							"text":"What kind of economist?"
+						},
+						{
+							"missing_tkns":["83-85"],
+							"title":"Span not full", 
+							"text":"Who did the economist talk about?"
+						},
+						{
+							"missing_tkns":["86-91"],
+							"title":"Span not full", 
+							"text":"What did the economist say about the US?"
+						}
+					],
+				"8":[]	
+			},
+			"too_long_summary_msgs": {
+				"1":[],
+				"2":[
+						{
+						"excess_tkns":["92-93"],
+						"title":"Incomplete event", 
+						"text":"What countries?"
+						}
+					],
+				"3":[
+						{
+						"excess_tkns":["82-95"],
+						"title":"Incomplete event", 
+						"text":"Because you didn't highlight \"said\", everything coming after is disconnected from everything before."
+						}
+					],
+				"4":[
+						{
+						"excess_tkns":["75-78"],
+						"title":"Incomplete event", 
+						"text":"the department's chief <b>what</b>?"
+						}
+					],
+				"5":[
+						{
+						"excess_tkns":["75-78"],
+						"title":"Incomplete event", 
+						"text":"the department's chief <b>what</b>?"
+						}
+					],
+				"6":[
+						{
+						"excess_tkns":["72-73"],
+						"title":"Incomplete event", 
+						"text":"\"Ewan M.\" is not the economist's full name."
+						}
+					],
+				"7":[
+						{
+						"excess_tkns":["72-73"],
+						"title":"Incomplete event", 
+						"text":"\"Ewan M.\" is not the economist's full name."
+						}
+					],
+				"8":[
+						{
+						"excess_tkns":["72-73", "75-78", "82-91"],
+						"title":"Incomplete event", 
+						"text":"Focus only on \"from countries like Brazil\" for now."
+						}
+					]
+			},
+			"doc_tkns_alignments": {
+				"1":["10000000-10000000"],
+				"2":["215-217;219-223;638-651;653-654", "2-3;215-217;219-223;638-651;653-654", "90-92;215-217;219-223;638-651;653-654", "2-3;90-92;215-217;219-223;638-651;653-654", "215-217;219-223;643-651;653-654", "2-3;215-217;219-223;643-651;653-654", "90-92;215-217;219-223;643-651;653-654", "2-3;90-92;215-217;219-223;643-651;653-654"],
+				"3":["215-217;219-223", "2-3;215-217;219-223", "90-92;215-217;219-223", "2-3;90-92;215-217;219-223"],
+				"4":["10000000-10000000"],
+				"5":["638-651;653-654", "643-651;653-654", "215-217;638-651;653-654", "215-217;643-651;653-654"],
+				"6":["10000000-10000000"],
+				"7":["217-217;219-223;638-651;653-654", "217-217;219-223;643-651;653-654", "219-223;638-651;653-654", "219-223;643-651;653-654",   
+					 "2-3;217-217;219-223;638-651;653-654", "2-3;217-217;219-223;643-651;653-654", "2-3;219-223;638-651;653-654", "2-3;219-223;643-651;653-654",
+					 "90-92;217-217;219-223;638-651;653-654", "90-92;217-217;219-223;643-651;653-654", "90-92;219-223;638-651;653-654", "90-92;219-223;643-651;653-654",
+					 "2-3;90-92;217-217;219-223;638-651;653-654", "2-3;90-92;217-217;219-223;643-651;653-654", "2-3;90-92;219-223;638-651;653-654", "2-3;90-92;219-223;643-651;653-654"],
+				"8":[]
+			},
+			"missing_alignment_msg": {
+				"1":[
+						{
+						"missing_tkns":["10000000-10000000"],
+						"title":"Unalignable Summary part",
+						"text":"\"from countries like Brazil\" is unalignable."
+						}
+					],
+				"2":[
+						{
+							"missing_tkns":["219-223"],
+							"title":"Missing info in document highlight", 
+							"text":"Who is Wilson?"
+						},
+						{
+							"missing_tkns":["638-641"],
+							"title":"Missing info in document highlight", 
+							"text":"According to the summary, the US <u>might</u> import."
+						}
+					],
+				"3":[],
+				"4":[
+						{
+							"missing_tkns":["10000000-10000000"],
+							"title":"Unalignable Summary part",
+							"text":"\"from countries like Brazil\" is unalignable."
+						}
+					],
+				"5":[
+						{
+							"missing_tkns":["638-641"],
+							"title":"Missing info in document highlight", 
+							"text":"According to the summary, the US <u>might</u> import."
+						}
+					],
+				"6":[
+						{
+							"missing_tkns":["10000000-10000000"],
+							"title":"Unalignable Summary part",
+							"text":"\"from countries like Brazil\" is unalignable."
+						}
+					],
+				"7":[
+						{
+							"missing_tkns":["638-641"],
+							"title":"Missing info in Alignment", 
+							"text":"According to the summary, the US <u>might</u> import."
+						}
+					],
+				"8":[]
+			},
+			"redundant_alignment_msg": {
+				"1":[
+						{
+						"excess_tkns":["0-678"],
+						"title":"Unalignable Summary part",
+						"text":"\"from countries like Brazil\" is unalignable."
+						}
+					],
+				"2":[
+						{
+						"excess_tkns":["213-214"],
+						"title":"Irrelevant information", 
+						"text":"It wasn't said in the summary Wilson was Assistant Secretary."
+						},
+						{
+						"excess_tkns":["225-264", "657-678"],
+						"title":"Irrelevant information", 
+						"text":"Notice what exactly Wilson said."
+						},
+						{
+						"excess_tkns":["52-54", "564-566", "666-668"],
+						"title":"Out of context", 
+						"text":"The \"United States\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["456-456"],
+						"title":"Out of context", 
+						"text":"\"soybeans\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["237-238", "261-262"],
+						"title":"Out of context", 
+						"text":"\"this year\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["328-328"],
+						"title":"Out of context", 
+						"text":"\"agriculture\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["268-268"],
+						"title":"Out of context", 
+						"text":"\"Wilson\" is highlighted in the document out of context."
+						}
+					],
+				"3":[
+						{
+						"excess_tkns":["213-214"],
+						"title":"Irrelevant information", 
+						"text":"It wasn't said in the summary Wilson was Assistant Secretary."
+						},
+						{
+						"excess_tkns":["268-268"],
+						"title":"Out of context", 
+						"text":"\"Wilson\" is highlighted in the document out of context."
+						}
+					],
+				"4":[
+						{
+						"excess_tkns":["0-678"],
+						"title":"Unalignable Summary part",
+						"text":"\"from countries like Brazil\" is unalignable."
+						}
+					],
+				"5":[
+						{
+						"excess_tkns":["213-214"],
+						"title":"Irrelevant information", 
+						"text":"It wasn't said in the summary Wilson was Assistant Secretary."
+						},
+						{
+						"excess_tkns":["225-264", "657-678"],
+						"title":"Irrelevant information", 
+						"text":"Notice what exactly Wilson said."
+						},
+						{
+						"excess_tkns":["52-54", "564-566", "666-668"],
+						"title":"Out of context", 
+						"text":"The \"United States\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["456-456"],
+						"title":"Out of context", 
+						"text":"\"soybeans\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["237-238", "261-262"],
+						"title":"Out of context", 
+						"text":"\"this year\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["328-328"],
+						"title":"Out of context", 
+						"text":"\"agriculture\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["268-268"],
+						"title":"Out of context", 
+						"text":"\"Wilson\" is highlighted in the document out of context."
+						}
+					],
+				"6":[
+						{
+						"excess_tkns":["0-678"],
+						"title":"Unalignable summary part",
+						"text":"\"from countries like Brazil\" is unalignable."
+						}
+					],
+				"7":[
+						{
+						"excess_tkns":["213-214"],
+						"title":"Irrelevant information", 
+						"text":"It wasn't said in the summary Wilson was Assistant Secretary."
+						},
+						{
+						"excess_tkns":["225-264", "657-678"],
+						"title":"Irrelevant information", 
+						"text":"Notice what exactly Wilson said."
+						},
+						{
+						"excess_tkns":["52-54", "564-566", "666-668"],
+						"title":"Out of context", 
+						"text":"The \"United States\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["456-456"],
+						"title":"Out of context", 
+						"text":"\"soybeans\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["237-238", "261-262"],
+						"title":"Out of context", 
+						"text":"\"this year\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["328-328"],
+						"title":"Out of context", 
+						"text":"\"agriculture\" is highlighted in the document out of context."
+						},
+						{
+						"excess_tkns":["268-268"],
+						"title":"Out of context", 
+						"text":"\"Wilson\" is highlighted in the document out of context."
+						}
+					],
+				"8":[
+						{
+						"excess_tkns":["0-678"],
+						"title":"Unalignable Summary span", 
+						"text":"\"from countries like Brazil\" is unalignable."
+						}
+					]
+				
+					
+			}
+		}
+	]
+    
+}
+
+
+

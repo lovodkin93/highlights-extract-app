@@ -43,6 +43,8 @@ const GuidedAnnotation = ({isPunct,
                           is_good_alignment, setIsGoodAlignment,
                           setCompleted, resetGuidedAnnotation,
                           g_show_hint, g_setShowHint,
+                          g_hint_msg, g_setHintMsg, 
+                          guided_annotation_hints,
                           noAlignModalShow, setNoAlignModalShow,
                           noAlignApproved, setNoAlignApproved
 
@@ -126,12 +128,13 @@ const GuidedAnnotation = ({isPunct,
         } else {
           setGuidingMsg(guided_annotation_messages["default_good_summary_span_msg"]) 
         }
-        setGuidingMsgType("success")
+        setGuidingMsgType("success");
+        g_setShowHint(false);
         setCurrAlignmentGuidingMsgId(isSummarySpanOkDict["chosen_span_id"])
 
 
         // updating the info message
-        console.log(`CurrSentInd:${CurrSentInd}`)
+        // console.log(`CurrSentInd:${CurrSentInd}`)
         if (Object.keys(guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][isSummarySpanOkDict["chosen_span_id"]]).includes("text")) {
           setGuidingInfoMsg(guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][isSummarySpanOkDict["chosen_span_id"]])
         } else {
@@ -381,7 +384,6 @@ const GuidedAnnotation = ({isPunct,
           g_setShowHint(false);
         } else {
           update_error_message(isAlignmentOkDict["gold_align_tkns"], isAlignmentOkDict["highlighted_doc_tkns"], curr_alignment_guiding_msg_id, true);
-          g_setShowHint(true)
           return
         }
       }
@@ -471,8 +473,6 @@ const GuidedAnnotation = ({isPunct,
       highlighted_tkn_ids = highlighted_tkn_ids.sort(function(a, b) {return a - b;}) // order    
       let chosen_span_id = Object.keys(gold_mentions["span_indicating_tkns"]).filter((key) => {return gold_mentions["span_indicating_tkns"][key].some((span) => hasSubArray(highlighted_tkn_ids, string_to_span(span)))})
 
-      console.log(`chosen_span_id:${JSON.stringify(chosen_span_id)}`)
-      console.log(`highlighted_tkn_ids:${JSON.stringify(highlighted_tkn_ids)}`)
       if (chosen_span_id.length===0){
         return {"summary_span_ok":false, "chosen_span_id":undefined, "highlighted_tkn_ids":highlighted_tkn_ids}
       } else {
@@ -512,6 +512,8 @@ const GuidedAnnotation = ({isPunct,
       const default_msg_key = (isAlignError) ? "default_redundant_alignment_msg" : "default_too_long_summary_msg" 
       
       const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd][msg_type_key][chosen_span_id]
+      const hint_msgs = guided_annotation_hints["goldMentions"][CurrSentInd][msg_type_key][chosen_span_id]
+
       const excess_tkns = actual_tkns.filter((tkn) => {return gold_tkns.every((span) => {return !span.includes(tkn)})}).sort(function(a, b) {return a - b;})
       
 
@@ -524,7 +526,6 @@ const GuidedAnnotation = ({isPunct,
       
       
       const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["excess_tkns"].some((span) => {return intersection(excess_tkns, string_to_span(span)).length !==0 })})
-      
       if(custom_message_json.length !== 0) {
         setGuidingMsg(custom_message_json[0])
         setGuidingMsgType("danger")
@@ -532,6 +533,17 @@ const GuidedAnnotation = ({isPunct,
         setGuidingMsg(guided_annotation_messages[default_msg_key])
         setGuidingMsgType("danger")
       }
+
+
+      const custom_hint_json = hint_msgs.filter((json_obj) => {return json_obj["excess_tkns"].some((span) => {return intersection(excess_tkns, string_to_span(span)).length !==0 })})
+      if(custom_hint_json.length !== 0) {
+        g_setHintMsg(custom_hint_json[0])
+        g_setShowHint(true)
+      } else {
+        g_setHintMsg({"text":"", "title":""})
+        g_setShowHint(false)
+      }
+
     }
 
     const update_missing_message = (gold_tkns, actual_tkns, chosen_span_id, isAlignError) => {
@@ -540,6 +552,9 @@ const GuidedAnnotation = ({isPunct,
       const default_msg_key = (isAlignError) ? "default_missing_alignment_msg" : "default_too_short_summary_msg" 
 
       const guiding_msgs = guided_annotation_messages["goldMentions"][CurrSentInd][msg_type_key][chosen_span_id]
+      const hint_msgs = guided_annotation_hints["goldMentions"][CurrSentInd][msg_type_key][chosen_span_id]
+
+      
       const merged_gold_tkns = [...new Set(gold_tkns.flat(1))].sort(function(a, b) {return a - b;})
       const missing_tkns = merged_gold_tkns.filter((tkn) => {return !actual_tkns.includes(tkn)})
       const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["missing_tkns"].some((span) => {return intersection(missing_tkns, string_to_span(span)).length !== 0 })})
@@ -551,6 +566,19 @@ const GuidedAnnotation = ({isPunct,
         setGuidingMsg(guided_annotation_messages[default_msg_key])
         setGuidingMsgType("danger")
       }
+      
+      const custom_hint_json = hint_msgs.filter((json_obj) => {return json_obj["missing_tkns"].some((span) => {return intersection(missing_tkns, string_to_span(span)).length !== 0 })})
+      if(custom_hint_json.length !== 0) {
+        g_setHintMsg(custom_hint_json[0])
+        g_setShowHint(true)
+      } else {
+        g_setHintMsg({"text":"", "title":""})
+        g_setShowHint(false)
+      }
+
+
+
+
     }
 
 
@@ -665,11 +693,11 @@ const GuidedAnnotation = ({isPunct,
     console.log(`tkn_id of highlighted summary words: ${JSON.stringify(summary_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
   }, [summary_json]);
 
+  useEffect(() => {
+    console.log(`tkn_id of highlighted doc words: ${JSON.stringify(doc_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
+  }, [doc_json]);
   // useEffect(() => {
-  //   console.log(`tkn_id of highlighted doc words: ${JSON.stringify(doc_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
-  // }, [doc_json]);
-  // useEffect(() => {
-  //   console.log(`is_good_alignment here: ${is_good_alignment}`)
+  //   console.log(`guided_annotation_hints here: ${JSON.stringify(guided_annotation_hints)}`)
   // }, []);
 
    
@@ -778,7 +806,6 @@ const GuidedAnnotation = ({isPunct,
       setCurrAlignmentGuidingMsgId("-1");
       g_setShowHint(false);
     } else {
-      g_setShowHint(true)
       update_error_message(isAlignmentOkDict["gold_align_tkns"], isAlignmentOkDict["highlighted_doc_tkns"], curr_alignment_guiding_msg_id, true);
       return
     }
@@ -827,6 +854,7 @@ const GuidedAnnotation = ({isPunct,
               t_state_messages = {undefined}
               g_guiding_info_msg = {guiding_info_msg}                      g_is_good_alignment = {is_good_alignment}
               g_show_hint = {g_show_hint}                                  g_setShowHint = {g_setShowHint}
+              g_hint_msg = {g_hint_msg}
               OpeningModalShow = {undefined}                               setOpeningModalShow = {undefined}
               noAlignModalShow = {noAlignModalShow}                        setNoAlignModalShow = {setNoAlignModalShow}
               noAlignApproved = {noAlignApproved}                          setNoAlignApproved = {setNoAlignApproved}

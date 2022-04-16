@@ -831,7 +831,7 @@
 					],
 				"6":[
 						{
-						"excess_tkns":["94-95"],
+						"excess_tkns":["72-73"],
 						"title":"Summary span has an incomplete event", 
 						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts(<u>hint</u>: \"Ewan M.\" is not the economist's full name).<br/><b><u>Reminder</u>: to un-highlight - hold ctrl (alt for MacOS) while simultaneously \"highlighting\".</b>",
 						"timeout":20000
@@ -839,7 +839,7 @@
 					],
 				"7":[
 						{
-						"excess_tkns":["94-95"],
+						"excess_tkns":["72-73"],
 						"title":"Summary span has an incomplete event", 
 						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts(<u>hint</u>: \"Ewan M.\" is not the economist's full name).<br/><b><u>Reminder</u>: to un-highlight - hold ctrl (alt for MacOS) while simultaneously \"highlighting\".</b>",
 						"timeout":20000
@@ -847,7 +847,7 @@
 					],
 				"8":[
 						{
-						"excess_tkns":["94-95", "75-78", "82-91"],
+						"excess_tkns":["72-73", "75-78", "82-91"],
 						"title":"Summary span has an incomplete event", 
 						"text":"Make sure you include complete events. Otherwise, discard of the incomplete parts.<br/><b><u>Reminder</u>: to un-highlight - hold ctrl (alt for MacOS) while simultaneously \"highlighting\".</b>",
 						"timeout":16000

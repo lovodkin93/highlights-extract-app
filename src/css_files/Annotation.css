@@ -401,6 +401,17 @@
     /* bring your own prefixes */
   }
 
+  .guidedAnnotationInfoAlert{
+      position: relative;
+  }
+  .guidedAnnotationInfoAlert .guidedAnnotationHintButton{
+      position: absolute;
+      top:50% !important;
+      right: 0% !important;
+      transform: translate(-50%, -50%);
+
+  }
+
 
   /* .fadeOut {
     opacity: 0;
