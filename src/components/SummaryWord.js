@@ -18,9 +18,9 @@ const SummaryWord = ({ word_json, StateMachineState, SummaryMouseClickHandlerWra
                   style={{fontFamily: "IBM Plex Sans"}}
                   onClick={() => SummaryMouseClickHandlerWrapper(word_json.tkn_id)}
                   onMouseEnter={() => {setHoverActivatedId(word_json.tkn_id); setHoverActivatedDocOrSummary("summary"); hoverHandlerWrapper({inOrOut:"in", curr_alignment_id:word_json.alignment_id[0], tkn_id:word_json.tkn_id, isSummary:true})}}
-                  onMouseLeave={() => {setHoverActivatedId(-1); hoverHandlerWrapper({inOrOut:"out", curr_alignment_id:word_json.alignment_id[0], tkn_id:word_json.tkn_id, isSummary:true})}}
+                  onMouseLeave={() => {hoverHandlerWrapper({inOrOut:"out", curr_alignment_id:word_json.alignment_id[0], tkn_id:word_json.tkn_id, isSummary:true})}}
                   onMouseDown={() => SummaryOnMouseDownHandler(word_json.tkn_id)} 
-                  onMouseUp={() => SummaryOnMouseUpHandler()} 
+                  // onMouseUp={() => SummaryOnMouseUpHandler()} 
                 >
                 <nobr>{word_json.word}</nobr>&nbsp;
               </div>

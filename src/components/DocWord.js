@@ -71,9 +71,9 @@ const DocWord = ({ word_json, doc_paragraph_breaks, StateMachineState, DocMouseC
             style={{fontFamily: "IBM Plex Sans", lineHeight: "1"}}
             onClick={() => DocMouseClickHandlerWrapper(word_json.tkn_id)}
             onMouseEnter={() => {setHoverActivatedId(word_json.tkn_id); setHoverActivatedDocOrSummary("doc"); hoverHandlerWrapper({inOrOut:"in", curr_alignment_id:word_json.alignment_id[0], isSummary:false})}}
-            onMouseLeave={() => {setHoverActivatedId(-1); hoverHandlerWrapper({inOrOut:"out", curr_alignment_id:word_json.alignment_id[0], tkn_id:word_json.tkn_id, isSummary:false})}}
+            onMouseLeave={() => {hoverHandlerWrapper({inOrOut:"out", curr_alignment_id:word_json.alignment_id[0], tkn_id:word_json.tkn_id, isSummary:false})}}
             onMouseDown={() => DocOnMouseDownHandler(word_json.tkn_id)}
-            onMouseUp={() => DocOnMouseUpHandler()}
+            // onMouseUp={() => DocOnMouseUpHandler()}
           >
               <nobr>
                 {show_word()}

@@ -425,12 +425,12 @@ useEffect(() => {
 
 
   return (
-    <>
-      <Container onKeyDown={(event) => {if (event.ctrlKey || event.altKey) {setCtrlButtonDown(true)}}}
-                 onKeyUp={() => {setCtrlButtonDown(false)}} 
-                 tabIndex="0"
-                 className='annotation-container'
-      >
+    <div 
+      onMouseUp={() => {SummaryOnMouseUpHandler(); DocOnMouseUpHandler();}}
+      onKeyDown={(event) => {if (event.ctrlKey || event.altKey) {setCtrlButtonDown(true)}}}
+      onKeyUp={() => {setCtrlButtonDown(false)}}
+    >
+      <Container tabIndex="0" className='annotation-container'>
         <Row className='annotation-row' ref={containerRef}>
           <Col>
             <ResponsiveAppBar
@@ -607,7 +607,7 @@ useEffect(() => {
         </Modal>
 
 
-    </>
+    </div>
   )
 }
 
