@@ -371,7 +371,7 @@
     margin-bottom: 0.3%;
     /* transform: translate(-50%, -50%); */
     width: fit-content;
-    min-width: 50% !important;
+    min-width: 80% !important;
 
   }
 
@@ -409,9 +409,7 @@
       top:50% !important;
       right: 0% !important;
       transform: translate(-50%, -50%);
-
   }
-
 
   /* .fadeOut {
     opacity: 0;

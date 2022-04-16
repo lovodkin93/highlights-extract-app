@@ -154,7 +154,6 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
       )}
 
 
-
       const GuidedAnnotationHint = (
         <Popover variant="primary" className="hintText" id="popover-basic">
           <Popover.Header as="h3">{g_hint_msg["title"]}</Popover.Header>
@@ -163,6 +162,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
           </Popover.Body>
         </Popover>
       );
+
+
       
 
 
@@ -471,7 +472,7 @@ useEffect(() => {
               GuidedAnnotationToast(toastVisible, setToastVisible, g_StateMachineStateIndex)
         )} */}
 
-        {(![0,16].includes(t_StateMachineStateId)) && (
+        {(![0,17].includes(t_StateMachineStateId)) && (
           <Row className='annotation-row' id={`${(InfoMessage === "") ? 'doc-summary-row': ''}`}>
             <Col md={ 8 }>
               <Card border="secondary" bg="light"  id="doc-text">
@@ -525,7 +526,7 @@ useEffect(() => {
 
                 {!["REVISE HOVER", "SUMMARY END", "SENTENCE END", "START"].includes(StateMachineState) && (
                     <Col md={{span:5, offset:3}}>
-                      <button type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && [5,12].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                      <button type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && [5,12,16].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                       <Markup content={nextButtonText()} />
                         {(isDocSpanExist()) && <ChevronRight className="button-icon"/>}
                       </button>

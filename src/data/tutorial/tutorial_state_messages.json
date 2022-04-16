@@ -42,7 +42,7 @@
       {
     "state_cnt": 8,
     "title": "Bolding Control",
-    "message": "In addition to the default bolding behavior, you can also control the level of bolding you want to see. <br/>To do that, use the red slider at the top-right corner of the screen. <br/>you can alter between:<ul><li>No bolding (leftmost)</li><li>Currently highlighted span bolding (middle)</li><li>Current sentence bolding (rightmost)</li></ul><b>Play with it a little</b>, and then proceed."
+    "message": "In addition to the default behavior, you can also control the bolding level you prefer, through the red slider at the top-right corner of the screen. <br/>you can alter between:<ul><li>No bolding (leftmost)</li><li>Currently highlighted span bolding (middle)</li><li>Current sentence bolding (rightmost)</li></ul><b>Play with it a little</b>, and then proceed."
   },
       {
     "state_cnt": 9,
@@ -81,6 +81,11 @@
   },
         {
     "state_cnt": 16,
+    "title": "Unalignable Spans",
+    "message": "Rarely there would be pieces of information in the summary that wouldn't have any alignment in the document. <br/>In such cases, highlight the piece of information and submit it unaligned (with the document highlighting-free). <br/>Notice that the \"CONFIRM\" button appears with \"No ALIGN\" and in different color (the same applies to the \"NEXT SENTENCE\" and the \"SUBMIT\" buttons). <br/>When you do this, a pop-up message will ask you if you are sure this span is un-alignable. <br/><b>Give it a go</b>, and then proceed."
+  },
+  {
+    "state_cnt": 17,
     "title": "Some Basic Instructions",
     "message": ""
   }

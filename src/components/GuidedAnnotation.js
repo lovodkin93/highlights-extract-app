@@ -40,13 +40,15 @@ const GuidedAnnotation = ({isPunct,
                           guiding_msg_type, setGuidingMsgType,
                           curr_alignment_guiding_msg_id, setCurrAlignmentGuidingMsgId,
                           guiding_info_msg, setGuidingInfoMsg,
+                          guided_unhighlight, setGuidedUnhighlight,
                           is_good_alignment, setIsGoodAlignment,
                           setCompleted, resetGuidedAnnotation,
                           g_show_hint, g_setShowHint,
                           g_hint_msg, g_setHintMsg, 
                           guided_annotation_hints,
                           noAlignModalShow, setNoAlignModalShow,
-                          noAlignApproved, setNoAlignApproved
+                          noAlignApproved, setNoAlignApproved,
+                          setOpeningModalShow
 
                         }) => {
 
@@ -527,19 +529,31 @@ const GuidedAnnotation = ({isPunct,
       
       const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["excess_tkns"].some((span) => {return intersection(excess_tkns, string_to_span(span)).length !==0 })})
       if(custom_message_json.length !== 0) {
-        setGuidingMsg(custom_message_json[0])
-        setGuidingMsgType("danger")
-      } else {
+        if(guided_unhighlight){
+          setGuidingMsg(custom_message_json[0])
+        } else {
+          setGuidingMsg({"text":`${custom_message_json[0]["text"]} <br/>${guided_annotation_messages["extra_to_excess_msgs"]["text"]}`, "title": custom_message_json[0]["title"], "timeout": custom_message_json[0]["timeout"]})
+          setGuidedUnhighlight(true)
+        }
+      } 
+      else {
         setGuidingMsg(guided_annotation_messages[default_msg_key])
-        setGuidingMsgType("danger")
       }
+      setGuidingMsgType("danger")
+
 
 
       const custom_hint_json = hint_msgs.filter((json_obj) => {return json_obj["excess_tkns"].some((span) => {return intersection(excess_tkns, string_to_span(span)).length !==0 })})
       if(custom_hint_json.length !== 0) {
-        g_setHintMsg(custom_hint_json[0])
+        if(guided_unhighlight){
+          g_setHintMsg(custom_hint_json[0])
+        } else {
+          g_setHintMsg({"text":`${custom_hint_json[0]["text"]} ${(custom_hint_json[0]["text"].endsWith("</ol>")) ? "" : "<br/>"} ${guided_annotation_messages["extra_to_excess_msgs"]["text"]}`, "title": custom_hint_json[0]["title"]})
+          setGuidedUnhighlight(true)
+        }
         g_setShowHint(true)
-      } else {
+      } 
+      else {
         g_setHintMsg({"text":"", "title":""})
         g_setShowHint(false)
       }
@@ -811,15 +825,17 @@ const GuidedAnnotation = ({isPunct,
     }
 
     setCompleted(true)
+    setOpeningModalShow(false)
     setFinishedModalShow(true)
     resetGuidedAnnotation()
     
-
-
-
-
     // alert("Submitted!");
   }
+
+  const getGuidingMsg = (event) => {
+    //  guided_unhighlight, setGuidedUnhighlight,
+  }
+
 
 
 

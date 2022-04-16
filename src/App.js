@@ -90,6 +90,7 @@ const App = () => {
   const [g_guiding_msg_type, g_setGuidingMsgType] = useState("closed"); // success , danger or closed
   const [g_curr_alignment_guiding_msg_id, g_setCurrAlignmentGuidingMsgId] = useState("-1")
   const [g_guiding_info_msg, g_setGuidingInfoMsg] = useState({"text":"To begin, hit the \"START\" button.", "title":"Start"}); // the info message that describes what to do
+  const [g_guided_unhighlight, g_setGuidedUnhighlight] = useState(false)
   const [g_is_good_alignment, g_setIsGoodAlignment] = useState(false)
   const [g_completed, g_setCompleted] = useState(false)
   const [g_show_hint, g_setShowHint] = useState(false)
@@ -882,6 +883,9 @@ const App = () => {
                                           guiding_msg_type={g_guiding_msg_type}                           setGuidingMsgType={g_setGuidingMsgType}
                                           curr_alignment_guiding_msg_id={g_curr_alignment_guiding_msg_id} setCurrAlignmentGuidingMsgId={g_setCurrAlignmentGuidingMsgId}
                                           guiding_info_msg={g_guiding_info_msg}                           setGuidingInfoMsg={g_setGuidingInfoMsg}
+                                          guided_unhighlight={g_guided_unhighlight}                       setGuidedUnhighlight={g_setGuidedUnhighlight}
+                                          
+                                          
                                           is_good_alignment={g_is_good_alignment}                         setIsGoodAlignment={g_setIsGoodAlignment}
                                           setCompleted={g_setCompleted}                                   resetGuidedAnnotation={g_resetGuidedAnnotation}
                                           g_show_hint={g_show_hint}                                       g_setShowHint={g_setShowHint}
@@ -889,6 +893,7 @@ const App = () => {
                                           guided_annotation_hints={guided_annotation_hints}
                                           noAlignModalShow={g_noAlignModalShow}                           setNoAlignModalShow={g_setNoAlignModalShow}
                                           noAlignApproved={g_noAlignApproved}                             setNoAlignApproved={g_setNoAlignApproved}
+                                          setOpeningModalShow={setOpeningModalShow}
                                           />} 
           
           

@@ -49,6 +49,8 @@ const Tutorial = ({doc_json, setDocJson,
   const [hoverActivatedId, setHoverActivatedId] = useState("-1"); // value will be of tkn_id of elem hovered over
   const [hoverActivatedDocOrSummary, setHoverActivatedDocOrSummary] = useState("doc"); // value will be of tkn_id of elem hovered over
   const [sliderBoldStateActivated, setSliderBoldStateActivated] = useState(false);
+  const [noAlignModalShow, setNoAlignModalShow] = useState(false)
+  const [noAlignApproved, setNoAlignApproved] = useState(false)
 
   const [t_StateMachineStateId, t_SetStateMachineStateId] = useState(0);
 
@@ -291,8 +293,18 @@ const Tutorial = ({doc_json, setDocJson,
 
 
   const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
+    
+    // no alignment
+    if ([16].includes(t_StateMachineStateId) && (typeof forceState !== 'string') && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
+      setNoAlignModalShow(true)
+      return
+    }
+    setNoAlignApproved(false)
+    
+    
+    
     setSliderBoldStateActivated(false);
-    if ([5].includes(t_StateMachineStateId) || ([11,13].includes(t_StateMachineStateId) && forceState==="REVISE HOVER") || (t_StateMachineStateId === 12 && forceState !== "FINISH REVISION") || ([14,15].includes(t_StateMachineStateId) && ["SENTENCE END", "ANNOTATION", "SUMMARY END", undefined].includes(forceState))) {
+    if ([5,16].includes(t_StateMachineStateId) || ([11,13].includes(t_StateMachineStateId) && forceState==="REVISE HOVER") || (t_StateMachineStateId === 12 && forceState !== "FINISH REVISION") || ([14,15].includes(t_StateMachineStateId) && ["SENTENCE END", "ANNOTATION", "SUMMARY END", undefined].includes(forceState))) {
       console.log(`forceState situation with: state ${forceState}`);
     }
     else{
@@ -489,8 +501,10 @@ const Tutorial = ({doc_json, setDocJson,
                     g_show_hint = {undefined}                                   g_setShowHint = {undefined}
                     g_hint_msg = {{"text":"", "title":""}}
                     OpeningModalShow = {undefined}                              setOpeningModalShow = {undefined}
+                    noAlignModalShow = {noAlignModalShow}                       setNoAlignModalShow = {setNoAlignModalShow}
+                    noAlignApproved = {noAlignApproved}                         setNoAlignApproved = {setNoAlignApproved}
                     />
-        {/* <Card className={`${([0,16].includes(t_StateMachineStateId)) ? 'tutorial-card-intro' : 'tutorial-card-not-intro'}`} bg="info" border="primary" style={{ width: '30%' }}>
+        {/* <Card className={`${([0,17].includes(t_StateMachineStateId)) ? 'tutorial-card-intro' : 'tutorial-card-not-intro'}`} bg="info" border="primary" style={{ width: '30%' }}>
           <Card.Body>
             <Card.Title className='tutorial-title'>{getTutorialCardTitle(t_state_messages,t_StateMachineStateId)}</Card.Title>
             <Card.Text>

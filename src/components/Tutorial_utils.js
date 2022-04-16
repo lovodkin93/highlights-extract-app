@@ -67,6 +67,11 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
         setDocJson(t_submit_doc_json);
         setSummaryJson(t_submit_summary_json);
         SetStateMachineState("SUMMARY END");
+    } else if (newStateId===16) {
+        SetCurrSentInd(0);
+        resetDocJson(setDocJson, t_start_doc_json, true)
+        setSummaryJson(t_start_summary_json)
+        SetStateMachineState("ANNOTATION");
     }
 
 
@@ -84,7 +89,7 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
     //   console.log(t_state_messages)
       if (t_StateMachineStateId===0){
           return intro_message();
-      } else if (t_StateMachineStateId===16){
+      } else if (t_StateMachineStateId===17){
         return basic_instructions();
       }else {
           return (

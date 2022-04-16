@@ -14,8 +14,8 @@ const TutorialCard = ({t_StateMachineStateId, t_SetStateMachineStateId, t_state_
                       MachineStateHandlerWrapper}) => {
     return (
         <Card className={`${(t_StateMachineStateId==0) ? 'tutorial-card-intro' : ''} 
-                          ${(t_StateMachineStateId==`16`) ? 'tutorial-card-end' : ''}
-                          ${(![0,16].includes(t_StateMachineStateId)) ? 'tutorial-card-not-intro' : ''}`}
+                          ${(t_StateMachineStateId==`17`) ? 'tutorial-card-end' : ''}
+                          ${(![0,17].includes(t_StateMachineStateId)) ? 'tutorial-card-not-intro' : ''}`}
                             bg="info" border="primary" style={{ width: '30%' }}>
           <Card.Body>
             <Card.Title className='tutorial-title'>{getTutorialCardTitle(t_state_messages,t_StateMachineStateId)}</Card.Title>
@@ -58,7 +58,7 @@ const TutorialCard = ({t_StateMachineStateId, t_SetStateMachineStateId, t_state_
               </Button>
               )}
 
-            {(t_StateMachineStateId !== 16) && (
+            {(t_StateMachineStateId !== 17) && (
                 <Button className="btn btn-primary btn-lg right-button" onClick={() => {t_StateMachineStateIdHandler({newStateId:t_StateMachineStateId+1, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
                                                                                                       setDocJson:setDocJson, t_start_doc_json:t_start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
                                                                                                       setSummaryJson:setSummaryJson, t_start_summary_json:t_start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
@@ -68,7 +68,7 @@ const TutorialCard = ({t_StateMachineStateId, t_SetStateMachineStateId, t_state_
                   Next
               </Button>
             )}
-            {(t_StateMachineStateId === 16) && (
+            {(t_StateMachineStateId === 17) && (
               <Link to="/guidedAnnotation">
                 <Button className="btn btn-success btn-lg right-button">
               To Guided Annotation
