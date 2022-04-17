@@ -107,6 +107,7 @@ const MachineStateHandler = (summary_json,
       // "REVISE HOVER" state --> "REVISE CLICKED" state 
       else if (StateMachineState === "REVISE HOVER"){
         console.log(`Old state: \"REVISE HOVER\"; New state: \"REVISE CLICKED\"`);
+        console.log(`clickedWordInfo:${JSON.stringify(clickedWordInfo)}`)
         ReviseChooseAlignHandler(clickedWordInfo);
         SetStateMachineState("REVISE CLICKED");
         SetInfoMessage("");
@@ -117,6 +118,7 @@ const MachineStateHandler = (summary_json,
         console.log(`curr AlignmentCount is ${AlignmentCount}`);
         console.log(`Old state: \"REVISE CLICKED\"; New state: \"REVISE HOVER\"`);
         SetStateMachineState("REVISE HOVER");
+        SetCurrSentInd(-1)
         approveHighlightHandler();
         SetAlignmentCount(AlignmentCount+1);
         SetInfoMessage("Choose alignment to revise.");

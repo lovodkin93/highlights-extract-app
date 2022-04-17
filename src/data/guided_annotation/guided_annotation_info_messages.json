@@ -3,6 +3,22 @@
 		"title":"Start",
 		"text":"To begin, hit the \"START\" button."
 	},
+	"Revise Hover": {
+		"title":"Choose an alignment",
+		"text":"Choose an old alignment to fix."
+	},
+	"Revise Clicked": {
+	"title":"Fix alignment",
+	"text":"Fix alignment, and then click \"CONFIRM\". <br/>If you regret, you can always click \"BACK\"."
+	},
+	"Revise Confirmed Revision": {
+	"title":"Choose alignment or finish",
+	"text":"If you need to fix another old alignment, do so now. <br/>Otherwise, hit \"FINISH\" to leave the revision mode."
+	},
+	"Revise Clicked BACK": {
+	"title":"Choose alignment or finish",
+	"text":"If you want to try fixing this alignment again or any other old alignment, do so now. <br/>Otherwise, hit \"FINISH\" to leave the revision mode."
+	},
 	"default_choose_summary_span": {
 		"title":"Choose Summary Span to Align",
 		"text":"Choose a summary span to align. <br/><u>Remember</u>: make sure it covers full events and doesn't contain too many details (so you don't miss any when aligning it)."

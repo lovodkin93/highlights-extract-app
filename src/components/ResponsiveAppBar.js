@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useRef } from 'react'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,7 +13,9 @@ import { withStyles } from "@material-ui/core/styles";
 import { padding } from '@mui/system';
 import { styled } from '@mui/material/styles';
 import { StyledSliderHighlighting, StyledSliderBolding } from './styled-sliders'
-
+import Overlay from 'react-bootstrap/Overlay'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
@@ -22,7 +25,11 @@ import Col from 'react-bootstrap/Col'
 
 const pages = {"Tutorial": "tutorial", 'Guided Annotation': 'guidedAnnotation',  'Annotation': ''}; 
 
-const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler, oldAlignmentState, oldAlignmentStateHandler, t_StateMachineStateId }) => {
+
+const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler, oldAlignmentState, oldAlignmentStateHandler, t_StateMachineStateId, g_showWhereNavbar }) => {
+  const whereNavBar = useRef(null);
+  const whereNavBarArr = {"Tutorial": undefined, 'Guided Annotation': whereNavBar,  'Annotation': undefined}; 
+  
   const BlackTextTypography = withStyles({
     root: {
       color: "white",
@@ -99,82 +106,104 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
     } 
   }
 
+
+  const renderTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      Simple tooltip
+    </Tooltip>
+  );
+
   return (
 
-    <Navbar bg="secondary" variant="dark" className="w-100 p-2">
-      <Container className='navbar-container'>
-        {/* <Row  className="navbar-row"> */}
-          <Col md={{span:1, offset:0}}>
-                    <Navbar.Brand>{title}</Navbar.Brand>
-          </Col>
-          {/* <Col md={{span:12, offset:0}}>
-            <Nav className="me-auto"> */}
-                {Object.keys(pages).map((ttl, index) => (
-                    <Col style={{marginLeft:`${margin_left(ttl)}`}} md={(ttl==="Guided Annotation")? {span:2, offset:0}:{span:1, offset:0}}>
-                      <Nav className="me-auto">
-                        <Nav.Item as="li">
-                          <Nav.Link
-                            key={ttl}
-                            as={Link} to={`/${pages[ttl]}`}
-                          >
-                            {ttl}
-                            </Nav.Link>
-                        </Nav.Item>
-                        </Nav>
-                    </Col>
-                ))}
-            {/* </Nav>
-          </Col> */}
-        {/* </Row> */}
+    <>
+      <Navbar bg="secondary" variant="dark" className="w-100 p-2">
+        <Container className='navbar-container'>
+          {/* <Row  className="navbar-row"> */}
+            <Col md={{span:1, offset:0}}>
+                      <Navbar.Brand>{title}</Navbar.Brand>
+            </Col>
+            {/* <Col md={{span:12, offset:0}}>
+              <Nav className="me-auto"> */}
+                  {Object.keys(pages).map((ttl, index) => {
+                      return (<Col style={{marginLeft:`${margin_left(ttl)}`}} md={(ttl==="Guided Annotation")? {span:2, offset:0}:{span:1, offset:0}}>
+                        <Nav className="me-auto" ref={whereNavBarArr[ttl]}>
+                          <Nav.Item as="li">
+                            <Nav.Link
+                              key={ttl}
+                              as={Link} to={`/${pages[ttl]}`}
+                            >
+                              {ttl}
+                              </Nav.Link>
+                          </Nav.Item>
+                          </Nav>
+                      </Col>)
+                  }
+                  )}
+              {/* </Nav>
+            </Col> */}
+          {/* </Row> */}
 
-          { title !== "Instructions" && (
-                <Col md={{span:2, offset:2}}>
-                  <BlackTextTypography  id="old-highlighting-slider-title">
-                      OLD ALIGNMENTS
+            { title !== "Instructions" && (
+                  <Col md={{span:2, offset:2}}>
+                    <BlackTextTypography  id="old-highlighting-slider-title">
+                        OLD ALIGNMENTS
+                    </BlackTextTypography>
+                    <StyledSliderHighlighting
+                      className={`${(t_StateMachineStateId === 10) ? 'with-glow':''}`} 
+                      aria-label="Old-Highlighting-option"
+                      defaultValue={3}
+                      getAriaValueText={OldHighlightingSliderTags}
+                      valueLabelFormat={OldHighlightingSliderTags}
+                      valueLabelDisplay="auto"
+                      value={OldHighlightingSliderDefaultValue()}
+                      sx={{ color: 'primary.dark' }}
+                      step={1}
+                      marks
+                      min={1}
+                      max={3}
+                      onChangeCommitted={(event, newValue) => oldAlignmentStateHandler({event:event, newValue:newValue, sent_ind:-1})}
+                    />
+                  </Col>
+            )}
+
+
+            { title !== "Instructions" && (
+                <Col style={{marginLeft:"3%"}} md={{span:2, offset:0}}>
+                  <BlackTextTypography  id="bolding-slider-title">
+                    BOLDING
                   </BlackTextTypography>
-                  <StyledSliderHighlighting
-                    className={`${(t_StateMachineStateId === 10) ? 'with-glow':''}`} 
-                    aria-label="Old-Highlighting-option"
+                  <StyledSliderBolding
+                    className={`${(t_StateMachineStateId === 8) ? 'with-glow':''}`}
+                    aria-label="Bolding-option"
                     defaultValue={3}
-                    getAriaValueText={OldHighlightingSliderTags}
-                    valueLabelFormat={OldHighlightingSliderTags}
+                    getAriaValueText={BoldingSliderTags}
+                    valueLabelFormat={BoldingSliderTags}
                     valueLabelDisplay="auto"
-                    value={OldHighlightingSliderDefaultValue()}
-                    sx={{ color: 'primary.dark' }}
+                    value={BoldingSliderDefaultValue()}
+                    color="error"
                     step={1}
                     marks
                     min={1}
                     max={3}
-                    onChangeCommitted={(event, newValue) => oldAlignmentStateHandler({event:event, newValue:newValue, sent_ind:-1})}
+                    onChangeCommitted={boldStateHandler}
                   />
                 </Col>
-          )}
+              )}
+        </Container>
+      </Navbar>
 
 
-          { title !== "Instructions" && (
-              <Col style={{marginLeft:"3%"}} md={{span:2, offset:0}}>
-                <BlackTextTypography  id="bolding-slider-title">
-                  BOLDING
-                </BlackTextTypography>
-                <StyledSliderBolding
-                  className={`${(t_StateMachineStateId === 8) ? 'with-glow':''}`}
-                  aria-label="Bolding-option"
-                  defaultValue={3}
-                  getAriaValueText={BoldingSliderTags}
-                  valueLabelFormat={BoldingSliderTags}
-                  valueLabelDisplay="auto"
-                  value={BoldingSliderDefaultValue()}
-                  color="error"
-                  step={1}
-                  marks
-                  min={1}
-                  max={3}
-                  onChangeCommitted={boldStateHandler}
-                />
-              </Col>
-            )}
-      </Container>
-    </Navbar>
+
+
+      <Overlay target={whereNavBar.current} show={g_showWhereNavbar} placement="bottom">
+        {(props) => (
+          <Tooltip {...props} id="overlay-where-navbar">
+              It's right here!
+          </Tooltip>
+        )}
+      </Overlay>
+    </>
+
 
 
 

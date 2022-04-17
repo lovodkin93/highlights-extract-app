@@ -28,6 +28,7 @@ const GuidedAnnotation = ({isPunct,
                           prevDocSpanHighlights, setPrevDocSpanHighlights,
                           prevSummaryJsonRevise, setPrevSummaryJsonRevise,
                           prevDocJsonRevise, setPrevDocJsonRevise,
+                          prevCurrSentInd, setPrevCurrSentInd,
                           DocOnMouseDownID, SetDocOnMouseDownID,
                           SummaryOnMouseDownID, SetSummaryOnMouseDownID,
                           docOnMouseDownActivated, setDocOnMouseDownActivated,
@@ -48,12 +49,16 @@ const GuidedAnnotation = ({isPunct,
                           guided_annotation_hints,
                           noAlignModalShow, setNoAlignModalShow,
                           noAlignApproved, setNoAlignApproved,
-                          setOpeningModalShow
+                          setOpeningModalShow,
+                          setPrevCurrAlignmentGuidingMsgId, prev_curr_alignment_guiding_msg_id,
+                          setPrevGuidingInfoMsg, prev_guiding_info_msg
+
 
                         }) => {
 
     const [FinishedModalShow, setFinishedModalShow] = useState(false);
-                      
+    const [showWhereNavbar, setShowWhereNavbar] = useState(false);
+         
 
     
     const toggleDocSpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
@@ -63,7 +68,7 @@ const GuidedAnnotation = ({isPunct,
 
       const isSummarySpanOkDict = isSummarySpanOk([], false, false)
       
-      if(!isSummarySpanOkDict["summary_span_ok"]) {
+      if(!isSummarySpanOkDict["summary_span_ok"] && StateMachineState !== "REVISE HOVER") {
         if (isSummarySpanOkDict["highlighted_tkn_ids"].length===0) { // nothing highlighted in summary
           setGuidingMsg(guided_annotation_messages["empty_summary_span_msg"])
           setGuidingMsgType("danger")
@@ -79,7 +84,7 @@ const GuidedAnnotation = ({isPunct,
       }
 
       const isAlignmentOkDict = isAlignmentOk(tkn_ids, turn_on, turn_off);
-      if (isAlignmentOkDict["alignment_ok"]) {
+      if (isAlignmentOkDict["alignment_ok"] && StateMachineState !== "REVISE HOVER") {
         if (Object.keys(guided_annotation_messages["goldMentions"][CurrSentInd]["good_alignment_msg"][curr_alignment_guiding_msg_id]).includes("text")) {
           setGuidingMsg(guided_annotation_messages["goldMentions"][CurrSentInd]["good_alignment_msg"][curr_alignment_guiding_msg_id])
           setGuidingInfoMsg(guided_annotation_messages["goldMentions"][CurrSentInd]["good_alignment_msg"][curr_alignment_guiding_msg_id])
@@ -91,7 +96,7 @@ const GuidedAnnotation = ({isPunct,
         g_setShowHint(false);
         // setIsGoodAlignment(true);
       }
-      else {
+      else if (StateMachineState !== "REVISE HOVER") {
         // updating the info message
         if (Object.keys(guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][curr_alignment_guiding_msg_id]).includes("text")) {
           setGuidingInfoMsg(guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][curr_alignment_guiding_msg_id])
@@ -194,7 +199,9 @@ const GuidedAnnotation = ({isPunct,
         setPrevStateMachineState(StateMachineState);
         setPrevDocSpanHighlights(doc_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id}));
         setPrevSummarySpanHighlights(summary_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id}));
-        
+        setPrevCurrSentInd(CurrSentInd)
+        setPrevCurrAlignmentGuidingMsgId(curr_alignment_guiding_msg_id)
+        setPrevGuidingInfoMsg(guiding_info_msg)
         setDocJson(doc_json.map((word) => {return {...word, span_highlighted: false}}))
         setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted: false}}))
       }
@@ -205,6 +212,16 @@ const GuidedAnnotation = ({isPunct,
       setSummaryJson(summary_json.map((word, ind) => prevSummarySpanHighlights.includes(word.tkn_id) ? {...word, span_highlighted: true}:{...word, span_highlighted: false}))               
       const prev_state = prevStateMachineState;
       SetStateMachineState(prevStateMachineState);
+      
+      const prev_current_sent_id = prevCurrSentInd
+      SetCurrSentInd(prev_current_sent_id)
+      
+      const prev_guiding_msg_id = prev_curr_alignment_guiding_msg_id
+      setCurrAlignmentGuidingMsgId(prev_guiding_msg_id) 
+
+      setGuidingInfoMsg(prev_guiding_info_msg)
+      setPrevCurrAlignmentGuidingMsgId("-1")
+      setPrevCurrSentInd(-1)
       setPrevStateMachineState("");
       setPrevSummarySpanHighlights([]);
       setPrevDocSpanHighlights([]);
@@ -225,6 +242,31 @@ const GuidedAnnotation = ({isPunct,
   
       setSummaryJson(summary_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, old_alignments: false, old_alignment_hover:false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
       setDocJson(doc_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, old_alignments: false, old_alignment_hover:false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
+    
+      const chosen_align_currSentId = summary_json.filter((word) => {return word.alignment_id.includes(chosen_align_id)})[0].sent_id
+      SetCurrSentInd(chosen_align_currSentId)  
+
+
+
+      
+      
+      const gold_mentions = guided_annotation_messages["goldMentions"][chosen_align_currSentId]
+
+      let highlighted_tkn_ids = summary_json.filter((word) => {return word.alignment_id.includes(chosen_align_id)}).map((word) => {return word.tkn_id})
+      highlighted_tkn_ids = highlighted_tkn_ids.filter((tkn_id) => {return !isPunct(summary_json.filter((word) => {return word.tkn_id===tkn_id})[0].word)}) // ignore punctuation  
+      highlighted_tkn_ids = highlighted_tkn_ids.sort(function(a, b) {return a - b;}) // order    
+      let chosen_span_id = Object.keys(gold_mentions["span_indicating_tkns"]).filter((key) => {return gold_mentions["span_indicating_tkns"][key].some((span) => hasSubArray(highlighted_tkn_ids, string_to_span(span)))})
+      if(chosen_span_id.length===0){
+        console.log("zero!!!")
+      }
+      setCurrAlignmentGuidingMsgId(chosen_span_id[0])
+      
+      
+      // console.log(`AVIVSL:${JSON.stringify(chosen_span_id)}`)
+      // setPrevCurrAlignmentGuidingMsgId, prev_curr_alignment_guiding_msg_id
+
+
+
     }
   
   
@@ -353,7 +395,7 @@ const GuidedAnnotation = ({isPunct,
   
     const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
       // no alignment
-      if ((typeof forceState !== 'string') && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
+      if ((typeof forceState !== 'string') && (StateMachineState !== "REVISE HOVER") && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
         setNoAlignModalShow(true)
         return
       }
@@ -362,12 +404,12 @@ const GuidedAnnotation = ({isPunct,
 
 
 
-      if((forceState === undefined) && !["START", "SENTENCE START"].includes(StateMachineState)) {
+      if((forceState === undefined)  && !["REVISE HOVER", "START", "SENTENCE START"].includes(StateMachineState)) {
         // check if span is ok
         const isSummarySpanOkDict = isSummarySpanOk([], false, false)
         // console.log(`state: ${StateMachineState} and ${JSON.stringify(isSummarySpanOkDict)}`)
         if(!isSummarySpanOkDict["summary_span_ok"]) {
-          if (isSummarySpanOkDict["highlighted_tkn_ids"].length===0) { // nothing highlighted in summary
+          if (isSummarySpanOkDict["highlighted_tkn_ids"].length===0 && StateMachineState !== "REVISE HOVER") { // nothing highlighted in summary
             setGuidingMsg(guided_annotation_messages["empty_summary_span_msg"])
             setGuidingMsgType("danger")
           } else if (isSummarySpanOkDict["chosen_span_id"]===undefined){
@@ -383,7 +425,7 @@ const GuidedAnnotation = ({isPunct,
       }
       
       // check if alignment is good
-      if (forceState === undefined && StateMachineState!=="START") { 
+      if (forceState === undefined && !["START", "REVISE HOVER"].includes(StateMachineState)) { 
         const isAlignmentOkDict = isAlignmentOk();
         if (isAlignmentOkDict["alignment_ok"]) {
           // setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"]) // AVIVSL: add custom success messages
@@ -397,7 +439,7 @@ const GuidedAnnotation = ({isPunct,
       }
 
       // check if span is ok (for the case when the summary span was changed after the alignment was approved)
-      if (forceState === undefined && StateMachineState!=="START") { 
+      if (forceState === undefined && !["START", "REVISE HOVER"].includes(StateMachineState)) { 
         const isSummarySpanOkDict = isSummarySpanOk([], false, false)
       
         if(!isSummarySpanOkDict["summary_span_ok"]) {
@@ -416,7 +458,19 @@ const GuidedAnnotation = ({isPunct,
 
 
       // info messages(alerts)
-      if (forceState===undefined) {
+      if (forceState==="REVISE HOVER" && StateMachineState!=="REVISE CLICKED"){
+        setGuidingInfoMsg(guided_annotation_info_messages["Revise Hover"])
+      } 
+      else if (forceState===undefined && StateMachineState==="REVISE HOVER") {
+        setGuidingInfoMsg(guided_annotation_info_messages["Revise Clicked"])
+      }
+      else if (forceState===undefined && StateMachineState==="REVISE CLICKED") {
+        setGuidingInfoMsg(guided_annotation_info_messages["Revise Confirmed Revision"])
+      }
+      else if (forceState==="REVISE HOVER" && StateMachineState==="REVISE CLICKED") {
+        setGuidingInfoMsg(guided_annotation_info_messages["Revise Clicked BACK"])
+      }
+      else if (forceState===undefined) {
         const guiding_info_sent_id = (["START", "SENTENCE END"].includes(StateMachineState)) ? CurrSentInd+1 : CurrSentInd
         if (Object.keys(guided_annotation_info_messages["custom_messages"][guiding_info_sent_id]["choose_summary_span"]).includes("text")) {
           setGuidingInfoMsg(guided_annotation_info_messages["custom_messages"][guiding_info_sent_id]["choose_summary_span"])
@@ -807,7 +861,7 @@ const GuidedAnnotation = ({isPunct,
     const isSummarySpanOkDict = isSummarySpanOk([], false, false)
     
     if(!isSummarySpanOkDict["summary_span_ok"]) {
-      if (isSummarySpanOkDict["highlighted_tkn_ids"].length===0) { // nothing highlighted in summary
+      if (isSummarySpanOkDict["highlighted_tkn_ids"].length===0 && StateMachineState !== "REVISE HOVER") { // nothing highlighted in summary
         setGuidingMsg(guided_annotation_messages["empty_summary_span_msg"])
         setGuidingMsgType("danger")
       } else if (isSummarySpanOkDict["chosen_span_id"]===undefined){
@@ -842,9 +896,7 @@ const GuidedAnnotation = ({isPunct,
     // alert("Submitted!");
   }
 
-  const getGuidingMsg = (event) => {
-    //  guided_unhighlight, setGuidedUnhighlight,
-  }
+
 
 
 
@@ -880,7 +932,7 @@ const GuidedAnnotation = ({isPunct,
               t_state_messages = {undefined}
               g_guiding_info_msg = {guiding_info_msg}                      g_is_good_alignment = {is_good_alignment}
               g_show_hint = {g_show_hint}                                  g_setShowHint = {g_setShowHint}
-              g_hint_msg = {g_hint_msg}
+              g_hint_msg = {g_hint_msg}                                    g_showWhereNavbar = {showWhereNavbar}
               OpeningModalShow = {undefined}                               setOpeningModalShow = {undefined}
               noAlignModalShow = {noAlignModalShow}                        setNoAlignModalShow = {setNoAlignModalShow}
               noAlignApproved = {noAlignApproved}                          setNoAlignApproved = {setNoAlignApproved}
@@ -893,12 +945,19 @@ const GuidedAnnotation = ({isPunct,
                         </p>
                 </Alert>
 
-                <Modal show={FinishedModalShow} onHide={() => {setFinishedModalShow(false)}}>
+                <Modal size="lg" aria-labelledby="contained-modal-title-vcenter" centered show={FinishedModalShow} onHide={() => {setFinishedModalShow(false)}}>
                   <Modal.Header closeButton>
                     <Modal.Title>{guided_annotation_messages["submitted_msg"]['title']}</Modal.Title>
                   </Modal.Header>
-                  <Modal.Body>{<Markup content={guided_annotation_messages["submitted_msg"]["text"]} />}</Modal.Body>
-                  <Modal.Footer>
+                  <Modal.Body>
+                    {<Markup content={guided_annotation_messages["submitted_msg"]["text"]} />}
+                  </Modal.Body>
+                  <Modal.Footer className='FinishedModalFooter'>
+                        <Button active variant="btn btn-warning btn-lg left-button" onClick={() => {setShowWhereNavbar(!showWhereNavbar)}}>
+                            SHOW NAVIGATION BAR
+                        </Button>
+
+
                     <Button variant="btn btn-secondary btn-lg right-button" onClick={() => {setFinishedModalShow(false)}}>
                       REDO
                     </Button>

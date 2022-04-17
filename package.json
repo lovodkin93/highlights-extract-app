@@ -24,6 +24,7 @@
     "react-multiline-clamp": "^2.0.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
+    "react-xarrows": "^2.0.2",
     "underscore": "^1.13.2",
     "util": "^0.12.4",
     "web-vitals": "^2.1.4"

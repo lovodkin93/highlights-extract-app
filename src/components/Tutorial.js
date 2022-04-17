@@ -295,7 +295,7 @@ const Tutorial = ({doc_json, setDocJson,
   const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
     
     // no alignment
-    if ([16].includes(t_StateMachineStateId) && (typeof forceState !== 'string') && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
+    if ([16].includes(t_StateMachineStateId) && (typeof forceState !== 'string')  && (StateMachineState !== "REVISE HOVER") && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
       setNoAlignModalShow(true)
       return
     }
@@ -499,7 +499,7 @@ const Tutorial = ({doc_json, setDocJson,
                     t_state_messages = {t_state_messages}
                     g_guiding_info_msg = {undefined}                            g_is_good_alignment = {undefined}
                     g_show_hint = {undefined}                                   g_setShowHint = {undefined}
-                    g_hint_msg = {{"text":"", "title":""}}
+                    g_hint_msg = {{"text":"", "title":""}}                      g_showWhereNavbar = {undefined}
                     OpeningModalShow = {undefined}                              setOpeningModalShow = {undefined}
                     noAlignModalShow = {noAlignModalShow}                       setNoAlignModalShow = {setNoAlignModalShow}
                     noAlignApproved = {noAlignApproved}                         setNoAlignApproved = {setNoAlignApproved}

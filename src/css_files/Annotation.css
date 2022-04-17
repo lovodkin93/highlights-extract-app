@@ -206,6 +206,15 @@
     float: right;
 }
 
+.left-button{
+    position: absolute;
+    left: 1%;
+}
+
+.FinishedModalFooter{
+    position: relative;
+}
+
 .hintText{
     font-family:'Roboto', sans-serif !important;
 }
@@ -409,6 +418,18 @@
       top:50% !important;
       right: 0% !important;
       transform: translate(-50%, -50%);
+  }
+
+  #overlay-where-navbar {
+      margin: 0% -5%;
+  }
+
+  #overlay-where-navbar .tooltip-arrow::before{
+    border-bottom-color: red !important;
+}
+  #overlay-where-navbar .tooltip-inner{
+      background-color: red !important;
+      font-size:x-large;
   }
 
   /* .fadeOut {

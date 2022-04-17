@@ -66,9 +66,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                     t_state_messages,
                     g_guiding_info_msg, g_is_good_alignment,
                     g_show_hint, g_setShowHint,
-                    g_hint_msg,
+                    g_hint_msg, g_showWhereNavbar,
                     OpeningModalShow, setOpeningModalShow,
-
                     noAlignModalShow, setNoAlignModalShow,
                     noAlignApproved, setNoAlignApproved
                   }) => {
@@ -183,12 +182,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   const SummaryOnMouseDownHandler = (tkn_id) => {
     if (StateMachineState === "START"){ // during START state no highlighting
       handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
-    } 
-    else if ((StateMachineState === "REVISE CLICKED") && (summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id > CurrSentInd}).length !== 0)) {
-      handleErrorOpen({ msg : "Span chosen cannot be from future sentences. Only from current or past sentences" });
-      setSummaryOnMouseDownInCorrectSent(false);
-    } 
-    else if ((summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id !== CurrSentInd}).length !== 0) && !(["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState))){ // check if span chosen is from the correct sentence first.
+    }  
+    else if ((summary_json.filter((word) => {return word.tkn_id === tkn_id && word.sent_id !== CurrSentInd}).length !== 0) && (StateMachineState !== "REVISE HOVER")){ // check if span chosen is from the correct sentence first.
       handleErrorOpen({ msg : "Span chosen is not from the correct sentence." });
       setSummaryOnMouseDownInCorrectSent(false);
     } 
@@ -216,11 +211,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
     if (StateMachineState == "START"){ // during start state no clicking is needed
       return
       // handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
-    }
-    else if ((StateMachineState === "REVISE CLICKED") && (summary_json.filter((word) => {return word.span_alignment_hover && word.sent_id > CurrSentInd}).length !== 0)) {
-      handleErrorOpen({ msg : "Span chosen cannot be from future sentences. Only from current or past sentences" });
     } 
-    else if ((summary_json.filter((word) => {return word.span_alignment_hover && word.sent_id !== CurrSentInd}).length !== 0) && !(["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState))){ // check if span chosen is from the correct sentence first.
+    else if ((summary_json.filter((word) => {return word.span_alignment_hover && word.sent_id !== CurrSentInd}).length !== 0) && (StateMachineState !== "REVISE HOVER") ){ // check if span chosen is from the correct sentence first.
       handleErrorOpen({ msg : "Span chosen is not from the correct sentence." });
     } 
     else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState) && summaryOnMouseDownInCorrectSent){   
@@ -443,6 +435,7 @@ useEffect(() => {
                   oldAlignmentState={oldAlignmentState}
                   oldAlignmentStateHandler={oldAlignmentStateHandler}
                   t_StateMachineStateId = {t_StateMachineStateId}
+                  g_showWhereNavbar = {g_showWhereNavbar}
             />
             {(InfoMessage !== "" && !isTutorial && !isGuidedAnnotation) && (InfoAlert(InfoMessage))}
             {(isTutorial) && (<TutorialCard t_StateMachineStateId = {t_StateMachineStateId} 
