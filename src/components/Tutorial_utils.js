@@ -25,7 +25,7 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
     const middle_states_start = start_states_end;
     const middle_states_end = 13;
 
-    if ([0,1].includes(newStateId)) {
+    if (newStateId===1) {
         SetStateMachineState("START");
         resetDocJson(setDocJson, t_start_doc_json, false)
         resetSummaryJson(setSummaryJson, t_start_summary_json)

@@ -36,7 +36,7 @@
 	},
 	"submitted_msg":  {
 	"title":"You Are All Set!",
-	"text":"Great Job! You are now ready to start annotating. <br/>Hit \"ANNOTATION\" to begin.<br/>You can also redo the Guided Annotation by pressing \"REDO\". <br/><u>Remember</u>: you can always go back to the Tutorial or redo the Guided Annotation if you forget anything, through the navigation bar at the top of the page.",
+	"text":"Great Job! You are now ready to start annotating. <br/>Hit \"ANNOTATION\" to begin.<br/>You can also redo the Guided Annotation by pressing \"REDO\". <br/><u>Remember</u>: you can always go back to the Tutorial or redo the Guided Annotation if you forget anything, through the navigation bar at the top of the page (press the \"SHOW NAVIGATION BAR\" button if you are not sure where it is).",
 	"timeout":30000
 	},
 	"extra_to_excess_msgs":  {
