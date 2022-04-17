@@ -21,7 +21,7 @@
 	},
 	"default_redundant_alignment_msg":  {
 		"title":"Irrelevant information",
-		"text":"You highlighted redundant information in the document. <br/><b><u>Reminder</u>: to un-highlighting - hold ctrl (alt for MacOS) while simultaneously \"highlighting\".</b>",
+		"text":"You highlighted redundant information in the document. <br/><b><u>Reminder</u>: to un-highlighting - hold the ctrl (alt for MacOS) key while simultaneously \"highlighting\".</b>",
 		"timeout":10000
 	},
 	"default_good_summary_span_msg":  {
@@ -40,7 +40,7 @@
 	"timeout":30000
 	},
 	"extra_to_excess_msgs":  {
-	"text":"<b><u>Reminder</u>: to un-highlight - hold ctrl (alt for MacOS) while simultaneously \"highlighting\".</b>"
+	"text":"<b><u>Reminder</u>: to un-highlight - hold the ctrl (alt for MacOS) key while simultaneously \"highlighting\".</b>"
 	},
 	"goldMentions": [
 		{
