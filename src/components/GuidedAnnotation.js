@@ -205,6 +205,7 @@ const GuidedAnnotation = ({isPunct,
         setDocJson(doc_json.map((word) => {return {...word, span_highlighted: false}}))
         setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted: false}}))
       }
+      SetCurrSentInd(-1)
     }
   
     const ExitReviseHandler = () => {

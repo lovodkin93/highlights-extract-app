@@ -331,8 +331,8 @@ const App = () => {
       setPrevCurrSentInd(current_sentence_id)
       setDocJson(doc_json.map((word) => {return {...word, span_highlighted: false}}))
       setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted: false}}))
-      SetCurrSentInd(-1)
     }
+    SetCurrSentInd(-1)
   }
 
   const ExitReviseHandler = () => {

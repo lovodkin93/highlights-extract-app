@@ -48,7 +48,7 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
     } else if([...Array(middle_states_end - middle_states_start + 1).keys()].map(x => x + middle_states_start).includes(newStateId)){
         if ([12,13].includes(newStateId)) {
             SetStateMachineState("REVISE HOVER");
-            SetCurrSentInd(1)
+            SetCurrSentInd(-1)
             setDocJson(t_middle_doc_json.map((word) => {return {...word, span_highlighted: false}}))
             setSummaryJson(t_middle_summary_json.map((word) => {return {...word, span_highlighted: false}}))
         } else {
