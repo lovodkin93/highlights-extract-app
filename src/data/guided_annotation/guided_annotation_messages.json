@@ -1,7 +1,12 @@
 {
+	"empty_summary_span_msg": {
+	"title":"Nothing highlighted",
+	"text":"I think you forgot to highlight something in the summary...",
+	"timeout":6000
+	},
 	"default_too_short_summary_msg": {
 		"title":"Summary span too short",
-		"text":"The highlighted summary span is too short.",
+		"text":"The highlighted summary span is missing information.",
 		"timeout":6000
 	},
 	"default_too_long_summary_msg": {

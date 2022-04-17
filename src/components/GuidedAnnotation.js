@@ -64,7 +64,10 @@ const GuidedAnnotation = ({isPunct,
       const isSummarySpanOkDict = isSummarySpanOk([], false, false)
       
       if(!isSummarySpanOkDict["summary_span_ok"]) {
-        if (isSummarySpanOkDict["chosen_span_id"]===undefined){
+        if (isSummarySpanOkDict["highlighted_tkn_ids"].length===0) { // nothing highlighted in summary
+          setGuidingMsg(guided_annotation_messages["empty_summary_span_msg"])
+          setGuidingMsgType("danger")
+        } else if (isSummarySpanOkDict["chosen_span_id"]===undefined){
           setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
           setGuidingMsgType("danger")
         } else {
@@ -359,12 +362,15 @@ const GuidedAnnotation = ({isPunct,
 
 
 
-      if(!["START", "SENTENCE START"].includes(StateMachineState)) {
+      if((forceState === undefined) && !["START", "SENTENCE START"].includes(StateMachineState)) {
         // check if span is ok
         const isSummarySpanOkDict = isSummarySpanOk([], false, false)
         // console.log(`state: ${StateMachineState} and ${JSON.stringify(isSummarySpanOkDict)}`)
         if(!isSummarySpanOkDict["summary_span_ok"]) {
-          if (isSummarySpanOkDict["chosen_span_id"]===undefined){
+          if (isSummarySpanOkDict["highlighted_tkn_ids"].length===0) { // nothing highlighted in summary
+            setGuidingMsg(guided_annotation_messages["empty_summary_span_msg"])
+            setGuidingMsgType("danger")
+          } else if (isSummarySpanOkDict["chosen_span_id"]===undefined){
             setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
             setGuidingMsgType("danger")
           } else {
@@ -801,7 +807,10 @@ const GuidedAnnotation = ({isPunct,
     const isSummarySpanOkDict = isSummarySpanOk([], false, false)
     
     if(!isSummarySpanOkDict["summary_span_ok"]) {
-      if (isSummarySpanOkDict["chosen_span_id"]===undefined){
+      if (isSummarySpanOkDict["highlighted_tkn_ids"].length===0) { // nothing highlighted in summary
+        setGuidingMsg(guided_annotation_messages["empty_summary_span_msg"])
+        setGuidingMsgType("danger")
+      } else if (isSummarySpanOkDict["chosen_span_id"]===undefined){
         setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
         setGuidingMsgType("danger")
       } else {
@@ -828,7 +837,8 @@ const GuidedAnnotation = ({isPunct,
     setOpeningModalShow(false)
     setFinishedModalShow(true)
     resetGuidedAnnotation()
-    
+    setGuidedUnhighlight(false)
+    window.scrollTo(0, 0)
     // alert("Submitted!");
   }
 

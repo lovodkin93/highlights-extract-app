@@ -20,7 +20,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-const pages = {'Guided Annotation': 'guidedAnnotation', "Tutorial": "tutorial",  'Annotation': ''}; 
+const pages = {"Tutorial": "tutorial", 'Guided Annotation': 'guidedAnnotation',  'Annotation': ''}; 
 
 const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler, oldAlignmentState, oldAlignmentStateHandler, t_StateMachineStateId }) => {
   const BlackTextTypography = withStyles({
@@ -76,11 +76,27 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
   const margin_left = (curr_ttl) =>{
     if (title==="Guided Annotation" && curr_ttl=="Tutorial") {
       return "6%"
-    } else if (title="Annotation" && curr_ttl==="Guided Annotation") {
+    } else if (title==="Annotation" && curr_ttl==="Tutorial") {
       return "-2%"
-    } else {
+    } else if (title==="Tutorial" && curr_ttl==="Tutorial") {
+      return "-6%"
+    } 
+    
+    else if (title==="Guided Annotation" && curr_ttl=="Guided Annotation") {
+      return "-2%"
+    } else if (title==="Annotation" && curr_ttl==="Guided Annotation") {
+      return "-5%"
+    } else if (title==="Tutorial" && curr_ttl==="Guided Annotation") {
+      return "-6%"
+    }     
+    
+    else if (title==="Guided Annotation" && curr_ttl=="Annotation") {
       return "-4%"
-    }
+    } else if (title==="Annotation" && curr_ttl==="Annotation") {
+      return "-6%"
+    } else if (title==="Tutorial" && curr_ttl==="Annotation") {
+      return "-8%"
+    } 
   }
 
   return (
@@ -93,7 +109,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
           </Col>
           {/* <Col md={{span:12, offset:0}}>
             <Nav className="me-auto"> */}
-                {Object.keys(pages).filter(key => key !== title).map((ttl, index) => (
+                {Object.keys(pages).map((ttl, index) => (
                     <Col style={{marginLeft:`${margin_left(ttl)}`}} md={(ttl==="Guided Annotation")? {span:2, offset:0}:{span:1, offset:0}}>
                       <Nav className="me-auto">
                         <Nav.Item as="li">
@@ -112,7 +128,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
         {/* </Row> */}
 
           { title !== "Instructions" && (
-                <Col md={{span:2, offset:3}}>
+                <Col md={{span:2, offset:2}}>
                   <BlackTextTypography  id="old-highlighting-slider-title">
                       OLD ALIGNMENTS
                   </BlackTextTypography>

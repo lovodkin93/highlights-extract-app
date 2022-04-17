@@ -199,7 +199,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
 
   const DocOnMouseUpHandler = () => {
     if (StateMachineState === "START"){ // during START state no highlighting
-      handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
+      return
+      // handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
     } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
         const chosen_IDs = doc_json.filter((word) => {return word.span_alignment_hover}).map((word) => {return word.tkn_id})
         if (ctrlButtonDown) {
@@ -213,7 +214,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
 
   const SummaryOnMouseUpHandler = () => {
     if (StateMachineState == "START"){ // during start state no clicking is needed
-      handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
+      return
+      // handleErrorOpen({ msg : "Can't highlight words yet. Press \"START\" to begin."});
     }
     else if ((StateMachineState === "REVISE CLICKED") && (summary_json.filter((word) => {return word.span_alignment_hover && word.sent_id > CurrSentInd}).length !== 0)) {
       handleErrorOpen({ msg : "Span chosen cannot be from future sentences. Only from current or past sentences" });

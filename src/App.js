@@ -937,7 +937,7 @@ const App = () => {
 
         </Routes>
       </div>
-      <Snackbar open={error_message !== ""} autoHideDuration={6000} onClose={handleErrorClose}>
+      <Snackbar open={error_message !== "" && !OpeningModalShow} autoHideDuration={6000} onClose={handleErrorClose}>
         <Alert onClose={handleErrorClose} severity="error" sx={{ width: '100%' }}>
           {error_message}
         </Alert>
