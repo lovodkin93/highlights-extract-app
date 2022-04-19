@@ -10,6 +10,8 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Annotation from './Annotation';
+import { Player, BigPlayButton } from 'video-react';
+import "../../node_modules/video-react/dist/video-react.css"; // import css
 
 import { MachineStateHandler,  } from './Annotation_event_handlers';
 import { t_StateMachineStateIdHandler, getTutorialCardTitle, getTutorialCardText } from './Tutorial_utils'
@@ -517,49 +519,15 @@ const Tutorial = ({doc_json, setDocJson,
                     noAlignModalShow = {noAlignModalShow}                       setNoAlignModalShow = {setNoAlignModalShow}
                     noAlignApproved = {noAlignApproved}                         setNoAlignApproved = {setNoAlignApproved}
                     />
-        {/* <Card className={`${([0,17].includes(t_StateMachineStateId)) ? 'tutorial-card-intro' : 'tutorial-card-not-intro'}`} bg="info" border="primary" style={{ width: '30%' }}>
-          <Card.Body>
-            <Card.Title className='tutorial-title'>{getTutorialCardTitle(t_state_messages,t_StateMachineStateId)}</Card.Title>
-            <Card.Text>
-              {getTutorialCardText(t_state_messages,t_StateMachineStateId)}
-            </Card.Text>
-              {(t_StateMachineStateId === 0) && (
-                <DropdownButton className="tutorial-drop-down-button" size="lg" variant="secondary" drop="end" id="dropdown-button-drop-end" title="Sections">
-                  {t_state_messages.map((t_state) => (
-                      <Dropdown.Item as="button" onClick={() => {t_StateMachineStateIdHandler({newStateId:t_state.state_cnt, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
-                                                                      setDocJson:setDocJson, t_start_doc_json:t_start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
-                                                                      setSummaryJson:setSummaryJson, t_start_summary_json:t_start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
-                                                                      SetCurrSentInd:SetCurrSentInd,
-                                                                      MachineStateHandlerWrapper:MachineStateHandlerWrapper}
-                                                                      )}}
-                        >
-                      {t_state.title}
-                      </Dropdown.Item>
-                    ))}
-              </DropdownButton>
-              )}
-              
-              {(t_StateMachineStateId !== 0) && (
-                <Button className="btn btn-dark btn-lg" onClick={() => {t_StateMachineStateIdHandler({newStateId:t_StateMachineStateId-1, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
-                                                                                                      setDocJson:setDocJson, t_start_doc_json:t_start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
-                                                                                                      setSummaryJson:setSummaryJson, t_start_summary_json:t_start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
-                                                                                                      SetCurrSentInd:SetCurrSentInd,
-                                                                                                      MachineStateHandlerWrapper:MachineStateHandlerWrapper})}}
-                >
-                  Back
-              </Button>
-              )}
-
-                <Button className="btn btn-primary btn-lg right-button" onClick={() => {t_StateMachineStateIdHandler({newStateId:t_StateMachineStateId+1, SetStateMachineState:SetStateMachineState, t_SetStateMachineStateId:t_SetStateMachineStateId, t_StateMachineStateId:t_StateMachineStateId, 
-                                                                                                      setDocJson:setDocJson, t_start_doc_json:t_start_doc_json, t_middle_doc_json:t_middle_doc_json, t_sent_end_doc_json:t_sent_end_doc_json, t_submit_doc_json:t_submit_doc_json,
-                                                                                                      setSummaryJson:setSummaryJson, t_start_summary_json:t_start_summary_json, t_middle_summary_json:t_middle_summary_json, t_sent_end_summary_json:t_sent_end_summary_json, t_submit_summary_json:t_submit_summary_json,
-                                                                                                      SetCurrSentInd:SetCurrSentInd,
-                                                                                                      MachineStateHandlerWrapper:MachineStateHandlerWrapper})}}
-                >
-                  Next
-              </Button>
-          </Card.Body>
-        </Card> */}
+        
+        {/* <Player
+          playsInline
+          src="./Videos/bolding-control_m.mp4"
+          fluid={false}
+          aspectRatio="auto"
+        >
+          <BigPlayButton position="center" />
+        </Player> */}
     </>
   )
 }
