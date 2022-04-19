@@ -139,6 +139,7 @@ const App = () => {
   const [summaryOnMouseDownActivated, setSummaryOnMouseDownActivated] = useState(false);
   const [hoverActivatedId, setHoverActivatedId] = useState("-1"); // value will be of tkn_id of elem hovered over
   const [hoverActivatedDocOrSummary, setHoverActivatedDocOrSummary] = useState("doc"); // value will be of tkn_id of elem hovered over
+  
   const [sliderBoldStateActivated, setSliderBoldStateActivated] = useState(false);
   const [noAlignModalShow, setNoAlignModalShow] = useState(false)
   const [noAlignApproved, setNoAlignApproved] = useState(false)
@@ -152,11 +153,7 @@ const App = () => {
 
 
 
-    /*************************************** MTURK *****************************************/ 
 
-
-
-    /***************************************************************************************/
 
 
 
@@ -488,9 +485,7 @@ const App = () => {
   }
 
   const isRedLettered = (summary_tkn_id) => {
-    if ((StateMachineState === "REVISE CLICKED") && (summary_json.filter((word) => {return word.tkn_id === summary_tkn_id && word.sent_id > CurrSentInd}).length !== 0)){
-      return false
-    } else if ((summary_json.filter((word) => {return word.tkn_id === summary_tkn_id && word.sent_id !== CurrSentInd}).length !== 0) && !(["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState))) {
+    if ((summary_json.filter((word) => {return word.tkn_id === summary_tkn_id && word.sent_id !== CurrSentInd}).length !== 0) && StateMachineState !== "REVISE HOVER") {
       return false
     } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
       return true
@@ -617,7 +612,6 @@ const App = () => {
     
     /******************* highlighting while choosing spans to help *******************/ 
 
-
     useEffect(() => {
       if (DocOnMouseDownID !== "-1"){
         setDocOnMouseDownActivated(true)
@@ -634,6 +628,7 @@ const App = () => {
     
     //AVIVSL: TODO: find way to reset the whole hovering process when the onMouseUp occurs outside of the text (maybe when docOnMouseDownActivated===false or summaryOnMouseDownActivated===false) --> maybe use a useRef to remember which one was the one activated - summary or doc?
     useEffect(() => {
+      console.log(`hoverActivatedId:${hoverActivatedId}`)
       if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)){
         if(docOnMouseDownActivated) {
           // console.log(`DocOnMouseDownID is ${DocOnMouseDownID} and hoverActivatedId ia ${hoverActivatedId}`)
@@ -666,11 +661,24 @@ const App = () => {
             console.log(doc_json.filter((word) => {return doc_tkn_ids.includes(word.tkn_id)}).map((word) => {return word.word}))
 
             setDocJson(doc_json.map((word) => doc_tkn_ids.includes(word.tkn_id) ? {...word, red_color:true} : {...word, red_color:false}))  
-          }  
+          } 
         }
       }
     }, [docOnMouseDownActivated, summaryOnMouseDownActivated, hoverActivatedId]);
-    /********************************************************************************/ 
+
+
+    /********************************************************************************/
+    
+    
+
+
+
+
+
+
+
+
+    
 /**************************************************************************************************************/
 
     const g_resetGuidedAnnotation = () => {
@@ -939,6 +947,7 @@ const App = () => {
                                               docOnMouseDownActivated = {docOnMouseDownActivated}         setDocOnMouseDownActivated = {setDocOnMouseDownActivated}
                                               summaryOnMouseDownActivated = {summaryOnMouseDownActivated} setSummaryOnMouseDownActivated = {setSummaryOnMouseDownActivated}
                                               setHoverActivatedId = {setHoverActivatedId}                 setHoverActivatedDocOrSummary = {setHoverActivatedDocOrSummary}
+                                              hoverActivatedId = {hoverActivatedId}
                                               t_StateMachineStateId = {undefined}                         t_SetStateMachineStateId = {undefined}
                                               t_start_doc_json = {undefined}                              t_middle_doc_json = {undefined}
                                               t_sent_end_doc_json = {undefined}                           t_submit_doc_json = {undefined}

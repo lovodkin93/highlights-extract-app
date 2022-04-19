@@ -506,6 +506,7 @@ const Tutorial = ({doc_json, setDocJson,
                     docOnMouseDownActivated = {docOnMouseDownActivated}         setDocOnMouseDownActivated = {setDocOnMouseDownActivated}
                     summaryOnMouseDownActivated = {summaryOnMouseDownActivated} setSummaryOnMouseDownActivated = {setSummaryOnMouseDownActivated}
                     setHoverActivatedId = {setHoverActivatedId}                 setHoverActivatedDocOrSummary = {setHoverActivatedDocOrSummary}
+                    hoverActivatedId = {hoverActivatedId}
                     t_StateMachineStateId = {t_StateMachineStateId}             t_SetStateMachineStateId = {t_SetStateMachineStateId}
                     t_start_doc_json = {t_start_doc_json}                       t_middle_doc_json = {t_middle_doc_json}
                     t_sent_end_doc_json = {t_sent_end_doc_json}                 t_submit_doc_json = {t_submit_doc_json}

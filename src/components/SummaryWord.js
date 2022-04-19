@@ -9,6 +9,7 @@ const SummaryWord = ({ word_json, StateMachineState, SummaryMouseClickHandlerWra
             <div>
               {(word_json.word !== "\n") && (
                 <div
+                  id={`summary-${word_json.tkn_id}`}
                   className={`summaryWord noselect normal-sized-word  text-muted
                               ${(word_json.span_highlighted && !word_json.span_alignment_hover) ? 'span-highlighted-word': ''} // if the word was span_highlighted before and now go over it again, then should unspan it
                               ${(word_json.span_alignment_hover && !ctrlButtonDown) ?  'span-aligned-hover-word': 'cursor-span-summary'} 

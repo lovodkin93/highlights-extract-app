@@ -925,6 +925,7 @@ const GuidedAnnotation = ({isPunct,
               docOnMouseDownActivated = {docOnMouseDownActivated}         setDocOnMouseDownActivated = {setDocOnMouseDownActivated}
               summaryOnMouseDownActivated = {summaryOnMouseDownActivated} setSummaryOnMouseDownActivated = {setSummaryOnMouseDownActivated}
               setHoverActivatedId = {setHoverActivatedId}                 setHoverActivatedDocOrSummary = {setHoverActivatedDocOrSummary}
+              hoverActivatedId = {hoverActivatedId}
               t_StateMachineStateId = {undefined}                          t_SetStateMachineStateId = {undefined}
               t_start_doc_json = {undefined}                               t_middle_doc_json = {undefined}
               t_sent_end_doc_json = {undefined}                            t_submit_doc_json = {undefined}

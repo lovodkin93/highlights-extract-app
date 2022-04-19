@@ -58,6 +58,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                     docOnMouseDownActivated, setDocOnMouseDownActivated, 
                     summaryOnMouseDownActivated, setSummaryOnMouseDownActivated, 
                     setHoverActivatedId, setHoverActivatedDocOrSummary,
+                    hoverActivatedId,
                     t_StateMachineStateId, t_SetStateMachineStateId, 
                     t_start_doc_json, t_middle_doc_json, 
                     t_sent_end_doc_json, t_submit_doc_json, 
@@ -71,7 +72,6 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                     noAlignModalShow, setNoAlignModalShow,
                     noAlignApproved, setNoAlignApproved
                   }) => {
-
 
 
   const [DocMouseclickStartID, SetDocMouseDownStartID] = useState("-1");
@@ -328,6 +328,30 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
       return "Annotation";
     }
   }
+
+
+
+  const outsideSummarySent = useRef(true)
+  const RedHintSmoother = (event) => {
+    if(DocOnMouseDownID!=="-1" || SummaryOnMouseDownID!=="-1" || StateMachineState==="REVISE HOVER") {
+      return
+    } else if (!event.target.parentNode.parentNode.parentNode.className.includes("bordered_sent")) {
+      if(!outsideSummarySent.current){
+        setHoverActivatedId("-1")
+        outsideSummarySent.current=true
+      } else if (doc_json.filter((word) => {return word.red_color}).length!==0) {
+        setDocJson(doc_json.map((word) => {return {...word, red_color:false}}))
+      }
+    } else {
+      if(hoverActivatedId==="-1"){
+        setHoverActivatedId(parseInt(event.target.parentElement.id.match(/\d+/)[0]))
+      }
+      outsideSummarySent.current = false
+    }
+  }
+
+
+
   
 
 /************ TO MAKE SURE THAT WHEN DOC TOO LONG THE SUMMARY IS ALWAYS VISIBLE ****************************** */
@@ -417,11 +441,14 @@ useEffect(() => {
     // }, [])
 
 
+  
+
   return (
     <div 
       onMouseUp={() => {SummaryOnMouseUpHandler(); DocOnMouseUpHandler();}}
       onKeyDown={(event) => {if (event.ctrlKey || event.altKey) {setCtrlButtonDown(true)}}}
       onKeyUp={() => {setCtrlButtonDown(false)}}
+      onMouseOver={(event) => RedHintSmoother(event)}
     >
       <Container tabIndex="0" className='annotation-container'>
         <Row className='annotation-row' ref={containerRef}>
