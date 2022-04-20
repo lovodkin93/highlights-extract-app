@@ -23,7 +23,7 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
                                         MachineStateHandlerWrapper}) => {
     const start_states_end = 10;
     const middle_states_start = start_states_end;
-    const middle_states_end = 13;
+    const middle_states_end = 11;
 
     if (newStateId===1) {
         SetStateMachineState("START");
@@ -46,7 +46,7 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
         }
         SetStateMachineState("ANNOTATION");
     } else if([...Array(middle_states_end - middle_states_start + 1).keys()].map(x => x + middle_states_start).includes(newStateId)){
-        if ([12,13].includes(newStateId)) {
+        if ([11,11].includes(newStateId)) {
             SetStateMachineState("REVISE HOVER");
             SetCurrSentInd(-1)
             setDocJson(t_middle_doc_json.map((word) => {return {...word, span_highlighted: false}}))
@@ -57,17 +57,17 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
             setSummaryJson(t_middle_summary_json);
             SetStateMachineState("ANNOTATION");
         }
-    } else if (newStateId===14) {
+    } else if (newStateId===11) {
         SetCurrSentInd(1);
         setDocJson(t_sent_end_doc_json);
         setSummaryJson(t_sent_end_summary_json);
         SetStateMachineState("SENTENCE END");
-    } else if (newStateId===15) {
+    } else if (newStateId===11) {
         SetCurrSentInd(2);
         setDocJson(t_submit_doc_json);
         setSummaryJson(t_submit_summary_json);
         SetStateMachineState("SUMMARY END");
-    } else if (newStateId===16) {
+    } else if (newStateId===12) {
         SetCurrSentInd(0);
         resetDocJson(setDocJson, t_start_doc_json, true)
         setSummaryJson(t_start_summary_json)
@@ -89,7 +89,7 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
     //   console.log(t_state_messages)
       if (t_StateMachineStateId===0){
           return intro_message();
-      } else if (t_StateMachineStateId===17){
+      } else if (t_StateMachineStateId===15){
         return basic_instructions();
       }else {
           return (
@@ -108,11 +108,11 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
             <br/>
             In this task, you are presented with a document and its summary. 
             <br/>
-            The summary was written by an expert summarizer who first highlighted important spans in the document and then merged then into a coherent pagaraph. 
+            The summary was written by an expert summarizer who first highlighted important spans in the document and then merged them into a coherent pagaraph. 
             <br/>
             <b>Your goal</b> is to locate all those document spans, and align them to their summary counterparts.
             <hr/>
-            This tutorial will walk you through the different elements of the UI, which are aimed to ease the search process, whereas the Guided Annotation section should help
+            <u>This tutorial</u> will walk you through the different elements of the UI, which are aimed to ease the search process, whereas the <u>Guided Annotation</u> section should help
             you understand the correct way to perform this task. 
             <br/>
             <b>It is crucial</b> to complete both sections before starting to annotate.
@@ -162,6 +162,8 @@ const t_StateMachineStateIdHandler = ({newStateId, SetStateMachineState, t_SetSt
                         <li>Is the information presented in the span specific? Or is it too general?</li>
                         <li>Do I feel like there are too many pieces of information in the span? If so, is there a way to leave some of it out while keeping the span self-informative?</li>
                     </ul>
+                <b><u>Note</u>: The task is over only when you align all the summary (in other words, when all the summary is highlighted).</b>
+                <hr/>
                 <b>Lastly, make sure that what you highlight in the document covers all the information in the summary and only it!</b>
     
             </div>

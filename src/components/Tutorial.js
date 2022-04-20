@@ -14,6 +14,7 @@ import { Player, BigPlayButton } from 'video-react';
 import "../../node_modules/video-react/dist/video-react.css"; // import css
 
 import { MachineStateHandler,  } from './Annotation_event_handlers';
+import { TutorialCard } from './TutorialCard';
 import { t_StateMachineStateIdHandler, getTutorialCardTitle, getTutorialCardText } from './Tutorial_utils'
 import _ from 'underscore';
 
@@ -309,7 +310,7 @@ const Tutorial = ({doc_json, setDocJson,
 
   const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
     
-    // no alignment
+    // // no alignment
     if ([16].includes(t_StateMachineStateId) && (typeof forceState !== 'string')  && (StateMachineState !== "REVISE HOVER") && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
       setNoAlignModalShow(true)
       return
@@ -319,13 +320,13 @@ const Tutorial = ({doc_json, setDocJson,
     
     
     setSliderBoldStateActivated(false);
-    if ([5,16].includes(t_StateMachineStateId) || ([11,13].includes(t_StateMachineStateId) && forceState==="REVISE HOVER") || (t_StateMachineStateId === 12 && forceState !== "FINISH REVISION") || ([14,15].includes(t_StateMachineStateId) && ["SENTENCE END", "ANNOTATION", "SUMMARY END", undefined].includes(forceState))) {
-      console.log(`forceState situation with: state ${forceState}`);
-    }
-    else{
-      console.log("ignore MachineStateHandlerWrapper");
-      return; // AVIVSL: added this so people can't change anything
-    }
+    // if ([5,16].includes(t_StateMachineStateId) || ([11,13].includes(t_StateMachineStateId) && forceState==="REVISE HOVER") || (t_StateMachineStateId === 12 && forceState !== "FINISH REVISION") || ([14,15].includes(t_StateMachineStateId) && ["SENTENCE END", "ANNOTATION", "SUMMARY END", undefined].includes(forceState))) {
+    //   console.log(`forceState situation with: state ${forceState}`);
+    // }
+    // else{
+    //   console.log("ignore MachineStateHandlerWrapper");
+    //   return; // AVIVSL: added this so people can't change anything
+    // }
     MachineStateHandler(summary_json,
                           StateMachineState, SetStateMachineState,
                           SetInfoMessage, handleErrorOpen, isPunct,
@@ -523,7 +524,7 @@ const Tutorial = ({doc_json, setDocJson,
         
         {/* <Player
           playsInline
-          src="./Videos/bolding-control_m.mp4"
+          src="./Videos/old-highlights_m.mp4"
           fluid={false}
           aspectRatio="auto"
         >

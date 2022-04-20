@@ -25,7 +25,6 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Alert from 'react-bootstrap/Alert'
 import { ChevronLeft, ChevronRight, SendFill } from 'react-bootstrap-icons';
-import { TutorialCard } from './TutorialCard';
 import { Markup } from 'interweave';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
@@ -33,7 +32,11 @@ import { Link } from 'react-router-dom';
 import Overlay from 'react-bootstrap/Overlay'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
+import { Player, BigPlayButton } from 'video-react';
 
+
+import { TutorialCard } from './TutorialCard';
+import { getTutorialCardTitle } from './Tutorial_utils'
 // import Card from 'react-bootstrap/Card'
 // import { Container, Row, Col } from 'react-bootstrap';
 
@@ -494,7 +497,7 @@ useEffect(() => {
               GuidedAnnotationToast(toastVisible, setToastVisible, g_StateMachineStateIndex)
         )} */}
 
-        {(![0,17].includes(t_StateMachineStateId)) && (
+        {(!isTutorial || [4,6,7].includes(t_StateMachineStateId)) && (
           <Row className='annotation-row' id={`${(InfoMessage === "") ? 'doc-summary-row': ''}`}>
             <Col md={ 8 }>
               <Card border="secondary" bg="light"  id="doc-text">
@@ -524,64 +527,84 @@ useEffect(() => {
                 </Col>
               </Row>
 
-              <Row className="justify-content-md-center">
-                  {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && (
-                    <Col>
-                      <button type="button" className={`btn btn-dark btn-lg ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>REVISE</button>
-                    </Col>
-                  )}
+              {!isTutorial && (
+                <Row className="justify-content-md-center">
+                    {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && (
+                      <Col>
+                        <button type="button" className={`btn btn-dark btn-lg ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>REVISE</button>
+                      </Col>
+                    )}
 
-                  {StateMachineState === "REVISE HOVER" && (
-                    <Col>
-                      <button type="button" className={`btn btn-success btn-lg ${(isTutorial && t_StateMachineStateId===13) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>FINISH</button>
-                    </Col>
-                  )}
+                    {StateMachineState === "REVISE HOVER" && (
+                      <Col>
+                        <button type="button" className={`btn btn-success btn-lg ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>FINISH</button>
+                      </Col>
+                    )}
 
-                {StateMachineState === "REVISE CLICKED" && (
-                    <Col md={{span:4, offset:0}}>
-                      <button type="button" className={`btn btn-secondary btn-lg ${(isTutorial && t_StateMachineStateId===12) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
-                      <ChevronLeft className="button-icon"/>
-                      BACK
-                      </button>
-                    </Col>
-                  )}
+                  {StateMachineState === "REVISE CLICKED" && (
+                      <Col md={{span:4, offset:0}}>
+                        <button type="button" className={`btn btn-secondary btn-lg ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
+                        <ChevronLeft className="button-icon"/>
+                        BACK
+                        </button>
+                      </Col>
+                    )}
 
-                {!["REVISE HOVER", "SUMMARY END", "SENTENCE END", "START"].includes(StateMachineState) && (
-                    <Col md={{span:5, offset:3}}>
-                      <button type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && [5,12,16].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
-                      <Markup content={nextButtonText()} />
-                        {(isDocSpanExist()) && <ChevronRight className="button-icon"/>}
-                      </button>
-                    </Col>
-                )}
-
-                {StateMachineState === "START"  && (
-                      <Col md={{span:3, offset:9}}>
-                        <button type="button" className={`btn btn-primary btn-lg right-button ${(isGuidedAnnotation || isTutorial) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                  {!["REVISE HOVER", "SUMMARY END", "SENTENCE END", "START"].includes(StateMachineState) && (
+                      <Col md={{span:5, offset:3}}>
+                        <button type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && [5,11,14].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                         <Markup content={nextButtonText()} />
+                          {(isDocSpanExist()) && <ChevronRight className="button-icon"/>}
                         </button>
                       </Col>
                   )}
 
-                {StateMachineState === "SENTENCE END"  && (
-                      <Col md={{span:7, offset:1}}>
-                        <button type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && t_StateMachineStateId===14) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
-                          <Markup content={nextButtonText()} /> 
-                          {(StateMachineState !== "START" && isDocSpanExist()) && (<ChevronRight className="button-icon"/>) }
-                        </button>
-                      </Col>
-                  )}
+                  {StateMachineState === "START"  && (
+                        <Col md={{span:3, offset:9}}>
+                          <button type="button" className={`btn btn-primary btn-lg right-button ${(isGuidedAnnotation || isTutorial) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                          <Markup content={nextButtonText()} />
+                          </button>
+                        </Col>
+                    )}
 
-                {StateMachineState === "SUMMARY END" && (
-                  <Col md={{span:5, offset:3}}>
-                    <button type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && t_StateMachineStateId===15) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
-                      <Markup content={nextButtonText()} />
-                      {(StateMachineState !== "START" && isDocSpanExist()) && (<SendFill className="button-icon"/>) }
-                    </button>
-                  </Col>
-                )}
-              </Row>
+                  {StateMachineState === "SENTENCE END"  && (
+                        <Col md={{span:7, offset:1}}>
+                          <button type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && t_StateMachineStateId===12) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                            <Markup content={nextButtonText()} /> 
+                            {(StateMachineState !== "START" && isDocSpanExist()) && (<ChevronRight className="button-icon"/>) }
+                          </button>
+                        </Col>
+                    )}
+
+                  {StateMachineState === "SUMMARY END" && (
+                    <Col md={{span:5, offset:3}}>
+                      <button type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && t_StateMachineStateId===13) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
+                        <Markup content={nextButtonText()} />
+                        {(StateMachineState !== "START" && isDocSpanExist()) && (<SendFill className="button-icon"/>) }
+                      </button>
+                    </Col>
+                  )}
+                </Row>
+              )}
               </div>
+            </Col>
+          </Row>
+        )}
+
+
+
+        {(isTutorial && ![0,4,6,7,15].includes(t_StateMachineStateId)) && (
+
+          <Row className='annotation-row' id='doc-summary-row'>
+            <Col>
+              <Player
+                playsInline
+                src={`./Videos/${getTutorialCardTitle(t_state_messages,t_StateMachineStateId).replace(/\s+/g, '-').toLowerCase()}.mp4`}
+                fluid={false}
+                aspectRatio="auto"
+              >
+                <BigPlayButton position="center" />
+              </Player>
             </Col>
           </Row>
         )}
@@ -610,7 +633,7 @@ useEffect(() => {
                   </Modal.Footer>
         </Modal>
 
-        <Modal  show={noAlignModalShow} onHide={() => {setNoAlignModalShow(false)}}>
+        <Modal  aria-labelledby="contained-modal-title-vcenter" centered show={noAlignModalShow} onHide={() => {setNoAlignModalShow(false)}}>
                   <Modal.Header closeButton>
                     <Modal.Title>Are You Sure?</Modal.Title>
                   </Modal.Header>

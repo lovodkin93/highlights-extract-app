@@ -12,7 +12,7 @@
     {
     "state_cnt": 2,
     "title": "Highlighting",
-    "message": "Choosing aligning spans is done by highlighting them (see example of highlighted spans). To do that, left click the first word and don't let go until all the span is covered (the covered span will be colored orange to guide you). <b>Give it a go</b>, and then proceed."
+    "message": "Choosing aligning spans is done by highlighting them. <br/>To do that, click the first word and hold it until all the span is covered (the covered span will be colored orange to guide you)."
   },
       {
     "state_cnt": 3,
@@ -22,70 +22,61 @@
       {
     "state_cnt": 4,
     "title": "Work Sentence-by-Sentence",
-    "message": "You will work one summary sentence at a time, and you won't be able to proceed to the next sentence before highlighting all the current sentence. To help you focus, the current sentence will be in a red box."
+    "message": "You will work one summary sentence at a time, and you won't be able to proceed to the next sentence before highlighting all the current sentence. To help you focus, the current sentence will be mark by red box."
   },
       {
     "state_cnt": 5,
     "title": "Confirm Alignments",
-    "message": "When you are satisfied with an alignment, press the \"CONFIRM\" button. When you do this, the alignment is saved (its color is changed to a faded yellow). <br/><b>Give it a go</b>, and then proceed."
+    "message": "When you are satisfied with an alignment, press the \"CONFIRM\" button. Doing so will save the alignment (its color will be changed to a faded yellow)."
   },
       {
     "state_cnt": 6,
     "title": "Bold - Full Sentence",
-    "message": "To help you find the alignments, document words related to the current summary sentence are in bold."
+    "message": "To help you find the alignments, document words related to the current summary sentence will be in bold."
   },
       {
     "state_cnt": 7,
     "title": "Bold - Span",
-    "message": "When a summary span is chosen (highlighted), the bolding narrows down to words related to the highlighted summary span, to help you better focus. <br/><b>For example</b>, the bolding helps us see that the currently highlighted span is aligned to part of the first sentence, and to another span further along."
+    "message": "When a summary span is chosen (highlighted), the bolding narrows down to words related to the highlighted summary span, to help you better focus. <br/><b>For example</b>, the bolding helps us see that the currently highlighted span is aligned to a part of the first sentence, and to another span further along."
   },
       {
     "state_cnt": 8,
     "title": "Bolding Control",
-    "message": "In addition to the default behavior, you can also control the bolding level you prefer, through the red slider at the top-right corner of the screen. <br/>you can alter between:<ul><li>No bolding (leftmost)</li><li>Currently highlighted span bolding (middle)</li><li>Current sentence bolding (rightmost)</li></ul><b>Play with it a little</b>, and then proceed."
+    "message": "In addition to the default behavior, you can also control the bolding level you prefer, through the red slider at the top-right corner of the screen. <br/>you can alter between:<ul><li>No bolding (leftmost)</li><li>Currently highlighted span bolding (middle)</li><li>Current sentence bolding (rightmost)</li></ul>"
   },
       {
     "state_cnt": 9,
     "title": "Single Word Hint",
-    "message": "If you want to find all the document words related to a specific summary word, without turning off the bolding option, <b>hover</b> over it. <br/>This will \"activate\" the related document words (turn them <b style=\"color:red\">red</b>). <br/><b>For example</b>, try hovering over the \"1:30\" mention in the summary."
+    "message": "If you want to find document words related to a specific summary word, without turning off the bolding option, <b>hover</b> over it. <br/>This will \"activate\" the related document words (turn them <b style=\"color:red\">red</b>)."
   },
       {
     "state_cnt": 10,
     "title": "Old Alignments",
-    "message": "Every alignment which is approved, is saved and can be seen with a faded-yellow background. <br/>You can control how many of the old alignments to see, by toggling the blue slider adjacent to the bolding-control slider. <br/>You can alter between: <ul><li>No previous alignments (leftmost)</li><li>Only Current sentence's previous alignments (middle)</li><li>All previous alignments (rightmost)</li></ul><b>Play with it a little</b>, and then proceed."
+    "message": "Every alignment which is approved, is saved and can be seen with a faded-yellow background. <br/>You can control how many of the old alignments to see, by toggling the blue slider adjacent to the bolding-control slider. <br/>You can alter between: <ul><li>No previous alignments (leftmost)</li><li>Only Current sentence's previous alignments (middle)</li><li>All previous alignments (rightmost)</li></ul>"
   },
       {
     "state_cnt": 11,
     "title": "Revise",
-    "message": "If at any given point you regret one of your old alignments, you have the option to Revise it. To do that - start by clicking the \"REVISE\" button. (proceed for further explanation)."
+    "message": "If at any given point you regret one of your old alignments, you have the option to revise it. <br/>To do that:<ol><li>hit \"REVISE\" to enter REVISE mode.</li><li>Hover over the old alignments to find the one you want to fix (when hovered over, the alignments will \"unfade\" to guide you).</li><li>Click the Alignment you want to fix.</li><li>Fix it.</li><li>If you are satisfied, press \"CONFIRM\". Alternatively, if you regret, press \"BACK\" to discard all your changes.</li></ol> You can do steps 2-5 multiple times. <br/>When you are satisfied with all your revisions, press \"FINISH\" to leave the REVISE mode and return to the normal annotation mode."
   },
-      {
+
+  {
     "state_cnt": 12,
-    "title": "Revise - Choose Old Alignment and Fix it",
-    "message": "After clicking the \"REVISE\" button, you will enter the REVISE mode. <br/>Here, you first need to choose the alignment to revise:<ol><li>Hover over the old alignments - the equivalent alignments will be \"unfaded\" to help you find the correct alignment.</li> <li>Once you found the alignment you want to revise, click it to make it reviseable</li>.</ol> Now you can highlight and un-highlight parts of the summary and document to fix the alignment. <br/>Once you are <b>satisfied</b>, press <b>\"CONFIRM\"</b>. <br/>If you <b>regret</b> your changes, dicard them by pressing the <b>\"BACK\"</b> button. <hr/><b>Now it's your turn: try to edit one of the old alignments and then approve or discard the changes.</b> <br/>When you are finished, proceed to the next step."
+    "title": "End of Sentence",
+    "message": "Once you highlighted a full sentence, you will automatically be prompted to proceed to the next sentence.<br/> Clicking the \"NEXT SENTENCE\" button will save the currently chosen alignment and will proceed to the next sentence."
   },
       {
     "state_cnt": 13,
-    "title": "Revise - Finish",
-    "message": "You can fix as many old alignments as you wish. <br/>Once you are satisfied, click the \"FINISH\" button to save your changes and go back to the main annotation session."
-  },
-      {
-    "state_cnt": 14,
-    "title": "End of Sentence",
-    "message": "Once you highlighted a full sentence, you will automatically be prompted to proceed to the next sentence.<br/> Clicking the \"NEXT SENTENCE\" button will save the currently chosen alignment and will proceed to the next sentence.<br/><b>Try it out</b>, and when you are done, proceed to the next step."
-  },
-      {
-    "state_cnt": 15,
     "title": "Submit",
     "message": "Once you are finished highlighting the summary, you will be prompted to submit your work. <br/>Clicking the \"SUBMIT\" button will save your last alignment and submit your whole work."
   },
         {
-    "state_cnt": 16,
+    "state_cnt": 14,
     "title": "Unalignable Spans",
-    "message": "Rarely there would be pieces of information in the summary that wouldn't have any alignment in the document. <br/>In such cases, highlight the piece of information and submit it unaligned (with the document highlighting-free). <br/>Notice that the \"CONFIRM\" button appears with \"No ALIGN\" and in different color (the same applies to the \"NEXT SENTENCE\" and the \"SUBMIT\" buttons). <br/>When you do this, a pop-up message will ask you if you are sure this span is un-alignable. <br/><b>Give it a go</b>, and then proceed."
+    "message": "Rarely there would be pieces of information in the summary that wouldn't have any alignment in the document. <br/>In such cases, highlight the piece of information and submit it unaligned (with the document highlighting-free). <br/>Notice that the \"CONFIRM\" button appears with \"NO ALIGN\" and in a different color (the same applies for the \"NEXT SENTENCE\" and the \"SUBMIT\" buttons). <br/>Doing this will prompt a pop-up message asking if you are sure this span is un-alignable."
   },
   {
-    "state_cnt": 17,
+    "state_cnt": 15,
     "title": "Some Basic Instructions",
     "message": ""
   }

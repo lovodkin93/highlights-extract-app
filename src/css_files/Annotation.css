@@ -120,7 +120,7 @@
 } */
 
 #doc-summary-row{
-    margin-top: 1%;
+    margin-top: 1%; 
 }
 
 /* .not-end-of-sentence-word{
@@ -380,7 +380,7 @@
     margin-bottom: 0.3%;
     /* transform: translate(-50%, -50%); */
     width: fit-content;
-    min-width: 80% !important;
+    min-width: 81% !important;
 
   }
 
