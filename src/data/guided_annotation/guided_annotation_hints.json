@@ -666,15 +666,25 @@
 			},
 			"doc_tkns_alignments": {
 				"1":["10000000-10000000"],
-				"2":["215-217;219-223;638-651;653-654", "2-3;215-217;219-223;638-651;653-654", "90-92;215-217;219-223;638-651;653-654", "2-3;90-92;215-217;219-223;638-651;653-654", "215-217;219-223;643-651;653-654", "2-3;215-217;219-223;643-651;653-654", "90-92;215-217;219-223;643-651;653-654", "2-3;90-92;215-217;219-223;643-651;653-654"],
+				"2":["215-217;219-223;638-641;643-651;653-654", "2-3;215-217;219-223;638-641;643-651;653-654", "90-92;215-217;219-223;638-641;643-651;653-654", "2-3;90-92;215-217;219-223;638-641;643-651;653-654", "215-217;219-223;638-651;653-654", "2-3;215-217;219-223;638-651;653-654", "90-92;215-217;219-223;638-651;653-654", "2-3;90-92;215-217;219-223;638-651;653-654", "215-217;219-223;643-651;653-654", "2-3;215-217;219-223;643-651;653-654", "90-92;215-217;219-223;643-651;653-654", "2-3;90-92;215-217;219-223;643-651;653-654",
+					 "215-217;219-223;638-641;643-645;647-651;653-654", "2-3;215-217;219-223;638-641;643-645;647-651;653-654", "90-92;215-217;219-223;638-641;643-645;647-651;653-654", "2-3;90-92;215-217;219-223;638-641;643-645;647-651;653-654", "215-217;219-223;638-645;647-651;653-654", "2-3;215-217;219-223;638-645;647-651;653-654", "90-92;215-217;219-223;638-645;647-651;653-654", "2-3;90-92;215-217;219-223;638-645;647-651;653-654", "215-217;219-223;643-645;647-651;653-654", "2-3;215-217;219-223;643-645;647-651;653-654", "90-92;215-217;219-223;643-645;647-651;653-654", "2-3;90-92;215-217;219-223;643-645;647-651;653-654"],
 				"3":["215-217;219-223", "2-3;215-217;219-223", "90-92;215-217;219-223", "2-3;90-92;215-217;219-223"],
 				"4":["10000000-10000000"],
-				"5":["638-651;653-654", "643-651;653-654", "215-217;638-651;653-654", "215-217;643-651;653-654"],
+				"5":["638-641;643-651;653-654", "215-217;638-641;643-651;653-654", "638-651;653-654", "643-651;653-654", "215-217;638-651;653-654", "215-217;643-651;653-654",
+					 "638-641;643-645;647-651;653-654", "215-217;638-641;643-645;647-651;653-654", "638-645;647-651;653-654", "643-645;647-651;653-654", "215-217;638-645;647-651;653-654", "215-217;643-645;647-651;653-654"],
 				"6":["10000000-10000000"],
-				"7":["217-217;219-223;638-651;653-654", "217-217;219-223;643-651;653-654", "219-223;638-651;653-654", "219-223;643-651;653-654",   
+				"7":["217-217;219-223;638-641;643-651;653-654", "219-223;638-641;643-651;653-654", "2-3;217-217;219-223;638-641;643-651;653-654", "2-3;219-223;638-641;643-651;653-654",
+					 "90-92;217-217;219-223;638-641;643-651;653-654", "90-92;219-223;638-641;643-651;653-654", "2-3;90-92;217-217;219-223;638-641;643-651;653-654", "2-3;90-92;219-223;638-641;643-651;653-654",
+					"217-217;219-223;638-651;653-654", "217-217;219-223;643-651;653-654", "219-223;638-651;653-654", "219-223;643-651;653-654",   
 					 "2-3;217-217;219-223;638-651;653-654", "2-3;217-217;219-223;643-651;653-654", "2-3;219-223;638-651;653-654", "2-3;219-223;643-651;653-654",
 					 "90-92;217-217;219-223;638-651;653-654", "90-92;217-217;219-223;643-651;653-654", "90-92;219-223;638-651;653-654", "90-92;219-223;643-651;653-654",
-					 "2-3;90-92;217-217;219-223;638-651;653-654", "2-3;90-92;217-217;219-223;643-651;653-654", "2-3;90-92;219-223;638-651;653-654", "2-3;90-92;219-223;643-651;653-654"],
+					 "2-3;90-92;217-217;219-223;638-651;653-654", "2-3;90-92;217-217;219-223;643-651;653-654", "2-3;90-92;219-223;638-651;653-654", "2-3;90-92;219-223;643-651;653-654",
+					 "217-217;219-223;638-641;643-645;647-651;653-654", "219-223;638-641;643-645;647-651;653-654", "2-3;217-217;219-223;638-641;643-645;647-651;653-654", "2-3;219-223;638-641;643-645;647-651;653-654",
+					 "90-92;217-217;219-223;638-641;643-645;647-651;653-654", "90-92;219-223;638-641;643-645;647-651;653-654", "2-3;90-92;217-217;219-223;638-641;643-645;647-651;653-654", "2-3;90-92;219-223;638-641;643-645;647-651;653-654",
+					"217-217;219-223;638-645;647-651;653-654", "217-217;219-223;643-645;647-651;653-654", "219-223;638-645;647-651;653-654", "219-223;643-645;647-651;653-654",   
+					 "2-3;217-217;219-223;638-645;647-651;653-654", "2-3;217-217;219-223;643-645;647-651;653-654", "2-3;219-223;638-645;647-651;653-654", "2-3;219-223;643-645;647-651;653-654",
+					 "90-92;217-217;219-223;638-645;647-651;653-654", "90-92;217-217;219-223;643-645;647-651;653-654", "90-92;219-223;638-645;647-651;653-654", "90-92;219-223;643-645;647-651;653-654",
+					 "2-3;90-92;217-217;219-223;638-645;647-651;653-654", "2-3;90-92;217-217;219-223;643-645;647-651;653-654", "2-3;90-92;219-223;638-645;647-651;653-654", "2-3;90-92;219-223;643-645;647-651;653-654"],		
 				"8":[]
 			},
 			"missing_alignment_msg": {
@@ -689,15 +699,56 @@
 						{
 							"missing_tkns":["219-223"],
 							"title":"Missing info in document highlight", 
-							"text":"Who is Wilson?"
+							"text":"You missed the fact that Wilson is \"the department 's chief economist\"."
+						},
+						{
+							"missing_tkns":["215-215", "216-216"],
+							"title":"Missing info in document highlight", 
+							"text":"You didn't highlight Wilson's full name (in the document)."
+						},
+						{
+							"missing_tkns":["643-645"],
+							"title":"Missing info in document highlight", 
+							"text":"You didn't highlight all the things Wilson said (\"<u>the United States</u>  would import...\")."
+						},
+						{
+							"missing_tkns":["647-647"],
+							"title":"Missing info in document highlight", 
+							"text":"You didn't highlight all the things Wilson said (\"the United States would <u>import</u>...\")."
+						},
+						{
+							"missing_tkns":["648-648", "649-649"],
+							"title":"Missing info in document highlight", 
+							"text":"You didn't highlight all the things Wilson said (\"the United States would import <u>some soybeans</u>...\")."
+						},
+						{
+							"missing_tkns":["650-650", "651-651"],
+							"title":"Missing info in document highlight", 
+							"text":"You didn't highlight all the things Wilson said (\"the United States would import some soybeans <u>this year</u>\")."
 						},
 						{
 							"missing_tkns":["638-641"],
 							"title":"Missing info in document highlight", 
-							"text":"According to the summary, the US <u>might</u> import."
+							"text":"According to the summary, the US <u>might</u> import. (\"There remained a possibility...\")"
+						},
+						{
+							"missing_tkns":["653-654"],
+							"title":"Missing info in document highlight", 
+							"text":"You missed the fact that Wilson said that (\"... soybeans this year, <u>Wilson said<u>\"."
 						}
 					],
-				"3":[],
+				"3":[
+						{
+							"missing_tkns":["219-223"],
+							"title":"Missing info in document highlight", 
+							"text":"You missed the fact that Wilson is \"the department 's chief economist\"."
+						},
+						{
+							"missing_tkns":["215-215", "216-216"],
+							"title":"Missing info in document highlight", 
+							"text":"You didn't highlight Wilson's full name (in the document)."
+						}
+					],
 				"4":[
 						{
 							"missing_tkns":["10000000-10000000"],
@@ -707,9 +758,39 @@
 					],
 				"5":[
 						{
+							"missing_tkns":["215-215", "216-216"],
+							"title":"Missing info in document highlight", 
+							"text":"You didn't highlight Wilson's full name (in the document)."
+						},
+						{
+							"missing_tkns":["643-645"],
+							"title":"Missing info in document highlight", 
+							"text":"You didn't highlight all the things Wilson said (\"<u>the United States</u>  would import...\")."
+						},
+						{
+							"missing_tkns":["647-647"],
+							"title":"Missing info in document highlight", 
+							"text":"You didn't highlight all the things Wilson said (\"the United States would <u>import</u>...\")."
+						},
+						{
+							"missing_tkns":["648-648", "649-649"],
+							"title":"Missing info in document highlight", 
+							"text":"You didn't highlight all the things Wilson said (\"the United States would import <u>some soybeans</u>...\")."
+						},
+						{
+							"missing_tkns":["650-650", "651-651"],
+							"title":"Missing info in document highlight", 
+							"text":"You didn't highlight all the things Wilson said (\"the United States would import some soybeans <u>this year</u>\")."
+						},
+						{
 							"missing_tkns":["638-641"],
 							"title":"Missing info in document highlight", 
-							"text":"According to the summary, the US <u>might</u> import."
+							"text":"According to the summary, the US <u>might</u> import. (\"There remained a possibility...\")"
+						},
+						{
+							"missing_tkns":["653-654"],
+							"title":"Missing info in document highlight", 
+							"text":"You missed the fact that Wilson said that (\"... soybeans this year, <u>Wilson said<u>\"."
 						}
 					],
 				"6":[
@@ -721,9 +802,39 @@
 					],
 				"7":[
 						{
+							"missing_tkns":["643-645"],
+							"title":"Missing info in document highlight", 
+							"text":"You didn't highlight all the things economist said (\"<u>the United States</u>  would import...\")."
+						},
+						{
+							"missing_tkns":["647-647"],
+							"title":"Missing info in document highlight", 
+							"text":"You didn't highlight all the things economist said (\"the United States would <u>import</u>...\")."
+						},
+						{
+							"missing_tkns":["648-648", "649-649"],
+							"title":"Missing info in document highlight", 
+							"text":"You didn't highlight all the things economist said (\"the United States would import <u>some soybeans</u>...\")."
+						},
+						{
+							"missing_tkns":["650-650", "651-651"],
+							"title":"Missing info in document highlight", 
+							"text":"You didn't highlight all the things economist said (\"the United States would import some soybeans <u>this year</u>\")."
+						},
+						{
 							"missing_tkns":["638-641"],
-							"title":"Missing info in Alignment", 
-							"text":"According to the summary, the US <u>might</u> import."
+							"title":"Missing info in document highlight", 
+							"text":"According to the summary, the US <u>might</u> import. (\"There remained a possibility...\")"
+						},
+						{
+							"missing_tkns":["219-223"],
+							"title":"Missing info in document highlight", 
+							"text":"You didn't highlight the full \"the department 's chief economist\" title."
+						},
+						{
+							"missing_tkns":["653-654"],
+							"title":"Missing info in document highlight", 
+							"text":"You missed the fact that the economist said that (\"... soybeans this year, <u>Wilson said<u>\"."
 						}
 					],
 				"8":[]
@@ -883,7 +994,115 @@
 				
 					
 			}
+		},
+		
+		
+				{
+			"sent_id":3,
+			"good_summary_spans": {
+				"1":["98-104;106-113"]
+			},
+			"span_indicating_tkns": {
+				"1":["98-98", "99-99", "100-100", "101-101", "102-102", "103-103", "104-104", "106-106", "107-107", "108-108", "109-109", "110-110", "111-111", "112-112", "113-113"]
+			},
+			"too_short_summary_msgs": {
+				"1":[
+						{
+							"missing_tkns":["98-98", "99-99", "100-100", "101-101", "102-102", "103-103", "104-104", "106-106", "107-107", "108-108", "109-109", "110-110", "111-111", "112-112", "113-113"],
+							"title":"Span not full", 
+							"text":"In this case, the span should include all the sentence."
+						}
+					]
+			},
+			"too_long_summary_msgs": {
+				"1":[]
+			},
+			"doc_tkns_alignments": {
+				"1":["226-238", "226-231;233-238", "226-231;234-238", "226-232;234-238", "226-234;236-238", "226-231;233-234;236-238", "226-231;234-234;236-238", "226-232;234-234;236-238",
+					 "227-238", "227-231;233-238", "227-231;234-238", "227-232;234-238", "227-234;236-238", "227-231;233-234;236-238", "227-231;234-234;236-238", "227-232;234-234;236-238"]
+
+			},
+			"missing_alignment_msg": {
+				"1":[
+						{
+							"missing_tkns":["227-227"],
+							"title":"Missing info in document alignment", 
+							"text":"The draught as the cause for the increase in cost is missing."
+						},
+						{
+							"missing_tkns":["228-228"],
+							"title":"Missing info in document alignment", 
+							"text":"According to the summary, the drought <u>could</u> result in an increase."
+						},
+						{
+							"missing_tkns":["229-229"],
+							"title":"Missing info in document alignment", 
+							"text":"The part indicating the <u>increase</u> is missing (\"add\")."
+						},
+						{
+							"missing_tkns":["234-234"],
+							"title":"Missing info in document alignment", 
+							"text":"The part indicating the increase in <u>prices</u> is missing (\"cost\")."
+						},
+						{
+							"missing_tkns":["236-236"],
+							"title":"Missing info in document alignment", 
+							"text":"\"food\" wasn't highlighted."
+						},
+						{
+							"missing_tkns":["230-231"],
+							"title":"Missing info in document alignment", 
+							"text":"Make sure you included the part indicating the increase (the adding of <u>X percent</u>)."
+						},
+						{
+							"missing_tkns":["237-238"],
+							"title":"Missing info in document alignment", 
+							"text":"Make sure you included the part talking about <u>when</u> the increase will occur."
+						}
+					]
+			},
+			"redundant_alignment_msg": {
+					"1":[
+						{  
+						"excess_tkns":["23-23", "25-25", "26-26", "27-27", "28-28", "29-29", "30-30", "31-31", "32-32", "33-33", "34-34"],
+						"title":"Don't let the Bolding dictate what you highlight!", 
+						"text":"There is a better alignment, which is a paraphrasing of the summary span. <br>Check out parapraph 3."
+						},
+						{ 
+						"excess_tkns":["225-225"],
+						"title":"Irrelevant information", 
+						"text":"The summary span doesn't mention anything about someone <u>saying</u> something."
+						},
+						{ 
+						"excess_tkns":["240-240", "241-241", "242-242", "243-243"],
+						"title":"Irrelevant information", 
+						"text":"The summary span doesn't mention anything about the two percent raise next year."
+						},
+						{ 
+						"excess_tkns":["10-10", "137-137", "254-254", "353-353", "399-399", "608-608"],
+						"title":"There is a better context", 
+						"text":"There is a better context for \"drought\" (in the document). <br/>Check out paragraph 3."
+						},
+						{  
+						"excess_tkns":["530-530"],
+						"title":"There is a better context", 
+						"text":"There is a better context for \"1\" (in the document). <br/>Check out paragraph 3."
+						},	
+						{  
+						"excess_tkns":["68-68", "295-295", "306-306", "603-603", "620-620"],
+						"title":"There is a better context", 
+						"text":"There is a better context for \"food\" (in the document). <br/>Check out paragraph 3."
+						},					
+						{ 
+						"excess_tkns":["46-46", "115-115", "117-117", "165-165", "169-169", "173-173", "262-262", "371-371", "474-474", "534-534", "584-584", "651-651"],
+						"title":"There is a better alignment", 
+						"text":"There is a better context for \"year\" (in the document). <br/>Check out paragraph 3."
+						}					
+					]
+			}
 		}
+		
+		
 	]
     
 }

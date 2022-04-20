@@ -610,14 +610,12 @@ useEffect(() => {
         )}
       </Container>
 
-      <Modal  show={OpeningModalShow && !isTutorial && !isGuidedAnnotation} onHide={() => {setOpeningModalShow(false)}}>
+      <Modal  aria-labelledby="contained-modal-title-vcenter" centered show={OpeningModalShow && !isTutorial && !isGuidedAnnotation} onHide={() => {setOpeningModalShow(false)}}>
                   <Modal.Header closeButton>
                     <Modal.Title>Attention!</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
                     Please get the required training by going over the Tutorial and performing the Guided Annotation at least once.
-                    <br/>
-                    <b>You can find the links</b> to both in the <b>navigation bar</b> at the top-left corner of the page.
                     <br/>
                     If you have already done both, you may skip the training and proceed directly to the task.
                   </Modal.Body>

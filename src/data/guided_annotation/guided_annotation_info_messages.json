@@ -94,9 +94,27 @@
 				"8":{
 					"title":"Find the Alignment - Pay Attention",
 					"text":"Notice that this information is is not mentioned in document (unalignable).<br/>This can happen sometimes. <br/>When it does, you should submit it as unaligned (by highlighting only the summary span and hitting the \"CONFIRM\" button)."
+				}
+			}
+		},
 
+
+		{
+			"tkn_id":3,
+			"choose_summary_span":{},
+			"find_alignment":{
+				"1":{
+					"title":"Pay Attention!",
+					"text":"Occasionaly, summary sentences were paraphrased by the summarizer. <br/>Such alignments are harder to find, as the bolding feature has very limited contribution in finding them. <br/>In such cases, it is very tempting to simply highlight the closest in meaning alignment, which is not desirable! <br/>Make sure you do not let the bolding dictate your highlighting!<br/><u>Hint</u>: check out paragraph 3."
 				}
 			}
 		}
+	
+	
+	
+	
+	
+	
+	
 	]
 }

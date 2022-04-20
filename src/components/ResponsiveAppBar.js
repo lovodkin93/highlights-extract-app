@@ -198,7 +198,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
       <Overlay target={whereNavBar.current} show={g_showWhereNavbar} placement="bottom">
         {(props) => (
           <Tooltip {...props} id="overlay-where-navbar">
-              It's right here!
+              I'm right here!
           </Tooltip>
         )}
       </Overlay>
