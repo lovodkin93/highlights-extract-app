@@ -91,7 +91,9 @@
 					"text":"Does everything mentioned in the summary span appear in the document?"
 				},
 				"7":{},
-				"8":{
+				"8":{},
+				"9":{},
+				"10":{
 					"title":"Find the Alignment - Pay Attention",
 					"text":"Notice that this information is is not mentioned in document (unalignable).<br/>This can happen sometimes. <br/>When it does, you should submit it as unaligned (by highlighting only the summary span and hitting the \"CONFIRM\" button)."
 				}

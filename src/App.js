@@ -26,6 +26,8 @@ import t_submit_json_file from './data/tutorial/tutorial_submit.json';
 import guided_annotation_messages from './data/guided_annotation/guided_annotation_messages.json'
 import guided_annotation_hints from './data/guided_annotation/guided_annotation_hints.json'
 import guided_annotation_info_messages from './data/guided_annotation/guided_annotation_info_messages.json'
+import guided_annotation_strike_messages from './data/guided_annotation/guided_annotation_strike_messages.json'
+
 import tutorial_state_messages from './data/tutorial/tutorial_state_messages.json'
 // import tutorial_state_messages from './data/guided_annotation/guided_annotation_messages.json'
 
@@ -95,13 +97,16 @@ const App = () => {
   const [g_prev_guiding_info_msg, g_setPrevGuidingInfoMsg] = useState({"text":"To begin, hit the \"START\" button.", "title":"Start"}); // the info message that describes what to do
   const [g_guided_unhighlight, g_setGuidedUnhighlight] = useState(false)
   const [g_is_good_alignment, g_setIsGoodAlignment] = useState(false)
-  const [g_completed, g_setCompleted] = useState(false)
   const [g_show_hint, g_setShowHint] = useState(false)
   const [g_hint_msg, g_setHintMsg] = useState({"text":"", "title":""})
 
   const [g_noAlignModalShow, g_setNoAlignModalShow] = useState(false)
   const [g_noAlignApproved, g_setNoAlignApproved] = useState(false)
-
+  
+  const [g_completed, g_setCompleted] = useState(false)
+  const [g_guided_annotation_history, g_setGuidedAnnotationHistory] = useState([])
+  const [g_strikes_counter, g_setStrikesCounter] = useState(0)
+  const [g_open_answer_modal, g_setOpenAnswerModal] = useState(false)
 
   // const [guidingAnnotationAlertText, setGuidingAnnotationAlertText] = useState("")
   // const [guidingAnnotationAlertTitle, setGuidingAnnotationAlertTitle] = useState("")
@@ -803,7 +808,7 @@ const App = () => {
 
     useEffect(() => {
       if (isFinished) {
-        handleSubmit(assignmentId, turkSubmitTo, doc_json, summary_json, g_completed)
+        handleSubmit(assignmentId, turkSubmitTo, doc_json, summary_json, g_completed, g_guided_annotation_history)
       }
     }, [isFinished]);
 
@@ -916,12 +921,15 @@ const App = () => {
                                           setCompleted={g_setCompleted}                                         resetGuidedAnnotation={g_resetGuidedAnnotation}
                                           g_show_hint={g_show_hint}                                             g_setShowHint={g_setShowHint}
                                           g_hint_msg={g_hint_msg}                                               g_setHintMsg={g_setHintMsg} 
-                                          guided_annotation_hints={guided_annotation_hints}
+                                          guided_annotation_hints={guided_annotation_hints}                     guided_annotation_strike_messages={guided_annotation_strike_messages}
                                           noAlignModalShow={g_noAlignModalShow}                                 setNoAlignModalShow={g_setNoAlignModalShow}
                                           noAlignApproved={g_noAlignApproved}                                   setNoAlignApproved={g_setNoAlignApproved}
                                           setOpeningModalShow={setOpeningModalShow}
                                           setPrevCurrAlignmentGuidingMsgId={g_setPrevCurrAlignmentGuidingMsgId} prev_curr_alignment_guiding_msg_id={g_prev_curr_alignment_guiding_msg_id} 
                                           setPrevGuidingInfoMsg={g_setPrevGuidingInfoMsg}                       prev_guiding_info_msg={g_prev_guiding_info_msg}
+                                          g_guided_annotation_history={g_guided_annotation_history}             g_setGuidedAnnotationHistory={g_setGuidedAnnotationHistory}
+                                          g_strikes_counter={g_strikes_counter}                                 g_setStrikesCounter={g_setStrikesCounter}
+                                          g_open_answer_modal={g_open_answer_modal}                             g_setOpenAnswerModal={g_setOpenAnswerModal}                                          
                                           />} 
           
           
@@ -957,6 +965,9 @@ const App = () => {
                                               g_guiding_info_msg = {undefined}                            g_is_good_alignment = {undefined}
                                               g_show_hint = {undefined}                                   g_setShowHint = {undefined}
                                               g_hint_msg = {{"text":"", "title":""}}                      g_showWhereNavbar = {undefined}
+                                              g_open_hint={undefined}                                     g_setOpenHint={undefined}
+                                              g_with_glow_hint={undefined}                                g_setWithGlowHint={undefined}
+
                                               OpeningModalShow = {OpeningModalShow}                       setOpeningModalShow = {setOpeningModalShow}
 
                                               noAlignModalShow = {noAlignModalShow}                       setNoAlignModalShow = {setNoAlignModalShow}

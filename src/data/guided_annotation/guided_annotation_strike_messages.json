@@ -1,0 +1,172 @@
+{
+	"goldMentions": [
+		{
+			"sent_id":0,
+			"span_indicating_tkns": {
+				"1":"0-19",
+				"2":"21-32"
+			},
+			"summary_span": {
+				"1":{
+						"text":"\"The Agriculture Department confirmed Thursday that a deadening drought will curtail the Fall corn harvest by a third or more\""
+					},
+				"2":{
+						"text":"\"resulting in higher retail food prices for months and years to come\""
+					}
+			},
+			"doc_span": {
+				"1":{
+						"text":"\"An annual Agriculture Department survey confirmed Thursday that a deadening drought will curtail the fall corn harvest by a third or more\""
+					},
+				"2":{
+						"text":"\"resulting in higher retail food prices for months and years to come\""
+					}
+			}
+		},
+		
+		
+		
+		
+		{
+			"sent_id":1,
+			"span_indicating_tkns": {
+				"1":"35-52",
+				"4":"54-69"
+			},
+			"summary_span": {
+				"1":{
+						"text":"\"Reagan signed a $3.9 billion disaster relief bill aimed at helping drought-stricken farmers recover\""
+					},
+				"2":{
+						"text":"\"Reagan signed a $3.9 billion disaster relief bill\""
+					},
+				"3":{
+						"text":"\"a $3.9 billion disaster relief bill aimed at helping drought-stricken farmers recover\""
+					},
+				"4":{
+						"text":"\"while stating ``This bill isn't as good as rain,''\""
+					},
+				"5":{
+						"text":"\"while\""
+					}
+				
+			},
+			"doc_span": {
+				"1":{
+						"text":"\"President Reagan ... signed a $3.9 billion disaster relief bill aimed at helping drought-stricken farmers recover\" (without \"on Thursday\")"
+					},
+				"2":{
+						"text":"\"President Reagan ... signed a $3.9 billion disaster relief bill\" (without \"on Thursday\")"
+					},
+				"3":{
+						"text":"\"a $3.9 billion disaster relief bill aimed at helping drought-stricken farmers recover\""
+					},
+				"4":{
+						"text":"\"``This bill isn't as good as rain,'' Reagan said\" (with \"Reagan said\")"
+					},
+				"5":{
+						"text":""
+					}
+			}
+		},
+		
+		
+		
+		
+		{
+			"sent_id":2,
+			"span_indicating_tkns": {
+				"2":"71-91",
+				"10":"92-95"
+			},
+			"summary_span": {
+				"1":{
+						"text":"\"Ewen M. Wilson, the department's chief economist, said that the United States might import some soybeans this year from countries like Brazil\""
+					},
+				"2":{
+						"text":"\"Ewen M. Wilson, the department's chief economist, said that the United States might import some soybeans this year\""
+					},
+				"3":{
+						"text":"\"Ewen M. Wilson, the department's chief economist\""
+					},
+				"4":{
+						"text":"\"Ewen M. Wilson ... said that the United States might import some soybeans this year from countries like Brazil\""
+					},
+				"5":{
+						"text":"\"Ewen M. Wilson ... said that the United States might import some soybeans this year\""
+					},
+				"6":{
+						"text":"\"the department's chief economist, said that the United States might import some soybeans this year from countries like Brazil\""
+					},
+				"7":{
+						"text":"\"the department's chief economist, said that the United States might import some soybeans this year\""
+					},
+				"8":{
+						"text":"\"said that the United States might import some soybeans this year from countries like Brazil\""
+					},
+				"9":{
+						"text":"\"said that the United States might import some soybeans this year\""
+					},
+				"10":{
+						"text":"\"from countries like Brazil\""
+					}					
+			},
+			"doc_span": {
+				"1":{
+						"text":"None"
+					},
+				"2":{
+						"text":"\"Ewen M. Wilson, the department's chief economist\" and \"There remained a possibility that the United States would import some soybeans this year, Wilson said\" (both are required)"
+					},
+				"3":{
+						"text":"\"Ewen M. Wilson, the department's chief economist\""
+					},
+				"4":{
+						"text":"None"
+					},
+				"5":{
+						"text":"\"Ewen M. Wilson\" and \"There remained a possibility that the United States would import some soybeans this year, Wilson said\" (both are required)"
+					},
+				"6":{
+						"text":"None"
+					},
+				"7":{
+						"text":"\"the department's chief economist\" and \"There remained a possibility that the United States would import some soybeans this year, Wilson said\" (both are required)"
+					},
+				"8":{
+						"text":"None"
+					},
+				"9":{
+						"text":"\"There remained a possibility that the United States would import some soybeans this year, Wilson said\""
+					},
+				"10":{
+						"text":""
+					}
+			}
+		},
+		
+		
+		{
+			"sent_id":3,
+			"span_indicating_tkns": {
+				"1":"98-114"
+			},
+			"summary_span": {
+				"1":{
+						"text":"This drought could result in a 1 % increase in the food prices the coming year"
+					}
+			},
+			"doc_span": {
+				"1":{
+						"text":"the drought may add one percent to the cost of food this year"
+					}
+			}
+		}
+		
+		
+	]
+    
+}
+
+
+

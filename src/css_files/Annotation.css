@@ -345,6 +345,23 @@
       box-shadow: 0 0 20px 10px rgb(0, 255, 221);
     }
   }
+
+
+
+  .with-glow-hint {
+    animation: glow-hint 1s infinite alternate;
+  }
+  
+  @keyframes glow-hint {
+    from {
+      box-shadow: 0 0 20px -20px green;
+    }
+    to {
+      box-shadow: 0 0 20px 10px green;
+    }
+  }
+
+
   
   #guidingAnnotationAlert-danger .modal-content{
     background-color: #f8d7da;

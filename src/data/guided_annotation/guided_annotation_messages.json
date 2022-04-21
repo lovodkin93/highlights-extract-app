@@ -1,43 +1,51 @@
 {
 	"empty_summary_span_msg": {
 	"title":"Nothing highlighted",
-	"text":"I think you forgot to highlight something in the summary...",
-	"timeout":6000
+	"text":"You didn't highlight anything in the summary.",
+	"timeout":6000,
+	"with hint":false
 	},
 	"default_too_short_summary_msg": {
 		"title":"Summary span too short",
 		"text":"The highlighted summary span is missing information.",
-		"timeout":6000
+		"timeout":6000,
+		"with hint":false
 	},
 	"default_too_long_summary_msg": {
 		"title":"Summary span too long",
-		"text":"The highlighted summary span is too long, which can cause missing out small details.",
-		"timeout":8000
+		"text":"The highlighted summary span is too long.",
+		"timeout":6000,
+		"with hint":false
 	},
 	"default_missing_alignment_msg": {
 		"title":"Missing information in the alignment",
 		"text":"The alignment is not full.",
-		"timeout":6000
+		"timeout":6000,
+		"with hint":false
 	},
 	"default_redundant_alignment_msg":  {
 		"title":"Irrelevant information",
 		"text":"You highlighted redundant information in the document. <br/><b><u>Reminder</u>: to un-highlighting - hold the ctrl (alt for MacOS) key while simultaneously \"highlighting\".</b>",
-		"timeout":10000
+		"timeout":10000,
+		"with hint":false
 	},
 	"default_good_summary_span_msg":  {
 	"title":"Well Done!",
 	"text":"The span you chose is very good! Now proceed to find its alignment.",
-	"timeout":8000
+	"timeout":8000,
+	"with hint":false
 	},
 	"default_good_alignment_msg":  {
 	"title":"Good Job!",
 	"text":"The alignment you chose is very good!",
-	"timeout":6000
+	"timeout":6000,
+	"with hint":false
 	},
 	"submitted_msg":  {
 	"title":"You Are All Set!",
 	"text":"Great Job! You are now ready to start annotating. <br/>Hit \"ANNOTATION\" to begin.<br/>You can also redo the Guided Annotation by pressing \"REDO\". <br/><u>Remember</u>: you can always go back to the Tutorial or redo the Guided Annotation if you forget anything, through the navigation bar at the top of the page (press the \"SHOW NAVIGATION BAR\" button if you are not sure where it is).",
-	"timeout":30000
+	"timeout":30000,
+	"with hint":false
 	},
 	"extra_to_excess_msgs":  {
 	"text":"<b><u>Reminder</u>: to un-highlight - hold the ctrl (alt for MacOS) key while simultaneously \"highlighting\".</b>"
@@ -56,13 +64,15 @@
 			"good_summary_span_msg":{
 				"1":{
 					"title":"Great summary span. Well Done!",
-					"text":"The summary span is just the right length (covers full events and not too long).",
-					"timeout":8000
+					"text":"The summary span is just the right length.",
+					"timeout":8000,
+					"with hint":false
 				},
 				"2":{
 					"title":"Great summary span. Well Done!",
-					"text":"The summary span is just the right length (covers full events and not too long).",
-					"timeout":8000
+					"text":"The summary span is just the right length.",
+					"timeout":8000,
+					"with hint":false
 				}
 			},
 			"too_short_summary_msgs": {
@@ -70,52 +80,60 @@
 					{
 					"missing_tkns":["3-3"],
 					"title":"Too general span",
-					"text":"The highlighted summary span is too general. <br/><b>(see hint)</b>",
-					"timeout":8000
+					"text":"The highlighted summary span is too general.",
+					"timeout":8000,
+					"with hint":true
 					},
 					{
 					"missing_tkns":["8-8"],
 					"title":"Span not full", 
-					"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-					"timeout":8000
+					"text":"The highlighted summary span doesn't cover full events.",
+					"timeout":8000,
+					"with hint":true
 					},
 					{
 					"missing_tkns":["10-10"],
 					"title":"Span not full", 
-					"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-					"timeout":8000
+					"text":"The highlighted summary span doesn't cover full events.",
+					"timeout":8000,
+					"with hint":true
 					},
 					{
 					"missing_tkns":["14-14"],
 					"title":"Span not full", 
-					"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-					"timeout":8000
+					"text":"The highlighted summary span doesn't cover full events.",
+					"timeout":8000,
+					"with hint":true
 					},
 					{
 					"missing_tkns":["15-19"],
 					"title":"Span not full", 
-					"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-					"timeout":8000
+					"text":"The highlighted summary span doesn't cover full events.",
+					"timeout":8000,
+					"with hint":true
 					}
 				],
 				"2":[
 						{
 						"missing_tkns":["21-21"],
 						"title":"Too general span", 
-						"text":"The highlighted summary span is too general. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span is too general.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["26-26"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["27-32"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						}
 					]
 			},
@@ -124,16 +142,18 @@
 						{
 						"excess_tkns":["21-32"],
 						"title":"Summary span too long", 
-						"text":"The highlighted summary span is too long, which can cause missing out little details. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"The highlighted summary span is too long.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"2":[
 						{
 						"excess_tkns":["0-7;9-19"],
 						"title":"Summary span too long", 
-						"text":"The highlighted summary span is too long, which can cause missing out little details. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"The highlighted summary span is too long.",
+						"timeout":8000,
+						"with hint":true
 						}
 					]
 			},
@@ -150,70 +170,81 @@
 						{
 						"missing_tkns":["3-3"],
 						"title":"Missing info in document highlight",
-						"text":"The alignment is not full. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The alignment is not full.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["2-2"],
 						"title":"Missing info in document highlight",
-						"text":"The alignment is not full. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The alignment is not full.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["5-5"],
 						"title":"Missing info in document highlight",
-						"text":"The alignment is not full. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The alignment is not full.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["10-12"],
 						"title":"Missing info in document highlight",
-						"text":"The alignment is not full. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The alignment is not full.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["9-9"],
 						"title":"Missing info in document highlight",
-						"text":"The alignment is not full. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The alignment is not full.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["13-16"],
 						"title":"Missing info in document highlight",
-						"text":"The alignment is not full. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The alignment is not full.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["17-21"],
 						"title":"Missing info in document highlight",
-						"text":"The alignment is not full. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The alignment is not full.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"2":[
 						{
 						"missing_tkns":["23-23"],
 						"title":"Missing info in document highlight",
-						"text":"The alignment is not full. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The alignment is not full.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["28-28"],
 						"title":"Missing info in document highlight",
-						"text":"The alignment is not full. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The alignment is not full.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["25-27"],
 						"title":"Missing info in document highlight",
-						"text":"The alignment is not full. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The alignment is not full.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["29-34"],
 						"title":"Missing info in document highlight",
-						"text":"The alignment is not full. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The alignment is not full.",
+						"timeout":8000,
+						"with hint":true
 						}
 					]
 			},
@@ -222,64 +253,74 @@
 						{
 						"excess_tkns":["90-90","92-92","220-220","328-328"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["137-137","227-227","254-254","353-353","399-399","608-608"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["155-155","457-457"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["387-387"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["180-180"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"2":[
 						{
 						"excess_tkns":["137-137","227-227","254-254","353-353","399-399","608-608"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["51-51"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{ 
 						"excess_tkns":["68-68", "236-236", "295-295", "306-306", "603-603", "620-620"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["46-46", "115-115", "117-117", "165-165", "169-169", "173-173", "238-238", "243-243", "262-262", "371-371", "474-474", "534-534", "584-584", "651-651"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["73-73", "381-381"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						}
 					]
 			}			
@@ -318,122 +359,141 @@
 						{
 						"missing_tkns":["37-37"],
 						"title":"Too general span",
-						"text":"The highlighted summary span is too general. <br/><b>(see hint)</b>",						
-						"timeout":8000
+						"text":"The highlighted summary span is too general.",						
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["35-36"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["44-44"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["38-38;40-43"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["45-45"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["47-47"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["51-51"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["48-48;50-50"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["52-52"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"2":[
 						{
 						"missing_tkns":["37-37"],
 						"title":"Too general span",
-						"text":"The highlighted summary span is too general. <br/><b>(see hint)</b>",						
-						"timeout":8000
+						"text":"The highlighted summary span is too general.",						
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["35-36"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["44-44"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["38-38;40-43"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"3":[
 						{
 						"missing_tkns":["45-45"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["47-47"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["51-51"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["48-48;50-50"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"missing_tkns":["52-52"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"4":[
 						{
 						"missing_tkns":["56-65"],
 						"title":"Span not full", 
-						"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"5":[]
@@ -444,40 +504,45 @@
 						{
 						"excess_tkns":["54-55;58-65"],
 						"title":"Summary span too long", 
-						"text":"The highlighted summary span is too long, which can cause missing out little details. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"The highlighted summary span is too long.",
+						"timeout":10000,
+						"with hint":true
 						}
 					],
 				"2":[
 						{
 						"excess_tkns":["48-52", "54-55;58-65"],
 						"title":"Summary span too long", 
-						"text":"The highlighted summary span is too long, which can cause missing out little details. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"The highlighted summary span is too long.",
+						"timeout":10000,
+						"with hint":true
 						}
 					],
 				"3":[
 						{
 						"excess_tkns":["35-36", "54-55;58-65"],
 						"title":"Summary span too long", 
-						"text":"The highlighted summary span is too long, which can cause missing out little details. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"The highlighted summary span is too long.",
+						"timeout":10000,
+						"with hint":true
 						}
 					],
 				"4":[
 						{
 						"excess_tkns":["35-38;40-52"],
 						"title":"Summary span too long", 
-						"text":"The highlighted summary span is too long, which can cause missing out little details. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"The highlighted summary span is too long.",
+						"timeout":10000,
+						"with hint":true
 						}
 					],
 				"5":[
 						{
 						"excess_tkns":["35-38;40-52"],
 						"title":"Summary span is not good", 
-						"text":"The word \"while\" can be incorporated into a more fitting span. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"The word \"while\" can be incorporated into a more fitting span.",
+						"timeout":10000,
+						"with hint":true
 						}
 					]
 			},
@@ -493,20 +558,23 @@
 			"good_alignment_msg":{
 				"1":{
 					"title":"Very good! You didn't fall for the common trap.",
-					"text":"Good job for noticing and not highlighting \"on Thursday\".",
-					"timeout":8000
+					"text":"Good job for not highlighting \"on Thursday\".",
+					"timeout":8000,
+					"with hint":false
 				},
 				"2":{
 					"title":"Very good!  You didn't fall for the common trap.",
-					"text":"Good job for noticing and not highlighting \"on Thursday\".",
-					"timeout":8000
+					"text":"Good job for not highlighting \"on Thursday\".",
+					"timeout":8000,
+					"with hint":false
 				},
 				"3":{},
 				"4":{},
 				"5":{
 					"title":"Good job!",
-					"text":"As you have probably noticed, \"while\" is only inferred in the document. <br/> As such, <u>it needs to be submitted  unaligned</u>.",
-					"timeout":20000					
+					"text":"Well done for submitting \"while\" as <u>unaligned</u>.",
+					"timeout":20000	,
+					"with hint":false					
 				}
 			},
 			"missing_alignment_msg": {
@@ -517,8 +585,9 @@
 						{
 						"missing_tkns":["419-420"],
 						"title":"Missing info in document highlight",
-						"text":"The alignment is not full. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"The alignment is not full.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"5":[]
@@ -528,118 +597,136 @@
 						{
 						"excess_tkns":["76-79;81-84"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["386-387"],
 						"title":"Irrelevant information", 
-						"text":"When highlighing continuous document spans, make sure to highlight <u>only</u> relevant information. <br/><b>(see hint)</b>",
-						"timeout":12000
+						"text":"Make sure to highlight <u>only</u> relevant information.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["408-415"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":10000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["191-191","425-425"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":10000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["462-462","470-470","484-484", "493-493", "505-505", "513-513", "526-526"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":10000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["10-10","137-137","227-227", "254-254", "353-353", "608-608"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":10000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["419-419"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":10000,
+						"with hint":true
 						}
 					],
 				"2":[
 						{
 						"excess_tkns":["386-387"],
 						"title":"Irrelevant information", 
-						"text":"When highlighing continuous document spans, make sure to highlight <u>only</u> relevant information. <br/><b>(see hint)</b>",
-						"timeout":12000
+						"text":"Make sure to highlight <u>only</u> relevant information.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["462-462","470-470","484-484", "493-493", "505-505", "513-513", "526-526"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":10000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["419-419"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":10000,
+						"with hint":true
 						}
 					],
 				"3":[
 						{
 						"excess_tkns":["79-79;81-84"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["408-415"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["191-191","425-425"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["462-462","470-470","484-484", "493-493", "505-505", "513-513", "526-526"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["10-10","137-137","227-227", "254-254", "353-353", "608-608"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"4":[
 						{
 						"excess_tkns":["576-580"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["84-84","395-395"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"5":[
 						{
 						"excess_tkns":["0-714"],
 						"title":"Implicit presence of \"While\" ", 
-						"text":"This span is unaligned. <br/><b>(see hint for further information)</b>",
-						"timeout":8000
+						"text":"This span is unaligned.",
+						"timeout":8000,
+						"with hint":true
 						}
 					]	
 			}
@@ -658,150 +745,206 @@
 				"5":["71-73;81-91"],
 				"6":["75-79;81-95"],
 				"7":["75-79;81-91"],
-				"8":["92-95"]
+				"8":["81-95"],
+				"9":["81-91"],
+				"10":["92-95"]
 			},
 			"span_indicating_tkns": {
-				"1":["71-71;79-79;81-81;92-95"],
-				"2":["71-71;79-79;81-81"],
-				"3":["71-71;79-79"],
-				"4":["71-71;81-81;92-95"],
-				"5":["71-71;81-81"],
+				"1":["73-73;79-79;81-81;92-95"],
+				"2":["73-73;79-79;81-81"],
+				"3":["73-73;79-79"],
+				"4":["73-73;81-81;92-95"],
+				"5":["73-73;81-81"],
 				"6":["79-79;81-81;92-95"],
 				"7":["79-79;81-81"],
-				"8":["92-95"]
+				"8":["81-81;92-95"],
+				"9":["81-81"],
+				"10":["92-95"]
 			},
 			"good_summary_span_msg":{
 				"1":{},
 				"2":{
 					"title":"Good span - but be careful",
-					"text":"The span is borderline - because it covers a lot of details.<br/> make sure you don't miss any detail when you align it.",
-					"timeout":10000
+					"text":"Make sure you don't miss any detail when you align it.",
+					"timeout":8000,
+					"with hint":false
 				},
 				"3":{},
 				"4":{},
 				"5":{},
 				"6":{},
 				"7":{},
-				"8":{}
+				"8":{},
+				"9":{},
+				"10":{}
 			},
 			"too_short_summary_msgs": {
 				"1":[
 						{
 							"missing_tkns":["75-78"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["83-85"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["86-91"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						}
 					],
 				"2":[
 						{
 							"missing_tkns":["75-78"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["83-85"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["86-91"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						}
 					],
 				"3":[
 						{
 							"missing_tkns":["75-78"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						}
 					],
 				"4":[
 						{
 							"missing_tkns":["83-85"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["86-91"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						}
 					],
 				"5":[
 						{
 							"missing_tkns":["83-85"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["86-91"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						}
 					],
 				"6":[
 						{
 							"missing_tkns":["75-78"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["83-85"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["86-91"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						}
 					],
 				"7":[
 						{
 							"missing_tkns":["75-78"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["83-85"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["86-91"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						}
 					],
-				"8":[]	
+				"8":[
+						{
+							"missing_tkns":["83-85"],
+							"title":"Span not full", 
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
+						},
+						{
+							"missing_tkns":["86-91"],
+							"title":"Span not full", 
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
+						}
+					],
+				"9":[
+						{
+							"missing_tkns":["83-85"],
+							"title":"Span not full", 
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
+						},
+						{
+							"missing_tkns":["86-91"],
+							"title":"Span not full", 
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
+						}
+					],
+				"10":[]	
 			},
 			"too_long_summary_msgs": {
 				"1":[],
@@ -809,56 +952,95 @@
 						{
 						"excess_tkns":["92-93"],
 						"title":"Summary span has an incomplete event", 
-						"text":"Make sure you include complete events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"Make sure you include complete events.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"3":[
 						{
 						"excess_tkns":["82-95"],
 						"title":"Summary span has an incomplete event", 
-						"text":"Make sure you include complete events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"Make sure you include complete events.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"4":[
 						{
 						"excess_tkns":["75-78"],
 						"title":"Summary span has an incomplete event", 
-						"text":"Make sure you include complete events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"Make sure you include complete events.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"5":[
 						{
 						"excess_tkns":["75-78"],
 						"title":"Summary span has an incomplete event", 
-						"text":"Make sure you include complete events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"Make sure you include complete events.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"6":[
 						{
-						"excess_tkns":["72-73"],
+						"excess_tkns":["71-72"],
 						"title":"Summary span has an incomplete event", 
-						"text":"Make sure you include complete events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"Make sure you include complete events.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"7":[
 						{
-						"excess_tkns":["72-73"],
+						"excess_tkns":["71-72"],
 						"title":"Summary span has an incomplete event", 
-						"text":"Make sure you include complete events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"Make sure you include complete events.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"8":[
 						{
-						"excess_tkns":["72-73", "75-78", "82-91"],
+						"excess_tkns":["71-72"],
 						"title":"Summary span has an incomplete event", 
-						"text":"Make sure you include complete events. <br/><b>(see hint)</b>",
-						"timeout":8000
+						"text":"Make sure you include complete events.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["75-78"],
+						"title":"Summary span has an incomplete event", 
+						"text":"Make sure you include complete events.",
+						"timeout":8000,
+						"with hint":true
+						}
+					],
+				"9":[
+						{
+						"excess_tkns":["71-72"],
+						"title":"Summary span has an incomplete event", 
+						"text":"Make sure you include complete events.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["75-78"],
+						"title":"Summary span has an incomplete event", 
+						"text":"Make sure you include complete events.",
+						"timeout":8000,
+						"with hint":true
+						}
+					],
+				"10":[
+						{
+						"excess_tkns":["71-72", "75-78", "82-91"],
+						"title":"Summary span has an incomplete event", 
+						"text":"Make sure you include complete events.",
+						"timeout":8000,
+						"with hint":true
 						}
 					]
 			},
@@ -883,24 +1065,54 @@
 					 "2-3;217-217;219-223;638-645;647-651;653-654", "2-3;217-217;219-223;643-645;647-651;653-654", "2-3;219-223;638-645;647-651;653-654", "2-3;219-223;643-645;647-651;653-654",
 					 "90-92;217-217;219-223;638-645;647-651;653-654", "90-92;217-217;219-223;643-645;647-651;653-654", "90-92;219-223;638-645;647-651;653-654", "90-92;219-223;643-645;647-651;653-654",
 					 "2-3;90-92;217-217;219-223;638-645;647-651;653-654", "2-3;90-92;217-217;219-223;643-645;647-651;653-654", "2-3;90-92;219-223;638-645;647-651;653-654", "2-3;90-92;219-223;643-645;647-651;653-654"],		
-				"8":[]
+				"8":["10000000-10000000"],
+				
+				"9":["635-635;638-651", "635-635;639-651", "635-635;640-651", "635-635;641-651",  "635-635;638-638;640-651", "635-635;638-638;641-651", "635-635;638-639;641-651", "635-635;639-639;641-651",
+					 "634-635;638-651", "634-635;639-651", "634-635;640-651", "634-635;641-651",  "634-635;638-638;640-651", "634-635;638-638;641-651", "634-635;638-639;641-651", "634-635;639-639;641-651",
+					 "638-651;654-654", "639-651;654-654", "640-651;654-654", "641-651;654-654",  "638-638;640-651;654-654", "638-638;641-651;654-654", "638-639;641-651;654-654", "639-639;641-651;654-654",
+					 "638-651;653-654", "639-651;653-654", "640-651;653-654", "641-651;653-654",  "638-638;640-651;653-654", "638-638;641-651;653-654", "638-639;641-651;653-654", "639-639;641-651;653-654",
+					 "638-651", "639-651", "640-651", "641-651",  "638-638;640-651", "638-638;641-651", "638-639;641-651", "639-639;641-651",
+					 
+					 "635-635;638-641;643-651", "635-635;639-641;643-651", "635-635;640-641;643-651", "635-635;641-641;643-651",  "635-635;638-638;640-641;643-651", "635-635;638-638;641-641;643-651", "635-635;638-639;641-641;643-651", "635-635;639-639;641-641;643-651",
+					 "634-635;638-641;643-651", "634-635;639-641;643-651", "634-635;640-641;643-651", "634-635;641-641;643-651",  "634-635;638-638;640-641;643-651", "634-635;638-638;641-641;643-651", "634-635;638-639;641-641;643-651", "634-635;639-639;641-641;643-651",
+					 "638-641;643-651;654-654", "639-641;643-651;654-654", "640-641;643-651;654-654", "641-641;643-651;654-654",  "638-638;640-641;643-651;654-654", "638-638;641-641;643-651;654-654", "638-639;641-641;643-651;654-654", "639-639;641-641;643-651;654-654",
+					 "638-641;643-651;653-654", "639-641;643-651;653-654", "640-641;643-651;653-654", "641-641;643-651;653-654",  "638-638;640-641;643-651;653-654", "638-638;641-641;643-651;653-654", "638-639;641-641;643-651;653-654", "639-639;641-641;643-651;653-654",
+					 "638-641;643-651", "639-641;643-651", "640-641;643-651", "641-641;643-651",  "638-638;640-641;643-651", "638-638;641-641;643-651", "638-639;641-641;643-651", "639-639;641-641;643-651",
+					 
+					 
+					 "635-635;638-645;647-651", "635-635;639-645;647-651", "635-635;640-645;647-651", "635-635;641-645;647-651",  "635-635;638-638;640-645;647-651", "635-635;638-638;641-645;647-651", "635-635;638-639;641-645;647-651", "635-635;639-639;641-645;647-651",
+					 "634-635;638-645;647-651", "634-635;639-645;647-651", "634-635;640-645;647-651", "634-635;641-645;647-651",  "634-635;638-638;640-645;647-651", "634-635;638-638;641-645;647-651", "634-635;638-639;641-645;647-651", "634-635;639-639;641-645;647-651",
+					 "638-645;647-651;654-654", "639-645;647-651;654-654", "640-645;647-651;654-654", "641-645;647-651;654-654",  "638-638;640-645;647-651;654-654", "638-638;641-645;647-651;654-654", "638-639;641-645;647-651;654-654", "639-639;641-645;647-651;654-654",
+					 "638-645;647-651;653-654", "639-645;647-651;653-654", "640-645;647-651;653-654", "641-645;647-651;653-654",  "638-638;640-645;647-651;653-654", "638-638;641-645;647-651;653-654", "638-639;641-645;647-651;653-654", "639-639;641-645;647-651;653-654",
+					 "638-645;647-651", "639-645;647-651", "640-645;647-651", "641-645;647-651",  "638-638;640-645;647-651", "638-638;641-645;647-651", "638-639;641-645;647-651", "639-639;641-645;647-651",
+					 
+					 "635-635;638-641;643-645;647-651", "635-635;639-641;643-645;647-651", "635-635;640-641;643-645;647-651", "635-635;641-641;643-645;647-651",  "635-635;638-638;640-641;643-645;647-651", "635-635;638-638;641-641;643-645;647-651", "635-635;638-639;641-641;643-645;647-651", "635-635;639-639;641-641;643-645;647-651",
+					 "634-635;638-641;643-645;647-651", "634-635;639-641;643-645;647-651", "634-635;640-641;643-645;647-651", "634-635;641-641;643-645;647-651",  "634-635;638-638;640-641;643-645;647-651", "634-635;638-638;641-641;643-645;647-651", "634-635;638-639;641-641;643-645;647-651", "634-635;639-639;641-641;643-645;647-651",
+					 "638-641;643-645;647-651;654-654", "639-641;643-645;647-651;654-654", "640-641;643-645;647-651;654-654", "641-641;643-645;647-651;654-654",  "638-638;640-641;643-645;647-651;654-654", "638-638;641-641;643-645;647-651;654-654", "638-639;641-641;643-645;647-651;654-654", "639-639;641-641;643-645;647-651;654-654",
+					 "638-641;643-645;647-651;653-654", "639-641;643-645;647-651;653-654", "640-641;643-645;647-651;653-654", "641-641;643-645;647-651;653-654",  "638-638;640-641;643-645;647-651;653-654", "638-638;641-641;643-645;647-651;653-654", "638-639;641-641;643-645;647-651;653-654", "639-639;641-641;643-645;647-651;653-654",
+					 "638-641;643-645;647-651", "639-641;643-645;647-651", "640-641;643-645;647-651", "641-641;643-645;647-651",  "638-638;640-641;643-645;647-651", "638-638;641-641;643-645;647-651", "638-639;641-641;643-645;647-651", "639-639;641-641;643-645;647-651"],
+				"10":[]
 			},
 			"good_alignment_msg":{
 				"1":{},
 				"2":{
-					"title":"Good job!",
-					"text":"Good work for aligning also the part of the summary talking about Wilson being the Agriculture department's chief economist.<br/>It is important to cover <u>everything</u> in the summary span.",
-					"timeout":12000
+					"title":"Well done!",
+					"text":"Good work for not missing Wilson's role as the Agriculture department's chief economist.",
+					"timeout":12000,
+					"with hint":false
 				},
 				"3":{},
 				"4":{},
 				"5":{},
 				"6":{},
 				"7":{},
-				"8":{
+				"8":{},
+				"9":{},
+				"10":{
 					"title":"Good job!",
 					"text":"Kudos for correctly saving this span unaligned!",
-					"timeout":10000
+					"timeout":8000,
+					"with hint":false
 				}
 			},
 			"missing_alignment_msg": {
@@ -908,358 +1120,490 @@
 						{
 						"missing_tkns":["10000000-10000000"],
 						"title":"Unalignable Summary part",
-						"text":"Some parts of the summary are unalignable. <br/><b>(see hint for further info)</b>",
-						"timeout":10000
+						"text":"Some parts of the summary are unalignable.",
+						"timeout":10000,
+						"with hint":true
 						}
 					],
 				"2":[
 						{
 							"missing_tkns":["219-223"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["215-215", "216-216"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 				
 						{
 							"missing_tkns":["643-645"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["647-647"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["648-648", "649-649"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["650-650", "651-651"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["638-641"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["653-654"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						}
 					],
 				"3":[
 						{
 							"missing_tkns":["219-223"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["215-215", "216-216"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						}
 					],
 				"4":[
 						{
 							"missing_tkns":["10000000-10000000"],
 							"title":"Unalignable Summary part",
-							"text":"Some parts of the summary are unalignable. <br/><b>(see hint for further info)</b>",
-							"timeout":10000
+							"text":"Some parts of the summary are unalignable.",
+							"timeout":10000,
+							"with hint":true
 						}
 					],
 				"5":[
 						{
 							"missing_tkns":["215-215", "216-216"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["643-645"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["647-647"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["648-648", "649-649"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["650-650", "651-651"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["638-641"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["653-654"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						}
 					],
 				"6":[
 						{
 							"missing_tkns":["10000000-10000000"],
 							"title":"Unalignable Summary part",
-							"text":"Some parts of the summary are unalignable. <br/><b>(see hint for further info)</b>",
-							"timeout":10000
+							"text":"Some parts of the summary are unalignable.",
+							"timeout":10000,
+							"with hint":true
 						}
 					],
 				"7":[
 						{
 							"missing_tkns":["643-645"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["647-647"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["648-648", "649-649"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["650-650", "651-651"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["638-641"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["219-223"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["653-654"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						}
 					],
-				"8":[]
+				"8":[
+						{
+							"missing_tkns":["10000000-10000000"],
+							"title":"Unalignable Summary part",
+							"text":"Some parts of the summary are unalignable.",
+							"timeout":10000,
+							"with hint":true
+						}
+					],
+				"9":[
+						{
+							"missing_tkns":["643-645"],
+							"title":"Missing info in document highlight", 
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
+						},
+						{
+							"missing_tkns":["647-647"],
+							"title":"Missing info in document highlight", 
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
+						},
+						{
+							"missing_tkns":["648-648", "649-649"],
+							"title":"Missing info in document highlight", 
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
+						},
+						{
+							"missing_tkns":["650-650", "651-651"],
+							"title":"Missing info in document highlight", 
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
+						},
+						{
+							"missing_tkns":["638-641"],
+							"title":"Missing info in document highlight", 
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
+						}
+					],
+				"10":[]
 			},
 			"redundant_alignment_msg": {
 				"1":[
 						{
 						"excess_tkns":["0-678"],
 						"title":"Unalignable Summary part",
-						"text":"Some parts of the summary are unalignable. <br/><b>(see hint for further info)</b>",
-						"timeout":10000
+						"text":"Some parts of the summary are unalignable.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"2":[
 						{
 						"excess_tkns":["213-214"],
 						"title":"Irrelevant information", 
-						"text":"Make sure you cover only what was mentioned in the summary. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted irrelevant details.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["225-264", "657-678"],
 						"title":"Irrelevant information", 
-						"text":"Make sure you cover only what was mentioned in the summary. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted irrelevant details.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["52-54", "564-566", "666-668"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["456-456"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["237-238", "261-262"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["328-328"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["268-268"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"3":[
 						{
 						"excess_tkns":["213-214"],
 						"title":"Irrelevant information", 
-						"text":"Make sure you cover only what was mentioned in the summary. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted irrelevant details.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["268-268"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"4":[
 						{
 						"excess_tkns":["0-678"],
 						"title":"Unalignable Summary part",
-						"text":"Some parts of the summary are unalignable. <br/><b>(see hint for further info)</b>",
-						"timeout":10000
+						"text":"Some parts of the summary are unalignable.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"5":[
 						{
 						"excess_tkns":["213-214"],
 						"title":"Irrelevant information", 
-						"text":"Make sure you cover only what was mentioned in the summary. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted irrelevant details.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["225-264", "657-678"],
 						"title":"Irrelevant information", 
-						"text":"Make sure you cover only what was mentioned in the summary. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted irrelevant details.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["52-54", "564-566", "666-668"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["456-456"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["237-238", "261-262"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["328-328"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["268-268"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"6":[
 						{
 						"excess_tkns":["0-678"],
 						"title":"Unalignable summary part",
-						"text":"Some parts of the summary are unalignable. <br/><b>(see hint for further info)</b>",
-						"timeout":10000
+						"text":"Some parts of the summary are unalignable.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"7":[
 						{
 						"excess_tkns":["213-214"],
 						"title":"Irrelevant information", 
-						"text":"Make sure you cover only what was mentioned in the summary. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted irrelevant details.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["225-264", "657-678"],
 						"title":"Irrelevant information", 
-						"text":"Make sure you cover only what was mentioned in the summary. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted irrelevant details.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["52-54", "564-566", "666-668"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["456-456"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["237-238", "261-262"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["328-328"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{
 						"excess_tkns":["268-268"],
 						"title":"Out of context", 
-						"text":"You highlighted something in the document out of context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"8":[
 						{
 						"excess_tkns":["0-678"],
+						"title":"Unalignable summary part",
+						"text":"Some parts of the summary are unalignable.",
+						"timeout":8000,
+						"with hint":true
+						}
+					],
+				"9":[
+						{
+						"excess_tkns":["52-54", "564-566", "666-668"],
+						"title":"Out of context", 
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["456-456"],
+						"title":"Out of context", 
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["237-238", "261-262"],
+						"title":"Out of context", 
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
+						}
+					],
+				"10":[
+						{
+						"excess_tkns":["0-678"],
 						"title":"Unalignable Summary span", 
-						"text":"The summary span is unalignable. <br/><b>(see hint for further info)</b>",
-						"timeout":10000
+						"text":"The summary span is unalignable.",
+						"timeout":8000,
+						"with hint":true
 						}
 					]
 				
@@ -1285,8 +1629,9 @@
 						{
 							"missing_tkns":["98-98", "99-99", "100-100", "101-101", "102-102", "103-103", "104-104", "106-106", "107-107", "108-108", "109-109", "110-110", "111-111", "112-112", "113-113"],
 							"title":"Span not full", 
-							"text":"The highlighted summary span doesn't cover full events. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The highlighted summary span doesn't cover full events.",
+							"timeout":8000,
+							"with hint":true
 						}
 					]
 			},
@@ -1300,8 +1645,9 @@
 			"good_alignment_msg":{
 				"1":{
 					"title":"Amazing!",
-					"text":"Congrats for accurately aligning the summary span, even though this alignment couldn't easily be found using the bolding feature. <br/>Way to go!",
-					"timeout":12000
+					"text":"Congrats for accurately aligning the summary span.",
+					"timeout":8000,
+					"with hint":false
 				}
 			},
 			"missing_alignment_msg": {
@@ -1309,44 +1655,51 @@
 						{
 							"missing_tkns":["227-227"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["228-228"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["229-229"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["234-234"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["236-236"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["230-231"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						},
 						{
 							"missing_tkns":["237-238"],
 							"title":"Missing info in document highlight", 
-							"text":"The alignment is not full. <br/><b>(see hint)</b>",
-							"timeout":8000
+							"text":"The alignment is not full.",
+							"timeout":8000,
+							"with hint":true
 						}
 					]
 			},
@@ -1355,44 +1708,51 @@
 						{  
 						"excess_tkns":["23-23", "25-25", "26-26", "27-27", "28-28", "29-29", "30-30", "31-31", "32-32", "33-33", "34-34"],
 						"title":"Don't let the Bolding dictate what you highlight!!!!", 
-						"text":"Though the bolding is supposed to help you, it mustn't dictate what you highlight. <br/>Sometimes, the best alignment is a paraphrasing of the equivalent summary span, which makes the bolding less relevant. <br/><b>(see hint)</b>",
-						"timeout":25000
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{ 
 						"excess_tkns":["225-225"],
 						"title":"Irrelevant information", 
-						"text":"Make sure you cover only what was mentioned in the summary span. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"Make sure you cover only what was mentioned in the summary span.",
+						"timeout":10000,
+						"with hint":true
 						},
 						{ 
 						"excess_tkns":["240-240", "241-241", "242-242", "243-243"],
 						"title":"Irrelevant information", 
-						"text":"Make sure you cover only what was mentioned in the summary span. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"Make sure you cover only what was mentioned in the summary span.",
+						"timeout":10000,
+						"with hint":true
 						},
 						{ 
 						"excess_tkns":["10-10", "137-137", "254-254", "353-353", "399-399", "608-608"],
 						"title":"There is a better context", 
-						"text":"Something you highlighted in the document has a better context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"Something you highlighted has a better context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{ 
 						"excess_tkns":["530-530"],
 						"title":"There is a better context", 
-						"text":"Something you highlighted in the document has a better context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"Something you highlighted has a better context.",
+						"timeout":8000,
+						"with hint":true
 						},
 						{ 
 						"excess_tkns":["68-68", "295-295", "306-306", "603-603", "620-620"],
 						"title":"There is a better context", 
-						"text":"Something you highlighted in the document has a better context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"Something you highlighted has a better context.",
+						"timeout":8000,
+						"with hint":true
 						},						
 						{  
 						"excess_tkns":["46-46", "115-115", "117-117", "165-165", "169-169", "173-173", "262-262", "371-371", "474-474", "534-534", "584-584", "651-651"],
 						"title":"There is a better context", 
-						"text":"Something you highlighted in the document has a better context. <br/><b>(see hint)</b>",
-						"timeout":10000
+						"text":"Something you highlighted has a better context.",
+						"timeout":8000,
+						"with hint":true
 						}						
 					]
 			}

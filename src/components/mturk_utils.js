@@ -91,7 +91,7 @@
 
 
 
- const handleSubmit = (assignmentId, turkSubmitTo, doc_json, summary_json, g_completed) => {
+ const handleSubmit = (assignmentId, turkSubmitTo, doc_json, summary_json, g_completed, g_guided_annotation_history) => {
     // const urlParams = new URLSearchParams(window.location.search)
    
     // create the form element and point it to the correct endpoint
@@ -114,6 +114,14 @@
     completed_guided_annotation.value = JSON.stringify(g_completed)
     completed_guided_annotation.hidden = true
     form.appendChild(completed_guided_annotation)
+
+    // attach if completed the guided annotation
+    const guided_annotation_history = document.createElement('input')
+    guided_annotation_history.name = 'guided_annotation_history'
+    guided_annotation_history.value = JSON.stringify(g_guided_annotation_history)
+    guided_annotation_history.hidden = true
+    form.appendChild(guided_annotation_history)
+
 
     // attach doc_json data
     const inputDocJson = document.createElement('input')

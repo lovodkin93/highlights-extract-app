@@ -1,4 +1,6 @@
-import { MachineStateHandler, g_MachineStateHandler } from './Annotation_event_handlers';
+import { MachineStateHandler } from './Annotation_event_handlers';
+import { add_text_to_GuidedAnnotationInfoAlert } from './GuidedAnnotation_utils'
+
 import { useState, useEffect, useRef } from 'react'
 import Annotation from './Annotation';
 import Alert from 'react-bootstrap/Alert'
@@ -46,19 +48,39 @@ const GuidedAnnotation = ({isPunct,
                           setCompleted, resetGuidedAnnotation,
                           g_show_hint, g_setShowHint,
                           g_hint_msg, g_setHintMsg, 
-                          guided_annotation_hints,
+                          guided_annotation_hints, guided_annotation_strike_messages,
                           noAlignModalShow, setNoAlignModalShow,
                           noAlignApproved, setNoAlignApproved,
                           setOpeningModalShow,
                           setPrevCurrAlignmentGuidingMsgId, prev_curr_alignment_guiding_msg_id,
-                          setPrevGuidingInfoMsg, prev_guiding_info_msg
-
+                          setPrevGuidingInfoMsg, prev_guiding_info_msg,
+                          g_guided_annotation_history, g_setGuidedAnnotationHistory,
+                          g_strikes_counter, g_setStrikesCounter,
+                          g_open_answer_modal, g_setOpenAnswerModal
 
                         }) => {
-
+    const MAX_ERR_CNT = 3 // number of maximum permitted wrong attempts before giving the answer 
     const [FinishedModalShow, setFinishedModalShow] = useState(false);
     const [showWhereNavbar, setShowWhereNavbar] = useState(false);
-         
+    const [g_open_hint, g_setOpenHint] = useState(false)
+    const [g_with_glow_hint, g_setWithGlowHint] = useState(false)
+    
+
+    
+    const update_guiding_msg = (new_msg_type, msg_json) => {
+      // message didn't close before new message and they are of the same kind (so someone might miss the change)
+      if(guiding_msg_type === new_msg_type){
+        setGuidingMsgType("closed")
+        window.setTimeout(()=>{setGuidingMsgType(new_msg_type);setGuidingMsg(msg_json);},50)
+      }
+      else {
+        setGuidingMsgType(new_msg_type);
+        setGuidingMsg(msg_json);
+      }
+    }
+
+
+
 
     
     const toggleDocSpanHighlight = ({tkn_ids, turn_on, turn_off}) => {
@@ -70,11 +92,23 @@ const GuidedAnnotation = ({isPunct,
       
       if(!isSummarySpanOkDict["summary_span_ok"] && StateMachineState !== "REVISE HOVER") {
         if (isSummarySpanOkDict["highlighted_tkn_ids"].length===0) { // nothing highlighted in summary
-          setGuidingMsg(guided_annotation_messages["empty_summary_span_msg"])
-          setGuidingMsgType("danger")
+          // setGuidingMsg(guided_annotation_messages["empty_summary_span_msg"])
+          // setGuidingMsgType("danger")
+
+          update_guiding_msg("danger", guided_annotation_messages["empty_summary_span_msg"])
+          g_setGuidedAnnotationHistory(g_guided_annotation_history.concat([{"status":"error", "sent_id":CurrSentInd, "type":"summary_span", "problem":"short", "chosen_span_id":"-1", "highlighted_tkn_ids":isSummarySpanOkDict["highlighted_tkn_ids"], "gold_tkn_ids":[]}]))
+          
+          g_setHintMsg({"text":"", "title":""})
+          g_setShowHint(false)
         } else if (isSummarySpanOkDict["chosen_span_id"]===undefined){
-          setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
-          setGuidingMsgType("danger")
+          // setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
+          // setGuidingMsgType("danger")
+
+          update_guiding_msg("danger", guided_annotation_messages["default_too_short_summary_msg"])
+          g_setGuidedAnnotationHistory(g_guided_annotation_history.concat([{"status":"error", "sent_id":CurrSentInd, "type":"summary_span", "problem":"short", "chosen_span_id":"-1", "highlighted_tkn_ids":isSummarySpanOkDict["highlighted_tkn_ids"], "gold_tkn_ids":[]}]))
+
+          g_setHintMsg({"text":"", "title":""})
+          g_setShowHint(false)
         } else {
           let gold_tkns = guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_spans"][isSummarySpanOkDict["chosen_span_id"]]
           gold_tkns = gold_tkns.map((span) => {return string_to_span(span)})
@@ -86,14 +120,18 @@ const GuidedAnnotation = ({isPunct,
       const isAlignmentOkDict = isAlignmentOk(tkn_ids, turn_on, turn_off);
       if (isAlignmentOkDict["alignment_ok"] && StateMachineState !== "REVISE HOVER") {
         if (Object.keys(guided_annotation_messages["goldMentions"][CurrSentInd]["good_alignment_msg"][curr_alignment_guiding_msg_id]).includes("text")) {
-          setGuidingMsg(guided_annotation_messages["goldMentions"][CurrSentInd]["good_alignment_msg"][curr_alignment_guiding_msg_id])
+          // setGuidingMsg(guided_annotation_messages["goldMentions"][CurrSentInd]["good_alignment_msg"][curr_alignment_guiding_msg_id])
+          update_guiding_msg("success", guided_annotation_messages["goldMentions"][CurrSentInd]["good_alignment_msg"][curr_alignment_guiding_msg_id])
           setGuidingInfoMsg(guided_annotation_messages["goldMentions"][CurrSentInd]["good_alignment_msg"][curr_alignment_guiding_msg_id])
         } else {
-          setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"])
+          // setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"])
+          update_guiding_msg("success", guided_annotation_messages["default_good_alignment_msg"])
           setGuidingInfoMsg(guided_annotation_messages["default_good_alignment_msg"])
         }
-        setGuidingMsgType("success");
+        // setGuidingMsgType("success");
+        g_setHintMsg({"text":"", "title":""})
         g_setShowHint(false);
+        g_setGuidedAnnotationHistory(g_guided_annotation_history.concat([{"status":"success", "sent_id":CurrSentInd, "type":"doc_span", "chosen_span_id":curr_alignment_guiding_msg_id, "highlighted_tkn_ids":isSummarySpanOkDict["highlighted_tkn_ids"]}]))
         // setIsGoodAlignment(true);
       }
       else if (StateMachineState !== "REVISE HOVER") {
@@ -134,12 +172,18 @@ const GuidedAnnotation = ({isPunct,
       if(isSummarySpanOkDict["summary_span_ok"]) {
         // updating the success alert
         if (Object.keys(guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_span_msg"][isSummarySpanOkDict["chosen_span_id"]]).includes("text")) {
-          setGuidingMsg(guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_span_msg"][isSummarySpanOkDict["chosen_span_id"]])
+          // setGuidingMsg(guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_span_msg"][isSummarySpanOkDict["chosen_span_id"]])
+          update_guiding_msg("success", guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_span_msg"][isSummarySpanOkDict["chosen_span_id"]])
+
         } else {
-          setGuidingMsg(guided_annotation_messages["default_good_summary_span_msg"]) 
+          // setGuidingMsg(guided_annotation_messages["default_good_summary_span_msg"]) 
+          update_guiding_msg("success", guided_annotation_messages["default_good_summary_span_msg"])
+
         }
-        setGuidingMsgType("success");
+        // setGuidingMsgType("success");
+        g_setHintMsg({"text":"", "title":""})
         g_setShowHint(false);
+        g_setGuidedAnnotationHistory(g_guided_annotation_history.concat([{"status":"success", "sent_id":CurrSentInd, "type":"summary_span", "chosen_span_id":isSummarySpanOkDict["chosen_span_id"], "highlighted_tkn_ids":isSummarySpanOkDict["highlighted_tkn_ids"]}]))
         setCurrAlignmentGuidingMsgId(isSummarySpanOkDict["chosen_span_id"])
 
 
@@ -411,11 +455,18 @@ const GuidedAnnotation = ({isPunct,
         // console.log(`state: ${StateMachineState} and ${JSON.stringify(isSummarySpanOkDict)}`)
         if(!isSummarySpanOkDict["summary_span_ok"]) {
           if (isSummarySpanOkDict["highlighted_tkn_ids"].length===0 && StateMachineState !== "REVISE HOVER") { // nothing highlighted in summary
-            setGuidingMsg(guided_annotation_messages["empty_summary_span_msg"])
-            setGuidingMsgType("danger")
+            // setGuidingMsg(guided_annotation_messages["empty_summary_span_msg"])
+            // setGuidingMsgType("danger")
+            update_guiding_msg("danger", guided_annotation_messages["empty_summary_span_msg"])
+            g_setGuidedAnnotationHistory(g_guided_annotation_history.concat([{"status":"error", "sent_id":CurrSentInd, "type":"summary_span", "problem":"short", "chosen_span_id":"-1", "highlighted_tkn_ids":isSummarySpanOkDict["highlighted_tkn_ids"], "gold_tkn_ids":[]}]))
+
           } else if (isSummarySpanOkDict["chosen_span_id"]===undefined){
-            setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
-            setGuidingMsgType("danger")
+            // setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
+            // setGuidingMsgType("danger")
+            update_guiding_msg("danger", guided_annotation_messages["default_too_short_summary_msg"])
+            g_setGuidedAnnotationHistory(g_guided_annotation_history.concat([{"status":"error", "sent_id":CurrSentInd, "type":"summary_span", "problem":"short", "chosen_span_id":"-1", "highlighted_tkn_ids":isSummarySpanOkDict["highlighted_tkn_ids"], "gold_tkn_ids":[]}]))
+            g_setHintMsg({"text":"", "title":""})
+            g_setShowHint(false)
           } else {
             let gold_tkns = guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_spans"][isSummarySpanOkDict["chosen_span_id"]]
             gold_tkns = gold_tkns.map((span) => {return string_to_span(span)})
@@ -432,6 +483,7 @@ const GuidedAnnotation = ({isPunct,
           // setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"]) // AVIVSL: add custom success messages
           // setGuidingMsgType("success");
           setCurrAlignmentGuidingMsgId("-1");
+          g_setHintMsg({"text":"", "title":""})
           g_setShowHint(false);
         } else {
           update_error_message(isAlignmentOkDict["gold_align_tkns"], isAlignmentOkDict["highlighted_doc_tkns"], curr_alignment_guiding_msg_id, true);
@@ -444,8 +496,10 @@ const GuidedAnnotation = ({isPunct,
         const isSummarySpanOkDict = isSummarySpanOk([], false, false)
       
         if(!isSummarySpanOkDict["summary_span_ok"]) {
-          setGuidingMsg({"text":"Summary highlighting was changed and is not aligned to the document highlighting anymore.", "title":"Summary highlighting changed and is not good"})
-          setGuidingMsgType("danger")
+          // setGuidingMsg({"text":"Summary highlighting was changed and is not aligned to the document highlighting anymore.", "title":"Summary highlighting changed and is not good"})
+          // setGuidingMsgType("danger")
+          update_guiding_msg("danger", {"text":"Summary highlighting was changed and is not aligned to the document highlighting anymore.", "title":"Summary highlighting changed and is not good"})
+
           return
         }
 
@@ -579,10 +633,15 @@ const GuidedAnnotation = ({isPunct,
 
       const excess_tkns = actual_tkns.filter((tkn) => {return gold_tkns.every((span) => {return !span.includes(tkn)})}).sort(function(a, b) {return a - b;})
       
+      g_setGuidedAnnotationHistory(g_guided_annotation_history.concat([{"status":"error", "sent_id":CurrSentInd, "type":`${(isAlignError)? "doc_span":"summary_span"}`, "problem":"long", "chosen_span_id":chosen_span_id, "highlighted_tkn_ids":actual_tkns, "gold_tkn_ids":gold_tkns}]))
+
 
       if (guiding_msgs.length===0){
-        setGuidingMsg(guided_annotation_messages[default_msg_key])
-        setGuidingMsgType("danger")
+        // setGuidingMsg(guided_annotation_messages[default_msg_key])
+        // setGuidingMsgType("danger")
+        update_guiding_msg("danger", guided_annotation_messages[default_msg_key])
+        g_setHintMsg({"text":"", "title":""})
+        g_setShowHint(false)
         return
       }
       
@@ -590,17 +649,21 @@ const GuidedAnnotation = ({isPunct,
       
       const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["excess_tkns"].some((span) => {return intersection(excess_tkns, string_to_span(span)).length !==0 })})
       if(custom_message_json.length !== 0) {
-        if(guided_unhighlight){
-          setGuidingMsg(custom_message_json[0])
-        } else {
-          setGuidingMsg({"text":`${custom_message_json[0]["text"]} <br/>${guided_annotation_messages["extra_to_excess_msgs"]["text"]}`, "title": custom_message_json[0]["title"], "timeout": custom_message_json[0]["timeout"]})
+        if(!guided_unhighlight){
           setGuidedUnhighlight(true)
         }
+        // setGuidingMsg(custom_message_json[0])
+        update_guiding_msg("danger", custom_message_json[0])
+
       } 
       else {
-        setGuidingMsg(guided_annotation_messages[default_msg_key])
+        // setGuidingMsg(guided_annotation_messages[default_msg_key])
+        update_guiding_msg("danger", guided_annotation_messages[default_msg_key])
+
+        g_setHintMsg({"text":"", "title":""})
+        g_setShowHint(false)
       }
-      setGuidingMsgType("danger")
+      // setGuidingMsgType("danger")
 
 
 
@@ -634,12 +697,22 @@ const GuidedAnnotation = ({isPunct,
       const missing_tkns = merged_gold_tkns.filter((tkn) => {return !actual_tkns.includes(tkn)})
       const custom_message_json = guiding_msgs.filter((json_obj) => {return json_obj["missing_tkns"].some((span) => {return intersection(missing_tkns, string_to_span(span)).length !== 0 })})
 
+
+      g_setGuidedAnnotationHistory(g_guided_annotation_history.concat([{"status":"error", "sent_id":CurrSentInd, "type":`${(isAlignError)? "doc_span":"summary_span"}`, "problem":"short", "chosen_span_id":chosen_span_id, "highlighted_tkn_ids":actual_tkns, "gold_tkn_ids":gold_tkns}]))
+
+
+
       if(custom_message_json.length !== 0) {
-        setGuidingMsg(custom_message_json[0])
-        setGuidingMsgType("danger")
+        // setGuidingMsg(custom_message_json[0])
+        // setGuidingMsgType("danger")
+        update_guiding_msg("danger", custom_message_json[0])
       } else {
-        setGuidingMsg(guided_annotation_messages[default_msg_key])
-        setGuidingMsgType("danger")
+        // setGuidingMsg(guided_annotation_messages[default_msg_key])
+        // setGuidingMsgType("danger")
+        update_guiding_msg("danger", guided_annotation_messages[default_msg_key])
+
+        g_setHintMsg({"text":"", "title":""})
+        g_setShowHint(false)
       }
       
       const custom_hint_json = hint_msgs.filter((json_obj) => {return json_obj["missing_tkns"].some((span) => {return intersection(missing_tkns, string_to_span(span)).length !== 0 })})
@@ -688,6 +761,44 @@ const GuidedAnnotation = ({isPunct,
       } else {
         return {"alignment_ok":false, "highlighted_doc_tkns":doc_tkns, "gold_align_tkns":gold_align_tkns} 
       }
+    }
+
+
+
+    const OpenHint = () => {
+      window.scrollTo(0, 0)
+      g_setOpenHint(true)
+      g_setWithGlowHint(true)
+    }
+
+
+    const getAnswerModalMsg = (last_error_json) => {
+      if(last_error_json["highlighted_tkn_ids"].length===0){
+        return "<div>Please highlight something in the <u>summary</u> before proceeding to the document or hitting \"CONFIRM\"!</div>"
+        
+      }
+      const gold_mentions = guided_annotation_strike_messages["goldMentions"][last_error_json["sent_id"]]
+      const error_type = last_error_json["type"];
+
+      let chosen_span_id = last_error_json["chosen_span_id"];
+      if (chosen_span_id==="-1") {
+        chosen_span_id = Object.keys(gold_mentions["span_indicating_tkns"]).filter((key) => {return string_to_span(gold_mentions["span_indicating_tkns"][key]).includes(last_error_json["highlighted_tkn_ids"][0])})    
+      }
+
+
+      const correct_span = gold_mentions[error_type][chosen_span_id]["text"]
+      if (correct_span==="None") {
+        return "<div>\"from countries like Brazil\" doesn't appear in the document. <br/>Remove it from the <u>summary</u> span, and then proceed to find the alignment in the document. <br/>Deal with \"from countries like Brazil\" separately.</div>"
+      }
+      const where_to_highlight = (error_type==="summary_span") ? "summary":"document"
+      const what_is_correct = (correct_span==="") ? "The summary span is unalignable" : `<u>The correct span is \"${correct_span}\"</u>`
+      const what_to_do = (correct_span==="") ? `highlight nothing in the ${where_to_highlight}` : `highlight it in the ${where_to_highlight}`
+      const what_next = (error_type==="summary_span") ? "then proceed to find its alignment in the document": `hit \"${(StateMachineState==="ANNOTATION") ? "CONFIRM":""}${(StateMachineState==="SENTENCE END") ? "NEXT SENTENCE":""}${(StateMachineState==="SUMMARY END") ? "SUBMIT":""}${(correct_span==="")? " (NO ALIGN)":""}\"`;
+
+
+      const modal_message = `It appears you are struggling a little, so let me help you. <br/>${what_is_correct}. <br/>Please ${what_to_do} and ${what_next}.`
+      alert(modal_message)
+      return modal_message
     }
 
 
@@ -771,6 +882,11 @@ const GuidedAnnotation = ({isPunct,
   useEffect(() => {
     console.log(`tkn_id of highlighted doc words: ${JSON.stringify(doc_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
   }, [doc_json]);
+
+
+  // useEffect(() => {
+  //   console.log(`g_guided_annotation_history: ${JSON.stringify(g_guided_annotation_history)}`)
+  // }, [g_guided_annotation_history]);
   // useEffect(() => {
   //   console.log(`guided_annotation_hints here: ${JSON.stringify(guided_annotation_hints)}`)
   // }, []);
@@ -838,6 +954,47 @@ const GuidedAnnotation = ({isPunct,
    }, [guiding_msg_type])
 
 
+
+
+   // solve if too many errors in a row
+   useEffect(() => {
+    if(guiding_msg_type==="danger") {
+      if(g_strikes_counter>=MAX_ERR_CNT) {
+        const last_error_json = g_guided_annotation_history.at(-1)
+        getAnswerModalMsg(last_error_json)
+        // alert(JSON.stringify(last_error_json))
+        g_setStrikesCounter(0)
+        g_setGuidedAnnotationHistory(g_guided_annotation_history.concat(["strike!"]))
+        g_setOpenAnswerModal(true)
+      } else {
+        g_setStrikesCounter(g_strikes_counter+1)
+      }
+      // g_guided_annotation_history, g_setGuidedAnnotationHistory,
+      // g_open_answer_model, g_setOpenAnswerModal
+      // g_strikes_counter, g_setStrikesCounter
+    } else if (guiding_msg_type==="success") {
+      g_setStrikesCounter(0)
+    }
+   }, [guiding_msg_type])
+
+
+   // reset Hint's attributes
+   useEffect(() => {
+    if(!g_show_hint) {
+      g_setOpenHint(false)
+      g_setWithGlowHint(false)
+    }
+   }, [g_show_hint])
+
+  // reset Hint's attributes when hint changes
+  useEffect(() => {
+      g_setOpenHint(false)
+      g_setWithGlowHint(false)
+    }, [g_hint_msg])
+
+   
+
+
    // check if alignment ok (for guidinbg annotation message)
    useEffect(() => {
      if(CurrSentInd>=0 && curr_alignment_guiding_msg_id!=="-1") {
@@ -846,6 +1003,7 @@ const GuidedAnnotation = ({isPunct,
       setIsGoodAlignment(isAlignmentOkDict["alignment_ok"] && isSummarySpanOkDict["summary_span_ok"])
      }
    }, [doc_json, summary_json])
+
 
 
 
@@ -863,11 +1021,19 @@ const GuidedAnnotation = ({isPunct,
     
     if(!isSummarySpanOkDict["summary_span_ok"]) {
       if (isSummarySpanOkDict["highlighted_tkn_ids"].length===0 && StateMachineState !== "REVISE HOVER") { // nothing highlighted in summary
-        setGuidingMsg(guided_annotation_messages["empty_summary_span_msg"])
-        setGuidingMsgType("danger")
+        // setGuidingMsg(guided_annotation_messages["empty_summary_span_msg"])
+        // setGuidingMsgType("danger")
+        update_guiding_msg("danger", guided_annotation_messages["empty_summary_span_msg"])
+        g_setGuidedAnnotationHistory(g_guided_annotation_history.concat([{"status":"error", "sent_id":CurrSentInd, "type":"summary_span", "problem":"short", "chosen_span_id":"-1", "highlighted_tkn_ids":isSummarySpanOkDict["highlighted_tkn_ids"], "gold_tkn_ids":[]}]))
+
       } else if (isSummarySpanOkDict["chosen_span_id"]===undefined){
-        setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
-        setGuidingMsgType("danger")
+        // setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
+        // setGuidingMsgType("danger")
+        update_guiding_msg("danger", guided_annotation_messages["default_too_short_summary_msg"])
+        g_setGuidedAnnotationHistory(g_guided_annotation_history.concat([{"status":"error", "sent_id":CurrSentInd, "type":"summary_span", "problem":"short", "chosen_span_id":"-1", "highlighted_tkn_ids":isSummarySpanOkDict["highlighted_tkn_ids"], "gold_tkn_ids":[]}]))
+
+        g_setHintMsg({"text":"", "title":""})
+        g_setShowHint(false)
       } else {
         let gold_tkns = guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_spans"][isSummarySpanOkDict["chosen_span_id"]]
         gold_tkns = gold_tkns.map((span) => {return string_to_span(span)})
@@ -882,6 +1048,7 @@ const GuidedAnnotation = ({isPunct,
       // setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"]) // AVIVSL: add custom success messages
       // setGuidingMsgType("success");
       setCurrAlignmentGuidingMsgId("-1");
+      g_setHintMsg({"text":"", "title":""})
       g_setShowHint(false);
     } else {
       update_error_message(isAlignmentOkDict["gold_align_tkns"], isAlignmentOkDict["highlighted_doc_tkns"], curr_alignment_guiding_msg_id, true);
@@ -896,9 +1063,6 @@ const GuidedAnnotation = ({isPunct,
     window.scrollTo(0, 0)
     // alert("Submitted!");
   }
-
-
-
 
 
 
@@ -935,6 +1099,11 @@ const GuidedAnnotation = ({isPunct,
               g_guiding_info_msg = {guiding_info_msg}                      g_is_good_alignment = {is_good_alignment}
               g_show_hint = {g_show_hint}                                  g_setShowHint = {g_setShowHint}
               g_hint_msg = {g_hint_msg}                                    g_showWhereNavbar = {showWhereNavbar}
+              g_open_hint={g_open_hint}                                    g_setOpenHint={g_setOpenHint}
+              
+              g_with_glow_hint={g_with_glow_hint}                          g_setWithGlowHint={g_setWithGlowHint}
+              
+              
               OpeningModalShow = {undefined}                               setOpeningModalShow = {undefined}
               noAlignModalShow = {noAlignModalShow}                        setNoAlignModalShow = {setNoAlignModalShow}
               noAlignApproved = {noAlignApproved}                          setNoAlignApproved = {setNoAlignApproved}
@@ -944,6 +1113,8 @@ const GuidedAnnotation = ({isPunct,
                         <Alert.Heading>{guiding_msg["title"]}</Alert.Heading>
                         <p>
                           <Markup content={guiding_msg["text"]} />
+                          {guiding_msg["with hint"] && (<div><Button variant="link" onClick={OpenHint}>hint</Button></div>)}
+                          <Markup content={add_text_to_GuidedAnnotationInfoAlert(is_good_alignment,StateMachineState, doc_json)} />
                         </p>
                 </Alert>
 

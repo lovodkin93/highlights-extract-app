@@ -37,6 +37,7 @@ import { Player, BigPlayButton } from 'video-react';
 
 import { TutorialCard } from './TutorialCard';
 import { getTutorialCardTitle } from './Tutorial_utils'
+import { add_text_to_GuidedAnnotationInfoAlert } from './GuidedAnnotation_utils'
 // import Card from 'react-bootstrap/Card'
 // import { Container, Row, Col } from 'react-bootstrap';
 
@@ -71,6 +72,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                     g_guiding_info_msg, g_is_good_alignment,
                     g_show_hint, g_setShowHint,
                     g_hint_msg, g_showWhereNavbar,
+                    g_open_hint, g_setOpenHint,
+                    g_with_glow_hint, g_setWithGlowHint,
                     OpeningModalShow, setOpeningModalShow,
                     noAlignModalShow, setNoAlignModalShow,
                     noAlignApproved, setNoAlignApproved
@@ -85,7 +88,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   const [summaryOnMouseDownInCorrectSent, setSummaryOnMouseDownInCorrectSent] = useState(true)
   const [ctrlButtonDown, setCtrlButtonDown] = useState(false)
   const [toastVisible, setToastVisible] = useState(true)
-  
+
   const isDocSpanExist = () => {
     return doc_json.filter((word) => {return word.span_highlighted}).length !== 0
   }
@@ -126,17 +129,17 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
     )}
 
 
-    const add_text_to_GuidedAnnotationInfoAlert = () => {
-      if(g_is_good_alignment) {
-        if(StateMachineState==="ANNOTATION"){return "<br/><b>Hit the \"CONFIRM\" button to confirm&proceed.</b>"}
-        if(StateMachineState==="SENTENCE END"){return "<br/><b>Hit the \"NEXT SENTENCE\" button to confirm&proceed to the next sentence.</b>"}
-        if(StateMachineState==="SUMMARY END"){return "<br/><b>Hit the \"CONFIRM\" button to confirm&finish.</b>"}
-      } else {
-        if(StateMachineState==="SENTENCE END"){return "<br/>When you are finished, <b>hit the \"NEXT SENTENCE\" button</b> to confirm and proceed to the next sentence."}
-        if(StateMachineState==="SUMMARY END"){return "<br/>When you are finished, <b>hit the \"SUBMIT\" button</b> to confirm and finish."}
-      }
-      return ""
-    }
+    // const add_text_to_GuidedAnnotationInfoAlert = () => {
+    //   if(g_is_good_alignment) {
+    //     if(StateMachineState==="ANNOTATION"){return "<br/><b>Hit the \"CONFIRM\" button to confirm&proceed.</b>"}
+    //     if(StateMachineState==="SENTENCE END"){return "<br/><b>Hit the \"NEXT SENTENCE\" button to confirm&proceed to the next sentence.</b>"}
+    //     if(StateMachineState==="SUMMARY END"){return "<br/><b>Hit the \"CONFIRM\" button to confirm&finish.</b>"}
+    //   } else {
+    //     if(StateMachineState==="SENTENCE END"){return "<br/>When you are finished, <b>hit the \"NEXT SENTENCE\" button</b> to confirm and proceed to the next sentence."}
+    //     if(StateMachineState==="SUMMARY END"){return "<br/>When you are finished, <b>hit the \"SUBMIT\" button</b> to confirm and finish."}
+    //   }
+    //   return ""
+    // }
 
     const GuidedAnnotationInfoAlert = () => {
       return (
@@ -144,20 +147,20 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
           <Alert.Heading><Markup content={g_guiding_info_msg["title"]} /></Alert.Heading>
           <p className="mb-0">
           {(isGuidedAnnotation && g_show_hint && g_hint_msg!==undefined && g_hint_msg["Text"]!=="") &&
-                    <OverlayTrigger trigger="click" placement="left" overlay={GuidedAnnotationHint}>
-                      <Button className="guidedAnnotationHintButton" active variant="btn btn-primary btn-lg right-button" onClick={() => {}}>
+                    <OverlayTrigger className={`${(g_with_glow_hint)? 'with-glow':''}`} show={g_open_hint} placement="left" overlay={GuidedAnnotationHint}>
+                      <Button className="guidedAnnotationHintButton" active variant="btn btn-primary btn-lg right-button" onClick={() => {g_setOpenHint(!g_open_hint); g_setWithGlowHint(false)}}>
                           HINT
                       </Button>
                     </OverlayTrigger>
           }
-            <Markup content={`${g_guiding_info_msg["text"]}  ${add_text_to_GuidedAnnotationInfoAlert()}`} />
+            <Markup content={`${g_guiding_info_msg["text"]}  ${add_text_to_GuidedAnnotationInfoAlert(g_is_good_alignment,StateMachineState, doc_json)}`} />
           </p>
         </Alert>
       )}
 
 
       const GuidedAnnotationHint = (
-        <Popover variant="primary" className="hintText" id="popover-basic">
+        <Popover variant="primary" className={`hintText ${(g_with_glow_hint)? 'with-glow-hint':''}`} id="popover-basic">
           <Popover.Header as="h3">{g_hint_msg["title"]}</Popover.Header>
           <Popover.Body as="h4">
             <Markup content={`${g_hint_msg["text"]}`} />
