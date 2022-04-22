@@ -470,11 +470,10 @@
 }
 
 #overlay-doc-info-guider .tooltip-arrow::before{
-  border-right-color:aqua !important;
+  border-right-color:darkviolet !important;
 }
 #overlay-doc-info-guider .tooltip-inner{
-    background-color: aqua !important;
-    color:black;
+    background-color: darkviolet !important;
     text-align: left;
     font-size:large;
 }
@@ -514,13 +513,12 @@
 }
 
 #overlay-summary-info-guider .tooltip-arrow::before{
-  border-left-color: aqua !important;
+  border-left-color: darkviolet !important;
 }
 #overlay-summary-info-guider .tooltip-inner{
-    background-color: aqua !important;
-    border-color: rgb(15, 241, 241);
+    background-color: darkviolet !important;
+    border-color: rgb(158, 4, 224);
     border-style: solid;
-    color: black;
     text-align: left;
     font-size:large;
     opacity:1.0;
