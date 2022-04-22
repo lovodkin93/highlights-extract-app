@@ -31,13 +31,15 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import Overlay from 'react-bootstrap/Overlay'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
+
 import Popover from 'react-bootstrap/Popover'
 import { Player, BigPlayButton } from 'video-react';
 
 
 import { TutorialCard } from './TutorialCard';
 import { getTutorialCardTitle } from './Tutorial_utils'
-import { add_text_to_GuidedAnnotationInfoAlert, string_to_span } from './GuidedAnnotation_utils'
+import { add_text_to_GuidedAnnotationInfoAlert, string_to_span, get_span_groups } from './GuidedAnnotation_utils'
 // import Card from 'react-bootstrap/Card'
 // import { Container, Row, Col } from 'react-bootstrap';
 
@@ -75,6 +77,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                     g_open_hint, g_setOpenHint,
                     g_with_glow_hint, g_setWithGlowHint,
                     g_answer_words_to_glow,
+                    g_docGuider_msg, g_setDocGuiderMsg,
+                    g_summaryGuider_msg, g_setSummaryGuiderMsg,
                     OpeningModalShow, setOpeningModalShow,
                     noAlignModalShow, setNoAlignModalShow,
                     noAlignApproved, setNoAlignApproved
@@ -89,6 +93,10 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   const [summaryOnMouseDownInCorrectSent, setSummaryOnMouseDownInCorrectSent] = useState(true)
   const [ctrlButtonDown, setCtrlButtonDown] = useState(false)
   const [toastVisible, setToastVisible] = useState(true)
+
+  const docGuider = useRef(null);
+  const summaryGuider = useRef(null);
+
 
   const isDocSpanExist = () => {
     return doc_json.filter((word) => {return word.span_highlighted}).length !== 0
@@ -299,30 +307,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                   </div>
                 )
     } else {
-      const str_spans = g_answer_words_to_glow["ids"].split(";")
-      let non_glow_min_lim = "0";
-      let span_groups = []
-      for (let i = 0; i < str_spans.length; i++) {
-        const lims = str_spans[i].split("-")
-        let non_glow_max_lim = parseInt(lims[0]) - 1;
-        non_glow_max_lim = non_glow_max_lim.toString()
-        // start with an empty array because the glowing words are the odd spans (1,3,5,7... rather than 0,2,4...)
-        if (lims[0]==="0"){
-          span_groups=span_groups.concat([[]])
-        } else {
-          span_groups=span_groups.concat([string_to_span(`${non_glow_min_lim}-${non_glow_max_lim}`)])
-        }
-        span_groups=span_groups.concat([string_to_span(str_spans[i])])
-        non_glow_min_lim = parseInt(lims[1]) + 1
-        non_glow_min_lim = non_glow_min_lim.toString()
-      }
-      // final span
-      let non_glow_max_lim = doc_json.length.toString()
-      span_groups=span_groups.concat([string_to_span(`${non_glow_min_lim}-${non_glow_max_lim}`)])
-      console.log("span_groups:")
-      console.log(span_groups)
-
-      const doc_words_groups = span_groups.map((tkns) => {return doc_json.filter((word) => {return tkns.includes(word.tkn_id)})})
+      
+      const doc_words_groups = get_span_groups(g_answer_words_to_glow, doc_json, false)
       return doc_words_groups.map((doc_words, index) => 
       <div className={`${([1,3,5,7,9,11,13,15].includes(index)) ?  'with-glow': ''}`}>
           {doc_words.map((word_json, index) => (
@@ -343,20 +329,46 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
     // when rebooting
     if (summary_json.length === 0){
       return
+    } 
+    else if (!isGuidedAnnotation || g_answer_words_to_glow["type"]!=="summary_span") {
+      const max_sent_id = summary_json.map((word) =>{return word.sent_id}).reduce(function(a, b) {return Math.max(a, b)}, -Infinity);
+      const summary_per_sent_id = [...Array(max_sent_id+1).keys()].map((sent_id) => {return summary_json.filter((word) => {return word.sent_id===sent_id})})
+      return summary_per_sent_id.map((summary_words, index) => 
+                                                        <div>
+                                                          <p  className={`${(index===CurrSentInd) ?  'bordered_sent': ''} ${(isTutorial && t_StateMachineStateId===4 && index===CurrSentInd) ? 'with-glow' : ''}`}>
+                                                            {summary_words.map((word_json, index) => (
+                                                              <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
+                                                              ))}
+                                                          </p>
+                                                          <span className="br-class"></span>
+                                                        </div>
+                                                        )
     }
+    else {
+      const doc_words_groups = get_span_groups(g_answer_words_to_glow, summary_json)
+      const max_sent_id = summary_json.map((word) =>{return word.sent_id}).reduce(function(a, b) {return Math.max(a, b)}, -Infinity);
+      const summary_per_sent_id = [...Array(max_sent_id+1).keys()].map((sent_id) => {return summary_json.filter((word) => {return word.sent_id===sent_id})})
+      return summary_per_sent_id.map((summary_words, index) => 
+                                                        <div>
+                                                          <p  className={`${(index===CurrSentInd) ?  'bordered_sent': ''}`}>
+                                                            {(index===CurrSentInd) && (
+                                                              get_span_groups(g_answer_words_to_glow, summary_words, true).map((words, index) => 
+                                                                <div className={`${([1,3,5,7,9,11,13,15].includes(index)) ?  'with-glow': ''}`}>
+                                                                    {words.map((word_json, index) => (
+                                                                      <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
+                                                                    ))}
+                                                                </div>
+                                                              )
+                                                            )}
 
-    const max_sent_id = summary_json.map((word) =>{return word.sent_id}).reduce(function(a, b) {return Math.max(a, b)}, -Infinity);
-    const summary_per_sent_id = [...Array(max_sent_id+1).keys()].map((sent_id) => {return summary_json.filter((word) => {return word.sent_id===sent_id})})
-    return summary_per_sent_id.map((summary_words, index) => 
-                                                      <div>
-                                                        <p  className={`${(index===CurrSentInd) ?  'bordered_sent': ''} ${(isTutorial && t_StateMachineStateId===4 && index===CurrSentInd) ? 'with-glow' : ''}`}>
-                                                          {summary_words.map((word_json, index) => (
-                                                            <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
-                                                            ))}
-                                                        </p>
-                                                        <span className="br-class"></span>
-                                                      </div>
-                                                      )
+                                                            {(index!==CurrSentInd) && (summary_words.map((word_json, index) => (
+                                                              <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
+                                                              )))}
+                                                          </p>
+                                                          <span className="br-class"></span>
+                                                        </div>
+                                                        )
+    }
   }
 
   const getResponsiveAppBarTitle = () => {
@@ -537,7 +549,7 @@ useEffect(() => {
         {(!isTutorial || [4,6,7].includes(t_StateMachineStateId)) && (
           <Row className='annotation-row' id={`${(InfoMessage === "") ? 'doc-summary-row': ''}`}>
             <Col md={ 8 }>
-              <Card border="secondary" bg="light"  id="doc-text">
+              <Card border="secondary" bg="light"  id="doc-text" ref={docGuider}>
                   <Card.Header>Document</Card.Header>
                   <Card.Body>
                     {getDocText()}
@@ -552,7 +564,7 @@ useEffect(() => {
               <div id={`${(isVisibleFullySummary) ?  '': 'fixed-summary-and-buttons'}`}>
               <Row>
                 <Col>
-                  <Card border="secondary" bg="light" id="summary-text">
+                  <Card border="secondary" bg="light" id="summary-text" ref={summaryGuider}>
                     <Card.Header>Summary</Card.Header>
                     <Card.Body>
                       {getSummaryText()}
@@ -685,6 +697,22 @@ useEffect(() => {
                   </Modal.Footer>
         </Modal>
 
+
+        <Overlay target={docGuider.current} show={isGuidedAnnotation && g_docGuider_msg!==""} placement="right">
+          {(props) => (
+            <Tooltip {...props} id="overlay-doc-guider">
+                <Markup content={g_docGuider_msg} />
+            </Tooltip>
+          )}
+        </Overlay>
+
+        <Overlay target={summaryGuider.current} show={isGuidedAnnotation && g_summaryGuider_msg!==""} placement="left">
+          {(props) => (
+            <Tooltip {...props}  id="overlay-summary-guider">
+                <Markup content={g_summaryGuider_msg} />
+            </Tooltip>
+          )}
+        </Overlay>
 
     </div>
   )

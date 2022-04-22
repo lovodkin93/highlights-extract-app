@@ -520,6 +520,8 @@ const Tutorial = ({doc_json, setDocJson,
                     g_open_hint={undefined}                                    g_setOpenHint={undefined}
                     g_with_glow_hint={undefined}                                g_setWithGlowHint={undefined}
                     g_answer_words_to_glow={{"type":"", "ids":[]}}
+                    g_docGuider_msg={undefined}                                 g_setDocGuiderMsg={undefined}
+                    g_summaryGuider_msg={undefined}                             g_setSummaryGuiderMsg={undefined}
                     OpeningModalShow = {undefined}                              setOpeningModalShow = {undefined}
                     noAlignModalShow = {noAlignModalShow}                       setNoAlignModalShow = {setNoAlignModalShow}
                     noAlignApproved = {noAlignApproved}                         setNoAlignApproved = {setNoAlignApproved}

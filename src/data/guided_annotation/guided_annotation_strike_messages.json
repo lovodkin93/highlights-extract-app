@@ -2,6 +2,7 @@
 	"goldMentions": [
 		{
 			"sent_id":0,
+			"start_tkn":0,
 			"span_indicating_tkns": {
 				"1":"0-19",
 				"2":"21-32"
@@ -37,6 +38,7 @@
 		
 		{
 			"sent_id":1,
+			"start_tkn":35,
 			"span_indicating_tkns": {
 				"1":"35-52",
 				"4":"54-69"
@@ -97,6 +99,7 @@
 		
 		{
 			"sent_id":2,
+			"start_tkn":71,
 			"span_indicating_tkns": {
 				"2":"71-91",
 				"10":"92-95"
@@ -194,6 +197,7 @@
 		
 		{
 			"sent_id":3,
+			"start_tkn":98,
 			"span_indicating_tkns": {
 				"1":"98-114"
 			},

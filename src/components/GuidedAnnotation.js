@@ -57,7 +57,9 @@ const GuidedAnnotation = ({isPunct,
                           g_guided_annotation_history, g_setGuidedAnnotationHistory,
                           g_strikes_counter, g_setStrikesCounter,
                           g_answer_modal_msg, g_setAnswerModalMsg,
-                          g_answer_words_to_glow, g_setAnswerWordsToGlow
+                          g_answer_words_to_glow, g_setAnswerWordsToGlow,
+                          g_docGuider_msg, g_setDocGuiderMsg,
+                          g_summaryGuider_msg, g_setSummaryGuiderMsg
 
                         }) => {
     const MAX_ERR_CNT = 3 // number of maximum permitted wrong attempts before giving the answer 
@@ -776,7 +778,7 @@ const GuidedAnnotation = ({isPunct,
     const getAnswerModalMsg = (last_error_json) => {
       if(last_error_json["highlighted_tkn_ids"].length===0){
         return "<div>Please highlight something in the <u>summary</u> before proceeding to the document or hitting \"CONFIRM\"!</div>"
-        
+        g_setSummaryGuiderMsg("Start by highlighting something in the summary")      
       }
       const gold_mentions = guided_annotation_strike_messages["goldMentions"][last_error_json["sent_id"]]
       const error_type = last_error_json["type"];
@@ -789,7 +791,8 @@ const GuidedAnnotation = ({isPunct,
 
       const correct_span = gold_mentions[error_type][chosen_span_id]["text"]
       if (correct_span==="None") {
-        g_setAnswerWordsToGlow({"type":"unalignable-adujst-summary", "ids":[]})
+        g_setAnswerWordsToGlow({"type":"unalignable-adujst-summary", "ids":[], "start_tkn":""})
+        g_setSummaryGuiderMsg("Leave out \"from countries like Brazil\".")
         return "<div>It appears you are struggling a little, so let me help you. <br/>\"from countries like Brazil\" doesn't appear in the document. <br/>Remove it from the <u>summary</u> span, and then proceed to find the alignment in the document. <br/>Deal with \"from countries like Brazil\" separately.</div>"
       }
       const where_to_highlight = (error_type==="summary_span") ? "summary":"document"
@@ -798,10 +801,20 @@ const GuidedAnnotation = ({isPunct,
       const what_next = (error_type==="summary_span") ? "then <b>proceed to find its alignment in the <u>document</u></b>": `<b>hit \"${(StateMachineState==="ANNOTATION") ? "CONFIRM":""}${(StateMachineState==="SENTENCE END") ? "NEXT SENTENCE":""}${(StateMachineState==="SUMMARY END") ? "SUBMIT":""}${(correct_span==="")? " (NO ALIGN)":""}\"</b>`;
 
       const tkns_type = (error_type==="summary_span") ? 'summary_tkns':'doc_tkns'
-      const answerMarker = (gold_mentions[tkns_type][chosen_span_id].length===0) ? {"type":"unalignable-adujst-doc", "ids":[]} : {"type":error_type, "ids":gold_mentions[tkns_type][chosen_span_id]}
-      console.log(`answerMarker:`)
-      console.log(answerMarker)
+      const answerMarker = (gold_mentions[tkns_type][chosen_span_id].length===0) ? {"type":"unalignable-adujst-doc", "ids":[], "start_tkn":""} : {"type":error_type, "ids":gold_mentions[tkns_type][chosen_span_id], "start_tkn":gold_mentions["start_tkn"]}
       g_setAnswerWordsToGlow(answerMarker)
+
+      if (gold_mentions[tkns_type][chosen_span_id].length===0) {
+        g_setDocGuiderMsg(`Un-highlight everything in the summary and ${what_next}`)
+      } else if (error_type==="summary_span") {
+        g_setSummaryGuiderMsg(`Highlight <b>only</b> what is <b>glowing</b> and ${what_next}`)
+        setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted:false}}))
+      } else {
+        g_setDocGuiderMsg(`Highlight <b>only</b> what is <b>glowing</b> and ${what_next}`)
+        setDocJson(doc_json.map((word) => {return {...word, span_highlighted:false}}))
+      }
+                // g_docGuider_msg, g_setDocGuiderMsg,
+      // g_summaryGuider_msg, g_setSummaryGuiderMsg,
       return `It appears you are struggling a little, so let me help you. <br/>${what_is_correct}. <hr/>Please ${what_to_do} and ${what_next}.`
     }
 
@@ -977,9 +990,9 @@ const GuidedAnnotation = ({isPunct,
     } else if (guiding_msg_type==="success") {
       g_setStrikesCounter(0)
 
-      g_setAnswerWordsToGlow({"type":"", "ids":[]})
-
-
+      g_setAnswerWordsToGlow({"type":"", "ids":[], "start_tkn":""})
+      g_setDocGuiderMsg("")
+      g_setSummaryGuiderMsg("")
     }
    }, [guiding_msg_type])
 
@@ -1108,7 +1121,8 @@ const GuidedAnnotation = ({isPunct,
               g_open_hint={g_open_hint}                                    g_setOpenHint={g_setOpenHint}
               g_with_glow_hint={g_with_glow_hint}                          g_setWithGlowHint={g_setWithGlowHint}
               g_answer_words_to_glow={g_answer_words_to_glow}
-              
+              g_docGuider_msg={g_docGuider_msg}                            g_setDocGuiderMsg={g_setDocGuiderMsg}
+              g_summaryGuider_msg={g_summaryGuider_msg}                    g_setSummaryGuiderMsg={g_setSummaryGuiderMsg}
               OpeningModalShow = {undefined}                               setOpeningModalShow = {undefined}
               noAlignModalShow = {noAlignModalShow}                        setNoAlignModalShow = {setNoAlignModalShow}
               noAlignApproved = {noAlignApproved}                          setNoAlignApproved = {setNoAlignApproved}

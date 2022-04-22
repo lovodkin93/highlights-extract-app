@@ -448,6 +448,40 @@
       background-color: red !important;
       font-size:x-large;
   }
+
+
+#overlay-doc-guider {
+    margin: 5% 0%;
+}
+
+#overlay-doc-guider .tooltip-arrow::before{
+  border-right-color: blue !important;
+}
+#overlay-doc-guider .tooltip-inner{
+    background-color: blue !important;
+    font-size:large;
+}
+
+
+
+
+#overlay-summary-guider {
+    margin: 0% 0%;
+}
+
+#overlay-summary-guider .tooltip-arrow::before{
+  border-left-color: blue !important;
+}
+#overlay-summary-guider .tooltip-inner{
+    background-color: blue !important;
+    font-size:large;
+}
+
+
+
+
+
+
   
   .answer-modal-textbox .modal-content{
       color:#842029;

@@ -30,6 +30,40 @@ const add_text_to_GuidedAnnotationInfoAlert = (g_is_good_alignment,StateMachineS
     return ids.sort(function(a, b) {return a - b;})
   }
 
-  export { add_text_to_GuidedAnnotationInfoAlert, string_to_span }
+
+
+
+  const get_span_groups = (g_answer_words_to_glow, words_json, isSummary) => {
+    const str_spans = g_answer_words_to_glow["ids"].split(";")
+    let non_glow_min_lim = (isSummary) ? g_answer_words_to_glow["start_tkn"].toString() : "0";
+    let span_groups = []
+    for (let i = 0; i < str_spans.length; i++) {
+      const lims = str_spans[i].split("-")
+      let non_glow_max_lim = parseInt(lims[0]) - 1;
+      non_glow_max_lim = non_glow_max_lim.toString()
+      // start with an empty array because the glowing words are the odd spans (1,3,5,7... rather than 0,2,4...)
+      if (lims[0]===non_glow_min_lim){
+        span_groups=span_groups.concat([[]])
+      } else {
+        span_groups=span_groups.concat([string_to_span(`${non_glow_min_lim}-${non_glow_max_lim}`)])
+      }
+      span_groups=span_groups.concat([string_to_span(str_spans[i])])
+      non_glow_min_lim = parseInt(lims[1]) + 1
+      non_glow_min_lim = non_glow_min_lim.toString()
+    }
+    // final span
+    let non_glow_max_lim = (isSummary) ?  words_json.length + g_answer_words_to_glow["start_tkn"] : words_json.length
+    non_glow_max_lim = non_glow_max_lim.toString()
+    console.log(`span_groups:${JSON.stringify(span_groups)}`)
+    console.log(`non_glow_min_lim:${non_glow_min_lim} and non_glow_max_lim:${non_glow_max_lim}`)
+    span_groups=span_groups.concat([string_to_span(`${non_glow_min_lim}-${non_glow_max_lim}`)])
+    console.log("span_groups:")
+    console.log(span_groups)
+
+    const doc_words_groups = span_groups.map((tkns) => {return words_json.filter((word) => {return tkns.includes(word.tkn_id)})})
+    return doc_words_groups
+  }
+
+  export { add_text_to_GuidedAnnotationInfoAlert, string_to_span, get_span_groups }
 
 
