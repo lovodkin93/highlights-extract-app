@@ -533,7 +533,17 @@ useEffect(() => {
                                             t_submit_summary_json = {t_submit_summary_json}
                                             SetCurrSentInd = {SetCurrSentInd}
                                             MachineStateHandlerWrapper = {MachineStateHandlerWrapper} />)}
-            {(isGuidedAnnotation) && (GuidedAnnotationInfoAlert())}
+            {/* {(isGuidedAnnotation) && (GuidedAnnotationInfoAlert())} */}
+            {(isGuidedAnnotation && g_show_hint && g_hint_msg!==undefined && g_hint_msg["Text"]!=="") &&
+                    <OverlayTrigger className={`${(g_with_glow_hint)? 'with-glow':''}`} show={g_open_hint} placement="right" overlay={GuidedAnnotationHint}>
+                      <Button className="guidedAnnotationHintButton2" active variant="btn btn-primary btn-lg" onClick={() => {g_setOpenHint(!g_open_hint); g_setWithGlowHint(false)}}>
+                          HINT
+                      </Button>
+                    </OverlayTrigger>
+          }
+
+
+
           </Col>
         </Row>
 
@@ -547,7 +557,7 @@ useEffect(() => {
         )} */}
 
         {(!isTutorial || [4,6,7].includes(t_StateMachineStateId)) && (
-          <Row className='annotation-row' id={`${(InfoMessage === "") ? 'doc-summary-row': ''}`}>
+          <Row className='annotation-row' id={`${(InfoMessage === "" || isGuidedAnnotation) ? 'doc-summary-row': ''}`}>
             <Col md={ 8 }>
               <Card border="secondary" bg="light"  id="doc-text" ref={docGuider}>
                   <Card.Header>Document</Card.Header>

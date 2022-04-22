@@ -437,6 +437,19 @@
       transform: translate(-50%, -50%);
   }
 
+
+  .guidedAnnotationHintButton2 {
+    padding: 1rem 1.5rem !important;
+    font-size: 1.5rem !important;
+    margin-bottom: 2%;
+    margin-top: 2%;
+  }
+
+
+
+
+
+
   #overlay-where-navbar {
       margin: 0% -5%;
   }
