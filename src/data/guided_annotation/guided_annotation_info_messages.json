@@ -21,27 +21,27 @@
 	},
 	"default_choose_summary_span": {
 		"title":"Choose Summary Span to Align",
-		"text":"Choose a summary span to align. <br/><u>Remember</u>: make sure it covers full events and doesn't contain too many details (so you don't miss any when aligning it)."
+		"text":"Choose a summary <u>span</u> to align."
 	},
 	"default_find_alignment": {
 		"title":"Find the Alignment",
-		"text":"Now it's time to find the alignment. <br/><u>Remember</u>: make sure the alignment covers all the information described in the summary span and nothing else."
+		"text":"Now it's time to find the alignment."
 	},
 	"custom_messages":[
 		{
 			"tkn_id":0,
 			"choose_summary_span":{
 				"title":"Choose Summary Span to Align - Pay attention!",
-				"text":"Do not work with the full summary sentence, as it is very long and contains many details. <br/>Instead, opt to work one sub-span at a time. <br/>make sure the span you choose covers full events and also doesn't contain too many details (so you don't miss any when aligning it)."
+				"text":"Highlight a <u>span</u> of the summary sentence (don't choose all the sentence). <br/><u>make sure it's</u>: <ol><li>not too long</li> <li>covers full events</li> <li>not too general</li></ol>"
 			},
 			"find_alignment":{
 				"1":{
 					"title":"Find the Alignment",
-					"text":"Now it's time to find the alignment. <br/><u>Remember</u>: make sure the alignment covers all the information described in the summary span and nothing else. <br/><b>Use the bolded words to guide you.</b>"
+					"text":"Now find the sub-span's alignment in the document. <br/>Use the <b>bolded words</b> to guide you."
 				},
 				"2":{
 					"title":"Find the Alignment",
-					"text":"Now it's time to find the alignment. <br/><u>Remember</u>: make sure the alignment covers all the information described in the summary span and nothing else. <br/><b>Use the bolded words to guide you.</b>"
+					"text":"Now find the sub-span's alignment in the document. <br/>Use the <b>bolded words</b> to guide you."
 				}
 			}
 		},
@@ -50,19 +50,13 @@
 			"tkn_id":1,
 			"choose_summary_span":{},
 			"find_alignment":{
-				"1":{
-					"title":"Find the Alignment - Be Careful",
-					"text":"Make sure the alignment covers only the information mentioned in the summary span and nothing else."
-				},
-				"2":{
-					"title":"Find the Alignment - Be Careful",
-					"text":"Make sure the alignment covers only the information mentioned in the summary span and nothing else."
-				},
+				"1":{},
+				"2":{},
 				"3":{},
 				"4":{},
 				"5":{
 					"title":"Find the Alignment - Pay Attention",
-					"text":"Notice that the relation represented by \"while\" is not mentioned explicitly in document."
+					"text":"Find the Alignment. <Br/><u>Does \"while\" actually have an alignment?"
 				}
 			}
 		},
@@ -74,28 +68,28 @@
 			"find_alignment":{
 				"1":{
 					"title":"Find the Alignment - Pay Attention",
-					"text":"Does everything mentioned in the summary span appear in the document?"
+					"text":"Find the Alignment. <br/>Does everything mentioned in the summary span appear in the document?"
 				},
 				"2":{
 					"title":"Find the Alignment - Pay Attention",
-					"text":"Though the span you chose is good, it does have many details. <br/>Therefore, make sure you don't miss anything in the alignment."
+					"text":"Find the Alignment. <br/>Make sure you don't miss anything in the alignment."
 				},
 				"3":{},
 				"4":{
 					"title":"Find the Alignment - Pay Attention",
-					"text":"Does everything mentioned in the summary span appear in the document?"
+					"text":"Find the Alignment. <br/>Does everything mentioned in the summary span appear in the document?"
 				},
 				"5":{},
 				"6":{
 					"title":"Find the Alignment - Pay Attention",
-					"text":"Does everything mentioned in the summary span appear in the document?"
+					"text":"Find the Alignment. <br/>Does everything mentioned in the summary span appear in the document?"
 				},
 				"7":{},
 				"8":{},
 				"9":{},
 				"10":{
 					"title":"Find the Alignment - Pay Attention",
-					"text":"Notice that this information is is not mentioned in document (unalignable).<br/>This can happen sometimes. <br/>When it does, you should submit it as unaligned (by highlighting only the summary span and hitting the \"CONFIRM\" button)."
+					"text":"Find the Alignment. <br/>Is \"from countries like Brazil\" mentioned in the doc?"
 				}
 			}
 		},
@@ -107,7 +101,7 @@
 			"find_alignment":{
 				"1":{
 					"title":"Pay Attention!",
-					"text":"Occasionaly, summary sentences were paraphrased by the summarizer. <br/>Such alignments are harder to find, as the bolding feature has very limited contribution in finding them. <br/>In such cases, it is very tempting to simply highlight the closest in meaning alignment, which is not desirable! <br/>Make sure you do not let the bolding dictate your highlighting!<br/><u>Hint</u>: check out paragraph 3."
+					"text":"Find the Alignment. <br/><u>Notice</u> that the bolding isn't very helpful. <br/>That's because the alignment is a paraphrasing - so be careful to not let the bolding dictate your annotation."
 				}
 			}
 		}

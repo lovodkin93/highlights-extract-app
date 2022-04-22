@@ -76,9 +76,9 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                     g_hint_msg, g_showWhereNavbar,
                     g_open_hint, g_setOpenHint,
                     g_with_glow_hint, g_setWithGlowHint,
-                    g_answer_words_to_glow,
-                    g_docGuider_msg, g_setDocGuiderMsg,
-                    g_summaryGuider_msg, g_setSummaryGuiderMsg,
+                    g_answer_words_to_glow, g_FinishedModalShow,
+                    g_Guider_msg, g_setGuiderMsg,
+
                     OpeningModalShow, setOpeningModalShow,
                     noAlignModalShow, setNoAlignModalShow,
                     noAlignApproved, setNoAlignApproved
@@ -96,7 +96,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
 
   const docGuider = useRef(null);
   const summaryGuider = useRef(null);
-
+  const nextButtonGuider = useRef(null);                   
 
   const isDocSpanExist = () => {
     return doc_json.filter((word) => {return word.span_highlighted}).length !== 0
@@ -385,7 +385,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
 
   const outsideSummarySent = useRef(true)
   const RedHintSmoother = (event) => {
-    if(DocOnMouseDownID!=="-1" || SummaryOnMouseDownID!=="-1" || StateMachineState==="REVISE HOVER") {
+    if(DocOnMouseDownID!=="-1" || SummaryOnMouseDownID!=="-1" || StateMachineState==="REVISE HOVER" || event.target.parentNode.parentNode.parentNode.className===undefined) {
       return
     } else if (!event.target.parentNode.parentNode.parentNode.className.includes("bordered_sent")) {
       if(!outsideSummarySent.current){
@@ -601,7 +601,7 @@ useEffect(() => {
 
                   {!["REVISE HOVER", "SUMMARY END", "SENTENCE END", "START"].includes(StateMachineState) && (
                       <Col md={{span:5, offset:3}}>
-                        <button type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && [5,11,14].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                        <button ref={nextButtonGuider} type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && [5,11,14].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                         <Markup content={nextButtonText()} />
                           {(isDocSpanExist()) && <ChevronRight className="button-icon"/>}
                         </button>
@@ -610,7 +610,7 @@ useEffect(() => {
 
                   {StateMachineState === "START"  && (
                         <Col md={{span:3, offset:9}}>
-                          <button type="button" className={`btn btn-primary btn-lg right-button ${(isGuidedAnnotation || isTutorial) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                          <button ref={nextButtonGuider} type="button" className={`btn btn-primary btn-lg right-button ${(isGuidedAnnotation || isTutorial) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                           <Markup content={nextButtonText()} />
                           </button>
                         </Col>
@@ -618,7 +618,7 @@ useEffect(() => {
 
                   {StateMachineState === "SENTENCE END"  && (
                         <Col md={{span:7, offset:1}}>
-                          <button type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && t_StateMachineStateId===12) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                          <button ref={nextButtonGuider} type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && t_StateMachineStateId===12) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                             <Markup content={nextButtonText()} /> 
                             {(StateMachineState !== "START" && isDocSpanExist()) && (<ChevronRight className="button-icon"/>) }
                           </button>
@@ -627,7 +627,7 @@ useEffect(() => {
 
                   {StateMachineState === "SUMMARY END" && (
                     <Col md={{span:5, offset:3}}>
-                      <button type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && t_StateMachineStateId===13) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
+                      <button ref={nextButtonGuider} type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && t_StateMachineStateId===13) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
                         <Markup content={nextButtonText()} />
                         {(StateMachineState !== "START" && isDocSpanExist()) && (<SendFill className="button-icon"/>) }
                       </button>
@@ -698,18 +698,26 @@ useEffect(() => {
         </Modal>
 
 
-        <Overlay target={docGuider.current} show={isGuidedAnnotation && g_docGuider_msg!==""} placement="right">
+        <Overlay target={docGuider.current} show={isGuidedAnnotation && g_Guider_msg["where"]==="doc" && g_Guider_msg["text"]!==""} placement="right">
           {(props) => (
-            <Tooltip {...props} id="overlay-doc-guider">
-                <Markup content={g_docGuider_msg} />
+            <Tooltip {...props} id={`${(g_Guider_msg["type"]==="info")? "overlay-doc-info-guider":"overlay-doc-reveal-answer-guider"}`}>
+                <Markup content={g_Guider_msg["text"]} />
             </Tooltip>
           )}
         </Overlay>
 
-        <Overlay target={summaryGuider.current} show={isGuidedAnnotation && g_summaryGuider_msg!==""} placement="left">
+        <Overlay target={summaryGuider.current} show={isGuidedAnnotation && g_Guider_msg["where"]==="summary" && g_Guider_msg["text"]!==""} placement="left">
           {(props) => (
-            <Tooltip {...props}  id="overlay-summary-guider">
-                <Markup content={g_summaryGuider_msg} />
+            <Tooltip {...props}  id={`${(g_Guider_msg["type"]==="info")? "overlay-summary-info-guider":"overlay-summary-reveal-answer-guider"}`}>
+                <Markup content={g_Guider_msg["text"]} />
+            </Tooltip>
+          )}
+        </Overlay>
+
+        <Overlay target={nextButtonGuider.current} show={isGuidedAnnotation && g_Guider_msg["where"]==="next-button" && g_Guider_msg["text"]!=="" && !g_FinishedModalShow} placement="bottom">
+          {(props) => (
+            <Tooltip {...props}  id={`${(StateMachineState==="START")? "overlay-start-button-guider":"overlay-next-button-guider"}`}>
+                <Markup content={g_Guider_msg["text"]} />
             </Tooltip>
           )}
         </Overlay>

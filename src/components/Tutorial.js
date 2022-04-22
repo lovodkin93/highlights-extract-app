@@ -517,11 +517,11 @@ const Tutorial = ({doc_json, setDocJson,
                     g_guiding_info_msg = {undefined}                            g_is_good_alignment = {undefined}
                     g_show_hint = {undefined}                                   g_setShowHint = {undefined}
                     g_hint_msg = {{"text":"", "title":""}}                      g_showWhereNavbar = {undefined}
-                    g_open_hint={undefined}                                    g_setOpenHint={undefined}
+                    g_open_hint={undefined}                                     g_setOpenHint={undefined}
                     g_with_glow_hint={undefined}                                g_setWithGlowHint={undefined}
-                    g_answer_words_to_glow={{"type":"", "ids":[]}}
-                    g_docGuider_msg={undefined}                                 g_setDocGuiderMsg={undefined}
-                    g_summaryGuider_msg={undefined}                             g_setSummaryGuiderMsg={undefined}
+                    g_answer_words_to_glow={{"type":"", "ids":[]}}              g_FinishedModalShow={undefined}
+                    g_Guider_msg={{"type":"", "where":"", "text":""}}           g_setGuiderMsg={undefined}
+                    
                     OpeningModalShow = {undefined}                              setOpeningModalShow = {undefined}
                     noAlignModalShow = {noAlignModalShow}                       setNoAlignModalShow = {setNoAlignModalShow}
                     noAlignApproved = {noAlignApproved}                         setNoAlignApproved = {setNoAlignApproved}

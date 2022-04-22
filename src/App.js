@@ -108,9 +108,7 @@ const App = () => {
   const [g_strikes_counter, g_setStrikesCounter] = useState(0)
   const [g_answer_modal_msg, g_setAnswerModalMsg] = useState("")
   const [g_answer_words_to_glow, g_setAnswerWordsToGlow] = useState({"type":"", "ids":[], "start_tkn":""})
-  const [g_docGuider_msg, g_setDocGuiderMsg] = useState("")
-  const [g_summaryGuider_msg, g_setSummaryGuiderMsg] = useState("")
-
+  const [g_Guider_msg, g_setGuiderMsg] = useState({"type":"info", "where":"next-button", "text":"Press me to begin."}) // type: one of {"info", "reveal-answer"}, "where": one of {"doc", "summary", "next-button"}
 
   // const [guidingAnnotationAlertText, setGuidingAnnotationAlertText] = useState("")
   // const [guidingAnnotationAlertTitle, setGuidingAnnotationAlertTitle] = useState("")
@@ -704,6 +702,8 @@ const App = () => {
       g_setPrevStateMachineState("")
       g_setIsGoodAlignment(false)
       g_setGuidingInfoMsg({"text":"To begin, hit the \"START\" button.", "title":"Start"})
+      g_setGuiderMsg({"type":"info", "where":"next-button", "text":"Press me to begin."}) 
+
     }
 
     useEffect(() => {
@@ -935,8 +935,7 @@ const App = () => {
                                           g_strikes_counter={g_strikes_counter}                                 g_setStrikesCounter={g_setStrikesCounter}
                                           g_answer_modal_msg={g_answer_modal_msg}                               g_setAnswerModalMsg={g_setAnswerModalMsg} 
                                           g_answer_words_to_glow={g_answer_words_to_glow}                       g_setAnswerWordsToGlow={g_setAnswerWordsToGlow}  
-                                          g_docGuider_msg={g_docGuider_msg}                                     g_setDocGuiderMsg={g_setDocGuiderMsg}
-                                          g_summaryGuider_msg={g_summaryGuider_msg}                             g_setSummaryGuiderMsg={g_setSummaryGuiderMsg}
+                                          g_Guider_msg={g_Guider_msg}                                           g_setGuiderMsg={g_setGuiderMsg}
                                           />} 
           
           />
@@ -973,9 +972,9 @@ const App = () => {
                                               g_hint_msg = {{"text":"", "title":""}}                      g_showWhereNavbar = {undefined}
                                               g_open_hint={undefined}                                     g_setOpenHint={undefined}
                                               g_with_glow_hint={undefined}                                g_setWithGlowHint={undefined}
-                                              g_answer_words_to_glow={{"type":"", "ids":[]}}
-                                              g_docGuider_msg={undefined}                                 g_setDocGuiderMsg={undefined}
-                                              g_summaryGuider_msg={undefined}                             g_setSummaryGuiderMsg={undefined}
+                                              g_answer_words_to_glow={{"type":"", "ids":[]}}              g_FinishedModalShow={undefined}
+                                              g_Guider_msg={{"type":"", "where":"", "text":""}}           g_setGuiderMsg={undefined}
+                                              
                                               OpeningModalShow = {OpeningModalShow}                       setOpeningModalShow = {setOpeningModalShow}
                                               noAlignModalShow = {noAlignModalShow}                       setNoAlignModalShow = {setNoAlignModalShow}
                                               noAlignApproved = {noAlignApproved}                         setNoAlignApproved = {setNoAlignApproved}

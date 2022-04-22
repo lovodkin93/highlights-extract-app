@@ -450,33 +450,127 @@
   }
 
 
-#overlay-doc-guider {
+
+  
+#overlay-doc-info-guider {
     margin: 5% 0%;
 }
 
-#overlay-doc-guider .tooltip-arrow::before{
-  border-right-color: blue !important;
+#overlay-doc-info-guider .tooltip-arrow::before{
+  border-right-color:aqua !important;
 }
-#overlay-doc-guider .tooltip-inner{
-    background-color: blue !important;
+#overlay-doc-info-guider .tooltip-inner{
+    background-color: aqua !important;
+    color:black;
+    text-align: left;
     font-size:large;
 }
 
+#overlay-doc-info-guider.show{
+    opacity: 1;
+  }
 
 
 
-#overlay-summary-guider {
+
+
+#overlay-doc-reveal-answer-guider {
     margin: 0% 0%;
 }
 
-#overlay-summary-guider .tooltip-arrow::before{
-  border-left-color: blue !important;
+#overlay-doc-reveal-answer-guider .tooltip-arrow::before{
+  border-right-color: blue !important;
 }
-#overlay-summary-guider .tooltip-inner{
+#overlay-doc-reveal-answer-guider .tooltip-inner{
     background-color: blue !important;
+    text-align: left;
     font-size:large;
 }
 
+#overlay-doc-reveal-answer-guider.show{
+    opacity: 1;
+  }
+
+
+
+
+
+
+#overlay-summary-info-guider {
+    margin: 0% 0%;
+}
+
+#overlay-summary-info-guider .tooltip-arrow::before{
+  border-left-color: aqua !important;
+}
+#overlay-summary-info-guider .tooltip-inner{
+    background-color: aqua !important;
+    border-color: rgb(15, 241, 241);
+    border-style: solid;
+    color: black;
+    text-align: left;
+    font-size:large;
+    opacity:1.0;
+}
+
+#overlay-summary-info-guider.show {
+    opacity: 1;
+}
+
+
+
+
+#overlay-summary-reveal-answer-guider {
+    margin: 0% 0%;
+}
+
+#overlay-summary-reveal-answer-guider .tooltip-arrow::before{
+  border-left-color: blue !important;
+}
+#overlay-summary-reveal-answer-guider .tooltip-inner{
+    background-color: blue !important;
+    text-align: left;
+    font-size:large;
+}
+
+#overlay-summary-reveal-answer-guider.show{
+    opacity: 1;
+  }
+
+/* reveal-answer */
+
+
+
+
+
+#overlay-start-button-guider {
+    margin: 0% 0%;
+}
+
+#overlay-start-button-guider .tooltip-arrow::before{
+  border-bottom-color: yellow !important;
+}
+#overlay-start-button-guider .tooltip-inner{
+    background-color: yellow !important;
+    color:black;
+    text-align: left;
+    font-size:large;
+}
+
+
+#overlay-next-button-guider {
+    margin: 0% 0%;
+}
+
+#overlay-next-button-guider .tooltip-arrow::before{
+  border-bottom-color: darkviolet !important;
+}
+#overlay-next-button-guider .tooltip-inner{
+    background-color: darkviolet !important;
+    color:white;
+    text-align: left;
+    font-size:large;
+}
 
 
 
