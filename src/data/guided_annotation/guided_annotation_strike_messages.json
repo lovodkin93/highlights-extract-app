@@ -16,11 +16,19 @@
 			},
 			"doc_span": {
 				"1":{
-						"text":"\"An annual Agriculture Department survey confirmed Thursday that a deadening drought will curtail the fall corn harvest by a third or more\""
+						"text":"\"Agriculture Department survey confirmed Thursday that a deadening drought will curtail the fall corn harvest by a third or more\""
 					},
 				"2":{
 						"text":"\"resulting in higher retail food prices for months and years to come\""
 					}
+			},
+			"summary_tkns": {
+				"1":"0-19",
+				"2":"21-32"
+			},
+			"doc_tkns": {
+				"1":"2-21",
+				"2":"23-34"
 			}
 		},
 		
@@ -35,10 +43,10 @@
 			},
 			"summary_span": {
 				"1":{
-						"text":"\"Reagan signed a $3.9 billion disaster relief bill aimed at helping drought-stricken farmers recover\""
+						"text":"\"President Reagan signed a $3.9 billion disaster relief bill aimed at helping drought-stricken farmers recover\""
 					},
 				"2":{
-						"text":"\"Reagan signed a $3.9 billion disaster relief bill\""
+						"text":"\"President Reagan signed a $3.9 billion disaster relief bill\""
 					},
 				"3":{
 						"text":"\"a $3.9 billion disaster relief bill aimed at helping drought-stricken farmers recover\""
@@ -67,6 +75,20 @@
 				"5":{
 						"text":""
 					}
+			},
+			"summary_tkns": {
+				"1":"35-52",
+				"2":"35-44",
+				"3":"38-52",
+				"4":"54-68",
+				"5":"54-54"
+			},
+			"doc_tkns": {
+				"1":"384-385;388-403",
+				"2":"384-385;388-395",
+				"3":"389-403",
+				"4":"406-420",
+				"5":""
 			}
 		},
 		
@@ -142,6 +164,30 @@
 				"10":{
 						"text":""
 					}
+			},
+			"summary_tkns": {
+				"1":"71-95",
+				"2":"71-91",
+				"3":"71-79",
+				"4":"71-73;81-95",
+				"5":"71-73;81-91",
+				"6":"75-95",
+				"7":"75-91",
+				"8":"81-95",
+				"9":"81-91",
+				"10":"92-95"
+			},
+			"doc_tkns": {
+				"1":"",
+				"2":"215-223;638-654",
+				"3":"215-223",
+				"4":"",
+				"5":"215-217;638-654",
+				"6":"",
+				"7":"219-223;638-654",
+				"8":"",
+				"9":"638-654",
+				"10":""
 			}
 		},
 		
@@ -160,6 +206,12 @@
 				"1":{
 						"text":"the drought may add one percent to the cost of food this year"
 					}
+			},
+			"summary_tkns": {
+				"1":"98-113"
+			},
+			"doc_tkns": {
+				"1":"226-238"
 			}
 		}
 		

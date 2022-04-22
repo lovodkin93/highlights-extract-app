@@ -448,6 +448,12 @@
       background-color: red !important;
       font-size:x-large;
   }
+  
+  .answer-modal-textbox .modal-content{
+      color:#842029;
+      background-color: #f8d7da;
+      font-family: var(--bs-font-sans-serif);
+  }
 
   /* .fadeOut {
     opacity: 0;

@@ -37,7 +37,7 @@ import { Player, BigPlayButton } from 'video-react';
 
 import { TutorialCard } from './TutorialCard';
 import { getTutorialCardTitle } from './Tutorial_utils'
-import { add_text_to_GuidedAnnotationInfoAlert } from './GuidedAnnotation_utils'
+import { add_text_to_GuidedAnnotationInfoAlert, string_to_span } from './GuidedAnnotation_utils'
 // import Card from 'react-bootstrap/Card'
 // import { Container, Row, Col } from 'react-bootstrap';
 
@@ -74,6 +74,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                     g_hint_msg, g_showWhereNavbar,
                     g_open_hint, g_setOpenHint,
                     g_with_glow_hint, g_setWithGlowHint,
+                    g_answer_words_to_glow,
                     OpeningModalShow, setOpeningModalShow,
                     noAlignModalShow, setNoAlignModalShow,
                     noAlignApproved, setNoAlignApproved
@@ -275,11 +276,11 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   }
 
   const getDocText = () => {
-    if (!isTutorial || t_StateMachineStateId !== 7){
+    if ((!isTutorial || t_StateMachineStateId !== 7) && (!isGuidedAnnotation || g_answer_words_to_glow["type"]!=="doc_span")){
       return doc_json.map((word_json, index) => (
                 <DocWord key={index} word_json={word_json} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
               ))
-    } else {
+    } else if(isTutorial) {
         const start_1 = 0;
         const end_1 = 13;
         const start_2 = end_1+1;
@@ -297,6 +298,39 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                         ))}
                   </div>
                 )
+    } else {
+      const str_spans = g_answer_words_to_glow["ids"].split(";")
+      let non_glow_min_lim = "0";
+      let span_groups = []
+      for (let i = 0; i < str_spans.length; i++) {
+        const lims = str_spans[i].split("-")
+        let non_glow_max_lim = parseInt(lims[0]) - 1;
+        non_glow_max_lim = non_glow_max_lim.toString()
+        // start with an empty array because the glowing words are the odd spans (1,3,5,7... rather than 0,2,4...)
+        if (lims[0]==="0"){
+          span_groups=span_groups.concat([[]])
+        } else {
+          span_groups=span_groups.concat([string_to_span(`${non_glow_min_lim}-${non_glow_max_lim}`)])
+        }
+        span_groups=span_groups.concat([string_to_span(str_spans[i])])
+        non_glow_min_lim = parseInt(lims[1]) + 1
+        non_glow_min_lim = non_glow_min_lim.toString()
+      }
+      // final span
+      let non_glow_max_lim = doc_json.length.toString()
+      span_groups=span_groups.concat([string_to_span(`${non_glow_min_lim}-${non_glow_max_lim}`)])
+      console.log("span_groups:")
+      console.log(span_groups)
+
+      const doc_words_groups = span_groups.map((tkns) => {return doc_json.filter((word) => {return tkns.includes(word.tkn_id)})})
+      return doc_words_groups.map((doc_words, index) => 
+      <div className={`${([1,3,5,7,9,11,13,15].includes(index)) ?  'with-glow': ''}`}>
+          {doc_words.map((word_json, index) => (
+              <DocWord key={index} word_json={word_json} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
+            ))}
+      </div>
+    )
+
     }
   }
 

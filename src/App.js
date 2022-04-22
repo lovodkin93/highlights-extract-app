@@ -106,7 +106,8 @@ const App = () => {
   const [g_completed, g_setCompleted] = useState(false)
   const [g_guided_annotation_history, g_setGuidedAnnotationHistory] = useState([])
   const [g_strikes_counter, g_setStrikesCounter] = useState(0)
-  const [g_open_answer_modal, g_setOpenAnswerModal] = useState(false)
+  const [g_answer_modal_msg, g_setAnswerModalMsg] = useState("")
+  const [g_answer_words_to_glow, g_setAnswerWordsToGlow] = useState({"type":"", "ids":[]})
 
   // const [guidingAnnotationAlertText, setGuidingAnnotationAlertText] = useState("")
   // const [guidingAnnotationAlertTitle, setGuidingAnnotationAlertTitle] = useState("")
@@ -929,9 +930,9 @@ const App = () => {
                                           setPrevGuidingInfoMsg={g_setPrevGuidingInfoMsg}                       prev_guiding_info_msg={g_prev_guiding_info_msg}
                                           g_guided_annotation_history={g_guided_annotation_history}             g_setGuidedAnnotationHistory={g_setGuidedAnnotationHistory}
                                           g_strikes_counter={g_strikes_counter}                                 g_setStrikesCounter={g_setStrikesCounter}
-                                          g_open_answer_modal={g_open_answer_modal}                             g_setOpenAnswerModal={g_setOpenAnswerModal}                                          
+                                          g_answer_modal_msg={g_answer_modal_msg}                               g_setAnswerModalMsg={g_setAnswerModalMsg} 
+                                          g_answer_words_to_glow={g_answer_words_to_glow}                       g_setAnswerWordsToGlow={g_setAnswerWordsToGlow}                                         
                                           />} 
-          
           
           />
 
@@ -967,7 +968,7 @@ const App = () => {
                                               g_hint_msg = {{"text":"", "title":""}}                      g_showWhereNavbar = {undefined}
                                               g_open_hint={undefined}                                     g_setOpenHint={undefined}
                                               g_with_glow_hint={undefined}                                g_setWithGlowHint={undefined}
-
+                                              g_answer_words_to_glow={{"type":"", "ids":[]}}
                                               OpeningModalShow = {OpeningModalShow}                       setOpeningModalShow = {setOpeningModalShow}
 
                                               noAlignModalShow = {noAlignModalShow}                       setNoAlignModalShow = {setNoAlignModalShow}

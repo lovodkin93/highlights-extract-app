@@ -1,5 +1,5 @@
 import { MachineStateHandler } from './Annotation_event_handlers';
-import { add_text_to_GuidedAnnotationInfoAlert } from './GuidedAnnotation_utils'
+import { add_text_to_GuidedAnnotationInfoAlert, string_to_span } from './GuidedAnnotation_utils'
 
 import { useState, useEffect, useRef } from 'react'
 import Annotation from './Annotation';
@@ -56,7 +56,8 @@ const GuidedAnnotation = ({isPunct,
                           setPrevGuidingInfoMsg, prev_guiding_info_msg,
                           g_guided_annotation_history, g_setGuidedAnnotationHistory,
                           g_strikes_counter, g_setStrikesCounter,
-                          g_open_answer_modal, g_setOpenAnswerModal
+                          g_answer_modal_msg, g_setAnswerModalMsg,
+                          g_answer_words_to_glow, g_setAnswerWordsToGlow
 
                         }) => {
     const MAX_ERR_CNT = 3 // number of maximum permitted wrong attempts before giving the answer 
@@ -565,13 +566,13 @@ const GuidedAnnotation = ({isPunct,
 
     /**************************** GUIDING-RELATED FUNCTIONS ******************************/
 
-    const string_to_span = (span_str) => {
-      const sub_strings = span_str.split(";");
-      const lims = sub_strings.map((sub_string) => sub_string.split("-").map((lim) => parseInt(lim)))
-      // console.log(`lims:${JSON.stringify(span_str)}`)
-      const ids = lims.map(([start, end]) => Array(end - start + 1).fill().map((_, idx) => start + idx)).flat(1)
-      return ids.sort(function(a, b) {return a - b;})
-    }
+    // const string_to_span = (span_str) => {
+    //   const sub_strings = span_str.split(";");
+    //   const lims = sub_strings.map((sub_string) => sub_string.split("-").map((lim) => parseInt(lim)))
+    //   // console.log(`lims:${JSON.stringify(span_str)}`)
+    //   const ids = lims.map(([start, end]) => Array(end - start + 1).fill().map((_, idx) => start + idx)).flat(1)
+    //   return ids.sort(function(a, b) {return a - b;})
+    // }
 
     const intersection = (arr1, arr2) => {
       return arr1.filter((elem) => {return arr2.includes(elem)})
@@ -788,17 +789,20 @@ const GuidedAnnotation = ({isPunct,
 
       const correct_span = gold_mentions[error_type][chosen_span_id]["text"]
       if (correct_span==="None") {
-        return "<div>\"from countries like Brazil\" doesn't appear in the document. <br/>Remove it from the <u>summary</u> span, and then proceed to find the alignment in the document. <br/>Deal with \"from countries like Brazil\" separately.</div>"
+        g_setAnswerWordsToGlow({"type":"unalignable-adujst-summary", "ids":[]})
+        return "<div>It appears you are struggling a little, so let me help you. <br/>\"from countries like Brazil\" doesn't appear in the document. <br/>Remove it from the <u>summary</u> span, and then proceed to find the alignment in the document. <br/>Deal with \"from countries like Brazil\" separately.</div>"
       }
       const where_to_highlight = (error_type==="summary_span") ? "summary":"document"
-      const what_is_correct = (correct_span==="") ? "The summary span is unalignable" : `<u>The correct span is \"${correct_span}\"</u>`
-      const what_to_do = (correct_span==="") ? `highlight nothing in the ${where_to_highlight}` : `highlight it in the ${where_to_highlight}`
-      const what_next = (error_type==="summary_span") ? "then proceed to find its alignment in the document": `hit \"${(StateMachineState==="ANNOTATION") ? "CONFIRM":""}${(StateMachineState==="SENTENCE END") ? "NEXT SENTENCE":""}${(StateMachineState==="SUMMARY END") ? "SUBMIT":""}${(correct_span==="")? " (NO ALIGN)":""}\"`;
+      const what_is_correct = (correct_span==="") ? "The summary span is unalignable" : `<u>The correct span(s) is</u>: ${correct_span}`
+      const what_to_do = (correct_span==="") ? `<b>highlight nothing</b> in the <b>${where_to_highlight}</b>` : `<b>highlight it</b> in the <b><u>${where_to_highlight}</u></b>`
+      const what_next = (error_type==="summary_span") ? "then <b>proceed to find its alignment in the <u>document</u></b>": `<b>hit \"${(StateMachineState==="ANNOTATION") ? "CONFIRM":""}${(StateMachineState==="SENTENCE END") ? "NEXT SENTENCE":""}${(StateMachineState==="SUMMARY END") ? "SUBMIT":""}${(correct_span==="")? " (NO ALIGN)":""}\"</b>`;
 
-
-      const modal_message = `It appears you are struggling a little, so let me help you. <br/>${what_is_correct}. <br/>Please ${what_to_do} and ${what_next}.`
-      alert(modal_message)
-      return modal_message
+      const tkns_type = (error_type==="summary_span") ? 'summary_tkns':'doc_tkns'
+      const answerMarker = (gold_mentions[tkns_type][chosen_span_id].length===0) ? {"type":"unalignable-adujst-doc", "ids":[]} : {"type":error_type, "ids":gold_mentions[tkns_type][chosen_span_id]}
+      console.log(`answerMarker:`)
+      console.log(answerMarker)
+      g_setAnswerWordsToGlow(answerMarker)
+      return `It appears you are struggling a little, so let me help you. <br/>${what_is_correct}. <hr/>Please ${what_to_do} and ${what_next}.`
     }
 
 
@@ -961,19 +965,21 @@ const GuidedAnnotation = ({isPunct,
     if(guiding_msg_type==="danger") {
       if(g_strikes_counter>=MAX_ERR_CNT) {
         const last_error_json = g_guided_annotation_history.at(-1)
-        getAnswerModalMsg(last_error_json)
-        // alert(JSON.stringify(last_error_json))
         g_setStrikesCounter(0)
         g_setGuidedAnnotationHistory(g_guided_annotation_history.concat(["strike!"]))
-        g_setOpenAnswerModal(true)
+        g_setAnswerModalMsg(getAnswerModalMsg(last_error_json))
       } else {
         g_setStrikesCounter(g_strikes_counter+1)
       }
       // g_guided_annotation_history, g_setGuidedAnnotationHistory,
-      // g_open_answer_model, g_setOpenAnswerModal
+      // g_open_answer_model, g_setAnswerModalMsg
       // g_strikes_counter, g_setStrikesCounter
     } else if (guiding_msg_type==="success") {
       g_setStrikesCounter(0)
+
+      g_setAnswerWordsToGlow({"type":"", "ids":[]})
+
+
     }
    }, [guiding_msg_type])
 
@@ -1100,9 +1106,8 @@ const GuidedAnnotation = ({isPunct,
               g_show_hint = {g_show_hint}                                  g_setShowHint = {g_setShowHint}
               g_hint_msg = {g_hint_msg}                                    g_showWhereNavbar = {showWhereNavbar}
               g_open_hint={g_open_hint}                                    g_setOpenHint={g_setOpenHint}
-              
               g_with_glow_hint={g_with_glow_hint}                          g_setWithGlowHint={g_setWithGlowHint}
-              
+              g_answer_words_to_glow={g_answer_words_to_glow}
               
               OpeningModalShow = {undefined}                               setOpeningModalShow = {undefined}
               noAlignModalShow = {noAlignModalShow}                        setNoAlignModalShow = {setNoAlignModalShow}
@@ -1139,6 +1144,26 @@ const GuidedAnnotation = ({isPunct,
                         ANNOTATION
                       </Button>
                     </Link>
+                  </Modal.Footer>
+                </Modal>
+
+
+                <Modal
+                  show={g_answer_modal_msg!==""}
+                  backdrop="static"
+                  keyboard={false}
+                  className="answer-modal-textbox"
+                >
+                  <Modal.Header>
+                    <Modal.Title>UH-OH</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    {<Markup content={g_answer_modal_msg} />}
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="primary" onClick={() => {g_setAnswerModalMsg("")}}>
+                      GOT IT
+                    </Button>
                   </Modal.Footer>
                 </Modal>
 

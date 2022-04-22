@@ -21,6 +21,15 @@ const add_text_to_GuidedAnnotationInfoAlert = (g_is_good_alignment,StateMachineS
     return ""
   }
 
-  export { add_text_to_GuidedAnnotationInfoAlert }
+
+  const string_to_span = (span_str) => {
+    const sub_strings = span_str.split(";");
+    const lims = sub_strings.map((sub_string) => sub_string.split("-").map((lim) => parseInt(lim)))
+    // console.log(`lims:${JSON.stringify(span_str)}`)
+    const ids = lims.map(([start, end]) => Array(end - start + 1).fill().map((_, idx) => start + idx)).flat(1)
+    return ids.sort(function(a, b) {return a - b;})
+  }
+
+  export { add_text_to_GuidedAnnotationInfoAlert, string_to_span }
 
 
