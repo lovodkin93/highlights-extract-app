@@ -111,6 +111,20 @@
 					"text":"The highlighted summary span doesn't cover full events.",
 					"timeout":8000,
 					"with hint":true
+					},
+					{
+					"missing_tkns":["4-4"],
+					"title":"Span not full", 
+					"text":"The highlighted summary span doesn't cover full events.",
+					"timeout":8000,
+					"with hint":true
+					},
+					{
+					"missing_tkns":["7-7"],
+					"title":"Span not full", 
+					"text":"The highlighted summary span doesn't cover full events.",
+					"timeout":8000,
+					"with hint":true
 					}
 				],
 				"2":[
@@ -130,6 +144,13 @@
 						},
 						{
 						"missing_tkns":["27-32"],
+						"title":"Span not full", 
+						"text":"The highlighted summary span doesn't cover full events.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"missing_tkns":["23-23", "24-24", "25-25"],
 						"title":"Span not full", 
 						"text":"The highlighted summary span doesn't cover full events.",
 						"timeout":8000,
@@ -284,6 +305,13 @@
 						"text":"You highlighted something out of context.",
 						"timeout":8000,
 						"with hint":true
+						},
+						{
+						"excess_tkns":["23-23", "24-24", "25-25", "26-26"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"2":[
@@ -319,6 +347,20 @@
 						"excess_tkns":["73-73", "381-381"],
 						"title":"Out of context", 
 						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["37-37", "39-39", "40-40", "41-41"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["17-17", "18-18", "19-19", "20-20", "21-21"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
 						"timeout":8000,
 						"with hint":true
 						}

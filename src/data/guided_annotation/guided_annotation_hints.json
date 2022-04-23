@@ -25,7 +25,7 @@
 					{
 					"missing_tkns":["10-10"],
 					"title":"Span not full", 
-					"text":"Confirmed what about the drought?"
+					"text":"Confirmed that the drought will do what?"
 					},
 					{
 					"missing_tkns":["14-14"],
@@ -35,8 +35,19 @@
 					{
 					"missing_tkns":["15-19"],
 					"title":"Span not full", 
-					"text":"Curtail how?"
+					"text":"missing \"by a third or more\"."
+					},
+					{
+					"missing_tkns":["4-4"],
+					"title":"Span not full", 
+					"text":"missing \"Thursday\"."
+					},
+					{
+					"missing_tkns":["7-7"],
+					"title":"Span not full", 
+					"text":"missing \"deadening\"."
 					}
+					
 				],
 				"2":[
 						{
@@ -47,12 +58,17 @@
 						{
 						"missing_tkns":["26-26"],
 						"title":"Span not full", 
-						"text":"Resulting in what?"
+						"text":"\"prices\" is missing in the summary highlight."
 						},
 						{
 						"missing_tkns":["27-32"],
 						"title":"Span not full", 
 						"text":"Resulting in higher prices for how long?"
+						},
+						{
+						"missing_tkns":["23-23", "24-24", "25-25"],
+						"title":"Span not full", 
+						"text":"What kind of prices?"
 						}
 					]
 			},
@@ -81,7 +97,7 @@
 						{
 						"missing_tkns":["3-3"],
 						"title":"Missing info in document highlight",
-						"text":"Who confirmed?"
+						"text":"\"Department\" is missing (in the document)."
 						},
 						{
 						"missing_tkns":["2-2"],
@@ -91,49 +107,54 @@
 						{
 						"missing_tkns":["5-5"],
 						"title":"Missing info in document highlight",
-						"text":"What did the department do?"
+						"text":"\"confirm\" is missing (in the document)."
 						},
 						{
 						"missing_tkns":["10-12"],
 						"title":"Missing info in document highlight",
-						"text":"What did the Department confirm?"
+						"text":"\"drought will curtail\" is missing (in the document)."
 						},
 						{
 						"missing_tkns":["9-9"],
 						"title":"Missing info in document highlight",
-						"text":"What drought?"
+						"text":"What kind of drought?"
 						},
 						{
 						"missing_tkns":["13-16"],
 						"title":"Missing info in document highlight",
-						"text":"What will the drought curtail?"
+						"text":"\"the fall corn harvest\" is missing (in the document)."
 						},
 						{
 						"missing_tkns":["17-21"],
 						"title":"Missing info in document highlight",
-						"text":"How will the drought curtail the harvest?"
+						"text":"\"by a third or more\" is missing (in the document)."
+						},
+						{
+						"missing_tkns":["6-6"],
+						"title":"Missing info in document highlight",
+						"text":"\"Thursday\" is missing (in the document)."
 						}
 					],
 				"2":[
 						{
 						"missing_tkns":["23-23"],
 						"title":"Missing info in document highlight",
-						"text":"missing the connection of result."
+						"text":"\"resulting\" is missing (in the document)."
 						},
 						{
 						"missing_tkns":["28-28"],
 						"title":"Missing info in document highlight",
-						"text":"Resulting in what?"
+						"text":"\"prices\" is missing (in the document)."
 						},
 						{
 						"missing_tkns":["25-27"],
 						"title":"Missing info in document highlight",
-						"text":"What prices?"
+						"text":"\"higher retail food\" is missing (in the document)."
 						},
 						{
 						"missing_tkns":["29-34"],
 						"title":"Missing info in document highlight",
-						"text":"For how long will there be higher prices?"
+						"text":"\"for months and years to come\" is missing (in the document)."
 						}
 					]
 			},
@@ -163,6 +184,11 @@
 						"excess_tkns":["180-180"],
 						"title":"Out of context", 
 						"text":"\"Corn\" is highlighted out of context (in the document)."
+						},
+						{
+						"excess_tkns":["23-23", "24-24", "25-25", "26-26"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"The alignment should end at \"by a third or more\". <br/><b>Un-highlight <u>\"resulting in higher retail ...\"</u></b>."
 						}
 					],
 				"2":[
@@ -190,6 +216,16 @@
 						"excess_tkns":["73-73", "381-381"],
 						"title":"Out of context", 
 						"text":"\"come\" is highlighted out of context (in the document)."
+						},
+						{
+						"excess_tkns":["37-37", "39-39", "40-40", "41-41"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"The alignment should end at \"for months and years to come\". <br/><b>Un-highlight <u>\"However, government officials said ...\"</u></b>."
+						},
+						{
+						"excess_tkns":["17-17", "18-18", "19-19", "20-20", "21-21"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"The alignment should start at \"resulting in...\". <br/><b>Un-highlight <u>\"... by a third or more\"</u></b>."
 						}
 					]
 			}			

@@ -905,13 +905,13 @@ const GuidedAnnotation = ({isPunct,
   //   //  console.log(`AVIVSL: wanted words are:${JSON.stringify(doc_json.filter((word)=> { return ["came", "come"].includes(word.word)}).map((word) => word.tkn_id))}`)
   //  }, [CurrSentInd]);
 
-  //  useEffect(() => {
-  //   console.log(`tkn_id of highlighted summary words: ${JSON.stringify(summary_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
-  // }, [summary_json]);
+   useEffect(() => {
+    console.log(`tkn_id of highlighted summary words: ${JSON.stringify(summary_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
+  }, [summary_json]);
 
-  // useEffect(() => {
-  //   console.log(`tkn_id of highlighted doc words: ${JSON.stringify(doc_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
-  // }, [doc_json]);
+  useEffect(() => {
+    console.log(`tkn_id of highlighted doc words: ${JSON.stringify(doc_json.filter((word)=>{return word.span_highlighted}).map((word) => word.tkn_id))}`)
+  }, [doc_json]);
 
 
   // useEffect(() => {
