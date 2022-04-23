@@ -54,6 +54,7 @@ const GuidedAnnotation = ({isPunct,
                           setOpeningModalShow,
                           setPrevCurrAlignmentGuidingMsgId, prev_curr_alignment_guiding_msg_id,
                           setPrevGuidingInfoMsg, prev_guiding_info_msg,
+                          setPrevGuiderMsg, prev_Guider_msg,
                           g_guided_annotation_history, g_setGuidedAnnotationHistory,
                           g_strikes_counter, g_setStrikesCounter,
                           g_answer_modal_msg, g_setAnswerModalMsg,
@@ -262,6 +263,9 @@ const GuidedAnnotation = ({isPunct,
         setPrevCurrSentInd(CurrSentInd)
         setPrevCurrAlignmentGuidingMsgId(curr_alignment_guiding_msg_id)
         setPrevGuidingInfoMsg(guiding_info_msg)
+        setPrevGuiderMsg(g_Guider_msg)
+
+
         setDocJson(doc_json.map((word) => {return {...word, span_highlighted: false}}))
         setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted: false}}))
       }
@@ -281,6 +285,8 @@ const GuidedAnnotation = ({isPunct,
       setCurrAlignmentGuidingMsgId(prev_guiding_msg_id) 
 
       setGuidingInfoMsg(prev_guiding_info_msg)
+      g_setGuiderMsg(prev_Guider_msg)
+      g_setHintMsg({"text":"", "title":""})
       setPrevCurrAlignmentGuidingMsgId("-1")
       setPrevCurrSentInd(-1)
       setPrevStateMachineState("");
@@ -524,22 +530,24 @@ const GuidedAnnotation = ({isPunct,
       }
 
 
-
-
-
-
       // info messages(alerts)
       if (forceState==="REVISE HOVER" && StateMachineState!=="REVISE CLICKED"){
         setGuidingInfoMsg(guided_annotation_info_messages["Revise Hover"])
+        g_setGuiderMsg({"type":"", "where":"", "text":""})
       } 
       else if (forceState===undefined && StateMachineState==="REVISE HOVER") {
         setGuidingInfoMsg(guided_annotation_info_messages["Revise Clicked"])
+        g_setGuiderMsg({"type":"", "where":"", "text":""})
       }
       else if (forceState===undefined && StateMachineState==="REVISE CLICKED") {
         setGuidingInfoMsg(guided_annotation_info_messages["Revise Confirmed Revision"])
+        g_setGuiderMsg({"type":"", "where":"", "text":""})
       }
       else if (forceState==="REVISE HOVER" && StateMachineState==="REVISE CLICKED") {
         setGuidingInfoMsg(guided_annotation_info_messages["Revise Clicked BACK"])
+        g_setHintMsg({"text":"", "title":""})
+        g_setShowHint(false)
+        g_setGuiderMsg({"type":"", "where":"", "text":""})
       }
       else if (forceState===undefined) {
         const guiding_info_sent_id = (["START", "SENTENCE END"].includes(StateMachineState)) ? CurrSentInd+1 : CurrSentInd
@@ -792,8 +800,11 @@ const GuidedAnnotation = ({isPunct,
 
     const getAnswerModalMsg = (last_error_json) => {
       if(last_error_json["highlighted_tkn_ids"].length===0){
-        return "<div>Please highlight something in the <u>summary</u> before proceeding to the document or hitting \"CONFIRM\"!</div>"
-        g_setGuiderMsg({"type":"reveal-answer", "where":"summary", "text":"Start by highlighting something in the summary"})      
+        const where_to_highlight = (last_error_json["type"] === "summary_span") ? "summary":"doc"
+        const what_next = (last_error_json["type"] === "summary_span") ? "proceeding to the document or hitting \"CONFIRM\"" : "hitting \"CONFIRM\""
+
+        g_setGuiderMsg({"type":"reveal-answer", "where":where_to_highlight, "text":`Start by highlighting something in the ${where_to_highlight}`})      
+        return `<div>Please highlight something in the <u>${where_to_highlight}</u> before ${what_next}!</div>`
       }
       const gold_mentions = guided_annotation_strike_messages["goldMentions"][last_error_json["sent_id"]]
       const error_type = last_error_json["type"];
@@ -1054,6 +1065,12 @@ const GuidedAnnotation = ({isPunct,
      }
    }, [doc_json, summary_json])
 
+   // when entering revision mode - scroll up to see the instruction
+   useEffect(() => {
+    if(StateMachineState==="REVISE HOVER") {
+      window.scrollTo(0, 0);
+    }
+  }, [StateMachineState])
 
 
 

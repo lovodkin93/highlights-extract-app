@@ -96,7 +96,9 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
 
   const docGuider = useRef(null);
   const summaryGuider = useRef(null);
-  const nextButtonGuider = useRef(null);                   
+  const nextButtonGuider = useRef(null);     
+  const backButtonGuider = useRef(null);              
+  const ExitReviseButtonGuider = useRef(null)
 
   const isDocSpanExist = () => {
     return doc_json.filter((word) => {return word.span_highlighted}).length !== 0
@@ -533,8 +535,8 @@ useEffect(() => {
                                             t_submit_summary_json = {t_submit_summary_json}
                                             SetCurrSentInd = {SetCurrSentInd}
                                             MachineStateHandlerWrapper = {MachineStateHandlerWrapper} />)}
-            {/* {(isGuidedAnnotation) && (GuidedAnnotationInfoAlert())} */}
-            {(isGuidedAnnotation && g_show_hint && g_hint_msg!==undefined && g_hint_msg["Text"]!=="") &&
+            {(isGuidedAnnotation && ["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState)) && (GuidedAnnotationInfoAlert())}
+            {(isGuidedAnnotation && !["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState) && g_show_hint && g_hint_msg!==undefined && g_hint_msg["Text"]!=="") &&
                     <OverlayTrigger className={`${(g_with_glow_hint)? 'with-glow':''}`} show={g_open_hint} placement="right" overlay={GuidedAnnotationHint}>
                       <Button className="guidedAnnotationHintButton2" active variant="btn btn-primary btn-lg" onClick={() => {g_setOpenHint(!g_open_hint); g_setWithGlowHint(false)}}>
                           HINT
@@ -596,13 +598,13 @@ useEffect(() => {
 
                     {StateMachineState === "REVISE HOVER" && (
                       <Col>
-                        <button type="button" className={`btn btn-success btn-lg ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>FINISH</button>
+                        <button ref={ExitReviseButtonGuider} type="button" className={`btn btn-success btn-lg ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>FINISH</button>
                       </Col>
                     )}
 
                   {StateMachineState === "REVISE CLICKED" && (
                       <Col md={{span:4, offset:0}}>
-                        <button type="button" className={`btn btn-secondary btn-lg ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
+                        <button ref={backButtonGuider} type="button" className={`btn btn-secondary btn-lg ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
                         <ChevronLeft className="button-icon"/>
                         BACK
                         </button>
@@ -690,7 +692,7 @@ useEffect(() => {
                   </Modal.Footer>
         </Modal>
 
-        <Modal  aria-labelledby="contained-modal-title-vcenter" centered show={noAlignModalShow} onHide={() => {setNoAlignModalShow(false)}}>
+        <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={noAlignModalShow} onHide={() => {setNoAlignModalShow(false)}}>
                   <Modal.Header closeButton>
                     <Modal.Title>Are You Sure?</Modal.Title>
                   </Modal.Header>
@@ -731,6 +733,26 @@ useEffect(() => {
             </Tooltip>
           )}
         </Overlay>
+        
+        {StateMachineState === "REVISE CLICKED" && (
+        <Overlay target={backButtonGuider.current} show={isGuidedAnnotation} placement="bottom">
+          {(props) => (
+            <Tooltip {...props}  id="overlay-back-button-guider">
+                If you regret your changes, press me to dicard them!
+            </Tooltip>
+          )}
+        </Overlay>
+        )}
+
+        {StateMachineState === "REVISE HOVER" && (
+        <Overlay target={ExitReviseButtonGuider.current} show={isGuidedAnnotation} placement="bottom">
+          {(props) => (
+            <Tooltip {...props}  id="overlay-finish-revision-button-guider">
+                When you are satisfied with all your revisions, press me to exit the revision mode.
+            </Tooltip>
+          )}
+        </Overlay>
+        )}
 
     </div>
   )

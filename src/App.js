@@ -109,6 +109,8 @@ const App = () => {
   const [g_answer_modal_msg, g_setAnswerModalMsg] = useState("")
   const [g_answer_words_to_glow, g_setAnswerWordsToGlow] = useState({"type":"", "ids":[], "start_tkn":""})
   const [g_Guider_msg, g_setGuiderMsg] = useState({"type":"info", "where":"next-button", "text":"Press me to begin."}) // type: one of {"info", "reveal-answer"}, "where": one of {"doc", "summary", "next-button"}
+  const [g_prev_Guider_msg, g_setPrevGuiderMsg] = useState({"type":"", "where":"", "text":""}) // type: one of {"info", "reveal-answer"}, "where": one of {"doc", "summary", "next-button"}
+
 
   // const [guidingAnnotationAlertText, setGuidingAnnotationAlertText] = useState("")
   // const [guidingAnnotationAlertTitle, setGuidingAnnotationAlertTitle] = useState("")
@@ -931,6 +933,7 @@ const App = () => {
                                           setOpeningModalShow={setOpeningModalShow}
                                           setPrevCurrAlignmentGuidingMsgId={g_setPrevCurrAlignmentGuidingMsgId} prev_curr_alignment_guiding_msg_id={g_prev_curr_alignment_guiding_msg_id} 
                                           setPrevGuidingInfoMsg={g_setPrevGuidingInfoMsg}                       prev_guiding_info_msg={g_prev_guiding_info_msg}
+                                          setPrevGuiderMsg={g_setPrevGuiderMsg}                                 prev_Guider_msg={g_prev_Guider_msg}
                                           g_guided_annotation_history={g_guided_annotation_history}             g_setGuidedAnnotationHistory={g_setGuidedAnnotationHistory}
                                           g_strikes_counter={g_strikes_counter}                                 g_setStrikesCounter={g_setStrikesCounter}
                                           g_answer_modal_msg={g_answer_modal_msg}                               g_setAnswerModalMsg={g_setAnswerModalMsg} 
