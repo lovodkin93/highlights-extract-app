@@ -592,7 +592,7 @@
 				
 				
 				"1":["384-385;388-389;391-399;401-403", "76-79;81-84;384-385;388-389;391-399;401-403"],
-				"2":["384-385;388-389;391-395", "76-79;81-84"],
+				"2":["384-385;388-389;391-395", "76-79;81-84", "76-79;81-84;384-385;388-389;391-395"],
 				"3":["389-389;391-399;401-403", "393-399;401-403", "394-399;401-403", "395-399;401-403", "396-399;401-403"],
 				"4":["408-415;419-420"],
 				"5":[]
@@ -651,13 +651,6 @@
 						"with hint":true
 						},
 						{
-						"excess_tkns":["408-415"],
-						"title":"Out of context", 
-						"text":"You highlighted something out of context.",
-						"timeout":10000,
-						"with hint":true
-						},
-						{
 						"excess_tkns":["191-191","425-425"],
 						"title":"Out of context", 
 						"text":"You highlighted something out of context.",
@@ -683,6 +676,20 @@
 						"title":"Out of context", 
 						"text":"You highlighted something out of context.",
 						"timeout":10000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["73-73", "74-74", "75-75", "381-381", "382-382", "383-383"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["408-408", "409-409", "410-410", "411-411"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
 						"with hint":true
 						}
 					],
@@ -707,18 +714,25 @@
 						"text":"You highlighted something out of context.",
 						"timeout":10000,
 						"with hint":true
+						},
+						{
+						"excess_tkns":["73-73", "74-74", "75-75", "381-381", "382-382", "383-383"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["396-396", "397-397", "398-398"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"3":[
 						{
 						"excess_tkns":["79-79;81-84"],
-						"title":"Out of context", 
-						"text":"You highlighted something out of context.",
-						"timeout":8000,
-						"with hint":true
-						},
-						{
-						"excess_tkns":["408-415"],
 						"title":"Out of context", 
 						"text":"You highlighted something out of context.",
 						"timeout":8000,
@@ -744,6 +758,20 @@
 						"text":"You highlighted something out of context.",
 						"timeout":8000,
 						"with hint":true
+						},
+						{
+						"excess_tkns":["386-386", "387-387", "388-388"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["408-408", "409-409", "410-410", "411-411"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
 						}
 					],
 				"4":[
@@ -756,6 +784,20 @@
 						},
 						{
 						"excess_tkns":["84-84","395-395"],
+						"title":"Out of context", 
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["399-399", "401-401", "402-402", "403-403"],
+						"title":"Out of context", 
+						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["421-421", "422-422", "423-423", "424-424", "425-425"],
 						"title":"Out of context", 
 						"text":"You highlighted something out of context.",
 						"timeout":8000,
@@ -1422,19 +1464,13 @@
 					],
 				"2":[
 						{
-						"excess_tkns":["213-214"],
+						"excess_tkns":["213-214", "214-214"],
 						"title":"Irrelevant information", 
 						"text":"You highlighted irrelevant details.",
 						"timeout":8000,
 						"with hint":true
 						},
-						{
-						"excess_tkns":["225-264", "657-678"],
-						"title":"Irrelevant information", 
-						"text":"You highlighted irrelevant details.",
-						"timeout":8000,
-						"with hint":true
-						},
+						
 						{
 						"excess_tkns":["52-54", "564-566", "666-668"],
 						"title":"Out of context", 
@@ -1469,20 +1505,65 @@
 						"text":"You highlighted something out of context.",
 						"timeout":8000,
 						"with hint":true
-						}
-					],
-				"3":[
+						},
+						
+						
+						
 						{
-						"excess_tkns":["213-214"],
-						"title":"Irrelevant information", 
-						"text":"You highlighted irrelevant details.",
+						"excess_tkns":["213-214", "214-214"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
 						"timeout":8000,
 						"with hint":true
 						},
 						{
+						"excess_tkns":["225-264"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["628-630;634-635"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["657-678"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
+						}
+						
+						
+						
+						
+						
+						
+						
+					],
+				"3":[
+						{
 						"excess_tkns":["268-268"],
 						"title":"Out of context", 
 						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["213-214", "214-214"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["225-264"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
 						"timeout":8000,
 						"with hint":true
 						}
@@ -1498,20 +1579,6 @@
 					],
 				"5":[
 						{
-						"excess_tkns":["213-214"],
-						"title":"Irrelevant information", 
-						"text":"You highlighted irrelevant details.",
-						"timeout":8000,
-						"with hint":true
-						},
-						{
-						"excess_tkns":["225-264", "657-678"],
-						"title":"Irrelevant information", 
-						"text":"You highlighted irrelevant details.",
-						"timeout":8000,
-						"with hint":true
-						},
-						{
 						"excess_tkns":["52-54", "564-566", "666-668"],
 						"title":"Out of context", 
 						"text":"You highlighted something out of context.",
@@ -1545,7 +1612,44 @@
 						"text":"You highlighted something out of context.",
 						"timeout":8000,
 						"with hint":true
+						},
+						
+						
+						
+						
+						{
+						"excess_tkns":["213-214", "214-214"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["219-223"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["628-630;634-635"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["657-678"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
 						}
+						
+						
+						
+						
+						
 					],
 				"6":[
 						{
@@ -1558,20 +1662,6 @@
 					],
 				"7":[
 						{
-						"excess_tkns":["213-214"],
-						"title":"Irrelevant information", 
-						"text":"You highlighted irrelevant details.",
-						"timeout":8000,
-						"with hint":true
-						},
-						{
-						"excess_tkns":["225-264", "657-678"],
-						"title":"Irrelevant information", 
-						"text":"You highlighted irrelevant details.",
-						"timeout":8000,
-						"with hint":true
-						},
-						{
 						"excess_tkns":["52-54", "564-566", "666-668"],
 						"title":"Out of context", 
 						"text":"You highlighted something out of context.",
@@ -1605,7 +1695,47 @@
 						"text":"You highlighted something out of context.",
 						"timeout":8000,
 						"with hint":true
+						},
+						
+						
+						
+						{
+						"excess_tkns":["213-214", "214-214"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["215-216"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["225-264"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["628-630;634-635"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["657-678"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
 						}
+						
+						
 					],
 				"8":[
 						{
@@ -1635,6 +1765,20 @@
 						"excess_tkns":["237-238", "261-262"],
 						"title":"Out of context", 
 						"text":"You highlighted something out of context.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["628-630;634-635"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
+						"timeout":8000,
+						"with hint":true
+						},
+						{
+						"excess_tkns":["657-678"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"You accidently highlighted irrelevant information.",
 						"timeout":8000,
 						"with hint":true
 						}

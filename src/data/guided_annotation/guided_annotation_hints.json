@@ -19,32 +19,32 @@
 					},
 					{
 					"missing_tkns":["8-8"],
-					"title":"Span not full", 
+					"title":"Summary span not full", 
 					"text":"Confirmed what?"
 					},
 					{
 					"missing_tkns":["10-10"],
-					"title":"Span not full", 
+					"title":"Summary span not full", 
 					"text":"Confirmed that the drought will do what?"
 					},
 					{
 					"missing_tkns":["14-14"],
-					"title":"Span not full", 
+					"title":"Summary span not full", 
 					"text":"Curtail what?"
 					},
 					{
 					"missing_tkns":["15-19"],
-					"title":"Span not full", 
+					"title":"Summary span not full", 
 					"text":"missing \"by a third or more\"."
 					},
 					{
 					"missing_tkns":["4-4"],
-					"title":"Span not full", 
+					"title":"Summary span not full", 
 					"text":"missing \"Thursday\"."
 					},
 					{
 					"missing_tkns":["7-7"],
-					"title":"Span not full", 
+					"title":"Summary span not full", 
 					"text":"missing \"deadening\"."
 					}
 					
@@ -57,17 +57,17 @@
 						},
 						{
 						"missing_tkns":["26-26"],
-						"title":"Span not full", 
+						"title":"Summary span not full", 
 						"text":"\"prices\" is missing in the summary highlight."
 						},
 						{
 						"missing_tkns":["27-32"],
-						"title":"Span not full", 
+						"title":"Summary span not full", 
 						"text":"Resulting in higher prices for how long?"
 						},
 						{
 						"missing_tkns":["23-23", "24-24", "25-25"],
-						"title":"Span not full", 
+						"title":"Summary span not full", 
 						"text":"What kind of prices?"
 						}
 					]
@@ -188,7 +188,7 @@
 						{
 						"excess_tkns":["23-23", "24-24", "25-25", "26-26"],
 						"title":"Accidently highlighted irrelevant information", 
-						"text":"The alignment should end at \"by a third or more\". <br/><b>Un-highlight <u>\"resulting in higher retail ...\"</u></b>."
+						"text":"The alignment should end at \"by a third or more\". <br/><b>Un-highlight <u>\"resulting in higher retail...\"</u></b>."
 						}
 					],
 				"2":[
@@ -220,12 +220,12 @@
 						{
 						"excess_tkns":["37-37", "39-39", "40-40", "41-41"],
 						"title":"Accidently highlighted irrelevant information", 
-						"text":"The alignment should end at \"for months and years to come\". <br/><b>Un-highlight <u>\"However, government officials said ...\"</u></b>."
+						"text":"The alignment should end at \"for months and years to come\". <br/><b>Un-highlight <u>\"However, government officials said...\"</u></b>."
 						},
 						{
 						"excess_tkns":["17-17", "18-18", "19-19", "20-20", "21-21"],
 						"title":"Accidently highlighted irrelevant information", 
-						"text":"The alignment should start at \"resulting in...\". <br/><b>Un-highlight <u>\"... by a third or more\"</u></b>."
+						"text":"The alignment should start at \"resulting in...\". <br/><b>Un-highlight <u>\"...by a third or more\"</u></b>."
 						}
 					]
 			}			
@@ -260,43 +260,43 @@
 						},
 						{
 						"missing_tkns":["35-36"],						
-						"title":"Span not full", 
+						"title":"Summary span not full", 
 						"text":"Who signed?"
 						},
 						{
 						"missing_tkns":["44-44"],
-						"title":"Span not full", 
+						"title":"Summary span not full", 
 						"text":"Signed what?"
 						},
 						{
 						"missing_tkns":["38-38;40-43"],
-						"title":"Span not full", 
+						"title":"Summary span not full", 
 						"text":"What bill was signed?"
 						},
 						{
 						"missing_tkns":["45-45"],
-						"title":"Span not full", 
-						"text":"What is the connection between the bill and the helping?"
+						"title":"Summary span not full", 
+						"text":"\"aimed\" is missing."
 						},
 						{
 						"missing_tkns":["47-47"],
-						"title":"Span not full", 
-						"text":"What is the bill aimed at?"
+						"title":"Summary span not full", 
+						"text":"\"helping\" is missing."
 						},
 						{
 						"missing_tkns":["51-51"],
-						"title":"Span not full", 
+						"title":"Summary span not full", 
 						"text":"Helping whom?"
 						},
 						{
 						"missing_tkns":["48-48;50-50"],
-						"title":"Span not full", 
+						"title":"Summary span not full", 
 						"text":"What farmers?"
 						},
 						{
 						"missing_tkns":["52-52"],
-						"title":"Span not full", 
-						"text":"Help the farmers in what?"
+						"title":"Summary span not full", 
+						"text":"\"recover\" is missing."
 						}
 					],
 				"2":[
@@ -307,52 +307,52 @@
 						},
 						{
 						"missing_tkns":["35-36"],
-						"title":"Span not full", 
+						"title":"Summary span not full", 
 						"text":"Who signed?"
 						},
 						{
 						"missing_tkns":["44-44"],
-						"title":"Span not full", 
+						"title":"Summary span not full", 
 						"text":"Signed what?"
 						},
 						{
 						"missing_tkns":["38-38;40-43"],
-						"title":"Span not full", 
+						"title":"Summary span not full", 
 						"text":"What bill was signed?"
 						}
 					],
 				"3":[
 						{
 						"missing_tkns":["45-45"],
-						"title":"Span not full", 
-						"text":"What is the connection between the bill and the helping?"
+						"title":"Summary span not full", 
+						"text":"\"aimed\" is missing."
 						},
 						{
 						"missing_tkns":["47-47"],
-						"title":"Span not full", 
-						"text":"What is the bill aimed at?"
+						"title":"Summary span not full", 
+						"text":"\"helping\" is missing."
 						},
 						{
 						"missing_tkns":["51-51"],
-						"title":"Span not full", 
+						"title":"Summary span not full", 
 						"text":"Helping whom?"
 						},
 						{
 						"missing_tkns":["48-48;50-50"],
-						"title":"Span not full", 
+						"title":"Summary span not full", 
 						"text":"What farmers?"
 						},
 						{
 						"missing_tkns":["52-52"],
-						"title":"Span not full", 
-						"text":"Help the farmers in what?"
+						"title":"Summary span not full", 
+						"text":"\"recover\" is missing."
 						}
 					],
 				"4":[
 						{
 						"missing_tkns":["56-65"],
-						"title":"Span not full", 
-						"text":"Stating what?"
+						"title":"Summary span not full", 
+						"text":"include everything Reagan stated (\"This bill is n't good as rain\")."
 						}
 					],
 				"5":[]
@@ -370,21 +370,21 @@
 						{
 						"excess_tkns":["48-52", "54-55;58-65"],
 						"title":"Summary span too long", 
-						"text":"Stick to the bill-signing event for now. Leave the rest for other alignments."
+						"text":"For now, highlight only: <br/>\"President Reagan signed a $3.9 billion disaster relief bill\". <br/><br/>Do the rest later."
 						}
 					],
 				"3":[
 						{
 						"excess_tkns":["35-36", "54-55;58-65"],
 						"title":"Summary span too long", 
-						"text":"Stick to the helping-the-farmers event for now. Leave the rest for other alignments."
+						"text":"For now, highlight only: <br/>\"a $3.9 billion disaster relief bill aimed at helping drought-stricken farmers recover\". <br/><br/>Do the rest later."
 						}
 					],
 				"4":[
 						{
 						"excess_tkns":["35-38;40-52"],
 						"title":"Summary span too long", 
-						"text":"Stick to the event of the president's second statement for now. Leave the rest for other alignments."
+						"text":"For now, highlight only: <br/>\"while stating ``This bill isn't as good as rain,''\". <br/><br/>Do the rest later."
 						}
 					],
 				"5":[
@@ -399,7 +399,7 @@
 				
 				
 				"1":["384-385;388-389;391-399;401-403", "76-79;81-84;384-385;388-389;391-399;401-403"],
-				"2":["384-385;388-389;391-395", "76-79;81-84"],
+				"2":["384-385;388-389;391-395", "76-79;81-84", "76-79;81-84;384-385;388-389;391-395"],
 				"3":["389-389;391-399;401-403", "393-399;401-403", "394-399;401-403", "395-399;401-403", "396-399;401-403"],
 				"4":["408-415;419-420"],
 				"5":[]
@@ -412,7 +412,7 @@
 						{
 						"missing_tkns":["419-420"],
 						"title":"Missing info in document alignment",
-						"text":"Who said \"this bill is n't as good as rain\"?"
+						"text":"You should also highlight \"<u>Reagan said</u>\" in the document."
 						}
 					],
 				"5":[]
@@ -427,12 +427,7 @@
 						{
 						"excess_tkns":["386-387"],
 						"title":"Irrelevant information", 
-						"text":"It wasn't said in the summary when the bill was signed."
-						},
-						{
-						"excess_tkns":["408-415"],
-						"title":"Out of context", 
-						"text":"Make sure you highlight only alignments of the current summary span you work on.  Leave other highlightings to next alignments."
+						"text":"It wasn't said in the summary when the bill was signed (un-highlight \"on Thursday\")."
 						},
 						{
 						"excess_tkns":["191-191","425-425"],
@@ -453,13 +448,23 @@
 						"excess_tkns":["419-419"],
 						"title":"Out of context", 
 						"text":"\"Reagan\" is highlighted out of context (in the document)."
+						},
+						{
+						"excess_tkns":["73-73", "74-74", "75-75", "381-381", "382-382", "383-383"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"The alignment should start at \"President Reagan\". <br/><b>Un-highlight <u>\"...came hours after\"</u></b>."
+						},
+						{
+						"excess_tkns":["408-408", "409-409", "410-410", "411-411"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"The alignment should end at \"stricken farmers recover\". <br/><b>Un-highlight <u>\"This bill is n't...\"</u></b>."
 						}
 					],
 				"2":[
 						{
 						"excess_tkns":["386-387"],
 						"title":"Irrelevant information", 
-						"text":"It wasn't said in the summary when the bill was signed."
+						"text":"It wasn't said in the summary when the bill was signed (un-highlight \"on Thursday\")."
 						},
 						{
 						"excess_tkns":["462-462","470-470","484-484", "493-493", "505-505", "513-513", "526-526"],
@@ -470,18 +475,23 @@
 						"excess_tkns":["419-419"],
 						"title":"Out of context", 
 						"text":"\"Reagan\" is highlighted out of context (in the document)."
+						},
+						{
+						"excess_tkns":["73-73", "74-74", "75-75", "381-381", "382-382", "383-383"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"The alignment should start at \"President Reagan\". <br/><b>Un-highlight <u>\"...came hours after\"</u></b>."
+						},
+						{
+						"excess_tkns":["396-396", "397-397", "398-398"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"The alignment should end at \"relief bill\". <br/><b>Un-highlight <u>\"aimed at helping...\"</u></b>."
 						}
 					],
 				"3":[
 						{
 						"excess_tkns":["79-79;81-84"],
 						"title":"Out of context", 
-						"text":"The alignments must be in context. <br/>There is a better in-context mention of the relief bill."
-						},
-						{
-						"excess_tkns":["408-415"],
-						"title":"Out of context", 
-						"text":"Make sure you highlight only alignments of the current summary span you work on. Leave other highlightings to next alignments."
+						"text":"There is a better in-context mention of \"a $ 3.9 billion relief bill\"."
 						},
 						{
 						"excess_tkns":["191-191","425-425"],
@@ -497,6 +507,16 @@
 						"excess_tkns":["10-10","137-137","227-227", "254-254", "353-353", "608-608"],
 						"title":"Out of context", 
 						"text":"\"drought\" is highlighted out of context (in the document)."
+						},	
+						{
+						"excess_tkns":["386-386", "387-387", "388-388"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"The alignment should start at \"a $ 3.9 billion\". <br/><b>Un-highlight <u>\"...on Thursday signed\"</u></b>."
+						},
+						{
+						"excess_tkns":["408-408", "409-409", "410-410", "411-411"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"The alignment should end at \"stricken farmers recover\". <br/><b>Un-highlight <u>\"This bill is n't...\"</u></b>."
 						}
 					],
 				"4":[
@@ -509,6 +529,16 @@
 						"excess_tkns":["84-84","395-395"],
 						"title":"Out of context", 
 						"text":"\"bill\" is highlighted out of context (in the document)."
+						},
+						{
+						"excess_tkns":["399-399", "401-401", "402-402", "403-403"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"The alignment should start at \"` ` This bill is n't \". <br/><b>Un-highlight <u>\"...drought - stricken farmer recover\"</u></b>."
+						},
+						{
+						"excess_tkns":["421-421", "422-422", "423-423", "424-424", "425-425"],
+						"title":"Accidently highlighted irrelevant information", 
+						"text":"The alignment should end at \"Reagan said\". <br/><b>Un-highlight <u>\"to the nation 's farmers...\"</u></b>."
 						}
 					],
 				"5":[
@@ -554,124 +584,124 @@
 				"1":[
 						{
 							"missing_tkns":["75-78"],
-							"title":"Span not full", 
-							"text":"What kind of economist?"
+							"title":"Summary span not full", 
+							"text":"\"<u>the department 's chief</u>\" is missing."
 						},
 						{
 							"missing_tkns":["83-85"],
-							"title":"Span not full", 
-							"text":"Who did Wilson talk about?"
+							"title":"Summary span not full", 
+							"text":"\"the United States\" is missing."
 						},
 						{
 							"missing_tkns":["86-91"],
-							"title":"Span not full", 
-							"text":"What did Wilson say about the US?"
+							"title":"Summary span not full", 
+							"text":"Please highlight everything Wilson said about the US (\"...might import some soybeans this year from countries like Brazil\")"
 						}
 					],
 				"2":[
 						{
 							"missing_tkns":["75-78"],
-							"title":"Span not full", 
-							"text":"What kind of economist?"
+							"title":"Summary span not full", 
+							"text":"\"<u>the department 's chief</u>\" is missing."
 						},
 						{
 							"missing_tkns":["83-85"],
-							"title":"Span not full", 
-							"text":"Who did Wilson talk about?"
+							"title":"Summary span not full", 
+							"text":"\"the United States\" is missing."
 						},
 						{
 							"missing_tkns":["86-91"],
-							"title":"Span not full", 
-							"text":"What did Wilson say about the US?"
+							"title":"Summary span not full", 
+							"text":"Please highlight everything Wilson said about the US (\"...might import some soybeans this year\")"
 						}
 					],
 				"3":[
 						{
 							"missing_tkns":["75-78"],
-							"title":"Span not full", 
-							"text":"What kind of economist?"
+							"title":"Summary span not full", 
+							"text":"\"<u>the department 's chief</u>\" is missing."
 						}
 					],
 				"4":[
 						{
 							"missing_tkns":["83-85"],
-							"title":"Span not full", 
-							"text":"Who did Wilson talk about?"
+							"title":"Summary span not full", 
+							"text":"\"the United States\" is missing."
 						},
 						{
 							"missing_tkns":["86-91"],
-							"title":"Span not full", 
-							"text":"What did Wilson say about the US?"
+							"title":"Summary span not full", 
+							"text":"Please highlight everything Wilson said about the US (\"...might import some soybeans this year from countries like Brazil\")"
 						}
 					],
 				"5":[
 						{
 							"missing_tkns":["83-85"],
-							"title":"Span not full", 
-							"text":"Who did Wilson talk about?"
+							"title":"Summary span not full", 
+							"text":"\"the United States\" is missing."
 						},
 						{
 							"missing_tkns":["86-91"],
-							"title":"Span not full", 
-							"text":"What did Wilson say about the US?"
+							"title":"Summary span not full", 
+							"text":"Please highlight everything Wilson said about the US (\"...might import some soybeans this year\")"
 						}
 					],
 				"6":[
 						{
 							"missing_tkns":["75-78"],
-							"title":"Span not full", 
-							"text":"What kind of economist?"
+							"title":"Summary span not full", 
+							"text":"\"<u>the department 's chief</u>\" is missing."
 						},
 						{
 							"missing_tkns":["83-85"],
-							"title":"Span not full", 
-							"text":"Who did the economist talk about?"
+							"title":"Summary span not full", 
+							"text":"\"the United States\" is missing."
 						},
 						{
 							"missing_tkns":["86-91"],
-							"title":"Span not full", 
-							"text":"What did the economist say about the US?"
+							"title":"Summary span not full", 
+							"text":"Please highlight everything the economist said about the US (\"...might import some soybeans this year from countries like Brazil\")"
 						}
 					],
 				"7":[
 						{
 							"missing_tkns":["75-78"],
-							"title":"Span not full", 
-							"text":"What kind of economist?"
+							"title":"Summary span not full", 
+							"text":"\"<u>the department 's chief</u>\" is missing."
 						},
 						{
 							"missing_tkns":["83-85"],
-							"title":"Span not full", 
-							"text":"Who did the economist talk about?"
+							"title":"Summary span not full", 
+							"text":"\"the United States\" is missing."
 						},
 						{
 							"missing_tkns":["86-91"],
-							"title":"Span not full", 
-							"text":"What did the economist say about the US?"
+							"title":"Summary span not full", 
+							"text":"Please highlight everything Wilson said about the US (\"...might import some soybeans this year\")"
 						}
 					],
 				"8":[
 						{
 							"missing_tkns":["83-85"],
-							"title":"Span not full", 
-							"text":"Who did the economist talk about?"
+							"title":"Summary span not full", 
+							"text":"\"the United States\" is missing."
 						},
 						{
 							"missing_tkns":["86-91"],
-							"title":"Span not full", 
-							"text":"What did the economist say about the US?"
+							"title":"Summary span not full", 
+							"text":"Please highlight everything the economist said about the US (\"...might import some soybeans this year from countries like Brazil\")"
 						}
 					],
 				"9":[
 						{
 							"missing_tkns":["83-85"],
-							"title":"Span not full", 
-							"text":"Who did the economist talk about?"
+							"title":"Summary span not full", 
+							"text":"\"the United States\" is missing."
 						},
 						{
 							"missing_tkns":["86-91"],
-							"title":"Span not full", 
-							"text":"What did the economist say about the US?"
+							"title":"Summary span not full", 
+							"text":"Please highlight everything the economist said about the US (\"...might import some soybeans this year\")"
 						}
 					],
 				"10":[]	
@@ -681,73 +711,73 @@
 				"2":[
 						{
 						"excess_tkns":["92-93"],
-						"title":"Incomplete event", 
-						"text":"What countries?"
+						"title":"Incomplete event in summary span", 
+						"text":"Either remove \"from countries\" or highlight also \"like Brazil\"."
 						}
 					],
 				"3":[
 						{
 						"excess_tkns":["82-95"],
-						"title":"Incomplete event", 
-						"text":"Because you didn't highlight \"said\", everything coming after is disconnected from everything before."
+						"title":"Summary span too long", 
+						"text":"Remove everything coming after \"said\"."
 						}
 					],
 				"4":[
 						{
 						"excess_tkns":["75-78"],
-						"title":"Incomplete event", 
-						"text":"the department's chief <b>what</b>?"
+						"title":"Incomplete event in summary span", 
+						"text":"Either remove \"the department's chief\" or highlight all the \"the department's chief <u>economist</u>\"."
 						}
 					],
 				"5":[
 						{
 						"excess_tkns":["75-78"],
-						"title":"Incomplete event", 
-						"text":"the department's chief <b>what</b>?"
+						"title":"Incomplete event in summary span", 
+						"text":"Either remove \"the department's chief\" or highlight all the \"the department's chief <u>economist</u>\"."
 						}
 					],
 				"6":[
 						{
 						"excess_tkns":["71-72"],
-						"title":"Incomplete event", 
+						"title":"Incomplete event in summary span", 
 						"text":"\"Ewan M.\" is not the economist's full name."
 						}
 					],
 				"7":[
 						{
 						"excess_tkns":["71-72"],
-						"title":"Incomplete event", 
+						"title":"Incomplete event in summary span", 
 						"text":"\"Ewan M.\" is not the economist's full name."
 						}
 					],
 				"8":[
 						{
 						"excess_tkns":["71-72"],
-						"title":"Incomplete event", 
+						"title":"Incomplete event in summary span", 
 						"text":"\"Ewan M.\" is not the economist's full name."
 						},
 						{
 						"excess_tkns":["75-78"],
-						"title":"Incomplete event", 
-						"text":"the department's chief <b>what</b>?"
+						"title":"Incomplete event in summary span", 
+						"text":"Either remove \"the department's chief\" or highlight all the \"the department's chief <u>economist</u>\"."
 						}
 					],
 				"9":[
 						{
 						"excess_tkns":["71-72"],
-						"title":"Incomplete event", 
+						"title":"Incomplete event in summary span", 
 						"text":"\"Ewan M.\" is not the economist's full name."
 						},
 						{
 						"excess_tkns":["75-78"],
-						"title":"Incomplete event", 
-						"text":"the department's chief <b>what</b>?"
+						"title":"Incomplete event in summary span", 
+						"text":"Either remove \"the department's chief\" or highlight all the \"the department's chief <u>economist</u>\"."
 						}
 					],
 				"10":[
 						{
 						"excess_tkns":["71-72", "75-78", "82-91"],
-						"title":"Incomplete event", 
+						"title":"Incomplete event in summary span", 
 						"text":"Focus only on \"from countries like Brazil\" for now."
 						}
 					]
@@ -842,12 +872,12 @@
 						{
 							"missing_tkns":["638-641"],
 							"title":"Missing info in document highlight", 
-							"text":"According to the summary, the US <u>might</u> import. (\"There remained a possibility...\")"
+							"text":"According to the summary, the US <u>might</u> import. (you didn't highlight \"There remained a possibility...\")"
 						},
 						{
 							"missing_tkns":["653-654"],
 							"title":"Missing info in document highlight", 
-							"text":"You missed the fact that Wilson said that (\"... soybeans this year, <u>Wilson said<u>\"."
+							"text":"\"...soybeans this year, <u>Wilson said<u>\" is missing."
 						}
 					],
 				"3":[
@@ -903,7 +933,7 @@
 						{
 							"missing_tkns":["653-654"],
 							"title":"Missing info in document highlight", 
-							"text":"You missed the fact that Wilson said that (\"... soybeans this year, <u>Wilson said<u>\"."
+							"text":"\"...soybeans this year, <u>Wilson said<u>\" is missing."
 						}
 					],
 				"6":[
@@ -947,7 +977,7 @@
 						{
 							"missing_tkns":["653-654"],
 							"title":"Missing info in document highlight", 
-							"text":"You missed the fact that the economist said that (\"... soybeans this year, <u>Wilson said<u>\"."
+							"text":"\"...soybeans this year, <u>Wilson said<u>\" is missing."
 						}
 					],
 				
@@ -998,16 +1028,6 @@
 					],
 				"2":[
 						{
-						"excess_tkns":["213-214"],
-						"title":"Irrelevant information", 
-						"text":"It wasn't said in the summary Wilson was Assistant Secretary."
-						},
-						{
-						"excess_tkns":["225-264", "657-678"],
-						"title":"Irrelevant information", 
-						"text":"Notice what exactly Wilson said."
-						},
-						{
 						"excess_tkns":["52-54", "564-566", "666-668"],
 						"title":"Out of context", 
 						"text":"The \"United States\" is highlighted out of context (in the document)."
@@ -1031,18 +1051,50 @@
 						"excess_tkns":["268-268"],
 						"title":"Out of context", 
 						"text":"\"Wilson\" is highlighted out of context (in the document)."
+						},
+						
+						
+						{
+						"excess_tkns":["213-214", "214-214"],
+						"title":"Irrelevant information", 
+						"text":"It wasn't said in the summary Wilson was a secretary (or Assistant Secretary)."
+						},
+						{
+						"excess_tkns":["225-264"],
+						"title":"Irrelevant information", 
+						"text":"The first part of the highlighting should end at \"...chief economist\".<br/><b>Un-highlight everything after in paragraph 3."
+						},
+						
+						{
+						"excess_tkns":["628-630;634-635"],
+						"title":"Irrelevant information", 
+						"text":"The second part of the highlighting should start at \"There remained a possibility...\". <br/><b>Un-highlight everything before in the last paragraph."
+						},
+						{
+						"excess_tkns":["657-678"],
+						"title":"Irrelevant information", 
+						"text":"The second part of the highlighting should end at \"...soybeans this year , Wilson said\". <br/><b>Un-highlight everything after in the last paragraph."
 						}
+						
+						
+						
+						
 					],
 				"3":[
-						{
-						"excess_tkns":["213-214"],
-						"title":"Irrelevant information", 
-						"text":"It wasn't said in the summary Wilson was Assistant Secretary."
-						},
 						{
 						"excess_tkns":["268-268"],
 						"title":"Out of context", 
 						"text":"\"Wilson\" is highlighted out of context (in the document)."
+						},
+						{
+						"excess_tkns":["213-214", "214-214"],
+						"title":"Irrelevant information", 
+						"text":"It wasn't said in the summary Wilson was a secretary (or Assistant Secretary)."
+						},
+						{
+						"excess_tkns":["225-264"],
+						"title":"Irrelevant information", 
+						"text":"The highlighting should end at \"...chief economist\".<br/><b>Un-highlight everything after in paragraph 3."
 						}
 					],
 				"4":[
@@ -1054,16 +1106,6 @@
 					],
 				"5":[
 						{
-						"excess_tkns":["213-214"],
-						"title":"Irrelevant information", 
-						"text":"It wasn't said in the summary Wilson was Assistant Secretary."
-						},
-						{
-						"excess_tkns":["225-264", "657-678"],
-						"title":"Irrelevant information", 
-						"text":"Notice what exactly Wilson said."
-						},
-						{
 						"excess_tkns":["52-54", "564-566", "666-668"],
 						"title":"Out of context", 
 						"text":"The \"United States\" is highlighted out of context (in the document)."
@@ -1087,7 +1129,35 @@
 						"excess_tkns":["268-268"],
 						"title":"Out of context", 
 						"text":"\"Wilson\" is highlighted out of context (in the document)."
+						},
+						
+						
+						{
+						"excess_tkns":["213-214", "214-214"],
+						"title":"Irrelevant information", 
+						"text":"It wasn't said in the summary Wilson was a secretary (or Assistant Secretary)."
+						},
+						{
+						"excess_tkns":["219-223"],
+						"title":"Irrelevant information", 
+						"text":"The first part of the highlighting should contain only \"Ewen M. Wilson\".<br/><b>Un-highlight everything after in paragraph 3."
+						},
+						
+						{
+						"excess_tkns":["628-630;634-635"],
+						"title":"Irrelevant information", 
+						"text":"The second part of the highlighting should start at \"There remained a possibility...\". <br/><b>Un-highlight everything before in the last paragraph."
+						},
+						{
+						"excess_tkns":["657-678"],
+						"title":"Irrelevant information", 
+						"text":"The second part of the highlighting should end at \"...soybeans this year , Wilson said\". <br/><b>Un-highlight everything after in the last paragraph."
 						}
+						
+						
+						
+						
+						
 					],
 				"6":[
 						{
@@ -1098,16 +1168,6 @@
 					],
 				"7":[
 						{
-						"excess_tkns":["213-214"],
-						"title":"Irrelevant information", 
-						"text":"It wasn't said in the summary Wilson was Assistant Secretary."
-						},
-						{
-						"excess_tkns":["225-264", "657-678"],
-						"title":"Irrelevant information", 
-						"text":"Notice what exactly Wilson said."
-						},
-						{
 						"excess_tkns":["52-54", "564-566", "666-668"],
 						"title":"Out of context", 
 						"text":"The \"United States\" is highlighted out of context (in the document)."
@@ -1131,7 +1191,36 @@
 						"excess_tkns":["268-268"],
 						"title":"Out of context", 
 						"text":"\"Wilson\" is highlighted out of context (in the document)."
-						}
+						},
+						
+						
+						
+						{
+						"excess_tkns":["213-214", "214-214"],
+						"title":"Irrelevant information", 
+						"text":"It wasn't said in the summary that the economist was a secretary (or Assistant Secretary)."
+						},
+						{
+						"excess_tkns":["215-216"],
+						"title":"Irrelevant information", 
+						"text":"Un-highlight <b>Ewen M.</b>"
+						},
+						{
+						"excess_tkns":["225-264"],
+						"title":"Irrelevant information", 
+						"text":"The first part of the highlighting should end at \"...chief economist\".<br/><b>Un-highlight everything after in paragraph 3."
+						},
+						
+						{
+						"excess_tkns":["628-630;634-635"],
+						"title":"Irrelevant information", 
+						"text":"The second part of the highlighting should start at \"There remained a possibility...\". <br/><b>Un-highlight everything before in the last paragraph."
+						},
+						{
+						"excess_tkns":["657-678"],
+						"title":"Irrelevant information", 
+						"text":"The second part of the highlighting should end at \"...soybeans this year , Wilson said\". <br/><b>Un-highlight everything after in the last paragraph."
+						}							
 					],
 				"8":[
 						{
@@ -1155,6 +1244,17 @@
 						"excess_tkns":["237-238", "261-262"],
 						"title":"Out of context", 
 						"text":"\"this year\" is highlighted out of context (in the document)."
+						},
+						
+						{
+						"excess_tkns":["628-630;634-635"],
+						"title":"Irrelevant information", 
+						"text":"The highlighting should start at \"There remained a possibility...\". <br/><b>Un-highlight everything before in the last paragraph."
+						},
+						{
+						"excess_tkns":["657-678"],
+						"title":"Irrelevant information", 
+						"text":"The highlighting should end at \"...soybeans this year , Wilson said\". <br/><b>Un-highlight everything after in the last paragraph."
 						}
 					],
 				"10":[
@@ -1182,7 +1282,7 @@
 				"1":[
 						{
 							"missing_tkns":["98-98", "99-99", "100-100", "101-101", "102-102", "103-103", "104-104", "106-106", "107-107", "108-108", "109-109", "110-110", "111-111", "112-112", "113-113"],
-							"title":"Span not full", 
+							"title":"Summary span not full", 
 							"text":"In this case, the span should include all the sentence."
 						}
 					]
@@ -1200,7 +1300,7 @@
 						{
 							"missing_tkns":["227-227"],
 							"title":"Missing info in document alignment", 
-							"text":"The draught as the cause for the increase in cost is missing."
+							"text":"\"drought\" is missing."
 						},
 						{
 							"missing_tkns":["228-228"],
@@ -1210,27 +1310,27 @@
 						{
 							"missing_tkns":["229-229"],
 							"title":"Missing info in document alignment", 
-							"text":"The part indicating the <u>increase</u> is missing (\"add\")."
+							"text":"\"add\" is missing."
 						},
 						{
 							"missing_tkns":["234-234"],
 							"title":"Missing info in document alignment", 
-							"text":"The part indicating the increase in <u>prices</u> is missing (\"cost\")."
+							"text":"\"cost\" is missing."
 						},
 						{
 							"missing_tkns":["236-236"],
 							"title":"Missing info in document alignment", 
-							"text":"\"food\" wasn't highlighted."
+							"text":"\"food\" is missing."
 						},
 						{
 							"missing_tkns":["230-231"],
 							"title":"Missing info in document alignment", 
-							"text":"Make sure you included the part indicating the increase (the adding of <u>X percent</u>)."
+							"text":"\"one percent\" is missing."
 						},
 						{
 							"missing_tkns":["237-238"],
 							"title":"Missing info in document alignment", 
-							"text":"Make sure you included the part talking about <u>when</u> the increase will occur."
+							"text":"\"this year\" is missing."
 						}
 					]
 			},
