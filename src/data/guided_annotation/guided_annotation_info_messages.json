@@ -5,7 +5,7 @@
 	},
 	"Revise Hover": {
 		"title":"Choose an alignment",
-		"text":"Choose an old alignment to fix."
+		"text":"Choose an old alignment to fix (hover over them to remind you what you chose and click the one you want to fix)."
 	},
 	"Revise Clicked": {
 	"title":"Fix alignment",
@@ -13,11 +13,11 @@
 	},
 	"Revise Confirmed Revision": {
 	"title":"Choose alignment or finish",
-	"text":"If you need to fix another old alignment, do so now. <br/>Otherwise, hit \"FINISH\" to leave the revision mode."
+	"text":"If you need to fix another old alignment, do so now. <br/>Otherwise, hit \"EXIT REVISION\" to leave the revision mode."
 	},
 	"Revise Clicked BACK": {
 	"title":"Choose alignment or finish",
-	"text":"If you want to try fixing this alignment again or any other old alignment, do so now. <br/>Otherwise, hit \"FINISH\" to leave the revision mode."
+	"text":"If you want to try fixing this alignment again or any other old alignment, do so now. <br/>Otherwise, hit \"EXIT REVISION\" to leave the revision mode."
 	},
 	"default_choose_summary_span": {
 		"title":"Choose Summary Span to Align",

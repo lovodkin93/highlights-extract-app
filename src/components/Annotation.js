@@ -598,7 +598,7 @@ useEffect(() => {
 
                     {StateMachineState === "REVISE HOVER" && (
                       <Col>
-                        <button ref={ExitReviseButtonGuider} type="button" className={`btn btn-success btn-lg ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>FINISH</button>
+                        <button ref={ExitReviseButtonGuider} type="button" className={`btn btn-success btn-lg ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>EXIT REVISION</button>
                       </Col>
                     )}
 
@@ -676,7 +676,7 @@ useEffect(() => {
                     <Modal.Title>Attention!</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    Please get the required training by going over the Tutorial and performing the Guided Annotation at least once.
+                    Please get the required training by going over the <u>Tutorial</u> and performing the <u>Guided Annotation</u> at least once.
                     <br/>
                     If you have already done both, you may skip the training and proceed directly to the task.
                   </Modal.Body>
@@ -686,7 +686,7 @@ useEffect(() => {
                     </Button>
                     <Link to="/tutorial">
                       <Button className="btn btn-success btn-lg right-button">
-                        TO TUTORIAL
+                        BEGIN
                       </Button>
                     </Link>
                   </Modal.Footer>

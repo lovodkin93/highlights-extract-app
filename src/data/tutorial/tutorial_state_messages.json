@@ -57,7 +57,7 @@
       {
     "state_cnt": 11,
     "title": "Revise",
-    "message": "If at any given point you regret one of your old alignments, you have the option to revise it. <br/>To do that:<ol><li>hit \"REVISE\" to enter REVISE mode.</li><li>Hover over the old alignments to find the one you want to fix (when hovered over, the alignments will \"unfade\" to guide you).</li><li>Click the Alignment you want to fix.</li><li>Fix it.</li><li>If you are satisfied, press \"CONFIRM\". Alternatively, if you regret, press \"BACK\" to discard all your changes.</li></ol> You can do steps 2-5 multiple times. <br/>When you are satisfied with all your revisions, press \"FINISH\" to leave the REVISE mode and return to the normal annotation mode."
+    "message": "If at any given point you regret one of your old alignments, you have the option to revise it. <br/>To do that:<ol><li>hit \"REVISE\" to enter revision mode.</li><li>Hover over the old alignments to find the one you want to fix (when hovered over, the alignments will \"unfade\" to guide you).</li><li>Click the Alignment you want to fix.</li><li>Fix it.</li><li>If you are satisfied, press \"CONFIRM\". Alternatively, if you regret, press \"BACK\" to discard all your changes.</li></ol> You can do steps 2-5 multiple times. <br/>When you are satisfied with all your revisions, press \"EXIT REVISION\" to leave the revision mode and return to the normal annotation mode."
   },
 
   {
