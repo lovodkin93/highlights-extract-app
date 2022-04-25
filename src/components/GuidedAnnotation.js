@@ -141,12 +141,12 @@ const GuidedAnnotation = ({isPunct,
         // updating the info message
         if (Object.keys(guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][curr_alignment_guiding_msg_id]).includes("text")) {
           setGuidingInfoMsg(guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][curr_alignment_guiding_msg_id])
-          if(g_Guider_msg["type"]!=="reveal-answer"){
+          if(g_Guider_msg["type"]!=="reveal-answer" && g_Guider_msg["where"]!=="doc"){
             g_setGuiderMsg({"type":"info", "where":"doc", "text":guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][curr_alignment_guiding_msg_id]["text"]})
           }
         } else {
           setGuidingInfoMsg(guided_annotation_info_messages["default_find_alignment"])
-          if(g_Guider_msg["type"]!=="reveal-answer"){
+          if(g_Guider_msg["type"]!=="reveal-answer" && g_Guider_msg["where"]!=="doc"){
             g_setGuiderMsg({"type":"info", "where":"doc", "text":guided_annotation_info_messages["default_find_alignment"]["text"]})
           }
         }
@@ -200,10 +200,14 @@ const GuidedAnnotation = ({isPunct,
         // console.log(`CurrSentInd:${CurrSentInd}`)
         if (Object.keys(guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][isSummarySpanOkDict["chosen_span_id"]]).includes("text")) {
           setGuidingInfoMsg(guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][isSummarySpanOkDict["chosen_span_id"]])
-          g_setGuiderMsg({"type":"info", "where":"doc", "text":guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][isSummarySpanOkDict["chosen_span_id"]]["text"]})
+          if(g_Guider_msg["where"]!=="doc") {
+            g_setGuiderMsg({"type":"info", "where":"doc", "text":guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][isSummarySpanOkDict["chosen_span_id"]]["text"]})
+          }
         } else {
           setGuidingInfoMsg(guided_annotation_info_messages["default_find_alignment"])
-          g_setGuiderMsg({"type":"info", "where":"doc", "text":guided_annotation_info_messages["default_find_alignment"]["text"]})
+          if(g_Guider_msg["where"]!=="doc") {
+            g_setGuiderMsg({"type":"info", "where":"doc", "text":guided_annotation_info_messages["default_find_alignment"]["text"]})
+          }
         }
       } 
       else {
@@ -211,12 +215,12 @@ const GuidedAnnotation = ({isPunct,
         const guiding_info_sent_id = (["START", "SENTENCE END"].includes(StateMachineState)) ? CurrSentInd+1 : CurrSentInd
         if (Object.keys(guided_annotation_info_messages["custom_messages"][guiding_info_sent_id]["choose_summary_span"]).includes("text")) {
           setGuidingInfoMsg(guided_annotation_info_messages["custom_messages"][guiding_info_sent_id]["choose_summary_span"])
-          if(g_Guider_msg["type"]!=="reveal-answer"){
+          if(g_Guider_msg["type"]!=="reveal-answer" && g_Guider_msg["where"]!=="summary"){
             g_setGuiderMsg({"type":"info", "where":"summary", "text":guided_annotation_info_messages["custom_messages"][guiding_info_sent_id]["choose_summary_span"]["text"]})
           }
         } else {
           setGuidingInfoMsg(guided_annotation_info_messages["default_choose_summary_span"])
-          if(g_Guider_msg["type"]!=="reveal-answer"){
+          if(g_Guider_msg["type"]!=="reveal-answer" && g_Guider_msg["where"]!=="summary"){
             g_setGuiderMsg({"type":"info", "where":"summary", "text":guided_annotation_info_messages["default_choose_summary_span"]["text"]})
           }
         }
@@ -553,10 +557,14 @@ const GuidedAnnotation = ({isPunct,
         const guiding_info_sent_id = (["START", "SENTENCE END"].includes(StateMachineState)) ? CurrSentInd+1 : CurrSentInd
         if (Object.keys(guided_annotation_info_messages["custom_messages"][guiding_info_sent_id]["choose_summary_span"]).includes("text")) {
           setGuidingInfoMsg(guided_annotation_info_messages["custom_messages"][guiding_info_sent_id]["choose_summary_span"])
-          g_setGuiderMsg({"type":"info", "where":"summary", "text":guided_annotation_info_messages["custom_messages"][guiding_info_sent_id]["choose_summary_span"]["text"]})
+          if(g_Guider_msg["where"]!=="summary"){
+            g_setGuiderMsg({"type":"info", "where":"summary", "text":guided_annotation_info_messages["custom_messages"][guiding_info_sent_id]["choose_summary_span"]["text"]})
+          }
         } else {
           setGuidingInfoMsg(guided_annotation_info_messages["default_choose_summary_span"])
-          g_setGuiderMsg({"type":"info", "where":"summary", "text":guided_annotation_info_messages["default_choose_summary_span"]["text"]})
+          if(g_Guider_msg["where"]!=="summary"){
+            g_setGuiderMsg({"type":"info", "where":"summary", "text":guided_annotation_info_messages["default_choose_summary_span"]["text"]})
+          }
         }
       }
       //returning to alignment not being ok (because no alignment)

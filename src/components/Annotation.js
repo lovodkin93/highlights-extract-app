@@ -32,6 +32,7 @@ import { Link } from 'react-router-dom';
 import Overlay from 'react-bootstrap/Overlay'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
+import CloseButton from 'react-bootstrap/CloseButton'
 
 import Popover from 'react-bootstrap/Popover'
 import { Player, BigPlayButton } from 'video-react';
@@ -712,15 +713,19 @@ useEffect(() => {
 
         <Overlay target={docGuider.current} show={isGuidedAnnotation && g_Guider_msg["where"]==="doc" && g_Guider_msg["text"]!==""} placement="right">
           {(props) => (
-            <Tooltip {...props} id={`${(g_Guider_msg["type"]==="info")? "overlay-doc-info-guider":"overlay-doc-reveal-answer-guider"}`}>
-                <Markup content={g_Guider_msg["text"]} />
+            <Tooltip {...props} className="GuiderTooltip" id={`${(g_Guider_msg["type"]==="info")? "overlay-doc-info-guider":"overlay-doc-reveal-answer-guider"}`}>
+                <CloseButton  variant="white" className='GuidercloseButton' onClick={() => {g_setGuiderMsg({"type":"info", "where":"doc", "text":""})}} />
+                <br/>
+                <Markup content={g_Guider_msg["text"]} /> 
             </Tooltip>
           )}
         </Overlay>
 
         <Overlay target={summaryGuider.current} show={isGuidedAnnotation && g_Guider_msg["where"]==="summary" && g_Guider_msg["text"]!==""} placement="left">
           {(props) => (
-            <Tooltip {...props}  id={`${(g_Guider_msg["type"]==="info")? "overlay-summary-info-guider":"overlay-summary-reveal-answer-guider"}`}>
+            <Tooltip {...props} className="GuiderTooltip"  id={`${(g_Guider_msg["type"]==="info")? "overlay-summary-info-guider":"overlay-summary-reveal-answer-guider"}`}>
+                <CloseButton  variant="white" className='GuidercloseButton' onClick={() => {g_setGuiderMsg({"type":"info", "where":"summary", "text":""})}} />
+                <br/>
                 <Markup content={g_Guider_msg["text"]} />
             </Tooltip>
           )}
@@ -728,7 +733,9 @@ useEffect(() => {
 
         <Overlay target={nextButtonGuider.current} show={isGuidedAnnotation && g_Guider_msg["where"]==="next-button" && g_Guider_msg["text"]!=="" && !g_FinishedModalShow} placement="bottom">
           {(props) => (
-            <Tooltip {...props}  id={`${(StateMachineState==="START")? "overlay-start-button-guider":"overlay-next-button-guider"}`}>
+            <Tooltip {...props} className="GuiderTooltip"  id={`${(StateMachineState==="START")? "overlay-start-button-guider":"overlay-next-button-guider"}`}>
+                <CloseButton  variant="white" className='GuidercloseButton' onClick={() => {g_setGuiderMsg({"type":"info", "where":"", "text":""})}} />
+                <br/>
                 <Markup content={g_Guider_msg["text"]} />
             </Tooltip>
           )}
@@ -737,7 +744,8 @@ useEffect(() => {
         {StateMachineState === "REVISE CLICKED" && (
         <Overlay target={backButtonGuider.current} show={isGuidedAnnotation} placement="bottom">
           {(props) => (
-            <Tooltip {...props}  id="overlay-back-button-guider">
+            <Tooltip {...props} className="GuiderTooltip"  id="overlay-back-button-guider">
+                <br/>
                 If you regret your changes, press me to dicard them!
             </Tooltip>
           )}
@@ -747,7 +755,8 @@ useEffect(() => {
         {StateMachineState === "REVISE HOVER" && (
         <Overlay target={ExitReviseButtonGuider.current} show={isGuidedAnnotation} placement="bottom">
           {(props) => (
-            <Tooltip {...props}  id="overlay-finish-revision-button-guider">
+            <Tooltip {...props} className="GuiderTooltip"  id="overlay-finish-revision-button-guider">
+                <br/>
                 When you are satisfied with all your revisions, press me to exit the revision mode.
             </Tooltip>
           )}
