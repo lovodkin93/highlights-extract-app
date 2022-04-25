@@ -74,27 +74,27 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
 
   const margin_left = (curr_ttl) =>{
     if (title==="Guided Annotation" && curr_ttl=="Tutorial") {
-      return "6%"
+      return "3%"
     } else if (title==="Annotation" && curr_ttl==="Tutorial") {
-      return "-2%"
+      return "-5%"
     } else if (title==="Tutorial" && curr_ttl==="Tutorial") {
-      return "-6%"
+      return "-9%"
     } 
     
     else if (title==="Guided Annotation" && curr_ttl=="Guided Annotation") {
-      return "-2%"
-    } else if (title==="Annotation" && curr_ttl==="Guided Annotation") {
       return "-5%"
+    } else if (title==="Annotation" && curr_ttl==="Guided Annotation") {
+      return "-8%"
     } else if (title==="Tutorial" && curr_ttl==="Guided Annotation") {
-      return "-6%"
+      return "-9%"
     }     
     
     else if (title==="Guided Annotation" && curr_ttl=="Annotation") {
-      return "-4%"
+      return "-7%"
     } else if (title==="Annotation" && curr_ttl==="Annotation") {
-      return "-6%"
+      return "-9%"
     } else if (title==="Tutorial" && curr_ttl==="Annotation") {
-      return "-8%"
+      return "-11%"
     } 
   }
 
@@ -134,20 +134,10 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
               {/* </Nav>
             </Col> */}
           {/* </Row> */}
-            
-          <Col md={{span:1, offset:1}}>
-              <button type="button" className={`btn btn-info btn-lg right-button`} onClick={clearHighlightings}>
-                CLEAR 
-              </button>
-            </Col>
-
-
-
-
             { title !== "Instructions" && (
                   <Col md={{span:2, offset:2}}>
                     <BlackTextTypography  id="old-highlighting-slider-title">
-                        OLD ALIGNMENTS
+                        PREVIOUS ALIGNMENTS
                     </BlackTextTypography>
                     <StyledSliderHighlighting
                       className={`${(t_StateMachineStateId === 10) ? 'with-glow':''}`} 
@@ -167,8 +157,14 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
                   </Col>
             )}
 
+            <Col md={{span:1, offset:0}}>
+              <button type="button" className={`btn btn-warning btn-lg right-button`} onClick={clearHighlightings}>
+                CLEAR 
+              </button>
+            </Col>
 
-            { title !== "Instructions" && (
+
+            {/* { title !== "Instructions" && (
                 <Col style={{marginLeft:"3%"}} md={{span:2, offset:0}}>
                   <BlackTextTypography  id="bolding-slider-title">
                     BOLDING
@@ -189,7 +185,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
                     onChangeCommitted={boldStateHandler}
                   />
                 </Col>
-              )}
+              )} */}
         </Container>
       </Navbar>
 

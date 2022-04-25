@@ -51,6 +51,10 @@
     margin-right: -25%;
 }
 
+.bold-slider{
+  width: 20% !important;
+}
+
 .old-highlighting-slider-padding{
     margin-left: 55%;
     margin-right: 5%;
@@ -76,6 +80,25 @@
     float: left;
     margin-right: -4%;
 } */
+
+.DocCardHeader{
+  position:relative;
+}
+
+.DocCardHeader .bold-slider{
+  position:absolute;
+  right:2%;
+  top: 15%;
+}
+
+.DocCardHeader .bold-slider-title{
+  position:absolute;
+  right:9%;
+  top: -5%;
+}
+
+
+
 
 
 @media(max-width:2000px){

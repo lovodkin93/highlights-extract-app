@@ -18,6 +18,7 @@ import CardContent from '@mui/material/CardContent';
 // import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { borderColor } from '@mui/system';
+import { withStyles } from "@material-ui/core/styles";
 
 
 import Container from 'react-bootstrap/Container'
@@ -41,6 +42,7 @@ import { Player, BigPlayButton } from 'video-react';
 import { TutorialCard } from './TutorialCard';
 import { getTutorialCardTitle } from './Tutorial_utils'
 import { add_text_to_GuidedAnnotationInfoAlert, string_to_span, get_span_groups } from './GuidedAnnotation_utils'
+import { StyledSliderHighlighting, StyledSliderBolding } from './styled-sliders'
 // import Card from 'react-bootstrap/Card'
 // import { Container, Row, Col } from 'react-bootstrap';
 
@@ -385,6 +387,32 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   }
 
 
+  const BlackTextTypography = withStyles({
+    root: {
+      color: "black",
+      fontSize: "15pt",
+      fontWeight: "14"
+    }
+  })(Typography);
+
+
+  const BoldingSliderTags = (value) =>{
+    if (value===1) {
+      return "None";
+    } else {
+      return "Bold";
+    }
+  }
+
+  const BoldingSliderDefaultValue = () =>{
+    if (boldState === "none") {
+      return 1;
+    } else {
+      return 2;
+    }
+  }
+
+
 
   const outsideSummarySent = useRef(true)
   const RedHintSmoother = (event) => {
@@ -410,7 +438,6 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
     setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted:false}}))
     setDocJson(doc_json.map((word) => {return {...word, span_highlighted:false}}))
   }
-
 
 
   
@@ -571,7 +598,28 @@ useEffect(() => {
           <Row className={`annotation-row ${(DocOnMouseDownID!=="-1") ? 'cursor-grabbing':''}`} id={`${(InfoMessage === "" || isGuidedAnnotation) ? 'doc-summary-row': ''}`}>
             <Col md={ 8 }>
               <Card border="secondary" bg="light"  id="doc-text" ref={docGuider}>
-                  <Card.Header>Document</Card.Header>
+                  <Card.Header className="DocCardHeader">
+                    Document
+
+                      <BlackTextTypography className='bold-slider-title'>
+                        BOLD
+                      </BlackTextTypography>
+                      <StyledSliderBolding
+                        className={`bold-slider ${(t_StateMachineStateId === 8) ? 'with-glow':''}`}
+                        aria-label="Bolding-option"
+                        defaultValue={3}
+                        getAriaValueText={BoldingSliderTags}
+                        valueLabelFormat={BoldingSliderTags}
+                        valueLabelDisplay="auto"
+                        value={BoldingSliderDefaultValue()}
+                        color="error"
+                        step={1}
+                        marks
+                        min={1}
+                        max={2}
+                        onChangeCommitted={boldStateHandler}
+                      />
+                  </Card.Header>
                   <Card.Body>
                     {getDocText()}
                     {/* {doc_json.map((word_json, index) => (
