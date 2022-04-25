@@ -108,16 +108,16 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   const nextButtonText = () => {
     let btn_text = ""
     if(StateMachineState==="START"){btn_text = "START";}
-    else if(StateMachineState==="ANNOTATION"){btn_text = "CONFIRM";}
-    else if(StateMachineState==="SENTENCE START"){btn_text = "CONFIRM";}
+    else if(StateMachineState==="ANNOTATION"){btn_text = "ADD ALIGNMENT";}
+    else if(StateMachineState==="SENTENCE START"){btn_text = "ADD ALIGNMENT";}
     else if(StateMachineState==="SENTENCE END"){btn_text = "NEXT SENTENCE";}
     else if(StateMachineState==="SUMMARY END"){btn_text = "SUBMIT";}
-    else if(StateMachineState==="REVISE CLICKED"){btn_text = "CONFIRM";}
+    else if(StateMachineState==="REVISE CLICKED"){btn_text = "UPDATE ALIGNMENT";}
 
-    // add no align
-    if (StateMachineState!=="START" && !isDocSpanExist()) {
-      btn_text = btn_text + "<br/>(NO ALIGN)"
-    }
+    // // add no align
+    // if (StateMachineState!=="START" && !isDocSpanExist()) {
+    //   btn_text = btn_text + "<br/>(NO ALIGN)"
+    // }
     return btn_text
   }
 
@@ -406,6 +406,12 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   }
 
 
+  const clearHighlightings = () => {
+    setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted:false}}))
+    setDocJson(doc_json.map((word) => {return {...word, span_highlighted:false}}))
+  }
+
+
 
   
 
@@ -518,6 +524,8 @@ useEffect(() => {
                   oldAlignmentStateHandler={oldAlignmentStateHandler}
                   t_StateMachineStateId = {t_StateMachineStateId}
                   g_showWhereNavbar = {g_showWhereNavbar}
+                  clearHighlightings = {clearHighlightings}
+                  
             />
             {(InfoMessage !== "" && !isTutorial && !isGuidedAnnotation) && (InfoAlert(InfoMessage))}
             {(isTutorial) && (<TutorialCard t_StateMachineStateId = {t_StateMachineStateId} 
@@ -614,9 +622,9 @@ useEffect(() => {
 
                   {!["REVISE HOVER", "SUMMARY END", "SENTENCE END", "START"].includes(StateMachineState) && (
                       <Col md={{span:5, offset:3}}>
-                        <button ref={nextButtonGuider} type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && [5,11,14].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                        <button ref={nextButtonGuider} type="button" className={`btn btn-success btn-lg right-button ${((isTutorial && [5,11,14].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                         <Markup content={nextButtonText()} />
-                          {(isDocSpanExist()) && <ChevronRight className="button-icon"/>}
+                          {/* {(isDocSpanExist()) && <ChevronRight className="button-icon"/>} */}
                         </button>
                       </Col>
                   )}

@@ -26,7 +26,7 @@ import Col from 'react-bootstrap/Col'
 const pages = {"Tutorial": "tutorial", 'Guided Annotation': 'guidedAnnotation',  'Annotation': ''}; 
 
 
-const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler, oldAlignmentState, oldAlignmentStateHandler, t_StateMachineStateId, g_showWhereNavbar }) => {
+const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler, oldAlignmentState, oldAlignmentStateHandler, t_StateMachineStateId, g_showWhereNavbar, clearHighlightings }) => {
   const whereNavBar = useRef(null);
   const whereNavBarArr = {"Tutorial": undefined, 'Guided Annotation': whereNavBar,  'Annotation': undefined}; 
   
@@ -43,28 +43,22 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
   const BoldingSliderTags = (value) =>{
     if (value===1) {
       return "None";
-    } else if (value===2) {
-      return "Span";
     } else {
-      return "Sentence";
+      return "Bold";
     }
   }
 
   const BoldingSliderDefaultValue = () =>{
     if (boldState === "none") {
       return 1;
-    } else if (boldState === "span") {
-      return 2;
     } else {
-      return 3;
+      return 2;
     }
   }
 
   const OldHighlightingSliderTags = (value) =>{
     if (value===1) {
       return "None";
-    } else if (value===2) {
-      return "Sentence";
     } else {
       return "All";
     }
@@ -73,10 +67,8 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
   const OldHighlightingSliderDefaultValue = () =>{
     if (oldAlignmentState === "none") {
       return 1;
-    } else if (oldAlignmentState === "sent") {
-      return 2;
     } else {
-      return 3;
+      return 2;
     }
   }
 
@@ -142,6 +134,15 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
               {/* </Nav>
             </Col> */}
           {/* </Row> */}
+            
+          <Col md={{span:1, offset:1}}>
+              <button type="button" className={`btn btn-info btn-lg right-button`} onClick={clearHighlightings}>
+                CLEAR 
+              </button>
+            </Col>
+
+
+
 
             { title !== "Instructions" && (
                   <Col md={{span:2, offset:2}}>
@@ -160,8 +161,8 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
                       step={1}
                       marks
                       min={1}
-                      max={3}
-                      onChangeCommitted={(event, newValue) => oldAlignmentStateHandler({event:event, newValue:newValue, sent_ind:-1})}
+                      max={2}
+                      onChangeCommitted={(event, newValue) => {oldAlignmentStateHandler({event:event, newValue:newValue, sent_ind:-1})}}
                     />
                   </Col>
             )}
@@ -184,7 +185,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
                     step={1}
                     marks
                     min={1}
-                    max={3}
+                    max={2}
                     onChangeCommitted={boldStateHandler}
                   />
                 </Col>
@@ -203,113 +204,6 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
         )}
       </Overlay>
     </>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // <AppBar position="static" color="primary" width="100%">
-    //   <Container maxWidth="xl">
-    //     <Toolbar disableGutters>
-    //       <Typography
-    //         variant="h6"
-    //         noWrap
-    //         component="div"
-    //         sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-    //       >
-    //         {title}
-    //       </Typography>
-
-    //       <Typography
-    //         variant="h6"
-    //         noWrap
-    //         component="div"
-    //         sx={{ flexGrow: 1, display: {xs: 'flex', md: 'none' } }}
-    //       >
-    //         {title}
-    //       </Typography>
-    //       <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-    //         {Object.keys(pages).filter(key => key !== title).map((ttl) => (
-    //           <Button
-    //             key={ttl}
-    //             component={Link} to={`/${pages[ttl]}`}
-    //             sx={{ my: 2, color: 'white', display: 'block' }}
-    //           >
-    //             {ttl}
-    //           </Button>
-    //         ))}
-    //       </Box>
-          
-    //       {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && (
-    //         <Box sx={{ margin:'0 30px' }}>
-    //           <Button color="warning" variant="contained" onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>Revise</Button>
-    //         </Box>
-    //       )}
-
-    //       {StateMachineState === "REVISE HOVER" && (
-    //         <Box sx={{ margin:'0 30px' }}>
-    //           <Button color="success" variant="contained" onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>Finish Revision</Button>
-    //         </Box>
-    //       )}
-
-
-
-    //       { title !== "Instructions" && (
-    //         <Box sx={{ width: 190, alignItems: 'center', padding: '0 40px 0 0' }}>
-    //           <BlackTextTypography  id="old-highlighting-slider-title" color="secondary">
-    //               OLD ALIGNMENTS
-    //           </BlackTextTypography>
-    //           <StyledSliderHighlighting 
-    //             aria-label="Old-Highlighting-option"
-    //             defaultValue={3}
-    //             getAriaValueText={OldHighlightingSliderTags}
-    //             valueLabelFormat={OldHighlightingSliderTags}
-    //             valueLabelDisplay="auto"
-    //             value={OldHighlightingSliderDefaultValue()}
-    //             color="info"
-    //             step={1}
-    //             marks
-    //             min={1}
-    //             max={3}
-    //             onChangeCommitted={(event, newValue) => oldAlignmentStateHandler({event:event, newValue:newValue, sent_ind:-1})}
-    //           />
-    //         </Box>
-    //       )}
-
-    //       { title !== "Instructions" && (
-    //         <Box sx={{ width: 190, alignItems: 'center' }}>
-    //           <BlackTextTypography  id="bolding-slider-title" color="secondary">
-    //             BOLDING
-    //           </BlackTextTypography>
-    //           <StyledSliderBolding
-    //             aria-label="Bolding-option"
-    //             defaultValue={3}
-    //             getAriaValueText={BoldingSliderTags}
-    //             valueLabelFormat={BoldingSliderTags}
-    //             valueLabelDisplay="auto"
-    //             value={BoldingSliderDefaultValue()}
-    //             color="error"
-    //             step={1}
-    //             marks
-    //             min={1}
-    //             max={3}
-    //             onChangeCommitted={boldStateHandler}
-    //           />
-    //         </Box>
-    //       )}
-    //     </Toolbar>
-    //   </Container>
-    // </AppBar>
   );
 };
 export default ResponsiveAppBar;

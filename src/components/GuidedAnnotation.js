@@ -373,12 +373,6 @@ const GuidedAnnotation = ({isPunct,
       if (newValue=='1'){
         setBoldState("none");
         SetDocBoldface([]);
-      } else if (newValue=='2'){
-        setBoldState("span");
-        const summary_ids = summary_json.filter((word) => {return word.span_highlighted}).map((word) => {return word.tkn_id});
-        const isSpan = true;
-        const tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id:doc_id, summary_ids:summary_ids, isHover:false})});
-        SetDocBoldface(tkn_ids);
       } else {
         setBoldState("sent");
         const isSpan = false;
@@ -411,13 +405,6 @@ const GuidedAnnotation = ({isPunct,
         setOldAlignmentState("none");
         SetDocOldHighlights([]);
         SetSummaryOldHighlights([]);
-      } else if (newValue=='2'){
-        setOldAlignmentState("sent");
-        sent_ind = (sent_ind===-1) ? CurrSentInd : sent_ind
-        const doc_ids = FindDocAlignmentPerSent(sent_ind)
-        const summary_ids = summary_json.filter((word) => {return (word.all_highlighted && word.sent_id === sent_ind)}).map((word) => {return word.tkn_id});
-        SetDocOldHighlights(doc_ids);
-        SetSummaryOldHighlights(summary_ids);
       } else {
         setOldAlignmentState("all");
         const doc_ids = doc_json.filter((word) => {return word.all_highlighted}).map((word) => {return word.tkn_id});
@@ -910,11 +897,11 @@ const GuidedAnnotation = ({isPunct,
    const prevState = useRef("")
    useEffect(() => {
      if (["ANNOTATION", "SENTENCE END", "SUMMARY END"].includes(StateMachineState)) {
-       oldAlignmentStateHandler({event:undefined, newValue:'3', sent_ind:-1});
+       oldAlignmentStateHandler({event:undefined, newValue:'2', sent_ind:-1});
      } else if (StateMachineState === "REVISE CLICKED"){
        oldAlignmentStateHandler({event:undefined, newValue:'1', sent_ind:-1});
      } else if (StateMachineState === "REVISE HOVER"){
-       oldAlignmentStateHandler({event:undefined, newValue:'3', sent_ind:-1});
+       oldAlignmentStateHandler({event:undefined, newValue:'2', sent_ind:-1});
      }
      prevState.current = StateMachineState;
    }, [StateMachineState, AlignmentCount]);
