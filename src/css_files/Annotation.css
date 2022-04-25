@@ -179,7 +179,6 @@
 
 .span-aligned-hover-word{
     background-color: orange; 
-    cursor:text;
 }
 
 
@@ -230,7 +229,16 @@
     cursor:pointer !important;
 }
 
-.cursor-span-doc
+.cursor-grab{
+  cursor: grab !important;
+}
+
+.cursor-grabbing{
+  cursor: grabbing !important;
+}
+
+
+/* .cursor-span-doc
 {
     cursor:text;
 }
@@ -238,7 +246,7 @@
 .cursor-span-summary
 {
     cursor:text;
-}
+} */
 
 .btn {
     margin: 5px 0;

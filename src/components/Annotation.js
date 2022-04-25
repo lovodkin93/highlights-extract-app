@@ -289,7 +289,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   const getDocText = () => {
     if ((!isTutorial || t_StateMachineStateId !== 7) && (!isGuidedAnnotation || g_answer_words_to_glow["type"]!=="doc_span")){
       return doc_json.map((word_json, index) => (
-                <DocWord key={index} word_json={word_json} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
+                <DocWord key={index} word_json={word_json} DocOnMouseDownID={DocOnMouseDownID} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
               ))
     } else if(isTutorial) {
         const start_1 = 0;
@@ -305,7 +305,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
         return span_groups.map((summary_words, index) => 
                   <div className={`${([0,2].includes(index)) ?  'with-glow': ''}`}>
                       {summary_words.map((word_json, index) => (
-                          <DocWord key={index} word_json={word_json} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
+                          <DocWord key={index} word_json={word_json} DocOnMouseDownID={DocOnMouseDownID} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
                         ))}
                   </div>
                 )
@@ -315,7 +315,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
       return doc_words_groups.map((doc_words, index) => 
       <div className={`${([1,3,5,7,9,11,13,15].includes(index)) ?  'with-glow': ''}`}>
           {doc_words.map((word_json, index) => (
-              <DocWord key={index} word_json={word_json} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
+              <DocWord key={index} word_json={word_json} DocOnMouseDownID={DocOnMouseDownID} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
             ))}
       </div>
     )
@@ -337,10 +337,10 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
       const max_sent_id = summary_json.map((word) =>{return word.sent_id}).reduce(function(a, b) {return Math.max(a, b)}, -Infinity);
       const summary_per_sent_id = [...Array(max_sent_id+1).keys()].map((sent_id) => {return summary_json.filter((word) => {return word.sent_id===sent_id})})
       return summary_per_sent_id.map((summary_words, index) => 
-                                                        <div>
+                                                        <div className={` ${(index===CurrSentInd && SummaryOnMouseDownID!=="-1" && StateMachineState!=="REVISE HOVER") ? 'cursor-grabbing':''}`}>
                                                           <p  className={`${(index===CurrSentInd) ?  'bordered_sent': ''} ${(isTutorial && t_StateMachineStateId===4 && index===CurrSentInd) ? 'with-glow' : ''}`}>
                                                             {summary_words.map((word_json, index) => (
-                                                              <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
+                                                              <SummaryWord key={index} word_json={word_json} SummaryOnMouseDownID={SummaryOnMouseDownID} StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} CurrSentInd={CurrSentInd}/> 
                                                               ))}
                                                           </p>
                                                           <span className="br-class"></span>
@@ -352,20 +352,20 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
       const max_sent_id = summary_json.map((word) =>{return word.sent_id}).reduce(function(a, b) {return Math.max(a, b)}, -Infinity);
       const summary_per_sent_id = [...Array(max_sent_id+1).keys()].map((sent_id) => {return summary_json.filter((word) => {return word.sent_id===sent_id})})
       return summary_per_sent_id.map((summary_words, index) => 
-                                                        <div>
+                                                        <div className={` ${(index===CurrSentInd && SummaryOnMouseDownID!=="-1" && StateMachineState!=="REVISE HOVER") ? 'cursor-grabbing':''}`}>
                                                           <p  className={`${(index===CurrSentInd) ?  'bordered_sent': ''}`}>
                                                             {(index===CurrSentInd) && (
                                                               get_span_groups(g_answer_words_to_glow, summary_words, true).map((words, index) => 
                                                                 <div className={`${([1,3,5,7,9,11,13,15].includes(index)) ?  'with-glow': ''}`}>
                                                                     {words.map((word_json, index) => (
-                                                                      <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
+                                                                      <SummaryWord key={index} word_json={word_json} SummaryOnMouseDownID={SummaryOnMouseDownID}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} CurrSentInd={CurrSentInd}/> 
                                                                     ))}
                                                                 </div>
                                                               )
                                                             )}
 
                                                             {(index!==CurrSentInd) && (summary_words.map((word_json, index) => (
-                                                              <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
+                                                              <SummaryWord key={index} word_json={word_json} SummaryOnMouseDownID={SummaryOnMouseDownID} StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} CurrSentInd={CurrSentInd}/> 
                                                               )))}
                                                           </p>
                                                           <span className="br-class"></span>
@@ -560,14 +560,14 @@ useEffect(() => {
         )} */}
 
         {(!isTutorial || [4,6,7].includes(t_StateMachineStateId)) && (
-          <Row className='annotation-row' id={`${(InfoMessage === "" || isGuidedAnnotation) ? 'doc-summary-row': ''}`}>
+          <Row className={`annotation-row ${(DocOnMouseDownID!=="-1") ? 'cursor-grabbing':''}`} id={`${(InfoMessage === "" || isGuidedAnnotation) ? 'doc-summary-row': ''}`}>
             <Col md={ 8 }>
               <Card border="secondary" bg="light"  id="doc-text" ref={docGuider}>
                   <Card.Header>Document</Card.Header>
                   <Card.Body>
                     {getDocText()}
                     {/* {doc_json.map((word_json, index) => (
-                        <DocWord key={index} word_json={word_json} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
+                        <DocWord key={index} word_json={word_json} DocOnMouseDownID={DocOnMouseDownID} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
                       ))}; */}
                   </Card.Body>
                 </Card>
@@ -582,7 +582,7 @@ useEffect(() => {
                     <Card.Body>
                       {getSummaryText()}
                       {/* {summary_json.map((word_json, index) => (
-                        <SummaryWord key={index} word_json={word_json}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/> 
+                        <SummaryWord key={index} word_json={word_json} SummaryOnMouseDownID={SummaryOnMouseDownID} StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} CurrSentInd={CurrSentInd}/> 
                       ))}; */}
                     </Card.Body>
                   </Card>
@@ -621,13 +621,13 @@ useEffect(() => {
                       </Col>
                   )}
 
-                  {StateMachineState === "START"  && (
+                  {/* {StateMachineState === "START"  && (
                         <Col md={{span:3, offset:9}}>
                           <button ref={nextButtonGuider} type="button" className={`btn btn-primary btn-lg right-button ${(isGuidedAnnotation || isTutorial) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                           <Markup content={nextButtonText()} />
                           </button>
                         </Col>
-                    )}
+                    )} */}
 
                   {StateMachineState === "SENTENCE END"  && (
                         <Col md={{span:7, offset:1}}>
@@ -709,6 +709,23 @@ useEffect(() => {
                     </Button>
                   </Modal.Footer>
         </Modal>
+
+
+        <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={StateMachineState === "START" && !OpeningModalShow && !isTutorial}>
+                  <Modal.Body>
+                    Before starting to work, please go over the summary and skim the document.
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="btn btn-success btn-lg right-button" onClick={MachineStateHandlerWrapper}>
+                      GOT IT
+                    </Button>
+                    
+                  </Modal.Footer>
+        </Modal>
+
+
+
+
 
 
         <Overlay target={docGuider.current} show={isGuidedAnnotation && g_Guider_msg["where"]==="doc" && g_Guider_msg["text"]!==""} placement="right">

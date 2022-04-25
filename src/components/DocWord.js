@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography';
 
-const DocWord = ({ word_json, doc_paragraph_breaks, StateMachineState, DocMouseClickHandlerWrapper, hoverHandlerWrapper, DocOnMouseDownHandler, DocOnMouseUpHandler, setDocOnMouseDownActivated, docOnMouseDownActivated, setHoverActivatedId, ctrlButtonDown, setHoverActivatedDocOrSummary }) => {
+const DocWord = ({ word_json, DocOnMouseDownID, doc_paragraph_breaks, StateMachineState, DocMouseClickHandlerWrapper, hoverHandlerWrapper, DocOnMouseDownHandler, DocOnMouseUpHandler, setDocOnMouseDownActivated, docOnMouseDownActivated, setHoverActivatedId, ctrlButtonDown, setHoverActivatedDocOrSummary }) => {
     // const XOR = (a,b) => {
     //   return ( ( a && !b ) || ( !a && b ) )
     // }
@@ -64,7 +64,7 @@ const DocWord = ({ word_json, doc_paragraph_breaks, StateMachineState, DocMouseC
                         ${(word_json.boldfaced) ? 'boldfaced-word': ''}
                         ${(!word_json.boldfaced && !word_json.red_color) ? 'text-muted': ''}
                         ${(word_json.old_alignment_hover && StateMachineState==="REVISE HOVER") ? 'old-aligned-hover-word': ''}
-                        ${(StateMachineState !== "REVISE HOVER") ? 'cursor-span-doc' : ''}
+                        ${(StateMachineState !== "REVISE HOVER" && DocOnMouseDownID==="-1") ? 'cursor-grab' : ''}
                         ${(word_json.old_alignments && StateMachineState==="REVISE HOVER") ? 'cursor-pointer': ''}
                         `}
             
