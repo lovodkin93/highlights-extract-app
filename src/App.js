@@ -40,6 +40,8 @@ import AWS from 'aws-sdk';
 
 const App = () => {
 
+  const SUMMARY_WORD_CNT_THR = 0.85 // if proceeding to next sentence with ratio of highlighted summary words (out of all the sentence) is less or equals to threshold - then a warning apppears. Otherwise, good alert appears.
+
   // AVIVSL: TUTORIAL_ANNOTATION
   const [t_doc_json, t_setDocJson] = useState([]);
   const [t_summary_json, t_setSummaryJson] = useState([]); 
@@ -153,6 +155,7 @@ const App = () => {
   const [noAlignModalShow, setNoAlignModalShow] = useState(false)
   const [noAlignApproved, setNoAlignApproved] = useState(false)
 
+  const [showAlert, setShowAlert] = useState("closed") // one of {"success", "warning", "closed"}
 
   //mturk
   const [assignmentId, SetAssignmentId] = useState("")
@@ -486,7 +489,27 @@ const App = () => {
     } else if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)) {
       return true
     }
+  }
 
+  // add an equivalent one for the Guided Annotation and the Tutorial
+  const changeSummarySentHandler = ({isNext}) => {
+    if (isNext){
+      SetCurrSentInd(CurrSentInd+1)
+      const summary_currSent_old_highlighted_tkn_cnt = summary_json.filter((word) => {return (!isPunct(word.word) && word.sent_id===CurrSentInd && word.old_alignments)}).length // number of words in curr sentence (the one we change from) that was saved as part of an alignment
+      const summary_currSent_tkn_cnt = summary_json.filter((word) => {return (!isPunct(word.word) && word.sent_id===CurrSentInd)}).length // all (non-punctuation) words in curr sentence (the one we change from)
+
+      if(summary_currSent_old_highlighted_tkn_cnt / summary_currSent_tkn_cnt > SUMMARY_WORD_CNT_THR) {
+        setShowAlert("success")
+        console.log("good!")
+      } else {
+        setShowAlert("warning")
+        console.log("bad!")
+      }
+    
+    } else {
+      SetCurrSentInd(CurrSentInd-1)
+    }
+    setDocJson(doc_json.map((word) => {return {...word, span_highlighted:false}}))
   }
 
 
@@ -968,6 +991,8 @@ const App = () => {
                                               OpeningModalShow = {OpeningModalShow}                       setOpeningModalShow = {setOpeningModalShow}
                                               noAlignModalShow = {noAlignModalShow}                       setNoAlignModalShow = {setNoAlignModalShow}
                                               noAlignApproved = {noAlignApproved}                         setNoAlignApproved = {setNoAlignApproved}
+                                              changeSummarySentHandler = {changeSummarySentHandler}
+                                              showAlert={showAlert}                                       setShowAlert={setShowAlert}
                                               />} 
             />
 

@@ -7,6 +7,10 @@ import * as React from 'react';
 import { ArrowBackIosTwoTone, ArrowForwardIosTwoTone } from '@mui/icons-material';
 import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
+import Badge from 'react-bootstrap/Badge';
+import { CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+
+
 
 import Fab from '@mui/material/Fab';
 // import Card from '@mui/material/Card';
@@ -25,7 +29,8 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Alert from 'react-bootstrap/Alert'
-import { ChevronLeft, ChevronRight, SendFill } from 'react-bootstrap-icons';
+import { ChevronLeft, ChevronRight, SendFill,  } from 'react-bootstrap-icons';
+import { AiOutlineCheckCircle, AiOutlineExclamationCircle } from "react-icons/ai";
 import { Markup } from 'interweave';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
@@ -84,7 +89,11 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
 
                     OpeningModalShow, setOpeningModalShow,
                     noAlignModalShow, setNoAlignModalShow,
-                    noAlignApproved, setNoAlignApproved
+                    noAlignApproved, setNoAlignApproved,
+
+
+                    changeSummarySentHandler,
+                    showAlert, setShowAlert
                   }) => {
 
 
@@ -114,7 +123,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
     else if(StateMachineState==="SENTENCE START"){btn_text = "ADD ALIGNMENT";}
     else if(StateMachineState==="SENTENCE END"){btn_text = "NEXT SENTENCE";}
     else if(StateMachineState==="SUMMARY END"){btn_text = "SUBMIT";}
-    else if(StateMachineState==="REVISE CLICKED"){btn_text = "UPDATE ALIGNMENT";}
+    else if(StateMachineState==="REVISE CLICKED"){btn_text = "UPDATE";}
 
     // // add no align
     // if (StateMachineState!=="START" && !isDocSpanExist()) {
@@ -440,6 +449,10 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   }
 
 
+
+
+
+
   
 
 /************ TO MAKE SURE THAT WHEN DOC TOO LONG THE SUMMARY IS ALWAYS VISIBLE ****************************** */
@@ -451,6 +464,11 @@ const callbackFunction = (entries) => {
   const [ entry ] = entries
   prevIsVisibleFullySummary.current = isVisibleFullySummary;
   setIsVisibleFullySummary(entry.isIntersecting)
+}
+
+
+const isLastSent = () => {
+  return (Math.max.apply(Math, summary_json.map(word => { return word.sent_id; })) === CurrSentInd)
 }
 
 const options = {
@@ -492,6 +510,9 @@ useEffect(() => {
     SetSummaryMouseDownStartID("-1");
     SetSummaryMouseclicked(false);
   }, [StateMachineState]);
+
+
+
   
 
 
@@ -528,6 +549,11 @@ useEffect(() => {
     //   setOpeningModalShow(false)
     // }, [])
 
+    useEffect(() => {
+      if(showAlert!=="closed") {
+        window.setTimeout(()=>{setShowAlert("closed");},1500)
+      }
+    }, [showAlert])
 
   
 
@@ -633,7 +659,7 @@ useEffect(() => {
               <div id={`${(isVisibleFullySummary) ?  '': 'fixed-summary-and-buttons'}`}>
               <Row>
                 <Col>
-                  <Card border="secondary" bg="light" id="summary-text" ref={summaryGuider}>
+                  <Card className="summaryCard" border="secondary" bg="light" id="summary-text" ref={summaryGuider}>
                     <Card.Header>Summary</Card.Header>
                     <Card.Body>
                       {getSummaryText()}
@@ -641,6 +667,29 @@ useEffect(() => {
                         <SummaryWord key={index} word_json={word_json} SummaryOnMouseDownID={SummaryOnMouseDownID} StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} CurrSentInd={CurrSentInd}/> 
                       ))}; */}
                     </Card.Body>
+                    
+                    
+                    {/* <Badge className={`${(showAlert!=="warning") ? 'summaryCardAlertSuccess':''} ${(showAlert!=="success") ? 'summaryCardAlertWarning':''} ${(showAlert==="closed") ? 'fadeout': ''}`}> 
+                      {(showAlert==="success") && (<AiOutlineCheckCircle/>)}
+                      {(showAlert==="warning") && (<AiOutlineExclamationCircle/>)}
+                      {`${(showAlert!=="success")} ""warning":""`}
+                    </Badge> */}
+                    
+                    {(["warning", "closed"].includes(showAlert)) && (
+                      <Badge className={`summaryCardAlertWarning ${(showAlert==="closed") ? 'fadeout': ''}`}> 
+                      <AiOutlineExclamationCircle className='alert-icon'/>
+                        Careful!
+                      </Badge>
+                    )}
+
+
+                    {(["success", "closed"].includes(showAlert)) && (
+                      <Badge className={`summaryCardAlertSuccess ${(showAlert==="closed") ? 'fadeout': ''}`}> 
+                      <AiOutlineCheckCircle className='alert-icon'/>
+                        Great!
+                      </Badge>
+                    )}
+                  
                   </Card>
                 </Col>
               </Row>
@@ -649,28 +698,28 @@ useEffect(() => {
                 <Row className="justify-content-md-center">
                     {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && (
                       <Col>
-                        <button type="button" className={`btn btn-dark btn-lg ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>REVISE</button>
+                        <button type="button" className={`btn btn-danger btn-md ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>REVISE</button>
                       </Col>
                     )}
 
                     {StateMachineState === "REVISE HOVER" && (
                       <Col>
-                        <button ref={ExitReviseButtonGuider} type="button" className={`btn btn-success btn-lg ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>EXIT REVISION</button>
+                        <button ref={ExitReviseButtonGuider} type="button" className={`btn btn-info btn-md ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>EXIT REVISION</button>
                       </Col>
                     )}
 
                   {StateMachineState === "REVISE CLICKED" && (
                       <Col md={{span:4, offset:0}}>
-                        <button ref={backButtonGuider} type="button" className={`btn btn-secondary btn-lg ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
+                        <button ref={backButtonGuider} type="button" className={`btn btn-secondary btn-md ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
                         <ChevronLeft className="button-icon"/>
                         BACK
                         </button>
                       </Col>
                     )}
 
-                  {!["REVISE HOVER", "SUMMARY END", "SENTENCE END", "START"].includes(StateMachineState) && (
+                  {!["REVISE HOVER", "SUMMARY END", "START"].includes(StateMachineState) && (
                       <Col md={{span:5, offset:3}}>
-                        <button ref={nextButtonGuider} type="button" className={`btn btn-success btn-lg right-button ${((isTutorial && [5,11,14].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                        <button ref={nextButtonGuider} type="button" className={`btn btn-success btn-md right-button ${((isTutorial && [5,11,14].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                         <Markup content={nextButtonText()} />
                           {/* {(isDocSpanExist()) && <ChevronRight className="button-icon"/>} */}
                         </button>
@@ -685,23 +734,56 @@ useEffect(() => {
                         </Col>
                     )} */}
 
-                  {StateMachineState === "SENTENCE END"  && (
+                  {/* {StateMachineState === "SENTENCE END"  && (
                         <Col md={{span:7, offset:1}}>
-                          <button ref={nextButtonGuider} type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && t_StateMachineStateId===12) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                          <button ref={nextButtonGuider} type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-md right-button ${((isTutorial && t_StateMachineStateId===12) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                             <Markup content={nextButtonText()} /> 
                             {(StateMachineState !== "START" && isDocSpanExist()) && (<ChevronRight className="button-icon"/>) }
                           </button>
                         </Col>
-                    )}
+                    )} */}
 
                   {StateMachineState === "SUMMARY END" && (
                     <Col md={{span:5, offset:3}}>
-                      <button ref={nextButtonGuider} type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-lg right-button ${((isTutorial && t_StateMachineStateId===13) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
+                      <button ref={nextButtonGuider} type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-md right-button ${((isTutorial && t_StateMachineStateId===13) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
                         <Markup content={nextButtonText()} />
                         {(StateMachineState !== "START" && isDocSpanExist()) && (<SendFill className="button-icon"/>) }
                       </button>
                     </Col>
                   )}
+                </Row>
+              )}
+
+              {((!isTutorial) && (!["REVISE HOVER", "REVISE CLICKED", "START"].includes(StateMachineState))) && (
+                <Row className="justify-content-md-center">
+                      {(CurrSentInd!==0) && (
+                        <Col md={{span:5, offset:0}}>
+                          <button type="button" className={`btn btn-dark btn-md`} onClick={() => changeSummarySentHandler({isNext:false})}>
+                            <ChevronLeft className="button-icon"/>
+                            PREV SENT
+                          </button>
+                        </Col>
+                      )}
+
+                {(CurrSentInd===0) && (
+                  <Col md={{span:5, offset:0}}>
+                  </Col>
+                )}
+                
+                {((!isTutorial) && (!isLastSent())) && (
+                        <Col md={{span:5, offset:2}}>
+                          <button type="button" className={`btn btn-dark btn-md right-button`} onClick={() => changeSummarySentHandler({isNext:true})}>
+                            NEXT SENT
+                            <ChevronRight className="button-icon"/>
+                          </button>
+                        </Col>
+                  )}
+
+                  {(isLastSent()) && (
+                        <Col md={{span:5, offset:2}}>
+                        </Col>
+                  )}
+                      
                 </Row>
               )}
               </div>
