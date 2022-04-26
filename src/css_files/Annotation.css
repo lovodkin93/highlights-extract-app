@@ -97,6 +97,16 @@
   top: 10%;
 }
 
+.DocCardHeader .bold-checker{
+  position:absolute;
+  right:10%;
+  top: 25%;
+}
+
+.bold-checker .MuiTypography-root{
+  line-height:0.1 !important;
+}
+
 
 
 
@@ -551,6 +561,27 @@
     opacity: 1;
   }
 
+
+
+
+
+#overlay-next-sent-guider {
+  margin: 0% 0%;
+}
+
+#overlay-next-sent-guider .tooltip-arrow::before{
+border-bottom-color:lightsalmon !important;
+}
+#overlay-next-sent-guider .tooltip-inner{
+  background-color: lightsalmon !important;
+  color:black;
+  text-align: left;
+  font-size:large;
+}
+
+#overlay-next-sent-guider.show{
+  opacity: 1;
+}
 
 
 

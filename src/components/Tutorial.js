@@ -211,7 +211,7 @@ const Tutorial = ({doc_json, setDocJson,
     if (event !== undefined){
       setSliderBoldStateActivated(true)
     }
-    if (newValue=='1'){
+    if (!newValue){
       setBoldState("none");
       SetDocBoldface([]);
     } else {
@@ -400,12 +400,11 @@ const Tutorial = ({doc_json, setDocJson,
   useEffect(() => {
     // when choosing a span - if nothing is span_highlighted then all sent matches are in bold, otherwise only span_highlighted matches (when highlighting - something must be span-highlighted so automatically is '2')
     if (["ANNOTATION", "SENTENCE END", "SUMMARY END"].includes(StateMachineState) && !sliderBoldStateActivated) {
-      const bold_state = '2'; // if no span is current highlighted - bold everything, otherwise bold only currently highlighted span
-      boldStateHandler(undefined, bold_state);
+      boldStateHandler(undefined, true);
     } else if (["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState) && !sliderBoldStateActivated) {
-      boldStateHandler(undefined, '1');
+      boldStateHandler(undefined, false);
     }
-  }, [StateMachineState, summary_json]);
+  }, [StateMachineState, CurrSentInd, AlignmentCount, summary_json]);
   /********************************************************************************/
 
 

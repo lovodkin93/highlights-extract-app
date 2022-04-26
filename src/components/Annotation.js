@@ -4,11 +4,13 @@ import SummaryWord from './SummaryWord';
 import ResponsiveAppBar from './ResponsiveAppBar';
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
-import { ArrowBackIosTwoTone, ArrowForwardIosTwoTone } from '@mui/icons-material';
+import { ArrowBackIosTwoTone, ArrowForwardIosTwoTone, Work } from '@mui/icons-material';
 import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
 import Badge from 'react-bootstrap/Badge';
 import { CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 
 
@@ -110,7 +112,10 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
 
   const docGuider = useRef(null);
   const summaryGuider = useRef(null);
-  const nextButtonGuider = useRef(null);     
+  const nextButtonGuider = useRef(null);  
+  const nextSentButtonGuider = useRef(null);     
+  const submitButtonGuider = useRef(null);     
+
   const backButtonGuider = useRef(null);              
   const ExitReviseButtonGuider = useRef(null)
 
@@ -446,6 +451,14 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
     }
   }
 
+  const allSummarySentIsHighlighted = () => {
+    return summary_json.filter((word) => {return (word.sent_id === CurrSentInd && !isPunct(word.word) && !word.old_alignments && !["while", "from", "countries", "like", "Brazil"].includes(word.word))}).length === 0
+  }
+
+  const allSummaryIsHighlighted = () => {
+    return summary_json.filter((word) => {return (!isPunct(word.word) && !word.old_alignments && !["while", "from", "countries", "like", "Brazil"].includes(word.word))}).length === 0
+  }
+
 
 
 
@@ -595,13 +608,13 @@ useEffect(() => {
                                             SetCurrSentInd = {SetCurrSentInd}
                                             MachineStateHandlerWrapper = {MachineStateHandlerWrapper} />)}
             {(isGuidedAnnotation && ["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState)) && (GuidedAnnotationInfoAlert())}
-            {(isGuidedAnnotation && !["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState) && g_show_hint && g_hint_msg!==undefined && g_hint_msg["Text"]!=="") &&
+            {/* {(isGuidedAnnotation && !["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState) && g_show_hint && g_hint_msg!==undefined && g_hint_msg["Text"]!=="") &&
                     <OverlayTrigger className={`${(g_with_glow_hint)? 'with-glow':''}`} show={g_open_hint} placement="right" overlay={GuidedAnnotationHint}>
                       <Button className="guidedAnnotationHintButton2" active variant="btn btn-primary btn-lg" onClick={() => {g_setOpenHint(!g_open_hint); g_setWithGlowHint(false)}}>
                           HINT
                       </Button>
                     </OverlayTrigger>
-          }
+          } */}
 
 
 
@@ -626,7 +639,11 @@ useEffect(() => {
                     <button type="button" className={`btn btn-warning btn-sm right-button`} onClick={() => {setDocJson(doc_json.map((word) => {return {...word, span_highlighted:false}}))}}>
                       CLEAR 
                     </button>
-                      <BlackTextTypography className='bold-slider-title'>
+
+                    <FormControlLabel className='bold-checker' control={<Checkbox defaultChecked />} label="Bold" labelPlacement="top" onChange={boldStateHandler}/>
+
+
+                      {/* <BlackTextTypography className='bold-slider-title'>
                         BOLD
                       </BlackTextTypography>
                       <StyledSliderBolding
@@ -643,7 +660,7 @@ useEffect(() => {
                         min={1}
                         max={2}
                         onChangeCommitted={boldStateHandler}
-                      />
+                      /> */}
                   </Card.Header>
                   <Card.Body>
                     {getDocText()}
@@ -778,7 +795,7 @@ useEffect(() => {
                 
                 {((!isTutorial) && (!isLastSent())) && (
                         <Col md={{span:5, offset:2}}>
-                          <button type="button" className={`btn btn-dark btn-md right-button`} onClick={() => changeSummarySentHandler({isNext:true})}>
+                          <button type="button" ref={nextSentButtonGuider} className={`btn btn-dark btn-md right-button ${(isGuidedAnnotation && allSummarySentIsHighlighted()) ? 'with-glow':''}`} onClick={() => changeSummarySentHandler({isNext:true})}>
                             NEXT SENT
                             <ChevronRight className="button-icon"/>
                           </button>
@@ -787,7 +804,7 @@ useEffect(() => {
 
                   {(!isTutorial && isLastSent()) && (
                         <Col md={{span:5, offset:2}}>
-                          <button ref={nextButtonGuider} type="button" className={`btn btn-success btn-md right-button ${((isTutorial && t_StateMachineStateId===13) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={() => {setSubmitModalShow(true)}}>
+                          <button type="button" ref={submitButtonGuider} className={`btn btn-success btn-md right-button ${(isGuidedAnnotation && allSummaryIsHighlighted()) ? 'with-glow':''}`} onClick={() => {setSubmitModalShow(true)}}>
                             SUBMIT
                             <SendFill className="button-icon"/>
                           </button>
@@ -843,23 +860,15 @@ useEffect(() => {
 
         <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={noAlignModalShow} onHide={() => {setNoAlignModalShow(false)}}>
                   <Modal.Header closeButton>
-                    <Modal.Title>Are You Sure?</Modal.Title>
+                    <Modal.Title>No Highlights in the document</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    Are you sure this summary span is un-aligned?
+                    You didn't highlight anything in the document.
                   </Modal.Body>
-                  <Modal.Footer>
-                    <Button variant="btn btn-danger btn-lg right-button" onClick={() => {setNoAlignModalShow(false)}}>
-                      NO
-                    </Button>
-                    <Button variant="btn btn-success btn-lg right-button" onClick={() => {setNoAlignApproved(true)}}>
-                        YES
-                    </Button>
-                  </Modal.Footer>
         </Modal>
 
 
-        <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={StateMachineState === "START" && !OpeningModalShow && !isTutorial}>
+        <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={StateMachineState === "START" && !g_FinishedModalShow && !OpeningModalShow && !isTutorial}>
                   <Modal.Body>
                     Before starting to work, please go over the summary and skim the document.
                   </Modal.Body>
@@ -882,7 +891,7 @@ useEffect(() => {
                     <Button variant="btn btn-danger btn-lg right-button" onClick={() => {setSubmitModalShow(false)}}>
                       NO
                     </Button>
-                    <Button variant="btn btn-success btn-lg right-button" onClick={SubmitHandler}>
+                    <Button variant="btn btn-success btn-lg right-button" onClick={() => {setSubmitModalShow(false); SubmitHandler()}}>
                         YES
                     </Button>
                   </Modal.Footer>
@@ -893,7 +902,7 @@ useEffect(() => {
 
 
 
-        <Overlay target={docGuider.current} show={isGuidedAnnotation && g_answer_modal_msg==="" && g_Guider_msg["where"]==="doc" && g_Guider_msg["text"]!==""} placement="right">
+        <Overlay target={docGuider.current} show={isGuidedAnnotation && !allSummarySentIsHighlighted() && !allSummaryIsHighlighted() && g_answer_modal_msg==="" && g_Guider_msg["where"]==="doc" && g_Guider_msg["text"]!==""} placement="right">
           {(props) => (
             <Tooltip {...props} className="GuiderTooltip" id={`${(g_Guider_msg["type"]==="info")? "overlay-doc-info-guider":"overlay-doc-reveal-answer-guider"}`}>
                 <CloseButton  variant="white" className='GuidercloseButton' onClick={() => {g_setGuiderMsg({"type":"info", "where":"doc", "text":""})}} />
@@ -903,7 +912,7 @@ useEffect(() => {
           )}
         </Overlay>
 
-        <Overlay target={summaryGuider.current} show={isGuidedAnnotation && g_answer_modal_msg==="" && g_Guider_msg["where"]==="summary" && g_Guider_msg["text"]!==""} placement="left">
+        <Overlay target={summaryGuider.current} show={isGuidedAnnotation && !allSummarySentIsHighlighted() && !allSummaryIsHighlighted() && !g_FinishedModalShow && g_answer_modal_msg==="" && g_Guider_msg["where"]==="summary" && g_Guider_msg["text"]!==""} placement="left">
           {(props) => (
             <Tooltip {...props} className="GuiderTooltip"  id={`${(g_Guider_msg["type"]==="info")? "overlay-summary-info-guider":"overlay-summary-reveal-answer-guider"}`}>
                 <CloseButton  variant="white" className='GuidercloseButton' onClick={() => {g_setGuiderMsg({"type":"info", "where":"summary", "text":""})}} />
@@ -944,6 +953,42 @@ useEffect(() => {
           )}
         </Overlay>
         )}
+
+
+        <Overlay target={nextButtonGuider.current} show={isGuidedAnnotation && g_answer_modal_msg==="" && g_Guider_msg["where"]==="next-button" && g_Guider_msg["text"]!=="" && !g_FinishedModalShow} placement="bottom">
+          {(props) => (
+            <Tooltip {...props} className="GuiderTooltip"  id={`${(StateMachineState==="START")? "overlay-start-button-guider":"overlay-next-button-guider"}`}>
+                <CloseButton  variant="white" className='GuidercloseButton' onClick={() => {g_setGuiderMsg({"type":"info", "where":"", "text":""})}} />
+                <br/>
+                <Markup content={g_Guider_msg["text"]} />
+            </Tooltip>
+          )}
+        </Overlay>
+
+
+        <Overlay target={nextSentButtonGuider.current} show={isGuidedAnnotation && allSummarySentIsHighlighted()} placement="bottom">
+          {(props) => (
+            <Tooltip {...props} className="GuiderTooltip"  id='overlay-next-sent-guider'>
+                <CloseButton  variant="white" className='GuidercloseButton' onClick={() => {g_setGuiderMsg({"type":"info", "where":"summary", "text":""})}} />
+                <br/>
+                Great job! Proceed to the next sentence.
+            </Tooltip>
+          )}
+        </Overlay>
+
+        <Overlay target={submitButtonGuider.current} show={isGuidedAnnotation && allSummaryIsHighlighted()} placement="bottom">
+          {(props) => (
+            <Tooltip {...props} className="GuiderTooltip"  id='overlay-finish-revision-button-guider'>
+                <CloseButton  variant="white" className='GuidercloseButton' onClick={() => {g_setGuiderMsg({"type":"info", "where":"summary", "text":""})}} />
+                <br/>
+                Great job! you got everything right. <br/>Press me to submit and finish the Guided Annotation.
+            </Tooltip>
+          )}
+        </Overlay>
+        
+
+
+
 
     </div>
   )

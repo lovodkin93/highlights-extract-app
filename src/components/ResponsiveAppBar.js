@@ -74,7 +74,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
 
   const margin_left = (curr_ttl) =>{
     if (title==="Guided Annotation" && curr_ttl=="Tutorial") {
-      return "3%"
+      return "-70%"
     } else if (title==="Annotation" && curr_ttl==="Tutorial") {
       return "-5%"
     } else if (title==="Tutorial" && curr_ttl==="Tutorial") {
@@ -82,7 +82,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
     } 
     
     else if (title==="Guided Annotation" && curr_ttl=="Guided Annotation") {
-      return "-5%"
+      return "-70%"
     } else if (title==="Annotation" && curr_ttl==="Guided Annotation") {
       return "-8%"
     } else if (title==="Tutorial" && curr_ttl==="Guided Annotation") {
@@ -90,7 +90,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
     }     
     
     else if (title==="Guided Annotation" && curr_ttl=="Annotation") {
-      return "-7%"
+      return "-72%"
     } else if (title==="Annotation" && curr_ttl==="Annotation") {
       return "-9%"
     } else if (title==="Tutorial" && curr_ttl==="Annotation") {
@@ -134,7 +134,9 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
               {/* </Nav>
             </Col> */}
           {/* </Row> */}
-            { title !== "Instructions" && (
+
+
+            {/* { title !== "Instructions" && (
                   <Col md={{span:2, offset:2}}>
                     <BlackTextTypography  id="old-highlighting-slider-title">
                         PREVIOUS ALIGNMENTS
@@ -155,7 +157,7 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
                       onChangeCommitted={(event, newValue) => {oldAlignmentStateHandler({event:event, newValue:newValue, sent_ind:-1})}}
                     />
                   </Col>
-            )}
+            )} */}
 
 
             {/* { title !== "Instructions" && (

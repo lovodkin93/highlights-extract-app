@@ -8,6 +8,7 @@ import Carousel from 'react-bootstrap/Carousel'
 
 
 const add_text_to_GuidedAnnotationInfoAlert = (g_is_good_alignment,StateMachineState, doc_json) => {
+    console.log(`doc_json:${JSON.stringify(doc_json)}`)
     const NoAlign = (doc_json.filter((word) => {return word.span_highlighted}).length===0) ? "(NO ALIGN)":""
     if(g_is_good_alignment) {
       if(StateMachineState==="ANNOTATION"){return `<br/><b>Hit \"CONFIRM ${NoAlign}\" to proceed.</b>`}

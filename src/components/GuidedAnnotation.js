@@ -375,7 +375,7 @@ const GuidedAnnotation = ({isPunct,
       if (event !== undefined){
         setSliderBoldStateActivated(true)
       }
-      if (newValue=='1'){
+      if (!newValue){
         setBoldState("none");
         SetDocBoldface([]);
       } else {
@@ -826,8 +826,33 @@ const GuidedAnnotation = ({isPunct,
       g_setWithGlowHint(true)
     }
 
+    const allSummarySentIsHighlighted = () => {
+      return summary_json.filter((word) => {return (word.sent_id === CurrSentInd && !isPunct(word.word) && !word.old_alignments && !["while", "from", "countries", "like", "Brazil"].includes(word.word))}).length === 0
+    }
+
 
     const getAnswerModalMsg = (last_error_json) => {
+      if(last_error_json["gold_tkn_ids"].length!==0 && last_error_json["gold_tkn_ids"][0].includes(10000000)){
+        setSummaryJson(summary_json.map((word) => {return (["while", "from", "countries", "like", "Brazil", "."].includes(word.word)) ? {...word, span_highlighted:false}:word}))
+        setDocJson(doc_json.map((word) => {return {...word, span_highlighted:false}}))
+        if(CurrSentInd===1) {
+          setCurrAlignmentGuidingMsgId("-1")
+          g_setGuiderMsg({"type":"info", "where":"summary", "text":`Choose a different summary span.`})
+        }
+        else if (CurrSentInd===2) {
+          console.log(`AVIVSL:${JSON.stringify(summary_json.filter((word) => {return !["from", "countries", "like", "Brazil"].includes(word.word) && !isPunct(word.word)}))}`)
+          if (summary_json.filter((word) => {return word.span_highlighted && !["from", "countries", "like", "Brazil"].includes(word.word) && !isPunct(word.word)}).length === 0) {
+            setCurrAlignmentGuidingMsgId("-1")
+            g_setGuiderMsg({"type":"info", "where":"summary", "text":`Choose a different summary span.`})
+          } else {
+            const chosen_span_id = last_error_json["chosen_span_id"]
+            setCurrAlignmentGuidingMsgId((parseInt(chosen_span_id)+1).toString())
+            g_setGuiderMsg({"type":"info", "where":"doc", "text":`${guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][parseInt(chosen_span_id)+1]["text"]} <br/><u>Notice</u> that \"from countries like Brazil\" was un-highlighted in the summary (it is not mentioned in the document).`})
+          }
+        }
+        return `${(CurrSentInd===2) ? "\"from countries like Brazil\"":"\"while\""} doesn't appear explicitly in the document and therefore should be left un-highlighted.`
+      }
+
       if(last_error_json["highlighted_tkn_ids"].length===0){
         const where_to_highlight = (last_error_json["type"] === "summary_span") ? "summary":"doc"
         const what_next = (last_error_json["type"] === "summary_span") ? "proceeding to the document or hitting \"CONFIRM\"" : "hitting \"CONFIRM\""
@@ -848,8 +873,12 @@ const GuidedAnnotation = ({isPunct,
       if (correct_span==="None") {
         // g_setAnswerWordsToGlow({"type":"unalignable-adujst-summary", "ids":[], "start_tkn":""})
         // g_setGuiderMsg({"type":"reveal-answer", "where":"summary", "text":"Leave out \"from countries like Brazil\"."})
-        setSummaryJson(summary_json.map((word) => {return ["from", "countries", "like", "Brazil"].includes(word.word) ? {...word, span_highlighted:false} : word}))
-        return "<div>It appears you are struggling a little, so let me help you. <br/>\"from countries like Brazil\" doesn't appear in the document. <br/>Remove it from the <u>summary</u> span, and then proceed to find the alignment in the document. <br/>Deal with \"from countries like Brazil\" separately.</div>"
+        setSummaryJson(summary_json.map((word) => {return ["from", "countries", "like", "Brazil", "."].includes(word.word) ? {...word, span_highlighted:false} : word}))
+        if (parseInt(chosen_span_id)<10) {
+          setCurrAlignmentGuidingMsgId((parseInt(chosen_span_id)+1).toString()) // usually the version without "from countries like Brazil" is the next one
+          g_setGuiderMsg({"type":"info", "where":"doc", "text":`${guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][parseInt(chosen_span_id)+1]["text"]} <br/><u>Notice</u> that \"from countries like Brazil\" was un-highlighted in the summary (it is not mentioned in the document).`})
+        }
+        return "<div>\"from countries like Brazil\" doesn't appear in the document. <br/>Therefore, it shouldn't be included in the alignment (I took the courtsey to un-highlight it for you)."
       }
       const where_to_highlight = (error_type==="summary_span") ? "summary":"document"
       const what_is_correct = (correct_span==="") ? "The summary span is unalignable" : `<u>The correct span(s) is</u>: ${correct_span} (see glowing)`
@@ -923,12 +952,11 @@ const GuidedAnnotation = ({isPunct,
   useEffect(() => {
     // when choosing a span - if nothing is span_highlighted then all sent matches are in bold, otherwise only span_highlighted matches (when highlighting - something must be span-highlighted so automatically is '2')
     if (["ANNOTATION", "SENTENCE END", "SUMMARY END"].includes(StateMachineState) && !sliderBoldStateActivated) {
-      const bold_state = (summary_json.filter((word) => {return word.span_highlighted}).length === 0) ? '3' : '2'; // if no span is current highlighted - bold everything, otherwise bold only currently highlighted span
-      boldStateHandler(undefined, bold_state);
+      boldStateHandler(undefined, true);
     } else if (["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState) && !sliderBoldStateActivated) {
-      boldStateHandler(undefined, '1');
+      boldStateHandler(undefined, false);
     }
-  }, [StateMachineState, summary_json]);
+  }, [StateMachineState, CurrSentInd, AlignmentCount, summary_json]);
   /********************************************************************************/
 
    /***************************** old alignments controlling *****************************/ 
@@ -1073,12 +1101,10 @@ const GuidedAnnotation = ({isPunct,
   useEffect(() => {
     if (is_good_alignment) {
       let next_step = "continue"
-      next_step = (StateMachineState === "SENTENCE END") ? "proceed to the next sentence" : next_step
-      next_step = (StateMachineState === "SUMMARY END") ? "submit and finish your training" : next_step
-      if(doc_json.filter((word) => {return word.span_highlighted}).length===0) {
-        g_setGuiderMsg({"type":"info", "where":"next-button", "text":`This summary span is <b>unalignable</b>, so press me to ${next_step} (<u>don't highlight</u> anything in the <u>document</u>).`})
-      } else {
-        g_setGuiderMsg({"type":"info", "where":"next-button", "text":`Press me to ${next_step}.`})
+      // next_step = (StateMachineState === "SENTENCE END") ? "proceed to the next sentence" : next_step
+      // next_step = (StateMachineState === "SUMMARY END") ? "submit and finish your training" : next_step
+      if(doc_json.filter((word) => {return word.span_highlighted}).length!==0) {
+        g_setGuiderMsg({"type":"info", "where":"next-button", "text":`Great job! Now add the alignment.`})
       }
     }
   }, [is_good_alignment])
@@ -1108,58 +1134,13 @@ const GuidedAnnotation = ({isPunct,
 
 
    const SubmitHandler = (event) => {
-      // // no alignment
-      // if ((typeof forceState !== 'string') && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
-      //   setNoAlignModalShow(true)
-      //   return
-      // }
-      // setNoAlignApproved(false)
-
-
-    //hitting submit when the summary span is bad....
-    const isSummarySpanOkDict = isSummarySpanOk([], false, false)
-    
-    if(!isSummarySpanOkDict["summary_span_ok"]) {
-      if (isSummarySpanOkDict["highlighted_tkn_ids"].length===0 && StateMachineState !== "REVISE HOVER") { // nothing highlighted in summary
-        // setGuidingMsg(guided_annotation_messages["empty_summary_span_msg"])
-        // setGuidingMsgType("danger")
-        update_guiding_msg("danger", guided_annotation_messages["empty_summary_span_msg"])
-        g_setGuidedAnnotationHistory(g_guided_annotation_history.concat([{"status":"error", "sent_id":CurrSentInd, "type":"summary_span", "problem":"short", "chosen_span_id":"-1", "highlighted_tkn_ids":isSummarySpanOkDict["highlighted_tkn_ids"], "gold_tkn_ids":[]}]))
-
-      } else if (isSummarySpanOkDict["chosen_span_id"]===undefined){
-        // setGuidingMsg(guided_annotation_messages["default_too_short_summary_msg"])
-        // setGuidingMsgType("danger")
-        update_guiding_msg("danger", guided_annotation_messages["default_too_short_summary_msg"])
-        g_setGuidedAnnotationHistory(g_guided_annotation_history.concat([{"status":"error", "sent_id":CurrSentInd, "type":"summary_span", "problem":"short", "chosen_span_id":"-1", "highlighted_tkn_ids":isSummarySpanOkDict["highlighted_tkn_ids"], "gold_tkn_ids":[]}]))
-
-        g_setHintMsg({"text":"", "title":""})
-        g_setShowHint(false)
-      } else {
-        let gold_tkns = guided_annotation_messages["goldMentions"][CurrSentInd]["good_summary_spans"][isSummarySpanOkDict["chosen_span_id"]]
-        gold_tkns = gold_tkns.map((span) => {return string_to_span(span)})
-        update_error_message(gold_tkns, isSummarySpanOkDict["highlighted_tkn_ids"], isSummarySpanOkDict["chosen_span_id"], false)
-      }
-      return
-    }
-
-    
-    const isAlignmentOkDict = isAlignmentOk();
-    if (isAlignmentOkDict["alignment_ok"]) {
-      // setGuidingMsg(guided_annotation_messages["default_good_alignment_msg"]) // AVIVSL: add custom success messages
-      // setGuidingMsgType("success");
-      setCurrAlignmentGuidingMsgId("-1");
-      g_setHintMsg({"text":"", "title":""})
-      g_setShowHint(false);
-    } else {
-      update_error_message(isAlignmentOkDict["gold_align_tkns"], isAlignmentOkDict["highlighted_doc_tkns"], curr_alignment_guiding_msg_id, true);
-      return
-    }
 
     setCompleted(true)
     setOpeningModalShow(false)
     setFinishedModalShow(true)
     resetGuidedAnnotation()
     setGuidedUnhighlight(false)
+    MachineStateHandlerWrapper()
     window.scrollTo(0, 0)
     // alert("Submitted!");
   }
