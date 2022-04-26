@@ -443,12 +443,6 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   }
 
 
-  const clearHighlightings = () => {
-    setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted:false}}))
-    setDocJson(doc_json.map((word) => {return {...word, span_highlighted:false}}))
-  }
-
-
 
 
 
@@ -577,7 +571,6 @@ useEffect(() => {
                   oldAlignmentStateHandler={oldAlignmentStateHandler}
                   t_StateMachineStateId = {t_StateMachineStateId}
                   g_showWhereNavbar = {g_showWhereNavbar}
-                  clearHighlightings = {clearHighlightings}
                   
             />
             {(InfoMessage !== "" && !isTutorial && !isGuidedAnnotation) && (InfoAlert(InfoMessage))}
@@ -626,7 +619,9 @@ useEffect(() => {
               <Card border="secondary" bg="light"  id="doc-text" ref={docGuider}>
                   <Card.Header className="DocCardHeader">
                     Document
-
+                    <button type="button" className={`btn btn-warning btn-sm right-button`} onClick={() => {setDocJson(doc_json.map((word) => {return {...word, span_highlighted:false}}))}}>
+                      CLEAR 
+                    </button>
                       <BlackTextTypography className='bold-slider-title'>
                         BOLD
                       </BlackTextTypography>
@@ -660,7 +655,14 @@ useEffect(() => {
               <Row>
                 <Col>
                   <Card className="summaryCard" border="secondary" bg="light" id="summary-text" ref={summaryGuider}>
-                    <Card.Header>Summary</Card.Header>
+                    <Card.Header>
+                      Summary
+
+                      <button type="button" className={`btn btn-warning btn-sm right-button`} onClick={() => {setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted:false}}))}}>
+                      CLEAR 
+                    </button>
+
+                    </Card.Header>
                     <Card.Body>
                       {getSummaryText()}
                       {/* {summary_json.map((word_json, index) => (
@@ -719,7 +721,7 @@ useEffect(() => {
 
                   {!["REVISE HOVER", "SUMMARY END", "START"].includes(StateMachineState) && (
                       <Col md={{span:5, offset:3}}>
-                        <button ref={nextButtonGuider} type="button" className={`btn btn-success btn-md right-button ${((isTutorial && [5,11,14].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
+                        <button ref={nextButtonGuider} type="button" className={`btn btn-primary btn-md right-button ${((isTutorial && [5,11,14].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                         <Markup content={nextButtonText()} />
                           {/* {(isDocSpanExist()) && <ChevronRight className="button-icon"/>} */}
                         </button>
@@ -743,14 +745,14 @@ useEffect(() => {
                         </Col>
                     )} */}
 
-                  {StateMachineState === "SUMMARY END" && (
+                  {/* {StateMachineState === "SUMMARY END" && (
                     <Col md={{span:5, offset:3}}>
                       <button ref={nextButtonGuider} type="button" className={`btn ${(isDocSpanExist())? 'btn-success':'btn-danger'} btn-md right-button ${((isTutorial && t_StateMachineStateId===13) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
                         <Markup content={nextButtonText()} />
                         {(StateMachineState !== "START" && isDocSpanExist()) && (<SendFill className="button-icon"/>) }
                       </button>
                     </Col>
-                  )}
+                  )} */}
                 </Row>
               )}
 
@@ -781,6 +783,10 @@ useEffect(() => {
 
                   {(isLastSent()) && (
                         <Col md={{span:5, offset:2}}>
+                          <button ref={nextButtonGuider} type="button" className={`btn btn-success btn-md right-button ${((isTutorial && t_StateMachineStateId===13) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
+                            SUBMIT
+                            <SendFill className="button-icon"/>
+                          </button>
                         </Col>
                   )}
                       

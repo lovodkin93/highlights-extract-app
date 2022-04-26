@@ -15,14 +15,14 @@ const MachineStateHandler = (summary_json,
     // forceState: "SENTENCE END"
     if (forceState === "SENTENCE END"){
       console.log(`forceState: \"SENTENCE END\"`);
-      SetStateMachineState("SENTENCE END");
+      // SetStateMachineState("SENTENCE END");
       SetInfoMessage("Finished sentence highlighting. When ready, press \"NEXT SENTENCE\".");
     }
 
     // forceState: "SUMMARY END"
     else if (forceState === "SUMMARY END"){
       console.log(`forceState: \"SUMMARY END\"`);
-      SetStateMachineState("SUMMARY END");
+      // SetStateMachineState("SUMMARY END");
       SetInfoMessage("Finished summary highlighting. When ready, press \"SUBMIT\".");
     }
 
@@ -100,7 +100,7 @@ const MachineStateHandler = (summary_json,
       // "SUMMARY END" state --> "SUBMIT" state 
       else if (StateMachineState === "SUMMARY END"){
         console.log(`Old state: \"SUMMARY END\"; New state: \"SUBMIT\"`);
-        SetStateMachineState("SUBMIT");
+        // SetStateMachineState("SUBMIT");
         SetInfoMessage("");
       }
 
@@ -154,14 +154,14 @@ const MachineStateHandler = (summary_json,
 // forceState: "SENTENCE END"
 if (forceState === "SENTENCE END"){
 console.log(`forceState: \"SENTENCE END\"`);
-SetStateMachineState("SENTENCE END");
+// SetStateMachineState("SENTENCE END");
 SetInfoMessage("Finished sentence highlighting. When ready, press \"NEXT SENTENCE\".");
 }
 
 // forceState: "SUMMARY END"
 else if (forceState === "SUMMARY END"){
 console.log(`forceState: \"SUMMARY END\"`);
-SetStateMachineState("SUMMARY END");
+// SetStateMachineState("SUMMARY END");
 SetInfoMessage("Finished summary highlighting. When ready, press \"SUBMIT\".");
 }
 
@@ -241,7 +241,7 @@ SetInfoMessage("Highlight document and summary alignment and then press \"CONFIR
 // "SUMMARY END" state --> "SUBMIT" state 
 else if (StateMachineState === "SUMMARY END"){
 console.log(`Old state: \"SUMMARY END\"; New state: \"SUBMIT\"`);
-SetStateMachineState("SUBMIT");
+// SetStateMachineState("SUBMIT");
 SetInfoMessage("");
 }
 

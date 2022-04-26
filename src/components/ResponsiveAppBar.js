@@ -26,7 +26,7 @@ import Col from 'react-bootstrap/Col'
 const pages = {"Tutorial": "tutorial", 'Guided Annotation': 'guidedAnnotation',  'Annotation': ''}; 
 
 
-const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler, oldAlignmentState, oldAlignmentStateHandler, t_StateMachineStateId, g_showWhereNavbar, clearHighlightings }) => {
+const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper, boldState, boldStateHandler, oldAlignmentState, oldAlignmentStateHandler, t_StateMachineStateId, g_showWhereNavbar }) => {
   const whereNavBar = useRef(null);
   const whereNavBarArr = {"Tutorial": undefined, 'Guided Annotation': whereNavBar,  'Annotation': undefined}; 
   
@@ -156,12 +156,6 @@ const ResponsiveAppBar = ({ title, StateMachineState, MachineStateHandlerWrapper
                     />
                   </Col>
             )}
-
-            <Col md={{span:1, offset:0}}>
-              <button type="button" className={`btn btn-warning btn-lg right-button`} onClick={clearHighlightings}>
-                CLEAR 
-              </button>
-            </Col>
 
 
             {/* { title !== "Instructions" && (
