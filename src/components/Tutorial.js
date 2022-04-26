@@ -26,7 +26,9 @@ const Tutorial = ({doc_json, setDocJson,
                   all_lemma_match_mtx, setAllLemmaMtx,
                   important_lemma_match_mtx, setImportantLemmaMtx,
                   doc_paragraph_breaks, setDocParagraphBreaks,
-                  t_state_messages}) => {
+                  t_state_messages,
+                  showAlert, setShowAlert, SUMMARY_WORD_CNT_THR,
+                  SubmitModalShow, setSubmitModalShow}) => {
 
                     
   const [boldState, setBoldState] = useState("sent"); // for user to choose if want full sentence, span or no lemma matching (denoted as "sent", "span" and "none", accordingly)
@@ -257,7 +259,26 @@ const Tutorial = ({doc_json, setDocJson,
     sent_ind: -1
   }
 
+  const changeSummarySentHandler = ({isNext}) => {
+    if (isNext){
+      SetCurrSentInd(CurrSentInd+1)
+      const summary_currSent_old_highlighted_tkn_cnt = summary_json.filter((word) => {return (!isPunct(word.word) && word.sent_id===CurrSentInd && word.old_alignments)}).length // number of words in curr sentence (the one we change from) that was saved as part of an alignment
+      const summary_currSent_tkn_cnt = summary_json.filter((word) => {return (!isPunct(word.word) && word.sent_id===CurrSentInd)}).length // all (non-punctuation) words in curr sentence (the one we change from)
 
+      if(summary_currSent_old_highlighted_tkn_cnt / summary_currSent_tkn_cnt > SUMMARY_WORD_CNT_THR) {
+        setShowAlert("success")
+        console.log("good!")
+      } else {
+        setShowAlert("warning")
+        console.log("bad!")
+      }
+    
+    } else {
+      SetCurrSentInd(CurrSentInd-1)
+    }
+    setDocJson(doc_json.map((word) => {return {...word, span_highlighted:false}}))
+    setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted:false}}))
+  }
   
   const hoverHandler = ({inOrOut, curr_alignment_id, tkn_id, isSummary}) => {
     // onMouseEnter for "REVISE HOVER"
@@ -512,6 +533,10 @@ const Tutorial = ({doc_json, setDocJson,
                     OpeningModalShow = {undefined}                              setOpeningModalShow = {undefined}
                     noAlignModalShow = {noAlignModalShow}                       setNoAlignModalShow = {setNoAlignModalShow}
                     noAlignApproved = {noAlignApproved}                         setNoAlignApproved = {setNoAlignApproved}
+                    changeSummarySentHandler = {changeSummarySentHandler}
+                    showAlert={showAlert}                                       setShowAlert={setShowAlert}
+                    SubmitModalShow={SubmitModalShow}                           setSubmitModalShow={setSubmitModalShow}
+                    g_answer_modal_msg={undefined}
                     />
         
         {/* <Player

@@ -93,7 +93,9 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
 
 
                     changeSummarySentHandler,
-                    showAlert, setShowAlert
+                    showAlert, setShowAlert,
+                    SubmitModalShow, setSubmitModalShow,
+                    g_answer_modal_msg
                   }) => {
 
 
@@ -298,11 +300,11 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   }
 
   const getDocText = () => {
-    if ((!isTutorial || t_StateMachineStateId !== 7) && (!isGuidedAnnotation || g_answer_words_to_glow["type"]!=="doc_span")){
+    if ((!isTutorial || t_StateMachineStateId !== 7)){
       return doc_json.map((word_json, index) => (
                 <DocWord key={index} word_json={word_json} DocOnMouseDownID={DocOnMouseDownID} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
               ))
-    } else if(isTutorial) {
+    } else {
         const start_1 = 0;
         const end_1 = 13;
         const start_2 = end_1+1;
@@ -320,18 +322,20 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                         ))}
                   </div>
                 )
-    } else {
+    } 
+    
+    // else {
       
-      const doc_words_groups = get_span_groups(g_answer_words_to_glow, doc_json, false)
-      return doc_words_groups.map((doc_words, index) => 
-      <div className={`${([1,3,5,7,9,11,13,15].includes(index)) ?  'with-glow': ''}`}>
-          {doc_words.map((word_json, index) => (
-              <DocWord key={index} word_json={word_json} DocOnMouseDownID={DocOnMouseDownID} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
-            ))}
-      </div>
-    )
+    //   const doc_words_groups = get_span_groups(g_answer_words_to_glow, doc_json, false)
+    //   return doc_words_groups.map((doc_words, index) => 
+    //   <div className={`${([1,3,5,7,9,11,13,15].includes(index)) ?  'with-glow': ''}`}>
+    //       {doc_words.map((word_json, index) => (
+    //           <DocWord key={index} word_json={word_json} DocOnMouseDownID={DocOnMouseDownID} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
+    //         ))}
+    //   </div>
+    // )
 
-    }
+    // }
   }
 
 
@@ -344,45 +348,45 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
     if (summary_json.length === 0){
       return
     } 
-    else if (!isGuidedAnnotation || g_answer_words_to_glow["type"]!=="summary_span") {
-      const max_sent_id = summary_json.map((word) =>{return word.sent_id}).reduce(function(a, b) {return Math.max(a, b)}, -Infinity);
-      const summary_per_sent_id = [...Array(max_sent_id+1).keys()].map((sent_id) => {return summary_json.filter((word) => {return word.sent_id===sent_id})})
-      return summary_per_sent_id.map((summary_words, index) => 
-                                                        <div className={` ${(index===CurrSentInd && SummaryOnMouseDownID!=="-1" && StateMachineState!=="REVISE HOVER") ? 'cursor-grabbing':''}`}>
-                                                          <p  className={`${(index===CurrSentInd) ?  'bordered_sent': ''} ${(isTutorial && t_StateMachineStateId===4 && index===CurrSentInd) ? 'with-glow' : ''}`}>
-                                                            {summary_words.map((word_json, index) => (
-                                                              <SummaryWord key={index} word_json={word_json} SummaryOnMouseDownID={SummaryOnMouseDownID} StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} CurrSentInd={CurrSentInd}/> 
-                                                              ))}
-                                                          </p>
-                                                          <span className="br-class"></span>
-                                                        </div>
-                                                        )
-    }
-    else {
-      const doc_words_groups = get_span_groups(g_answer_words_to_glow, summary_json)
-      const max_sent_id = summary_json.map((word) =>{return word.sent_id}).reduce(function(a, b) {return Math.max(a, b)}, -Infinity);
-      const summary_per_sent_id = [...Array(max_sent_id+1).keys()].map((sent_id) => {return summary_json.filter((word) => {return word.sent_id===sent_id})})
-      return summary_per_sent_id.map((summary_words, index) => 
-                                                        <div className={` ${(index===CurrSentInd && SummaryOnMouseDownID!=="-1" && StateMachineState!=="REVISE HOVER") ? 'cursor-grabbing':''}`}>
-                                                          <p  className={`${(index===CurrSentInd) ?  'bordered_sent': ''}`}>
-                                                            {(index===CurrSentInd) && (
-                                                              get_span_groups(g_answer_words_to_glow, summary_words, true).map((words, index) => 
-                                                                <div className={`${([1,3,5,7,9,11,13,15].includes(index)) ?  'with-glow': ''}`}>
-                                                                    {words.map((word_json, index) => (
-                                                                      <SummaryWord key={index} word_json={word_json} SummaryOnMouseDownID={SummaryOnMouseDownID}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} CurrSentInd={CurrSentInd}/> 
-                                                                    ))}
-                                                                </div>
-                                                              )
-                                                            )}
+    // else if (!isGuidedAnnotation || g_answer_words_to_glow["type"]!=="summary_span") {
+    const max_sent_id = summary_json.map((word) =>{return word.sent_id}).reduce(function(a, b) {return Math.max(a, b)}, -Infinity);
+    const summary_per_sent_id = [...Array(max_sent_id+1).keys()].map((sent_id) => {return summary_json.filter((word) => {return word.sent_id===sent_id})})
+    return summary_per_sent_id.map((summary_words, index) => 
+                                                      <div className={` ${(index===CurrSentInd && SummaryOnMouseDownID!=="-1" && StateMachineState!=="REVISE HOVER") ? 'cursor-grabbing':''}`}>
+                                                        <p  className={`${(index===CurrSentInd) ?  'bordered_sent': ''} ${(isTutorial && t_StateMachineStateId===4 && index===CurrSentInd) ? 'with-glow' : ''}`}>
+                                                          {summary_words.map((word_json, index) => (
+                                                            <SummaryWord key={index} word_json={word_json} SummaryOnMouseDownID={SummaryOnMouseDownID} StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} CurrSentInd={CurrSentInd}/> 
+                                                            ))}
+                                                        </p>
+                                                        <span className="br-class"></span>
+                                                      </div>
+                                                      )
+    // }
+    // else {
+    //   const doc_words_groups = get_span_groups(g_answer_words_to_glow, summary_json)
+    //   const max_sent_id = summary_json.map((word) =>{return word.sent_id}).reduce(function(a, b) {return Math.max(a, b)}, -Infinity);
+    //   const summary_per_sent_id = [...Array(max_sent_id+1).keys()].map((sent_id) => {return summary_json.filter((word) => {return word.sent_id===sent_id})})
+    //   return summary_per_sent_id.map((summary_words, index) => 
+    //                                                     <div className={` ${(index===CurrSentInd && SummaryOnMouseDownID!=="-1" && StateMachineState!=="REVISE HOVER") ? 'cursor-grabbing':''}`}>
+    //                                                       <p  className={`${(index===CurrSentInd) ?  'bordered_sent': ''}`}>
+    //                                                         {(index===CurrSentInd) && (
+    //                                                           get_span_groups(g_answer_words_to_glow, summary_words, true).map((words, index) => 
+    //                                                             <div className={`${([1,3,5,7,9,11,13,15].includes(index)) ?  'with-glow': ''}`}>
+    //                                                                 {words.map((word_json, index) => (
+    //                                                                   <SummaryWord key={index} word_json={word_json} SummaryOnMouseDownID={SummaryOnMouseDownID}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} CurrSentInd={CurrSentInd}/> 
+    //                                                                 ))}
+    //                                                             </div>
+    //                                                           )
+    //                                                         )}
 
-                                                            {(index!==CurrSentInd) && (summary_words.map((word_json, index) => (
-                                                              <SummaryWord key={index} word_json={word_json} SummaryOnMouseDownID={SummaryOnMouseDownID} StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} CurrSentInd={CurrSentInd}/> 
-                                                              )))}
-                                                          </p>
-                                                          <span className="br-class"></span>
-                                                        </div>
-                                                        )
-    }
+    //                                                         {(index!==CurrSentInd) && (summary_words.map((word_json, index) => (
+    //                                                           <SummaryWord key={index} word_json={word_json} SummaryOnMouseDownID={SummaryOnMouseDownID} StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} CurrSentInd={CurrSentInd}/> 
+    //                                                           )))}
+    //                                                       </p>
+    //                                                       <span className="br-class"></span>
+    //                                                     </div>
+    //                                                     )
+    // }
   }
 
   const getResponsiveAppBarTitle = () => {
@@ -781,9 +785,9 @@ useEffect(() => {
                         </Col>
                   )}
 
-                  {(isLastSent()) && (
+                  {(!isTutorial && isLastSent()) && (
                         <Col md={{span:5, offset:2}}>
-                          <button ref={nextButtonGuider} type="button" className={`btn btn-success btn-md right-button ${((isTutorial && t_StateMachineStateId===13) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={SubmitHandler}>
+                          <button ref={nextButtonGuider} type="button" className={`btn btn-success btn-md right-button ${((isTutorial && t_StateMachineStateId===13) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={() => {setSubmitModalShow(true)}}>
                             SUBMIT
                             <SendFill className="button-icon"/>
                           </button>
@@ -867,12 +871,29 @@ useEffect(() => {
                   </Modal.Footer>
         </Modal>
 
+        <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={SubmitModalShow}>
+                  <Modal.Header>
+                    <Modal.Title>Are You Sure?</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    Are you sure you want to submit?
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="btn btn-danger btn-lg right-button" onClick={() => {setSubmitModalShow(false)}}>
+                      NO
+                    </Button>
+                    <Button variant="btn btn-success btn-lg right-button" onClick={SubmitHandler}>
+                        YES
+                    </Button>
+                  </Modal.Footer>
+        </Modal>
 
 
 
 
 
-        <Overlay target={docGuider.current} show={isGuidedAnnotation && g_Guider_msg["where"]==="doc" && g_Guider_msg["text"]!==""} placement="right">
+
+        <Overlay target={docGuider.current} show={isGuidedAnnotation && g_answer_modal_msg==="" && g_Guider_msg["where"]==="doc" && g_Guider_msg["text"]!==""} placement="right">
           {(props) => (
             <Tooltip {...props} className="GuiderTooltip" id={`${(g_Guider_msg["type"]==="info")? "overlay-doc-info-guider":"overlay-doc-reveal-answer-guider"}`}>
                 <CloseButton  variant="white" className='GuidercloseButton' onClick={() => {g_setGuiderMsg({"type":"info", "where":"doc", "text":""})}} />
@@ -882,7 +903,7 @@ useEffect(() => {
           )}
         </Overlay>
 
-        <Overlay target={summaryGuider.current} show={isGuidedAnnotation && g_Guider_msg["where"]==="summary" && g_Guider_msg["text"]!==""} placement="left">
+        <Overlay target={summaryGuider.current} show={isGuidedAnnotation && g_answer_modal_msg==="" && g_Guider_msg["where"]==="summary" && g_Guider_msg["text"]!==""} placement="left">
           {(props) => (
             <Tooltip {...props} className="GuiderTooltip"  id={`${(g_Guider_msg["type"]==="info")? "overlay-summary-info-guider":"overlay-summary-reveal-answer-guider"}`}>
                 <CloseButton  variant="white" className='GuidercloseButton' onClick={() => {g_setGuiderMsg({"type":"info", "where":"summary", "text":""})}} />
@@ -892,7 +913,7 @@ useEffect(() => {
           )}
         </Overlay>
 
-        <Overlay target={nextButtonGuider.current} show={isGuidedAnnotation && g_Guider_msg["where"]==="next-button" && g_Guider_msg["text"]!=="" && !g_FinishedModalShow} placement="bottom">
+        <Overlay target={nextButtonGuider.current} show={isGuidedAnnotation && g_answer_modal_msg==="" && g_Guider_msg["where"]==="next-button" && g_Guider_msg["text"]!=="" && !g_FinishedModalShow} placement="bottom">
           {(props) => (
             <Tooltip {...props} className="GuiderTooltip"  id={`${(StateMachineState==="START")? "overlay-start-button-guider":"overlay-next-button-guider"}`}>
                 <CloseButton  variant="white" className='GuidercloseButton' onClick={() => {g_setGuiderMsg({"type":"info", "where":"", "text":""})}} />
@@ -903,7 +924,7 @@ useEffect(() => {
         </Overlay>
         
         {StateMachineState === "REVISE CLICKED" && (
-        <Overlay target={backButtonGuider.current} show={isGuidedAnnotation} placement="bottom">
+        <Overlay target={backButtonGuider.current} show={isGuidedAnnotation && g_answer_modal_msg===""} placement="bottom">
           {(props) => (
             <Tooltip {...props} className="GuiderTooltip"  id="overlay-back-button-guider">
                 <br/>
@@ -914,7 +935,7 @@ useEffect(() => {
         )}
 
         {StateMachineState === "REVISE HOVER" && (
-        <Overlay target={ExitReviseButtonGuider.current} show={isGuidedAnnotation} placement="bottom">
+        <Overlay target={ExitReviseButtonGuider.current} show={isGuidedAnnotation && g_answer_modal_msg===""} placement="bottom">
           {(props) => (
             <Tooltip {...props} className="GuiderTooltip"  id="overlay-finish-revision-button-guider">
                 <br/>

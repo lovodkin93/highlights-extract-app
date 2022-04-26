@@ -59,10 +59,15 @@ const GuidedAnnotation = ({isPunct,
                           g_strikes_counter, g_setStrikesCounter,
                           g_answer_modal_msg, g_setAnswerModalMsg,
                           g_answer_words_to_glow, g_setAnswerWordsToGlow,
-                          g_Guider_msg, g_setGuiderMsg
+                          g_Guider_msg, g_setGuiderMsg,
+                          showAlert, setShowAlert,
+                          SUMMARY_WORD_CNT_THR,
+                          SubmitModalShow, setSubmitModalShow
+
+
 
                         }) => {
-    const MAX_ERR_CNT = 3 // number of maximum permitted wrong attempts before giving the answer 
+    const MAX_ERR_CNT = 0 // number of maximum permitted wrong attempts before giving the answer 
     const [FinishedModalShow, setFinishedModalShow] = useState(false);
     const [showWhereNavbar, setShowWhereNavbar] = useState(false);
     const [g_open_hint, g_setOpenHint] = useState(false)
@@ -665,6 +670,10 @@ const GuidedAnnotation = ({isPunct,
         g_setShowHint(false)
         return
       }
+
+
+
+  
       
       
       
@@ -704,6 +713,30 @@ const GuidedAnnotation = ({isPunct,
       }
 
     }
+
+
+
+    const changeSummarySentHandler = ({isNext}) => {
+      if (isNext){
+        SetCurrSentInd(CurrSentInd+1)
+        const summary_currSent_old_highlighted_tkn_cnt = summary_json.filter((word) => {return (!isPunct(word.word) && word.sent_id===CurrSentInd && word.old_alignments)}).length // number of words in curr sentence (the one we change from) that was saved as part of an alignment
+        const summary_currSent_tkn_cnt = summary_json.filter((word) => {return (!isPunct(word.word) && word.sent_id===CurrSentInd)}).length // all (non-punctuation) words in curr sentence (the one we change from)
+  
+        if(summary_currSent_old_highlighted_tkn_cnt / summary_currSent_tkn_cnt > SUMMARY_WORD_CNT_THR) {
+          setShowAlert("success")
+          console.log("good!")
+        } else {
+          setShowAlert("warning")
+          console.log("bad!")
+        }
+      
+      } else {
+        SetCurrSentInd(CurrSentInd-1)
+      }
+      setDocJson(doc_json.map((word) => {return {...word, span_highlighted:false}}))
+      setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted:false}}))
+    }
+
 
     const update_missing_message = (gold_tkns, actual_tkns, chosen_span_id, isAlignError) => {
 
@@ -764,6 +797,7 @@ const GuidedAnnotation = ({isPunct,
       const msgs_json = guided_annotation_messages["goldMentions"][CurrSentInd]
 
       // unalignable parts
+      console.log(`curr_alignment_guiding_msg_id:${curr_alignment_guiding_msg_id}`)
       if (msgs_json["doc_tkns_alignments"][curr_alignment_guiding_msg_id].length===0) {
         if (doc_tkns.length===0){
           return {"alignment_ok":true, "highlighted_doc_tkns":doc_tkns, "gold_align_tkns":[]} 
@@ -798,7 +832,7 @@ const GuidedAnnotation = ({isPunct,
         const where_to_highlight = (last_error_json["type"] === "summary_span") ? "summary":"doc"
         const what_next = (last_error_json["type"] === "summary_span") ? "proceeding to the document or hitting \"CONFIRM\"" : "hitting \"CONFIRM\""
 
-        g_setGuiderMsg({"type":"reveal-answer", "where":where_to_highlight, "text":`Start by highlighting something in the ${where_to_highlight}`})      
+        // g_setGuiderMsg({"type":"reveal-answer", "where":where_to_highlight, "text":`Start by highlighting something in the ${where_to_highlight}`})      
         return `<div>Please highlight something in the <u>${where_to_highlight}</u> before ${what_next}!</div>`
       }
       const gold_mentions = guided_annotation_strike_messages["goldMentions"][last_error_json["sent_id"]]
@@ -812,8 +846,9 @@ const GuidedAnnotation = ({isPunct,
 
       const correct_span = gold_mentions[error_type][chosen_span_id]["text"]
       if (correct_span==="None") {
-        g_setAnswerWordsToGlow({"type":"unalignable-adujst-summary", "ids":[], "start_tkn":""})
-        g_setGuiderMsg({"type":"reveal-answer", "where":"summary", "text":"Leave out \"from countries like Brazil\"."})
+        // g_setAnswerWordsToGlow({"type":"unalignable-adujst-summary", "ids":[], "start_tkn":""})
+        // g_setGuiderMsg({"type":"reveal-answer", "where":"summary", "text":"Leave out \"from countries like Brazil\"."})
+        setSummaryJson(summary_json.map((word) => {return ["from", "countries", "like", "Brazil"].includes(word.word) ? {...word, span_highlighted:false} : word}))
         return "<div>It appears you are struggling a little, so let me help you. <br/>\"from countries like Brazil\" doesn't appear in the document. <br/>Remove it from the <u>summary</u> span, and then proceed to find the alignment in the document. <br/>Deal with \"from countries like Brazil\" separately.</div>"
       }
       const where_to_highlight = (error_type==="summary_span") ? "summary":"document"
@@ -822,17 +857,20 @@ const GuidedAnnotation = ({isPunct,
       const what_next = (error_type==="summary_span") ? "then proceed to find its alignment in the <u>document</u>": `<b>hit \"${(StateMachineState==="ANNOTATION") ? "CONFIRM":""}${(StateMachineState==="SENTENCE END") ? "NEXT SENTENCE":""}${(StateMachineState==="SUMMARY END") ? "SUBMIT":""}${(correct_span==="")? " (NO ALIGN)":""}\"</b>`;
 
       const tkns_type = (error_type==="summary_span") ? 'summary_tkns':'doc_tkns'
-      const answerMarker = (gold_mentions[tkns_type][chosen_span_id].length===0) ? {"type":"unalignable-adujst-doc", "ids":[], "start_tkn":""} : {"type":error_type, "ids":gold_mentions[tkns_type][chosen_span_id], "start_tkn":gold_mentions["start_tkn"]}
+      const answerMarker = (gold_mentions[tkns_type][chosen_span_id].length===0) ? {"type":"unalignable-adujst-doc", "ids":[], "start_tkn":""} : {"type":error_type, "ids":gold_mentions[tkns_type][chosen_span_id], "start_tkn":gold_mentions["start_tkn"]}      
       g_setAnswerWordsToGlow(answerMarker)
 
       if (gold_mentions[tkns_type][chosen_span_id].length===0) {
-        g_setGuiderMsg({"type":"reveal-answer", "where":"doc", "text":`Un-highlight everything in the summary and ${what_next}`})
-      } else if (error_type==="summary_span") {
-        g_setGuiderMsg({"type":"reveal-answer", "where":"summary", "text":`Highlight <b>only</b> what is <b>glowing</b> and ${what_next}`})
-        setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted:false}}))
-      } else {
-        g_setGuiderMsg({"type":"reveal-answer", "where":"doc", "text":`Highlight <b>only</b> what is <b>glowing</b> and ${what_next}`})
         setDocJson(doc_json.map((word) => {return {...word, span_highlighted:false}}))
+        // g_setGuiderMsg({"type":"reveal-answer", "where":"doc", "text":`Un-highlight everything in the summary and ${what_next}`})
+      } else if (error_type==="summary_span") {
+        // g_setGuiderMsg({"type":"reveal-answer", "where":"summary", "text":`Highlight <b>only</b> what is <b>glowing</b> and ${what_next}`})
+        setSummaryJson(summary_json.map((word) => {return string_to_span(answerMarker["ids"]).includes(word.tkn_id) ? {...word, span_highlighted:true} : {...word, span_highlighted:false}}))
+        setCurrAlignmentGuidingMsgId(chosen_span_id)
+        g_setGuiderMsg({"type":"info", "where":"doc", "text":guided_annotation_info_messages["custom_messages"][CurrSentInd]["find_alignment"][chosen_span_id]["text"]})
+      } else {
+        // g_setGuiderMsg({"type":"reveal-answer", "where":"doc", "text":`Highlight <b>only</b> what is <b>glowing</b> and ${what_next}`})
+        setDocJson(doc_json.map((word) => {return string_to_span(answerMarker["ids"]).includes(word.tkn_id) ? {...word, span_highlighted:true} : {...word, span_highlighted:false}}))
       }
       return `It appears you are struggling a little, so let me help you. <br/>${what_is_correct}. <hr/>Please ${what_to_do} and ${what_next}.`
     }
@@ -1009,7 +1047,7 @@ const GuidedAnnotation = ({isPunct,
     } else if (guiding_msg_type==="success") {
       g_setStrikesCounter(0)
 
-      g_setAnswerWordsToGlow({"type":"", "ids":[], "start_tkn":""})
+      // g_setAnswerWordsToGlow({"type":"", "ids":[], "start_tkn":""})
 
     }
    }, [guiding_msg_type])
@@ -1070,12 +1108,12 @@ const GuidedAnnotation = ({isPunct,
 
 
    const SubmitHandler = (event) => {
-      // no alignment
-      if ((typeof forceState !== 'string') && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
-        setNoAlignModalShow(true)
-        return
-      }
-      setNoAlignApproved(false)
+      // // no alignment
+      // if ((typeof forceState !== 'string') && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
+      //   setNoAlignModalShow(true)
+      //   return
+      // }
+      // setNoAlignApproved(false)
 
 
     //hitting submit when the summary span is bad....
@@ -1169,9 +1207,13 @@ const GuidedAnnotation = ({isPunct,
               OpeningModalShow = {undefined}                               setOpeningModalShow = {undefined}
               noAlignModalShow = {noAlignModalShow}                        setNoAlignModalShow = {setNoAlignModalShow}
               noAlignApproved = {noAlignApproved}                          setNoAlignApproved = {setNoAlignApproved}
+              changeSummarySentHandler = {changeSummarySentHandler}
+              showAlert={showAlert}                                       setShowAlert={setShowAlert}
+              SubmitModalShow={SubmitModalShow}                           setSubmitModalShow={setSubmitModalShow}
+              g_answer_modal_msg={g_answer_modal_msg}
             />
 
-                <Alert show={guiding_msg_type!=="closed" && g_answer_modal_msg===""} style={{position:"fixed", bottom:"1%", left:"50%", transform:"translate(-50%, 0%)", width:"50%", zIndex:"10000"}} variant={guiding_msg_type} onClose={() => setGuidingMsgType("closed")} dismissible>
+                <Alert show={guiding_msg_type==="success" && g_answer_modal_msg===""} style={{position:"fixed", bottom:"1%", left:"50%", transform:"translate(-50%, 0%)", width:"50%", zIndex:"10000"}} variant={guiding_msg_type} onClose={() => setGuidingMsgType("closed")} dismissible>
                         <Alert.Heading>{guiding_msg["title"]}</Alert.Heading>
                         <p>
                           <Markup content={guiding_msg["text"]} />

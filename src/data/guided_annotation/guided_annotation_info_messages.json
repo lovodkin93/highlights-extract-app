@@ -48,12 +48,27 @@
 		
 		{
 			"tkn_id":1,
-			"choose_summary_span":{},
+			"choose_summary_span":{
+				"title":"Choose Summary Span to Align",
+				"text":"Choose a summary <u>span</u> to align."
+			},
 			"find_alignment":{
-				"1":{},
-				"2":{},
-				"3":{},
-				"4":{},
+				"1":{
+					"title":"Find the Alignment",
+					"text":"Now it's time to find the alignment."
+				},
+				"2":{
+					"title":"Find the Alignment",
+					"text":"Now it's time to find the alignment."
+				},
+				"3":{
+					"title":"Find the Alignment",
+					"text":"Now it's time to find the alignment."
+				},
+				"4":{
+					"title":"Find the Alignment",
+					"text":"Now it's time to find the alignment."
+				},
 				"5":{
 					"title":"Find the Alignment - Pay Attention",
 					"text":"Find the Alignment. <Br/><u>Does \"while\" actually have an alignment?"
@@ -64,7 +79,10 @@
 		
 		{
 			"tkn_id":2,
-			"choose_summary_span":{},
+			"choose_summary_span":{
+				"title":"Choose Summary Span to Align",
+				"text":"Choose a summary <u>span</u> to align."
+			},
 			"find_alignment":{
 				"1":{
 					"title":"Find the Alignment - Pay Attention",
@@ -74,19 +92,34 @@
 					"title":"Find the Alignment - Pay Attention",
 					"text":"Find the Alignment. <br/>Make sure you don't miss anything in the alignment."
 				},
-				"3":{},
+				"3":{
+					"title":"Find the Alignment",
+					"text":"Now it's time to find the alignment."
+				},
 				"4":{
 					"title":"Find the Alignment - Pay Attention",
 					"text":"Find the Alignment. <br/>Does everything mentioned in the summary span appear in the document?"
 				},
-				"5":{},
+				"5":{
+					"title":"Find the Alignment",
+					"text":"Now it's time to find the alignment."
+				},
 				"6":{
 					"title":"Find the Alignment - Pay Attention",
 					"text":"Find the Alignment. <br/>Does everything mentioned in the summary span appear in the document?"
 				},
-				"7":{},
-				"8":{},
-				"9":{},
+				"7":{
+					"title":"Find the Alignment",
+					"text":"Now it's time to find the alignment."
+				},
+				"8":{
+					"title":"Find the Alignment",
+					"text":"Now it's time to find the alignment."
+				},
+				"9":{
+					"title":"Find the Alignment",
+					"text":"Now it's time to find the alignment."
+				},
 				"10":{
 					"title":"Find the Alignment - Pay Attention",
 					"text":"Find the Alignment. <br/>Is \"from countries like Brazil\" mentioned in the doc?"
@@ -97,7 +130,10 @@
 
 		{
 			"tkn_id":3,
-			"choose_summary_span":{},
+			"choose_summary_span":{
+				"title":"Choose Summary Span to Align",
+				"text":"Choose a summary <u>span</u> to align."
+			},
 			"find_alignment":{
 				"1":{
 					"title":"Pay Attention!",

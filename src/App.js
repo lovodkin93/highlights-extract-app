@@ -157,6 +157,9 @@ const App = () => {
 
   const [showAlert, setShowAlert] = useState("closed") // one of {"success", "warning", "closed"}
 
+  const [SubmitModalShow, setSubmitModalShow] = useState(false) // one of {"success", "warning", "closed"}
+
+
   //mturk
   const [assignmentId, SetAssignmentId] = useState("")
   const [turkSubmitTo, SetMturkTurkSubmitTo] = useState("https://www.mturk.com")
@@ -491,7 +494,6 @@ const App = () => {
     }
   }
 
-  // add an equivalent one for the Guided Annotation and the Tutorial
   const changeSummarySentHandler = ({isNext}) => {
     if (isNext){
       SetCurrSentInd(CurrSentInd+1)
@@ -510,6 +512,7 @@ const App = () => {
       SetCurrSentInd(CurrSentInd-1)
     }
     setDocJson(doc_json.map((word) => {return {...word, span_highlighted:false}}))
+    setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted:false}}))
   }
 
 
@@ -807,11 +810,11 @@ const App = () => {
 
     const SubmitHandler = (event) => {
       // no alignment
-      if ((typeof forceState !== 'string') && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
-        setNoAlignModalShow(true)
-        return
-      }
-      setNoAlignApproved(false)
+      // if ((typeof forceState !== 'string') && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
+      //   setNoAlignModalShow(true)
+      //   return
+      // }
+      // setNoAlignApproved(false)
       
       
       approveHighlightHandler()
@@ -892,6 +895,11 @@ const App = () => {
                                                        doc_paragraph_breaks = {t_doc_paragraph_breaks} 
                                                        setDocParagraphBreaks = {t_setDocParagraphBreaks} 
                                                        t_state_messages = {t_state_messages}
+                                                       showAlert={showAlert}                                                 
+                                                       setShowAlert={setShowAlert}
+                                                       SUMMARY_WORD_CNT_THR={SUMMARY_WORD_CNT_THR}
+                                                       SubmitModalShow={SubmitModalShow}                           
+                                                       setSubmitModalShow={setSubmitModalShow}
                                               />}
           />
 
@@ -949,6 +957,9 @@ const App = () => {
                                           g_answer_modal_msg={g_answer_modal_msg}                               g_setAnswerModalMsg={g_setAnswerModalMsg} 
                                           g_answer_words_to_glow={g_answer_words_to_glow}                       g_setAnswerWordsToGlow={g_setAnswerWordsToGlow}  
                                           g_Guider_msg={g_Guider_msg}                                           g_setGuiderMsg={g_setGuiderMsg}
+                                          showAlert={showAlert}                                                 setShowAlert={setShowAlert}
+                                          SUMMARY_WORD_CNT_THR={SUMMARY_WORD_CNT_THR}
+                                          SubmitModalShow={SubmitModalShow}                                     setSubmitModalShow={setSubmitModalShow}
                                           />} 
           
           />
@@ -993,6 +1004,8 @@ const App = () => {
                                               noAlignApproved = {noAlignApproved}                         setNoAlignApproved = {setNoAlignApproved}
                                               changeSummarySentHandler = {changeSummarySentHandler}
                                               showAlert={showAlert}                                       setShowAlert={setShowAlert}
+                                              SubmitModalShow={SubmitModalShow}                           setSubmitModalShow={setSubmitModalShow}
+                                              g_answer_modal_msg={undefined}
                                               />} 
             />
 
