@@ -30,7 +30,7 @@ const MachineStateHandler = (summary_json,
     else if (forceState === "ANNOTATION"){
       console.log(`forceState: \"ANNOTATION\"`);
       SetStateMachineState("ANNOTATION");
-      SetInfoMessage("Highlight document and summary alignment and then press \"CONFIRM\".");
+      SetInfoMessage("Highlight document and summary alignment and then press \"ADD ALIGNMENT\".");
     }
 
     // forceState: "REVISE HOVER"
@@ -45,7 +45,7 @@ const MachineStateHandler = (summary_json,
     else if (forceState === "FINISH REVISION"){
       const prev_state = ExitReviseHandler();
       if (["ANNOTATION", "SENTENCE START".includes(prev_state)]) {
-        SetInfoMessage("Highlight document and summary alignment and then press \"CONFIRM\".");
+        SetInfoMessage("Highlight document and summary alignment and then press \"ADD ALIGNMENT\".");
       } else if (prev_state === "SENTENCE END"){
         SetInfoMessage("Finished sentence highlighting. When ready, press \"NEXT SENTENCE\".");
       } else if (prev_state === "SUMMARY END") {
@@ -61,7 +61,7 @@ const MachineStateHandler = (summary_json,
         SetStateMachineState("ANNOTATION");
         SetSummaryShadow(CurrSentInd+1);
         SetCurrSentInd(CurrSentInd+1);
-        SetInfoMessage("Highlight document and summary alignment and then press \"CONFIRM\".");
+        SetInfoMessage("Highlight document and summary alignment and then press \"ADD ALIGNMENT\".");
     }
     
     // "ANNOTATION" state --> "ANNOTATION" with next alignment
@@ -70,7 +70,7 @@ const MachineStateHandler = (summary_json,
       console.log(`Old state: \"ANNOTATION\"; New state: \"ANNOTATION\" with AlignmentCount=${AlignmentCount}.`);
       approveHighlightHandler();
       SetAlignmentCount(AlignmentCount+1);
-      SetInfoMessage("Highlight document and summary alignment and then press \"CONFIRM\".");
+      SetInfoMessage("Highlight document and summary alignment and then press \"ADD ALIGNMENT\".");
     }
 
     // "SENTENCE END" state --> "SENTENCE START" 
@@ -85,7 +85,7 @@ const MachineStateHandler = (summary_json,
       console.log(`Old state: \"SENTENCE END\"; New state: \"SENTENCE START\" with SentInd=${CurrSentInd+1}.`);
       SetStateMachineState("SENTENCE START");
       SetCurrSentInd(CurrSentInd+1);
-      SetInfoMessage("Highlight document and summary alignment and then press \"CONFIRM\".");
+      SetInfoMessage("Highlight document and summary alignment and then press \"ADD ALIGNMENT\".");
     }
       // "SENTENCE START" state --> "ANNOTATION" with next alignment 
       else if (StateMachineState === "SENTENCE START"){
@@ -94,7 +94,7 @@ const MachineStateHandler = (summary_json,
         SetStateMachineState("ANNOTATION");
         approveHighlightHandler();
         SetAlignmentCount(AlignmentCount+1);
-        SetInfoMessage("Highlight document and summary alignment and then press \"CONFIRM\".");
+        SetInfoMessage("Highlight document and summary alignment and then press \"ADD ALIGNMENT\".");
   
       }
       // "SUMMARY END" state --> "SUBMIT" state 
@@ -110,7 +110,7 @@ const MachineStateHandler = (summary_json,
         console.log(`clickedWordInfo:${JSON.stringify(clickedWordInfo)}`)
         ReviseChooseAlignHandler(clickedWordInfo);
         SetStateMachineState("REVISE CLICKED");
-        SetInfoMessage("");
+        SetInfoMessage("Fix the alignment and press \"UPDATE ALIGNMENT\" to update, or \"BACK\" to discard the changes.");
       }
 
       // "REVISE CLICKED" state --> "REVISE HOVER" state 
@@ -169,7 +169,7 @@ SetInfoMessage("Finished summary highlighting. When ready, press \"SUBMIT\".");
 else if (forceState === "ANNOTATION"){
 console.log(`forceState: \"ANNOTATION\"`);
 SetStateMachineState("ANNOTATION");
-SetInfoMessage("Highlight document and summary alignment and then press \"CONFIRM\".");
+SetInfoMessage("Highlight document and summary alignment and then press \"ADD ALIGNMENT\".");
 }
 
 // forceState: "REVISE HOVER"
@@ -184,7 +184,7 @@ SetInfoMessage("Choose alignment to revise.");
 else if (forceState === "FINISH REVISION"){
 const prev_state = ExitReviseHandler();
 if (["ANNOTATION", "SENTENCE START".includes(prev_state)]) {
-SetInfoMessage("Highlight document and summary alignment and then press \"CONFIRM\".");
+SetInfoMessage("Highlight document and summary alignment and then press \"ADD ALIGNMENT\".");
 } else if (prev_state === "SENTENCE END"){
 SetInfoMessage("Finished sentence highlighting. When ready, press \"NEXT SENTENCE\".");
 } else if (prev_state === "SUMMARY END") {
@@ -200,7 +200,7 @@ console.log(`Old state: \"START\"; New state: \"ANNOTATION\" with SentInd=${Curr
 SetStateMachineState("ANNOTATION");
 SetSummaryShadow(CurrSentInd+1);
 SetCurrSentInd(CurrSentInd+1);
-SetInfoMessage("Highlight document and summary alignment and then press \"CONFIRM\".");
+SetInfoMessage("Highlight document and summary alignment and then press \"ADD ALIGNMENT\".");
 
 // g_setStateMachineStateIndex(1.0)
 }
@@ -211,7 +211,7 @@ console.log(`curr AlignmentCount is ${AlignmentCount}`);
 console.log(`Old state: \"ANNOTATION\"; New state: \"ANNOTATION\" with AlignmentCount=${AlignmentCount}.`);
 approveHighlightHandler();
 SetAlignmentCount(AlignmentCount+1);
-SetInfoMessage("Highlight document and summary alignment and then press \"CONFIRM\".");
+SetInfoMessage("Highlight document and summary alignment and then press \"ADD ALIGNMENT\".");
 }
 
 // "SENTENCE END" state --> "SENTENCE START" 
@@ -226,7 +226,7 @@ SetAlignmentCount(AlignmentCount+1);
 console.log(`Old state: \"SENTENCE END\"; New state: \"SENTENCE START\" with SentInd=${CurrSentInd+1}.`);
 SetStateMachineState("SENTENCE START");
 SetCurrSentInd(CurrSentInd+1);
-SetInfoMessage("Highlight document and summary alignment and then press \"CONFIRM\".");
+SetInfoMessage("Highlight document and summary alignment and then press \"ADD ALIGNMENT\".");
 }
 // "SENTENCE START" state --> "ANNOTATION" with next alignment 
 else if (StateMachineState === "SENTENCE START"){
@@ -235,7 +235,7 @@ console.log(`Old state: \"SENTENCE START\"; New state: \"ANNOTATION\" with Align
 SetStateMachineState("ANNOTATION");
 approveHighlightHandler();
 SetAlignmentCount(AlignmentCount+1);
-SetInfoMessage("Highlight document and summary alignment and then press \"CONFIRM\".");
+SetInfoMessage("Highlight document and summary alignment and then press \"ADD ALIGNMENT\".");
 
 }
 // "SUMMARY END" state --> "SUBMIT" state 
@@ -250,7 +250,7 @@ else if (StateMachineState === "REVISE HOVER"){
 console.log(`Old state: \"REVISE HOVER\"; New state: \"REVISE CLICKED\"`);
 ReviseChooseAlignHandler(clickedWordInfo);
 SetStateMachineState("REVISE CLICKED");
-SetInfoMessage("");
+SetInfoMessage("Fix the alignment and press \"UPDATE ALIGNMENT\" to update, or \"BACK\" to discard the changes.");
 }
 
 // "REVISE CLICKED" state --> "REVISE HOVER" state 

@@ -57,12 +57,12 @@ const DocWord = ({ word_json, DocOnMouseDownID, doc_paragraph_breaks, StateMachi
 
           <div
             className={`docWord noselect
-                        ${(word_json.span_highlighted && !word_json.span_alignment_hover) ?  'span-highlighted-word': ''} 
+                        ${(word_json.span_highlighted && !word_json.span_alignment_hover  && !(word_json.red_color && !docOnMouseDownActivated)) ?  'span-highlighted-word': ''} 
                         ${(word_json.span_alignment_hover && !ctrlButtonDown) ?  'span-aligned-hover-word': ''} 
-                        ${(word_json.old_alignments && !word_json.span_highlighted) ? 'old-aligned-word': ''}
+                        ${(word_json.old_alignments && !word_json.span_highlighted && !(word_json.red_color && !docOnMouseDownActivated)) ? 'old-aligned-word': ''}
                         ${(word_json.red_color && !docOnMouseDownActivated) ? 'red-color-word': ''}
                         ${(word_json.boldfaced) ? 'boldfaced-word': ''}
-                        ${(!word_json.boldfaced && !word_json.red_color) ? 'text-muted': ''}
+                        ${(!word_json.boldfaced) ? 'text-muted': ''}
                         ${(word_json.old_alignment_hover && StateMachineState==="REVISE HOVER") ? 'old-aligned-hover-word': ''}
                         ${(StateMachineState !== "REVISE HOVER" && DocOnMouseDownID==="-1") ? 'cursor-grab' : ''}
                         ${(word_json.old_alignments && StateMachineState==="REVISE HOVER") ? 'cursor-pointer': ''}

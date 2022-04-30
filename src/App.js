@@ -608,7 +608,7 @@ const App = () => {
     } else if (["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState) && !sliderBoldStateActivated) {
       boldStateHandler(undefined, false);
     }
-  }, [StateMachineState, CurrSentInd, AlignmentCount, summary_json]);
+  }, []);
 
   /********************************************************************************/
 

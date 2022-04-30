@@ -32,7 +32,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Alert from 'react-bootstrap/Alert'
 import { ChevronLeft, ChevronRight, SendFill,  } from 'react-bootstrap-icons';
-import { AiOutlineCheckCircle, AiOutlineExclamationCircle } from "react-icons/ai";
+import { AiOutlineCheckCircle, AiOutlineExclamationCircle, AiOutlineQuestionCircle } from "react-icons/ai";
 import { Markup } from 'interweave';
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button';
@@ -41,10 +41,10 @@ import Overlay from 'react-bootstrap/Overlay'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import CloseButton from 'react-bootstrap/CloseButton'
+import Offcanvas from 'react-bootstrap/Offcanvas'
 
 import Popover from 'react-bootstrap/Popover'
 import { Player, BigPlayButton } from 'video-react';
-
 
 import { TutorialCard } from './TutorialCard';
 import { getTutorialCardTitle } from './Tutorial_utils'
@@ -109,6 +109,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   const [summaryOnMouseDownInCorrectSent, setSummaryOnMouseDownInCorrectSent] = useState(true)
   const [ctrlButtonDown, setCtrlButtonDown] = useState(false)
   const [toastVisible, setToastVisible] = useState(true)
+  const [showReminderOffCanvas, setShowReminderOffCanvas] = useState(false)
 
   const docGuider = useRef(null);
   const summaryGuider = useRef(null);
@@ -130,7 +131,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
     else if(StateMachineState==="SENTENCE START"){btn_text = "ADD ALIGNMENT";}
     else if(StateMachineState==="SENTENCE END"){btn_text = "NEXT SENTENCE";}
     else if(StateMachineState==="SUMMARY END"){btn_text = "SUBMIT";}
-    else if(StateMachineState==="REVISE CLICKED"){btn_text = "UPDATE";}
+    else if(StateMachineState==="REVISE CLICKED"){btn_text = "UPDATE ALIGNMENT";}
 
     // // add no align
     // if (StateMachineState!=="START" && !isDocSpanExist()) {
@@ -148,13 +149,16 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
     if(StateMachineState==="REVISE CLICKED"){return "Adjust Alignments";}
   }
 
+  
+
   const InfoAlert = (InfoMessage) => {
     return (
-      <Alert variant="info">
+      <Alert className="info-alert" variant="info">
         <Alert.Heading>{getInfoAlertTitle()}</Alert.Heading>
         <p className="mb-0">
           {InfoMessage}
         </p>
+        < AiOutlineQuestionCircle size={50} className="right-info-icon-button" onClick={() => {setShowReminderOffCanvas(true)}} />
       </Alert>
     )}
 
@@ -460,6 +464,31 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   }
 
 
+  const reminderText = () => {
+    return (
+      <div>
+        <ul>
+          <li><u><b>To highlight</b></u> - hold the mouse until span is fully-covered.</li>
+          <li><u><b>Bold feature</b></u> - tick the bold checkbox (above document).</li>
+          <li><u><b>Single word hints feature</b></u> - hover over the summary word.</li>
+          <li><u><b>Un-highlight</b></u> - click "CLEAR".</li>
+          <li><u><b>Save Alignment</b></u> - click "ADD ALIGNMENT".</li>
+          <li><u><b>Switch sentence</b></u> - click the "NEXT SENT" or "PREV SENT" buttons, accordingly.</li>
+          <li> 
+            <u><b>Revise old alignments</b></u>:
+              <ol>
+                <li>Click the \"REVISE\" button.</li>
+                <li>Click the old alignment needing fixing.</li>
+                <li>Fix the alignment and press "UPDATE ALIGNMENT".</li>
+                <li>When finishing updating the alignments, press "EXIT REVISION".</li>
+              </ol>
+          </li>
+          <li><u><b>"SUBMIT" button</b></u> - is available only when you are in the last sentence.</li>
+          <li><u><b>Summary details not appearing in the document</b></u> - leave un-highlighted.</li>
+        </ul>
+      </div>
+    )
+  }
 
 
 
@@ -578,7 +607,7 @@ useEffect(() => {
       <Container tabIndex="0" className='annotation-container'>
         <Row className='annotation-row' ref={containerRef}>
           <Col>
-            <ResponsiveAppBar
+            {/* <ResponsiveAppBar
                   title={getResponsiveAppBarTitle()} 
                   StateMachineState = {StateMachineState} 
                   MachineStateHandlerWrapper={MachineStateHandlerWrapper}
@@ -589,7 +618,7 @@ useEffect(() => {
                   t_StateMachineStateId = {t_StateMachineStateId}
                   g_showWhereNavbar = {g_showWhereNavbar}
                   
-            />
+            /> */}
             {(InfoMessage !== "" && !isTutorial && !isGuidedAnnotation) && (InfoAlert(InfoMessage))}
             {(isTutorial) && (<TutorialCard t_StateMachineStateId = {t_StateMachineStateId} 
                                             t_SetStateMachineStateId = {t_SetStateMachineStateId}
@@ -741,7 +770,7 @@ useEffect(() => {
                     )}
 
                   {!["REVISE HOVER", "SUMMARY END", "START"].includes(StateMachineState) && (
-                      <Col md={{span:5, offset:3}}>
+                      <Col md={{span:6, offset:2}}>
                         <button ref={nextButtonGuider} type="button" className={`btn btn-primary btn-md right-button ${((isTutorial && [5,11,14].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                         <Markup content={nextButtonText()} />
                           {/* {(isDocSpanExist()) && <ChevronRight className="button-icon"/>} */}
@@ -985,6 +1014,15 @@ useEffect(() => {
             </Tooltip>
           )}
         </Overlay>
+
+        <Offcanvas className='reminder-Offcanvas' show={showReminderOffCanvas} onHide={() => {setShowReminderOffCanvas(false)}}>
+          <Offcanvas.Header closeButton className='text-muted bg-light'>
+            <Offcanvas.Title>Reminder</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body className='text-muted bg-light'>
+            {reminderText()}
+          </Offcanvas.Body>
+        </Offcanvas>
         
 
 

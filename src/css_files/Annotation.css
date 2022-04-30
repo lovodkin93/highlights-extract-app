@@ -178,9 +178,9 @@
     font-weight:900;
     font-size:18px;
 }
-.red-color-word{
-    color:red;
-}
+/* .red-color-word{
+    background-color: lightsalmon;
+} */
 
 .normal-sized-word{
     font-size:18px;
@@ -234,6 +234,18 @@
 
 .right-button{
     float: right;
+}
+
+
+.info-alert{
+  position: relative;
+}
+.info-alert .right-info-icon-button{
+  position: absolute;
+  right:0;
+  top:50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
 }
 
 .left-button{
@@ -748,4 +760,8 @@ border-bottom-color:lightsalmon !important;
     vertical-align: -10%;
   }
 
+  .reminder-Offcanvas{
+    width:650px !important;
+    font-family: 'Lucida Sans', 'Lucida Grande', sans-serif !important;
+  }
 
