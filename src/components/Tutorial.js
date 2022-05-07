@@ -319,7 +319,7 @@ const Tutorial = ({doc_json, setDocJson,
   const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
     
     // // no alignment
-    if ([16].includes(t_StateMachineStateId) && (typeof forceState !== 'string')  && (StateMachineState !== "REVISE HOVER") && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
+    if ([16].includes(t_StateMachineStateId) && (typeof forceState !== 'string')  && (!["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState)) && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
       setNoAlignModalShow(true)
       return
     }

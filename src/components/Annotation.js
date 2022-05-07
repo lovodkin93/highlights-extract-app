@@ -899,13 +899,12 @@ useEffect(() => {
 
         <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={StateMachineState === "START" && !g_FinishedModalShow && !isTutorial}>
                   <Modal.Body>
-                    Before starting to work, please go over the summary and skim the document.
+                    <Modal.Title>Before starting to work, please go over the summary and skim the document.</Modal.Title>
                   </Modal.Body>
                   <Modal.Footer>
                     <Button variant="btn btn-success btn-lg right-button" onClick={MachineStateHandlerWrapper}>
                       GOT IT
                     </Button>
-                    
                   </Modal.Footer>
         </Modal>
 

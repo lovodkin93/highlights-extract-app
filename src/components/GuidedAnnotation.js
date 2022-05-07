@@ -458,7 +458,7 @@ const GuidedAnnotation = ({isPunct,
   
     const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
       // no alignment
-      if ((typeof forceState !== 'string') && (StateMachineState !== "REVISE HOVER") && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
+      if ((typeof forceState !== 'string') && (!["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState)) && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
         setNoAlignModalShow(true)
         return
       }
