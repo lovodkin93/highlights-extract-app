@@ -866,7 +866,7 @@ useEffect(() => {
         )}
       </Container>
 
-      <Modal  aria-labelledby="contained-modal-title-vcenter" centered show={OpeningModalShow && !isTutorial && !isGuidedAnnotation} onHide={() => {setOpeningModalShow(false)}}>
+      {/* <Modal  aria-labelledby="contained-modal-title-vcenter" centered show={OpeningModalShow && !isTutorial && !isGuidedAnnotation} onHide={() => {setOpeningModalShow(false)}}>
                   <Modal.Header closeButton>
                     <Modal.Title>Attention!</Modal.Title>
                   </Modal.Header>
@@ -885,7 +885,7 @@ useEffect(() => {
                       </Button>
                     </Link>
                   </Modal.Footer>
-        </Modal>
+        </Modal> */}
 
         <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={noAlignModalShow} onHide={() => {setNoAlignModalShow(false)}}>
                   <Modal.Header closeButton>
@@ -897,7 +897,7 @@ useEffect(() => {
         </Modal>
 
 
-        <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={StateMachineState === "START" && !g_FinishedModalShow && !OpeningModalShow && !isTutorial}>
+        <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={StateMachineState === "START" && !g_FinishedModalShow && !isTutorial}>
                   <Modal.Body>
                     Before starting to work, please go over the summary and skim the document.
                   </Modal.Body>
