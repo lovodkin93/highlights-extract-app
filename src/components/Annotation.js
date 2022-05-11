@@ -529,12 +529,6 @@ useEffect(() => {
 /************************************************************************************************************* */
 
 
-useEffect(() => {
-  console.log(`g_hint_msg:`)
-  console.log(g_hint_msg)
-}, []);
-
-
 // // to make sure the guided annotation guiding messages start with something
   // useEffect(() => {
   //   console.log(`StateMachineState is: ${StateMachineState}`)
@@ -669,7 +663,7 @@ useEffect(() => {
                       CLEAR 
                     </button>
 
-                    <FormControlLabel className='bold-checker' control={<Checkbox defaultChecked />} label="Bold" labelPlacement="top" onChange={boldStateHandler}/>
+                    <FormControlLabel className='bold-checker' control={<Checkbox />} label="Bold" labelPlacement="top" onChange={boldStateHandler}/>
 
 
                       {/* <BlackTextTypography className='bold-slider-title'>
