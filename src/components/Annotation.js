@@ -74,7 +74,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                     docOnMouseDownActivated, setDocOnMouseDownActivated, 
                     summaryOnMouseDownActivated, setSummaryOnMouseDownActivated, 
                     setHoverActivatedId, setHoverActivatedDocOrSummary,
-                    hoverActivatedId,
+                    hoverActivatedId, setSliderBoldStateActivated,
                     t_StateMachineStateId, t_SetStateMachineStateId, 
                     t_start_doc_json, t_middle_doc_json, 
                     t_sent_end_doc_json, t_submit_doc_json, 
@@ -119,6 +119,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
 
   const backButtonGuider = useRef(null);              
   const ExitReviseButtonGuider = useRef(null)
+  const [changeSentAdaptBold, setChangeSentAdaptBold] = useState(0) // for adjusting the bolding when changing sentences because not smooth
 
   const isDocSpanExist = () => {
     return doc_json.filter((word) => {return word.span_highlighted}).length !== 0
@@ -551,6 +552,8 @@ useEffect(() => {
 /************************************************************************************************************* */
 
 
+
+
 // // to make sure the guided annotation guiding messages start with something
   // useEffect(() => {
   //   console.log(`StateMachineState is: ${StateMachineState}`)
@@ -558,6 +561,24 @@ useEffect(() => {
   //     setGuidedAnnotationMessage("To begin, press the \"START\" button.")
   //   }
   // }, []);
+
+
+  // change the bolding when changing a sentence
+  useEffect(() => {
+    if (changeSentAdaptBold==1) {
+      const isBold = doc_json.filter((word) => {return word.boldfaced}).length !== 0
+      setSliderBoldStateActivated(false)
+      boldStateHandler(undefined, isBold)
+      setChangeSentAdaptBold(0)
+    }
+  }, [changeSentAdaptBold]);
+
+  useEffect(() => {
+    if (changeSentAdaptBold==0) {
+      setChangeSentAdaptBold(changeSentAdaptBold+1)
+    }
+  }, [CurrSentInd]);
+
 
   // reset clickings between states
   useEffect(() => {
@@ -764,7 +785,7 @@ useEffect(() => {
 
               {!isTutorial && (
                 <Row className="justify-content-md-center">
-                    {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && false && (
+                    {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && (
                       <Col>
                         <button type="button" className={`btn btn-danger btn-md ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>REVISE</button>
                       </Col>
@@ -785,7 +806,7 @@ useEffect(() => {
                       </Col>
                     )}
 
-                  {!["REVISE HOVER", "SUMMARY END", "START"].includes(StateMachineState) && false && (
+                  {!["REVISE HOVER", "SUMMARY END", "START"].includes(StateMachineState) && (
                       <Col md={{span:6, offset:2}}>
                         <button ref={nextButtonGuider} type="button" className={`btn btn-primary btn-md right-button ${((isTutorial && [5,11,14].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                         <Markup content={nextButtonText()} />
@@ -913,8 +934,7 @@ useEffect(() => {
         </Modal>
 
 
-        {/* AVIVSL: return this in the end */}
-        {/* <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={StateMachineState === "START" && !g_FinishedModalShow && !isTutorial}>
+        <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={StateMachineState === "START" && !g_FinishedModalShow && !isTutorial}>
                   <Modal.Body>
                     <Modal.Title>Before starting to work, please go over the summary and skim the document.</Modal.Title>
                   </Modal.Body>
@@ -923,9 +943,9 @@ useEffect(() => {
                       GOT IT
                     </Button>
                   </Modal.Footer>
-        </Modal> */}
+        </Modal>
 
-        <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={StateMachineState === "START" && !g_FinishedModalShow && !isTutorial}>
+        {/* <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={StateMachineState === "START" && !g_FinishedModalShow && !isTutorial}>
                   <Modal.Body>
                     <Modal.Title>If you forgot any of the instructions, click "TO INSTRUCTIONS". <br/>Otherwise, click "BEGIN".</Modal.Title>
                   </Modal.Body>
@@ -939,7 +959,7 @@ useEffect(() => {
                       </button>
                     </Link>
                   </Modal.Footer>
-        </Modal>
+        </Modal> */}
 
 
 
@@ -1058,11 +1078,6 @@ useEffect(() => {
             {reminderText_short()}
           </Offcanvas.Body>
         </Offcanvas>
-        
-
-
-
-
     </div>
   )
 }

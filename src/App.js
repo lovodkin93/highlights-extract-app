@@ -879,7 +879,7 @@ const App = () => {
       <div className='container-background'>
         <Routes>
 
-          <Route path='/Instructions' element={<Instructions_short/>} />
+          {/* <Route path='/Instructions' element={<Instructions_short/>} /> */}
 
           {/* <Route path='/tutorial' element=  {<Tutorial doc_json = {t_doc_json} 
                                                        setDocJson = {t_setDocJson}
@@ -989,7 +989,7 @@ const App = () => {
                                               docOnMouseDownActivated = {docOnMouseDownActivated}         setDocOnMouseDownActivated = {setDocOnMouseDownActivated}
                                               summaryOnMouseDownActivated = {summaryOnMouseDownActivated} setSummaryOnMouseDownActivated = {setSummaryOnMouseDownActivated}
                                               setHoverActivatedId = {setHoverActivatedId}                 setHoverActivatedDocOrSummary = {setHoverActivatedDocOrSummary}
-                                              hoverActivatedId = {hoverActivatedId}
+                                              hoverActivatedId = {hoverActivatedId}                       setSliderBoldStateActivated = {setSliderBoldStateActivated}
                                               t_StateMachineStateId = {undefined}                         t_SetStateMachineStateId = {undefined}
                                               t_start_doc_json = {undefined}                              t_middle_doc_json = {undefined}
                                               t_sent_end_doc_json = {undefined}                           t_submit_doc_json = {undefined}
