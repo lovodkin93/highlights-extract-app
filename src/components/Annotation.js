@@ -11,8 +11,11 @@ import Badge from 'react-bootstrap/Badge';
 import { CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-
-
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/Dropdown'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar'
+import Figure from 'react-bootstrap/Figure'
 
 import Fab from '@mui/material/Fab';
 // import Card from '@mui/material/Card';
@@ -464,6 +467,30 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
     return summary_json.filter((word) => {return (!isPunct(word.word) && !word.old_alignments && !["while", "from", "countries", "like", "Brazil"].includes(word.word))}).length === 0
   }
 
+  const reminderTextExampleButton = ({isImg, example_sent}) => {
+    return (
+      <Dropdown className={`${(isImg) ? '':'reminderTextExampleButton'}`}>
+        <Dropdown.Toggle variant={`${(isImg)? 'warning':'info'}`} id="dropdown-basic" size="sm">
+          Example
+        </Dropdown.Toggle>
+
+
+        <Dropdown.Menu className='reminderTextExampleDropDown'>
+          {!isImg && (<Dropdown.Item> <Markup content={example_sent} /> </Dropdown.Item>)}
+          {isImg && (
+            <img
+            src={example_sent}
+            className='img-thumbnail'
+            // style={{ maxWidth: '24rem' }}
+          />
+          )}
+
+          {/* <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+          <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
+        </Dropdown.Menu>
+      </Dropdown>
+    )
+  }
 
   const reminderText = () => {
     return (
@@ -478,40 +505,68 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
           <li> 
             <u><b>Revise old alignments</b></u>:
               <ol>
-                <li>Click the \"REVISE\" button.</li>
-                <li>Click the old alignment needing fixing.</li>
-                <li>Fix the alignment and press "UPDATE ALIGNMENT".</li>
-                <li>When finishing updating the alignments, press "EXIT REVISION".</li>
+                <li>Click "REVISE".</li>
+                <li>Click the old alignment needing fixing (will leave only it).</li>
+                <li>Fix the alignment.</li>
+                <li>Click "UPDATE ALIGNMENT" to save the changes or "BACK" to discard them.</li>
               </ol>
+              <ul>
+                <li>Steps 2-4 can be run on as many old alignments as needed.</li>
+                <li>When finishing updating the alignments, click "EXIT REVISION".</li>
+              </ul>
           </li>
-          <li><u><b>"SUBMIT" button</b></u> - is available only when you are in the last sentence.</li>
-          <li><u><b>Summary details not appearing in the document</b></u> - leave un-highlighted.</li>
+          <li><u><b>Submit work</b></u> - click the "SUBMIT" button (appears when at the last sentence).</li>
+          <li>
+             <b><u>General requirements</u>:</b>
+             <ul>
+               <li>It is recommended to break down long summary sentences into facts, and align each fact separately.</li>
+               <li>
+                 Ways to recognize and divide <u>summary</u> sentences into facts:
+                <ol>
+                  <li>Side-by-side {reminderTextExampleButton({isImg:false, example_sent:"His mother told him to go rest, while his father <br/>urged him to finish his chores."})}</li>
+                  <li>Shared elements/words {reminderTextExampleButton({isImg:false, example_sent:"<u>Bob Sheets</u>, the newly appointed head of the <br/>National Hurricane Center at Coral Gables, <br/>stays calm and gives press interviews."})}</li>
+                  <li>No Explicit verb {reminderTextExampleButton({isImg:false, example_sent:"<u>Ewen M. Wilson, the department's chief <br/>economist</u>, said that the United States <br/> might import some soybeans this year."})}</li>
+                </ol>
+               </li>
+               <li>
+                 What to highlight in the <u>document</u>:
+                 <ol>
+                   <li>Minimal document phrase describing the same information. {reminderTextExampleButton({isImg:true, example_sent:"./reminder_doc_highlighting_examples/minimal_document_phrase.JPG"})}</li>
+                   <li>Paraphrasing is ok (as long as describes the same event). {reminderTextExampleButton({isImg:true, example_sent:"./reminder_doc_highlighting_examples/paraphrasing.JPG"})}</li>
+                   <li>Document Phrases don't have to be consecutive. {reminderTextExampleButton({isImg:true, example_sent:"./reminder_doc_highlighting_examples/not_consecutive.JPG"})}</li>
+                   <li>If needed - fill in missing details. {reminderTextExampleButton({isImg:true, example_sent:"./reminder_doc_highlighting_examples/fill_in.JPG"})}</li>
+                   <li>if un-alignable (summary details doesn't appear in document) - leave unhighlighted in the <u>summary</u>. {reminderTextExampleButton({isImg:true, example_sent:"./reminder_doc_highlighting_examples/unalignable.JPG"})}</li>
+                   <li>highlight in context. {reminderTextExampleButton({isImg:true, example_sent:"./reminder_doc_highlighting_examples/in_context.JPG"})}</li>
+                 </ol>
+               </li>
+             </ul>
+           </li>
         </ul>
       </div>
     )
   }
 
-  const reminderText_short = () => {
-    return (
-      <div>
-        <ul>
-          <li><u><b>To highlight</b></u> - hold the mouse until the span is fully-covered.</li>
-          <li><u><b>Bold feature</b></u> - tick the bold checkbox (above document).</li>
-          <li><u><b>Single word hints feature</b></u> - hover over the summary word.</li>
-          <li><u><b>Un-highlight</b></u> - click "CLEAR".</li>
-          <li><u><b>Submit work</b></u> - click "SUBMIT" button.</li>
-          <li>
-            <b><u>General requirements</u>:</b>
-            <ol>
-              <li>Highlight all <u>document</u> phrases contributing to the summary creation.</li>
-              <li>Your goal: to highlight <u>all</u> the information appearing in the summary.</li>
-              <li>Avoid highlighting details that weren't mentioned in the summary.</li>
-            </ol>
-          </li>
-        </ul>
-      </div>
-    )
-  }
+  // const reminderText_short = () => {
+  //   return (
+  //     <div>
+  //       <ul>
+  //         <li><u><b>To highlight</b></u> - hold the mouse until the span is fully-covered.</li>
+  //         <li><u><b>Bold feature</b></u> - tick the bold checkbox (above document).</li>
+  //         <li><u><b>Single word hints feature</b></u> - hover over the summary word.</li>
+  //         <li><u><b>Un-highlight</b></u> - click "CLEAR".</li>
+  //         <li><u><b>Submit work</b></u> - click "SUBMIT" button.</li>
+  //         <li>
+  //           <b><u>General requirements</u>:</b>
+  //           <ol>
+  //             <li>Highlight all <u>document</u> phrases contributing to the summary creation.</li>
+  //             <li>Your goal: to highlight <u>all</u> the information appearing in the summary.</li>
+  //             <li>Avoid highlighting details that weren't mentioned in the summary.</li>
+  //           </ol>
+  //         </li>
+  //       </ul>
+  //     </div>
+  //   )
+  // }
 
 
 
@@ -1075,7 +1130,7 @@ useEffect(() => {
           </Offcanvas.Header>
           <Offcanvas.Body className='text-muted bg-light'>
             {/* {reminderText()} */}
-            {reminderText_short()}
+            {reminderText()}
           </Offcanvas.Body>
         </Offcanvas>
     </div>

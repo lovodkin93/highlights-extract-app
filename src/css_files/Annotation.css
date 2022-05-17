@@ -762,10 +762,22 @@ border-bottom-color:lightsalmon !important;
   }
 
   .reminder-Offcanvas{
-    width:650px !important;
+    width:55% !important;
     font-family: 'Lucida Sans', 'Lucida Grande', sans-serif !important;
   }
+
+  .reminderTextExampleButton{
+    display: inline;
+  }
+
   
+  .reminderTextExampleDropDown{
+    border: 1px solid black !important;
+  }
+
+
+
+
   /* .react-player {
     position: absolute;
     top: 0;
