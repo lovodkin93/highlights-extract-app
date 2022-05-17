@@ -4,6 +4,8 @@
 	min-height: 100vh;
     width:100%;
 	margin: 0;
+    padding-left: .5%;
+    position: relative;
 }
 
 .InstructionsBody h4{
@@ -11,6 +13,17 @@
     color: black;
     font-weight: normal;
 }
+
+.InstructionsBody .btn-huge{
+    position: absolute;
+    padding-top:30px !important;
+    padding-bottom:30px !important;
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+    right:1%;
+    bottom:5px;
+    font-size: larger !important;
+  }
 
 .firstHighlightExample{
     background-color: yellow;
@@ -26,12 +39,10 @@
 
 .InstructionsBody h3{
     font-family:Arial, Helvetica, sans-serif;
-    text-align: center;
-    position: relative;
-}
+    font-size: xxx-large !important;
+    margin-top: 1%;
+    text-decoration: underline;
 
-.instruction_images{
-    width:90%;
 }
 
 .underline1{
@@ -42,3 +53,12 @@
     text-decoration: wavy underline black;
 }
 
+.instruction_images{
+    max-width: 60%;
+    margin-top: .5%;
+  }
+
+  
+  .player-wrapper {
+    max-width: 60%;
+  }

@@ -6,6 +6,7 @@ import * as React from 'react';
 
 import StartPage from './components/StartPage';
 import Tutorial from './components/Tutorial';
+import Instructions_short from './components/Instructions_short'
 // import Instructions from './components/Instructions';
 import GuidedAnnotation from './components/GuidedAnnotation';
 
@@ -410,10 +411,10 @@ const App = () => {
   }
 
   const boldStateHandler = (event, newValue) => {
-    console.log(`event`)
-    console.log(event)
-    console.log("newValue:")
-    console.log(newValue)
+    // console.log(`event`)
+    // console.log(event)
+    // console.log("newValue:")
+    // console.log(newValue)
     if (event !== undefined){
       setSliderBoldStateActivated(true)
     }
@@ -506,10 +507,10 @@ const App = () => {
 
       if(summary_currSent_old_highlighted_tkn_cnt / summary_currSent_tkn_cnt > SUMMARY_WORD_CNT_THR) {
         setShowAlert("success")
-        console.log("good!")
+        // console.log("good!")
       } else {
         setShowAlert("warning")
-        console.log("bad!")
+        // console.log("bad!")
       }
     
     } else {
@@ -654,7 +655,7 @@ const App = () => {
     
     //AVIVSL: TODO: find way to reset the whole hovering process when the onMouseUp occurs outside of the text (maybe when docOnMouseDownActivated===false or summaryOnMouseDownActivated===false) --> maybe use a useRef to remember which one was the one activated - summary or doc?
     useEffect(() => {
-      console.log(`hoverActivatedId:${hoverActivatedId}`)
+      // console.log(`hoverActivatedId:${hoverActivatedId}`)
       if (["ANNOTATION", "SENTENCE END", "SUMMARY END", "REVISE CLICKED", "SENTENCE START"].includes(StateMachineState)){
         if(docOnMouseDownActivated) {
           // console.log(`DocOnMouseDownID is ${DocOnMouseDownID} and hoverActivatedId ia ${hoverActivatedId}`)
@@ -683,8 +684,8 @@ const App = () => {
           if (isRedLettered(hoverActivatedId) && hoverActivatedDocOrSummary === "summary") {
             const doc_tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id:doc_id, summary_ids:[hoverActivatedId], isHover:true})});
             
-            console.log("red is activated:")
-            console.log(doc_json.filter((word) => {return doc_tkn_ids.includes(word.tkn_id)}).map((word) => {return word.word}))
+            // console.log("red is activated:")
+            // console.log(doc_json.filter((word) => {return doc_tkn_ids.includes(word.tkn_id)}).map((word) => {return word.word}))
 
             setDocJson(doc_json.map((word) => doc_tkn_ids.includes(word.tkn_id) ? {...word, red_color:true} : {...word, red_color:false}))  
           } 
@@ -831,7 +832,7 @@ const App = () => {
 
     useEffect(() => {
       if (isFinished) {
-        handleSubmit(assignmentId, turkSubmitTo, doc_json, summary_json, g_completed, g_guided_annotation_history)
+        handleSubmit(assignmentId, turkSubmitTo, doc_json, summary_json, doc_paragraph_breaks, g_completed, g_guided_annotation_history)
       }
     }, [isFinished]);
 
@@ -877,10 +878,10 @@ const App = () => {
     <Router>
       <div className='container-background'>
         <Routes>
-          {/* <Route path='/' element={<StartPage />} /> */}
-          {/* <Route path='/homepage' element={<StartPage />} /> */}
-          {/* <Route path='/instructions' element={<Instructions />} /> */}
-          <Route path='/tutorial' element=  {<Tutorial doc_json = {t_doc_json} 
+
+          <Route path='/Instructions' element={<Instructions_short/>} />
+
+          {/* <Route path='/tutorial' element=  {<Tutorial doc_json = {t_doc_json} 
                                                        setDocJson = {t_setDocJson}
                                                        t_start_doc_json = {t_start_doc_json} 
                                                        t_middle_doc_json = {t_middle_doc_json}
@@ -905,9 +906,9 @@ const App = () => {
                                                        SubmitModalShow={SubmitModalShow}                           
                                                        setSubmitModalShow={setSubmitModalShow}
                                               />}
-          />
+          /> */}
 
-          <Route path='/guidedAnnotation' element={<GuidedAnnotation
+          {/* <Route path='/guidedAnnotation' element={<GuidedAnnotation
                                           isPunct={isPunct} 
                                           handleErrorOpen={g_handleErrorOpen}                                   handleErrorClose={g_handleErrorClose}
                                           doc_json={g_doc_json}                                                 setDocJson={g_setDocJson}
@@ -966,7 +967,7 @@ const App = () => {
                                           SubmitModalShow={SubmitModalShow}                                     setSubmitModalShow={setSubmitModalShow}
                                           />} 
           
-          />
+          /> */}
 
           <Route path='/' element={<Annotation 
                                               isTutorial={false}                                          isGuidedAnnotation={false}                                

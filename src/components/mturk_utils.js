@@ -91,7 +91,7 @@
 
 
 
- const handleSubmit = (assignmentId, turkSubmitTo, doc_json, summary_json, g_completed, g_guided_annotation_history) => {
+ const handleSubmit = (assignmentId, turkSubmitTo, doc_json, summary_json, doc_paragraph_breaks, g_completed, g_guided_annotation_history) => {
     // const urlParams = new URLSearchParams(window.location.search)
    
     // create the form element and point it to the correct endpoint
@@ -108,35 +108,45 @@
     inputAssignmentId.hidden = true
     form.appendChild(inputAssignmentId)
     
-    // attach if completed the guided annotation
-    const completed_guided_annotation = document.createElement('input')
-    completed_guided_annotation.name = 'completed_guided_annotation'
-    completed_guided_annotation.value = JSON.stringify(g_completed)
-    completed_guided_annotation.hidden = true
-    form.appendChild(completed_guided_annotation)
+    // // attach if completed the guided annotation
+    // const completed_guided_annotation = document.createElement('input')
+    // completed_guided_annotation.name = 'completed_guided_annotation'
+    // completed_guided_annotation.value = JSON.stringify(g_completed)
+    // completed_guided_annotation.hidden = true
+    // form.appendChild(completed_guided_annotation)
 
-    // attach if completed the guided annotation
-    const guided_annotation_history = document.createElement('input')
-    guided_annotation_history.name = 'guided_annotation_history'
-    guided_annotation_history.value = JSON.stringify(g_guided_annotation_history)
-    guided_annotation_history.hidden = true
-    form.appendChild(guided_annotation_history)
+    // // attach if completed the guided annotation
+    // const guided_annotation_history = document.createElement('input')
+    // guided_annotation_history.name = 'guided_annotation_history'
+    // guided_annotation_history.value = JSON.stringify(g_guided_annotation_history)
+    // guided_annotation_history.hidden = true
+    // form.appendChild(guided_annotation_history)
 
+    // // attach doc_json data
+    // const inputDocJson = document.createElement('input')
+    // inputDocJson.name = 'doc_json'
+    // inputDocJson.value = JSON.stringify(doc_json)
+    // inputDocJson.hidden = true
+    // form.appendChild(inputDocJson)
 
-    // attach doc_json data
-    const inputDocJson = document.createElement('input')
-    inputDocJson.name = 'doc_json'
-    inputDocJson.value = JSON.stringify(doc_json)
-    inputDocJson.hidden = true
-    form.appendChild(inputDocJson)
-
-    // attach summary_json data
-    const inputSummaryJson = document.createElement('input')
-    inputSummaryJson.name = 'summary_json'
-    inputSummaryJson.value = JSON.stringify(summary_json)
-    inputSummaryJson.hidden = true
-    form.appendChild(inputSummaryJson)
+    // // attach summary_json data
+    // const inputSummaryJson = document.createElement('input')
+    // inputSummaryJson.name = 'summary_json'
+    // inputSummaryJson.value = JSON.stringify(summary_json)
+    // inputSummaryJson.hidden = true
+    // form.appendChild(inputSummaryJson)
    
+
+
+    // attach results
+    const inputResultJson = document.createElement('input')
+    inputResultJson.name = 'results'
+    inputResultJson.value = JSON.stringify({"doc_json":doc_json, "summary_json":summary_json, "doc_paragraph_breaks":doc_paragraph_breaks})
+    inputResultJson.hidden = true
+    form.appendChild(inputResultJson)
+
+
+
     // attach the form to the HTML document and trigger submission
     document.body.appendChild(form)
     form.submit()

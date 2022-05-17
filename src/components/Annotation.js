@@ -468,7 +468,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
     return (
       <div>
         <ul>
-          <li><u><b>To highlight</b></u> - hold the mouse until span is fully-covered.</li>
+          <li><u><b>To highlight</b></u> - hold the mouse until the span is fully-covered.</li>
           <li><u><b>Bold feature</b></u> - tick the bold checkbox (above document).</li>
           <li><u><b>Single word hints feature</b></u> - hover over the summary word.</li>
           <li><u><b>Un-highlight</b></u> - click "CLEAR".</li>
@@ -485,6 +485,28 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
           </li>
           <li><u><b>"SUBMIT" button</b></u> - is available only when you are in the last sentence.</li>
           <li><u><b>Summary details not appearing in the document</b></u> - leave un-highlighted.</li>
+        </ul>
+      </div>
+    )
+  }
+
+  const reminderText_short = () => {
+    return (
+      <div>
+        <ul>
+          <li><u><b>To highlight</b></u> - hold the mouse until the span is fully-covered.</li>
+          <li><u><b>Bold feature</b></u> - tick the bold checkbox (above document).</li>
+          <li><u><b>Single word hints feature</b></u> - hover over the summary word.</li>
+          <li><u><b>Un-highlight</b></u> - click "CLEAR".</li>
+          <li><u><b>Submit work</b></u> - click "SUBMIT" button.</li>
+          <li>
+            <b><u>General requirements</u>:</b>
+            <ol>
+              <li>Highlight all <u>document</u> phrases contributing to the summary creation.</li>
+              <li>Your goal: to highlight <u>all</u> the information appearing in the summary.</li>
+              <li>Avoid highlighting details that weren't mentioned in the summary.</li>
+            </ol>
+          </li>
         </ul>
       </div>
     )
@@ -742,7 +764,7 @@ useEffect(() => {
 
               {!isTutorial && (
                 <Row className="justify-content-md-center">
-                    {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && (
+                    {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && false && (
                       <Col>
                         <button type="button" className={`btn btn-danger btn-md ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>REVISE</button>
                       </Col>
@@ -763,7 +785,7 @@ useEffect(() => {
                       </Col>
                     )}
 
-                  {!["REVISE HOVER", "SUMMARY END", "START"].includes(StateMachineState) && (
+                  {!["REVISE HOVER", "SUMMARY END", "START"].includes(StateMachineState) && false && (
                       <Col md={{span:6, offset:2}}>
                         <button ref={nextButtonGuider} type="button" className={`btn btn-primary btn-md right-button ${((isTutorial && [5,11,14].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                         <Markup content={nextButtonText()} />
@@ -891,7 +913,8 @@ useEffect(() => {
         </Modal>
 
 
-        <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={StateMachineState === "START" && !g_FinishedModalShow && !isTutorial}>
+        {/* AVIVSL: return this in the end */}
+        {/* <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={StateMachineState === "START" && !g_FinishedModalShow && !isTutorial}>
                   <Modal.Body>
                     <Modal.Title>Before starting to work, please go over the summary and skim the document.</Modal.Title>
                   </Modal.Body>
@@ -900,7 +923,25 @@ useEffect(() => {
                       GOT IT
                     </Button>
                   </Modal.Footer>
+        </Modal> */}
+
+        <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={StateMachineState === "START" && !g_FinishedModalShow && !isTutorial}>
+                  <Modal.Body>
+                    <Modal.Title>If you forgot any of the instructions, click "TO INSTRUCTIONS". <br/>Otherwise, click "BEGIN".</Modal.Title>
+                  </Modal.Body>
+                  <Modal.Footer>
+                      <button type="button" className={`btn btn-success btn-lg`} onClick={MachineStateHandlerWrapper}>
+                        BEGIN
+                      </button>
+                    <Link to="/Instructions">
+                      <button type="button" className={`btn btn-primary btn-lg`} onClick={MachineStateHandlerWrapper}>
+                        TO INSTRUCTIONS
+                      </button>
+                    </Link>
+                  </Modal.Footer>
         </Modal>
+
+
 
         <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={SubmitModalShow}>
                   <Modal.Header>
@@ -1013,7 +1054,8 @@ useEffect(() => {
             <Offcanvas.Title>Reminder</Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body className='text-muted bg-light'>
-            {reminderText()}
+            {/* {reminderText()} */}
+            {reminderText_short()}
           </Offcanvas.Body>
         </Offcanvas>
         

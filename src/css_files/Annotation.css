@@ -237,6 +237,7 @@
 }
 
 
+
 .info-alert{
   position: relative;
 }
@@ -764,4 +765,10 @@ border-bottom-color:lightsalmon !important;
     width:650px !important;
     font-family: 'Lucida Sans', 'Lucida Grande', sans-serif !important;
   }
+  
+  /* .react-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+  } */
 

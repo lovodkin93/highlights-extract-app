@@ -21,6 +21,7 @@ npm i util
 npm install aws-sdk
 npm install --save video-react react react-dom redux
 npm install antd
+npm install react-player
 ```
 to install all the packages used in this project and serve (which will be used to build the project for production).
 
