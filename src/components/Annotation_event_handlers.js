@@ -10,8 +10,6 @@ const MachineStateHandler = (summary_json,
                                  isBackBtn,
                                  setPrevSummaryJsonRevise, setPrevDocJsonRevise) => {
 
-
-
     // forceState: "SENTENCE END"
     if (forceState === "SENTENCE END"){
       console.log(`forceState: \"SENTENCE END\"`);

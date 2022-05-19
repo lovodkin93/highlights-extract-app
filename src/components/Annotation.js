@@ -11,11 +11,9 @@ import Badge from 'react-bootstrap/Badge';
 import { CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
-import DropdownButton from 'react-bootstrap/Dropdown'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import ButtonToolbar from 'react-bootstrap/ButtonToolbar'
-import Figure from 'react-bootstrap/Figure'
 
 import Fab from '@mui/material/Fab';
 // import Card from '@mui/material/Card';
@@ -61,11 +59,10 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                     task_id, doc_paragraph_breaks,
                     doc_json, setDocJson, 
                     summary_json, setSummaryJson,
-                    all_lemma_match_mtx, important_lemma_match_mtx, 
                     StateMachineState, SetStateMachineState,
                     handleErrorOpen, isPunct,
                     toggleSummarySpanHighlight, toggleDocSpanHighlight, 
-                    boldState, boldStateHandler,
+                    boldState,
                     SubmitHandler, hoverHandler,
                     CurrSentInd, SetCurrSentInd,
                     InfoMessage,
@@ -77,7 +74,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                     docOnMouseDownActivated, setDocOnMouseDownActivated, 
                     summaryOnMouseDownActivated, setSummaryOnMouseDownActivated, 
                     setHoverActivatedId, setHoverActivatedDocOrSummary,
-                    hoverActivatedId, setSliderBoldStateActivated,
+                    hoverActivatedId,
+                    Alignments, setAlignments,
                     t_StateMachineStateId, t_SetStateMachineStateId, 
                     t_start_doc_json, t_middle_doc_json, 
                     t_sent_end_doc_json, t_submit_doc_json, 
@@ -113,6 +111,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   const [ctrlButtonDown, setCtrlButtonDown] = useState(false)
   const [toastVisible, setToastVisible] = useState(true)
   const [showReminderOffCanvas, setShowReminderOffCanvas] = useState(false)
+  const [currAlignmentToShow, setCurrAlignmentToShow] = useState(-1)
+
 
   const docGuider = useRef(null);
   const summaryGuider = useRef(null);
@@ -122,7 +122,6 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
 
   const backButtonGuider = useRef(null);              
   const ExitReviseButtonGuider = useRef(null)
-  const [changeSentAdaptBold, setChangeSentAdaptBold] = useState(0) // for adjusting the bolding when changing sentences because not smooth
 
   const isDocSpanExist = () => {
     return doc_json.filter((word) => {return word.span_highlighted}).length !== 0
@@ -158,11 +157,25 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   const InfoAlert = (InfoMessage) => {
     return (
       <Alert className="info-alert" variant="info">
-        <Alert.Heading>{getInfoAlertTitle()}</Alert.Heading>
+        {/* <Alert.Heading>{getInfoAlertTitle()}</Alert.Heading>
         <p className="mb-0">
           {InfoMessage}
         </p>
-        < AiOutlineQuestionCircle size={50} className="right-info-icon-button" onClick={() => {setShowReminderOffCanvas(true)}} />
+        < AiOutlineQuestionCircle size={50} className="right-info-icon-button" onClick={() => {setShowReminderOffCanvas(true)}} /> */}
+        <DropdownButton
+          as={ButtonGroup}
+          title="ALIGNMENTS" 
+          size="lg"
+          variant="dark"
+        >
+          {Alignments.map((alignment, index) => (
+                  <Dropdown.Item eventKey={alignment} onClick={() => {setCurrAlignmentToShow(alignment)}}>{`Alignment ${index+1}`}</Dropdown.Item>
+          ))}
+          <Dropdown.Divider />
+          <Dropdown.Item eventKey={-1} onClick={() => {setCurrAlignmentToShow(-1)}}>None</Dropdown.Item>
+        </DropdownButton>
+
+
       </Alert>
     )}
 
@@ -315,7 +328,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   const getDocText = () => {
     if ((!isTutorial || t_StateMachineStateId !== 7)){
       return doc_json.map((word_json, index) => (
-                <DocWord key={index} word_json={word_json} DocOnMouseDownID={DocOnMouseDownID} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
+                <DocWord key={index} word_json={word_json} DocOnMouseDownID={DocOnMouseDownID} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} currAlignmentToShow={currAlignmentToShow}/>
               ))
     } else {
         const start_1 = 0;
@@ -368,76 +381,13 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                                                       <div className={` ${(index===CurrSentInd && SummaryOnMouseDownID!=="-1" && StateMachineState!=="REVISE HOVER") ? 'cursor-grabbing':''}`}>
                                                         <p  className={`${(index===CurrSentInd) ?  'bordered_sent': ''} ${(isTutorial && t_StateMachineStateId===4 && index===CurrSentInd) ? 'with-glow' : ''}`}>
                                                           {summary_words.map((word_json, index) => (
-                                                            <SummaryWord key={index} word_json={word_json} SummaryOnMouseDownID={SummaryOnMouseDownID} StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} CurrSentInd={CurrSentInd}/> 
+                                                            <SummaryWord key={index} word_json={word_json} SummaryOnMouseDownID={SummaryOnMouseDownID} StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} CurrSentInd={CurrSentInd} currAlignmentToShow={currAlignmentToShow} /> 
                                                             ))}
                                                         </p>
                                                         <span className="br-class"></span>
                                                       </div>
                                                       )
-    // }
-    // else {
-    //   const doc_words_groups = get_span_groups(g_answer_words_to_glow, summary_json)
-    //   const max_sent_id = summary_json.map((word) =>{return word.sent_id}).reduce(function(a, b) {return Math.max(a, b)}, -Infinity);
-    //   const summary_per_sent_id = [...Array(max_sent_id+1).keys()].map((sent_id) => {return summary_json.filter((word) => {return word.sent_id===sent_id})})
-    //   return summary_per_sent_id.map((summary_words, index) => 
-    //                                                     <div className={` ${(index===CurrSentInd && SummaryOnMouseDownID!=="-1" && StateMachineState!=="REVISE HOVER") ? 'cursor-grabbing':''}`}>
-    //                                                       <p  className={`${(index===CurrSentInd) ?  'bordered_sent': ''}`}>
-    //                                                         {(index===CurrSentInd) && (
-    //                                                           get_span_groups(g_answer_words_to_glow, summary_words, true).map((words, index) => 
-    //                                                             <div className={`${([1,3,5,7,9,11,13,15].includes(index)) ?  'with-glow': ''}`}>
-    //                                                                 {words.map((word_json, index) => (
-    //                                                                   <SummaryWord key={index} word_json={word_json} SummaryOnMouseDownID={SummaryOnMouseDownID}  StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} CurrSentInd={CurrSentInd}/> 
-    //                                                                 ))}
-    //                                                             </div>
-    //                                                           )
-    //                                                         )}
-
-    //                                                         {(index!==CurrSentInd) && (summary_words.map((word_json, index) => (
-    //                                                           <SummaryWord key={index} word_json={word_json} SummaryOnMouseDownID={SummaryOnMouseDownID} StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} CurrSentInd={CurrSentInd}/> 
-    //                                                           )))}
-    //                                                       </p>
-    //                                                       <span className="br-class"></span>
-    //                                                     </div>
-    //                                                     )
-    // }
   }
-
-  const getResponsiveAppBarTitle = () => {
-    if (isTutorial){
-      return "Tutorial";
-    } else if (isGuidedAnnotation) {
-      return "Guided Annotation";
-    } else {
-      return "Annotation";
-    }
-  }
-
-
-  const BlackTextTypography = withStyles({
-    root: {
-      color: "black",
-      fontSize: "15pt",
-      fontWeight: "14"
-    }
-  })(Typography);
-
-
-  const BoldingSliderTags = (value) =>{
-    if (value===1) {
-      return "None";
-    } else {
-      return "Bold";
-    }
-  }
-
-  const BoldingSliderDefaultValue = () =>{
-    if (boldState === "none") {
-      return 1;
-    } else {
-      return 2;
-    }
-  }
-
 
 
   const outsideSummarySent = useRef(true)
@@ -467,32 +417,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
     return summary_json.filter((word) => {return (!isPunct(word.word) && !word.old_alignments && !["while", "from", "countries", "like", "Brazil"].includes(word.word))}).length === 0
   }
 
-  const reminderTextExampleButton = ({isImg, example_sent}) => {
-    return (
-      <Dropdown className={`${(isImg) ? '':'reminderTextExampleButton'}`}>
-        <Dropdown.Toggle variant={`${(isImg)? 'warning':'info'}`} id="dropdown-basic" size="sm">
-          Example
-        </Dropdown.Toggle>
 
-
-        <Dropdown.Menu className='reminderTextExampleDropDown'>
-          {!isImg && (<Dropdown.Item> <Markup content={example_sent} /> </Dropdown.Item>)}
-          {isImg && (
-            <img
-            src={example_sent}
-            className='img-thumbnail'
-            // style={{ maxWidth: '24rem' }}
-          />
-          )}
-
-          {/* <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-          <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
-        </Dropdown.Menu>
-      </Dropdown>
-    )
-  }
-
-  const reminderText = () => {
+  const reminderText_short = () => {
     return (
       <div>
         <ul>
@@ -500,73 +426,19 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
           <li><u><b>Bold feature</b></u> - tick the bold checkbox (above document).</li>
           <li><u><b>Single word hints feature</b></u> - hover over the summary word.</li>
           <li><u><b>Un-highlight</b></u> - click "CLEAR".</li>
-          <li><u><b>Save Alignment</b></u> - click "ADD ALIGNMENT".</li>
-          <li><u><b>Switch sentence</b></u> - click the "NEXT SENT" or "PREV SENT" buttons, accordingly.</li>
-          <li> 
-            <u><b>Revise old alignments</b></u>:
-              <ol>
-                <li>Click "REVISE".</li>
-                <li>Click the old alignment needing fixing (will leave only it).</li>
-                <li>Fix the alignment.</li>
-                <li>Click "UPDATE ALIGNMENT" to save the changes or "BACK" to discard them.</li>
-              </ol>
-              <ul>
-                <li>Steps 2-4 can be run on as many old alignments as needed.</li>
-                <li>When finishing updating the alignments, click "EXIT REVISION".</li>
-              </ul>
-          </li>
-          <li><u><b>Submit work</b></u> - click the "SUBMIT" button (appears when at the last sentence).</li>
+          <li><u><b>Submit work</b></u> - click "SUBMIT" button.</li>
           <li>
-             <b><u>General requirements</u>:</b>
-             <ul>
-               <li>It is recommended to break down long summary sentences into facts, and align each fact separately.</li>
-               <li>
-                 Ways to recognize and divide <u>summary</u> sentences into facts:
-                <ol>
-                  <li>Side-by-side {reminderTextExampleButton({isImg:false, example_sent:"His mother told him to go rest, while his father <br/>urged him to finish his chores."})}</li>
-                  <li>Shared elements/words {reminderTextExampleButton({isImg:false, example_sent:"<u>Bob Sheets</u>, the newly appointed head of the <br/>National Hurricane Center at Coral Gables, <br/>stays calm and gives press interviews."})}</li>
-                  <li>No Explicit verb {reminderTextExampleButton({isImg:false, example_sent:"<u>Ewen M. Wilson, the department's chief <br/>economist</u>, said that the United States <br/> might import some soybeans this year."})}</li>
-                </ol>
-               </li>
-               <li>
-                 What to highlight in the <u>document</u>:
-                 <ol>
-                   <li>Minimal document phrase describing the same information. {reminderTextExampleButton({isImg:true, example_sent:"./reminder_doc_highlighting_examples/minimal_document_phrase.JPG"})}</li>
-                   <li>Paraphrasing is ok (as long as describes the same event). {reminderTextExampleButton({isImg:true, example_sent:"./reminder_doc_highlighting_examples/paraphrasing.JPG"})}</li>
-                   <li>Document Phrases don't have to be consecutive. {reminderTextExampleButton({isImg:true, example_sent:"./reminder_doc_highlighting_examples/not_consecutive.JPG"})}</li>
-                   <li>If needed - fill in missing details. {reminderTextExampleButton({isImg:true, example_sent:"./reminder_doc_highlighting_examples/fill_in.JPG"})}</li>
-                   <li>if un-alignable (summary details doesn't appear in document) - leave unhighlighted in the <u>summary</u>. {reminderTextExampleButton({isImg:true, example_sent:"./reminder_doc_highlighting_examples/unalignable.JPG"})}</li>
-                   <li>highlight in context. {reminderTextExampleButton({isImg:true, example_sent:"./reminder_doc_highlighting_examples/in_context.JPG"})}</li>
-                 </ol>
-               </li>
-             </ul>
-           </li>
+            <b><u>General requirements</u>:</b>
+            <ol>
+              <li>Highlight all <u>document</u> phrases contributing to the summary creation.</li>
+              <li>Your goal: to highlight <u>all</u> the information appearing in the summary.</li>
+              <li>Avoid highlighting details that weren't mentioned in the summary.</li>
+            </ol>
+          </li>
         </ul>
       </div>
     )
   }
-
-  // const reminderText_short = () => {
-  //   return (
-  //     <div>
-  //       <ul>
-  //         <li><u><b>To highlight</b></u> - hold the mouse until the span is fully-covered.</li>
-  //         <li><u><b>Bold feature</b></u> - tick the bold checkbox (above document).</li>
-  //         <li><u><b>Single word hints feature</b></u> - hover over the summary word.</li>
-  //         <li><u><b>Un-highlight</b></u> - click "CLEAR".</li>
-  //         <li><u><b>Submit work</b></u> - click "SUBMIT" button.</li>
-  //         <li>
-  //           <b><u>General requirements</u>:</b>
-  //           <ol>
-  //             <li>Highlight all <u>document</u> phrases contributing to the summary creation.</li>
-  //             <li>Your goal: to highlight <u>all</u> the information appearing in the summary.</li>
-  //             <li>Avoid highlighting details that weren't mentioned in the summary.</li>
-  //           </ol>
-  //         </li>
-  //       </ul>
-  //     </div>
-  //   )
-  // }
 
 
 
@@ -606,33 +478,6 @@ useEffect(() => {
 }, [containerRef, options])
 /************************************************************************************************************* */
 
-
-
-
-// // to make sure the guided annotation guiding messages start with something
-  // useEffect(() => {
-  //   console.log(`StateMachineState is: ${StateMachineState}`)
-  //   if (StateMachineState==="START") {
-  //     setGuidedAnnotationMessage("To begin, press the \"START\" button.")
-  //   }
-  // }, []);
-
-
-  // change the bolding when changing a sentence
-  useEffect(() => {
-    if (changeSentAdaptBold==1) {
-      const isBold = doc_json.filter((word) => {return word.boldfaced}).length !== 0
-      setSliderBoldStateActivated(false)
-      boldStateHandler(undefined, isBold)
-      setChangeSentAdaptBold(0)
-    }
-  }, [changeSentAdaptBold]);
-
-  useEffect(() => {
-    if (changeSentAdaptBold==0) {
-      setChangeSentAdaptBold(changeSentAdaptBold+1)
-    }
-  }, [CurrSentInd]);
 
 
   // reset clickings between states
@@ -699,18 +544,7 @@ useEffect(() => {
       <Container tabIndex="0" className='annotation-container'>
         <Row className='annotation-row' ref={containerRef}>
           <Col>
-            {/* <ResponsiveAppBar
-                  title={getResponsiveAppBarTitle()} 
-                  StateMachineState = {StateMachineState} 
-                  MachineStateHandlerWrapper={MachineStateHandlerWrapper}
-                  boldState={boldState}
-                  boldStateHandler={boldStateHandler}
-                  oldAlignmentState={oldAlignmentState}
-                  oldAlignmentStateHandler={oldAlignmentStateHandler}
-                  t_StateMachineStateId = {t_StateMachineStateId}
-                  g_showWhereNavbar = {g_showWhereNavbar}
-                  
-            /> */}
+            
             {(InfoMessage !== "" && !isTutorial && !isGuidedAnnotation) && (InfoAlert(InfoMessage))}
             {(isTutorial) && (<TutorialCard t_StateMachineStateId = {t_StateMachineStateId} 
                                             t_SetStateMachineStateId = {t_SetStateMachineStateId}
@@ -729,27 +563,11 @@ useEffect(() => {
                                             SetCurrSentInd = {SetCurrSentInd}
                                             MachineStateHandlerWrapper = {MachineStateHandlerWrapper} />)}
             {(isGuidedAnnotation && ["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState)) && (GuidedAnnotationInfoAlert())}
-            {/* {(isGuidedAnnotation && !["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState) && g_show_hint && g_hint_msg!==undefined && g_hint_msg["Text"]!=="") &&
-                    <OverlayTrigger className={`${(g_with_glow_hint)? 'with-glow':''}`} show={g_open_hint} placement="right" overlay={GuidedAnnotationHint}>
-                      <Button className="guidedAnnotationHintButton2" active variant="btn btn-primary btn-lg" onClick={() => {g_setOpenHint(!g_open_hint); g_setWithGlowHint(false)}}>
-                          HINT
-                      </Button>
-                    </OverlayTrigger>
-          } */}
-
-
 
           </Col>
         </Row>
 
-        {/* {(isGuidedAnnotation && guidingAnnotationAlertText!=="") && (
-          guidingAnnotationAlert(guidingAnnotationAlertText, guidingAnnotationAlertTitle, guidingAnnotationAlertType, closeGuidingAnnotationAlert)
-        )} */}
-        
 
-        {/* {isGuidedAnnotation && (
-              GuidedAnnotationToast(toastVisible, setToastVisible, g_StateMachineStateIndex)
-        )} */}
 
         {(!isTutorial || [4,6,7].includes(t_StateMachineStateId)) && (
           <Row className={`annotation-row ${(DocOnMouseDownID!=="-1") ? 'cursor-grabbing':''}`} id={`${(InfoMessage === "" || isGuidedAnnotation) ? 'doc-summary-row': ''}`}>
@@ -761,33 +579,11 @@ useEffect(() => {
                       CLEAR 
                     </button>
 
-                    <FormControlLabel className='bold-checker' control={<Checkbox />} label="Bold" labelPlacement="top" onChange={boldStateHandler}/>
-
-
-                      {/* <BlackTextTypography className='bold-slider-title'>
-                        BOLD
-                      </BlackTextTypography>
-                      <StyledSliderBolding
-                        className={`bold-slider ${(t_StateMachineStateId === 8) ? 'with-glow':''}`}
-                        aria-label="Bolding-option"
-                        defaultValue={3}
-                        getAriaValueText={BoldingSliderTags}
-                        valueLabelFormat={BoldingSliderTags}
-                        valueLabelDisplay="auto"
-                        value={BoldingSliderDefaultValue()}
-                        color="error"
-                        step={1}
-                        marks
-                        min={1}
-                        max={2}
-                        onChangeCommitted={boldStateHandler}
-                      /> */}
+                      
                   </Card.Header>
                   <Card.Body>
                     {getDocText()}
-                    {/* {doc_json.map((word_json, index) => (
-                        <DocWord key={index} word_json={word_json} DocOnMouseDownID={DocOnMouseDownID} doc_paragraph_breaks={doc_paragraph_breaks} StateMachineState={StateMachineState} DocMouseClickHandlerWrapper={DocMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} DocOnMouseDownHandler={DocOnMouseDownHandler} DocOnMouseUpHandler={DocOnMouseUpHandler} setDocOnMouseDownActivated={setDocOnMouseDownActivated} docOnMouseDownActivated={docOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId} ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary}/>
-                      ))}; */}
+                    
                   </Card.Body>
                 </Card>
             </Col>
@@ -807,17 +603,8 @@ useEffect(() => {
                     </Card.Header>
                     <Card.Body>
                       {getSummaryText()}
-                      {/* {summary_json.map((word_json, index) => (
-                        <SummaryWord key={index} word_json={word_json} SummaryOnMouseDownID={SummaryOnMouseDownID} StateMachineState={StateMachineState} SummaryMouseClickHandlerWrapper={SummaryMouseClickHandlerWrapper} hoverHandlerWrapper={hoverHandlerWrapper} SummaryOnMouseDownHandler={SummaryOnMouseDownHandler} SummaryOnMouseUpHandler={SummaryOnMouseUpHandler} setSummaryOnMouseDownActivated={setSummaryOnMouseDownActivated} summaryOnMouseDownActivated={summaryOnMouseDownActivated} setHoverActivatedId={setHoverActivatedId}  ctrlButtonDown={ctrlButtonDown} setHoverActivatedDocOrSummary={setHoverActivatedDocOrSummary} CurrSentInd={CurrSentInd}/> 
-                      ))}; */}
                     </Card.Body>
                     
-                    
-                    {/* <Badge className={`${(showAlert!=="warning") ? 'summaryCardAlertSuccess':''} ${(showAlert!=="success") ? 'summaryCardAlertWarning':''} ${(showAlert==="closed") ? 'fadeout': ''}`}> 
-                      {(showAlert==="success") && (<AiOutlineCheckCircle/>)}
-                      {(showAlert==="warning") && (<AiOutlineExclamationCircle/>)}
-                      {`${(showAlert!=="success")} ""warning":""`}
-                    </Badge> */}
                     
                     {(["warning", "closed"].includes(showAlert)) && (
                       <Badge className={`summaryCardAlertWarning ${(showAlert==="closed") ? 'fadeout': ''}`}> 
@@ -840,28 +627,28 @@ useEffect(() => {
 
               {!isTutorial && (
                 <Row className="justify-content-md-center">
-                    {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && (
+                    {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && false && (
                       <Col>
                         <button type="button" className={`btn btn-danger btn-md ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>REVISE</button>
                       </Col>
                     )}
 
-                    {StateMachineState === "REVISE HOVER" && (
+                    {/* {StateMachineState === "REVISE HOVER" && (
                       <Col>
                         <button ref={ExitReviseButtonGuider} type="button" className={`btn btn-info btn-md ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>EXIT REVISION</button>
                       </Col>
-                    )}
+                    )} */}
 
-                  {StateMachineState === "REVISE CLICKED" && (
+                  {/* {StateMachineState === "REVISE CLICKED" && (
                       <Col md={{span:4, offset:0}}>
                         <button ref={backButtonGuider} type="button" className={`btn btn-secondary btn-md ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
                         <ChevronLeft className="button-icon"/>
                         BACK
                         </button>
                       </Col>
-                    )}
+                    )} */}
 
-                  {!["REVISE HOVER", "SUMMARY END", "START"].includes(StateMachineState) && (
+                  {!["REVISE HOVER", "SUMMARY END", "START"].includes(StateMachineState) && false && (
                       <Col md={{span:6, offset:2}}>
                         <button ref={nextButtonGuider} type="button" className={`btn btn-primary btn-md right-button ${((isTutorial && [5,11,14].includes(t_StateMachineStateId)) || (isGuidedAnnotation && g_is_good_alignment)) ? 'with-glow' : ''}`} onClick={MachineStateHandlerWrapper}>
                         <Markup content={nextButtonText()} />
@@ -898,42 +685,7 @@ useEffect(() => {
                 </Row>
               )}
 
-              {((!isTutorial) && (!["REVISE HOVER", "REVISE CLICKED", "START"].includes(StateMachineState))) && (
-                <Row className="justify-content-md-center">
-                      {(CurrSentInd!==0) && (
-                        <Col md={{span:5, offset:0}}>
-                          <button type="button" className={`btn btn-dark btn-md`} onClick={() => changeSummarySentHandler({isNext:false})}>
-                            <ChevronLeft className="button-icon"/>
-                            PREV SENT
-                          </button>
-                        </Col>
-                      )}
-
-                {(CurrSentInd===0) && (
-                  <Col md={{span:5, offset:0}}>
-                  </Col>
-                )}
-                
-                {((!isTutorial) && (!isLastSent())) && (
-                        <Col md={{span:5, offset:2}}>
-                          <button type="button" ref={nextSentButtonGuider} className={`btn btn-dark btn-md right-button ${(isGuidedAnnotation && allSummarySentIsHighlighted()) ? 'with-glow':''}`} onClick={() => changeSummarySentHandler({isNext:true})}>
-                            NEXT SENT
-                            <ChevronRight className="button-icon"/>
-                          </button>
-                        </Col>
-                  )}
-
-                  {(!isTutorial && isLastSent()) && (
-                        <Col md={{span:5, offset:2}}>
-                          <button type="button" ref={submitButtonGuider} className={`btn btn-success btn-md right-button ${(isGuidedAnnotation && allSummaryIsHighlighted()) ? 'with-glow':''}`} onClick={() => {setSubmitModalShow(true)}}>
-                            SUBMIT
-                            <SendFill className="button-icon"/>
-                          </button>
-                        </Col>
-                  )}
-                      
-                </Row>
-              )}
+              
               </div>
             </Col>
           </Row>
@@ -989,7 +741,8 @@ useEffect(() => {
         </Modal>
 
 
-        <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={StateMachineState === "START" && !g_FinishedModalShow && !isTutorial}>
+        {/* AVIVSL: return this in the end */}
+        {/* <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={StateMachineState === "START" && !g_FinishedModalShow && !isTutorial}>
                   <Modal.Body>
                     <Modal.Title>Before starting to work, please go over the summary and skim the document.</Modal.Title>
                   </Modal.Body>
@@ -998,23 +751,9 @@ useEffect(() => {
                       GOT IT
                     </Button>
                   </Modal.Footer>
-        </Modal>
-
-        {/* <Modal style={{ zIndex:"100001" }} aria-labelledby="contained-modal-title-vcenter" centered show={StateMachineState === "START" && !g_FinishedModalShow && !isTutorial}>
-                  <Modal.Body>
-                    <Modal.Title>If you forgot any of the instructions, click "TO INSTRUCTIONS". <br/>Otherwise, click "BEGIN".</Modal.Title>
-                  </Modal.Body>
-                  <Modal.Footer>
-                      <button type="button" className={`btn btn-success btn-lg`} onClick={MachineStateHandlerWrapper}>
-                        BEGIN
-                      </button>
-                    <Link to="/Instructions">
-                      <button type="button" className={`btn btn-primary btn-lg`} onClick={MachineStateHandlerWrapper}>
-                        TO INSTRUCTIONS
-                      </button>
-                    </Link>
-                  </Modal.Footer>
         </Modal> */}
+
+        
 
 
 
@@ -1104,25 +843,7 @@ useEffect(() => {
         </Overlay>
 
 
-        <Overlay target={nextSentButtonGuider.current} show={isGuidedAnnotation && allSummarySentIsHighlighted()} placement="bottom">
-          {(props) => (
-            <Tooltip {...props} className="GuiderTooltip"  id='overlay-next-sent-guider'>
-                <CloseButton  variant="white" className='GuidercloseButton' onClick={() => {g_setGuiderMsg({"type":"info", "where":"summary", "text":""})}} />
-                <br/>
-                Great job! Proceed to the next sentence.
-            </Tooltip>
-          )}
-        </Overlay>
-
-        <Overlay target={submitButtonGuider.current} show={isGuidedAnnotation && allSummaryIsHighlighted()} placement="bottom">
-          {(props) => (
-            <Tooltip {...props} className="GuiderTooltip"  id='overlay-finish-revision-button-guider'>
-                <CloseButton  variant="white" className='GuidercloseButton' onClick={() => {g_setGuiderMsg({"type":"info", "where":"summary", "text":""})}} />
-                <br/>
-                Great job! you got everything right. <br/>Press me to submit and finish the Guided Annotation.
-            </Tooltip>
-          )}
-        </Overlay>
+        
 
         <Offcanvas className='reminder-Offcanvas' show={showReminderOffCanvas} onHide={() => {setShowReminderOffCanvas(false)}}>
           <Offcanvas.Header closeButton className='text-muted bg-light'>
@@ -1130,9 +851,14 @@ useEffect(() => {
           </Offcanvas.Header>
           <Offcanvas.Body className='text-muted bg-light'>
             {/* {reminderText()} */}
-            {reminderText()}
+            {reminderText_short()}
           </Offcanvas.Body>
         </Offcanvas>
+        
+
+
+
+
     </div>
   )
 }
