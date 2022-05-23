@@ -5,6 +5,8 @@ import ResponsiveAppBar from './ResponsiveAppBar';
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
 import { ArrowBackIosTwoTone, ArrowForwardIosTwoTone, Work } from '@mui/icons-material';
+import { FaUndoAlt } from "react-icons/fa";
+
 import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
 import Badge from 'react-bootstrap/Badge';
@@ -78,6 +80,8 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
                     summaryOnMouseDownActivated, setSummaryOnMouseDownActivated, 
                     setHoverActivatedId, setHoverActivatedDocOrSummary,
                     hoverActivatedId, setSliderBoldStateActivated,
+                    doc_highlightings, setDocHighlightings,
+                    summary_highlightings, setSummaryHighlightings,
                     t_StateMachineStateId, t_SetStateMachineStateId, 
                     t_start_doc_json, t_middle_doc_json, 
                     t_sent_end_doc_json, t_submit_doc_json, 
@@ -248,6 +252,11 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
             toggleDocSpanHighlight({tkn_ids:chosen_IDs, turn_on:true});
         }
         SetDocOnMouseDownID("-1"); 
+        if(chosen_IDs.length !== 0) {
+          const curr_highlightings = doc_json.filter((word) => {return word.span_alignment_hover || word.span_highlighted}).map((word) => {return word.tkn_id})
+          setDocHighlightings(doc_highlightings.concat([curr_highlightings]))
+          // summary_highlightings, setSummaryHighlightings,
+        }
     }
   }
 
@@ -268,6 +277,13 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
         toggleSummarySpanHighlight({tkn_ids:chosen_IDs, turn_on:true});
       }   
       SetSummaryOnMouseDownID("-1");
+
+      if(chosen_IDs.length !== 0) {
+        const curr_highlightings = summary_json.filter((word) => {return word.span_alignment_hover || word.span_highlighted}).map((word) => {return word.tkn_id})
+        setSummaryHighlightings(summary_highlightings.concat([curr_highlightings]))
+      }
+
+
      } 
      else {
       if (summaryOnMouseDownInCorrectSent && StateMachineState !== "REVISE HOVER") {console.log(`AVIVSL: state is ${StateMachineState}`); alert(`state not defined yet! state: ${StateMachineState}`);}
@@ -276,6 +292,7 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
     // reset the states
     setSummaryOnMouseDownInCorrectSent(true)
     SetSummaryOnMouseDownID("-1")
+
   }
 
 
@@ -438,7 +455,27 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
     }
   }
 
+  const undo_doc = () => {
+    if (doc_highlightings.length <= 1) {
+      return
+    }
+    let doc_highlightings_copy = [...doc_highlightings];
+    doc_highlightings_copy.pop();
+    const last_highlighting_tkns = doc_highlightings_copy.at(-1);
+    setDocHighlightings(doc_highlightings_copy)
+    setDocJson(doc_json.map((word) => last_highlighting_tkns.includes(word.tkn_id) ? { ...word, span_highlighted: true } : { ...word, span_highlighted: false }))
+  }
 
+  const undo_summary = () => {
+    if (summary_highlightings.length <= 1) {
+      return
+    }
+    let summary_highlightings_copy = [...summary_highlightings];
+    summary_highlightings_copy.pop();
+    const last_highlighting_tkns = summary_highlightings_copy.at(-1);
+    setSummaryHighlightings(summary_highlightings_copy)
+    setSummaryJson(summary_json.map((word) => last_highlighting_tkns.includes(word.tkn_id) ? { ...word, span_highlighted: true } : { ...word, span_highlighted: false }))
+  }
 
   const outsideSummarySent = useRef(true)
   const RedHintSmoother = (event) => {
@@ -584,6 +621,11 @@ const callbackFunction = (entries) => {
   setIsVisibleFullySummary(entry.isIntersecting)
 }
 
+const resetHighlightingsHistory = () => {
+  setDocHighlightings([[]]);
+  setSummaryHighlightings([[]]);
+}
+
 
 const isLastSent = () => {
   return (Math.max.apply(Math, summary_json.map(word => { return word.sent_id; })) === CurrSentInd)
@@ -644,6 +686,13 @@ useEffect(() => {
   }, [StateMachineState]);
 
 
+  // useEffect(() => {
+  //   alert(JSON.stringify(doc_highlightings))
+  // }, [doc_highlightings]);
+
+  // useEffect(() => {
+  //   alert(JSON.stringify(summary_highlightings))
+  // }, [summary_highlightings]);
 
   
 
@@ -757,10 +806,17 @@ useEffect(() => {
               <Card border="secondary" bg="light"  id="doc-text" ref={docGuider}>
                   <Card.Header className="DocCardHeader">
                     Document
-                    <button type="button" className={`btn btn-warning btn-sm right-button`} onClick={() => {setDocJson(doc_json.map((word) => {return {...word, span_highlighted:false}}))}}>
+
+
+
+                    <button type="button" className={`btn btn-warning btn-sm right-button`} onClick={() => {setDocJson(doc_json.map((word) => {return {...word, span_highlighted:false}})); setDocHighlightings(doc_highlightings.concat([[]]))}}>
                       CLEAR 
                     </button>
 
+                    <button type="button" style={{marginRight:"0.7%"}} className={`btn btn-dark btn-sm right-button`} onClick={() => {undo_doc()}}>
+                        <FaUndoAlt /> 
+                      </button>
+                      
                     <FormControlLabel className='bold-checker' control={<Checkbox />} label="Bold" labelPlacement="top" onChange={boldStateHandler}/>
 
 
@@ -800,9 +856,13 @@ useEffect(() => {
                     <Card.Header>
                       Summary
 
-                      <button type="button" className={`btn btn-warning btn-sm right-button`} onClick={() => {setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted:false}}))}}>
+                      <button type="button" className={`btn btn-warning btn-sm right-button`} onClick={() => {setSummaryJson(summary_json.map((word) => {return {...word, span_highlighted:false}})); setSummaryHighlightings(summary_highlightings.concat([[]]))}}>
                       CLEAR 
                     </button>
+
+                      <button type="button" style={{marginRight:"1.5%"}} className={`btn btn-dark btn-sm right-button`} onClick={() => {undo_summary()}}>
+                        <FaUndoAlt /> 
+                      </button>
 
                     </Card.Header>
                     <Card.Body>
@@ -842,19 +902,19 @@ useEffect(() => {
                 <Row className="justify-content-md-center">
                     {["SUMMARY END", "SENTENCE END", "ANNOTATION", "SENTENCE START"].includes(StateMachineState) && (
                       <Col>
-                        <button type="button" className={`btn btn-danger btn-md ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER"})}>REVISE</button>
+                        <button type="button" className={`btn btn-danger btn-md ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => {MachineStateHandlerWrapper({forceState:"REVISE HOVER"}); resetHighlightingsHistory();}}>REVISE</button>
                       </Col>
                     )}
 
                     {StateMachineState === "REVISE HOVER" && (
                       <Col>
-                        <button ref={ExitReviseButtonGuider} type="button" className={`btn btn-info btn-md ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"FINISH REVISION"})}>EXIT REVISION</button>
+                        <button ref={ExitReviseButtonGuider} type="button" className={`btn btn-info btn-md ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => {MachineStateHandlerWrapper({forceState:"FINISH REVISION"});  resetHighlightingsHistory();}}>EXIT REVISION</button>
                       </Col>
                     )}
 
                   {StateMachineState === "REVISE CLICKED" && (
                       <Col md={{span:4, offset:0}}>
-                        <button ref={backButtonGuider} type="button" className={`btn btn-secondary btn-md ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true })}>
+                        <button ref={backButtonGuider} type="button" className={`btn btn-secondary btn-md ${(isTutorial && t_StateMachineStateId===11) ? 'with-glow' : ''}`} onClick={() => {MachineStateHandlerWrapper({forceState:"REVISE HOVER", isBackBtn:true }); resetHighlightingsHistory();}}>
                         <ChevronLeft className="button-icon"/>
                         BACK
                         </button>
@@ -902,7 +962,7 @@ useEffect(() => {
                 <Row className="justify-content-md-center">
                       {(CurrSentInd!==0) && (
                         <Col md={{span:5, offset:0}}>
-                          <button type="button" className={`btn btn-dark btn-md`} onClick={() => changeSummarySentHandler({isNext:false})}>
+                          <button type="button" className={`btn btn-dark btn-md`} onClick={() => {changeSummarySentHandler({isNext:false}); resetHighlightingsHistory();}}>
                             <ChevronLeft className="button-icon"/>
                             PREV SENT
                           </button>
@@ -916,7 +976,7 @@ useEffect(() => {
                 
                 {((!isTutorial) && (!isLastSent())) && (
                         <Col md={{span:5, offset:2}}>
-                          <button type="button" ref={nextSentButtonGuider} className={`btn btn-dark btn-md right-button ${(isGuidedAnnotation && allSummarySentIsHighlighted()) ? 'with-glow':''}`} onClick={() => changeSummarySentHandler({isNext:true})}>
+                          <button type="button" ref={nextSentButtonGuider} className={`btn btn-dark btn-md right-button ${(isGuidedAnnotation && allSummarySentIsHighlighted()) ? 'with-glow':''}`} onClick={() => {changeSummarySentHandler({isNext:true}); resetHighlightingsHistory();}}>
                             NEXT SENT
                             <ChevronRight className="button-icon"/>
                           </button>
@@ -925,7 +985,7 @@ useEffect(() => {
 
                   {(!isTutorial && isLastSent()) && (
                         <Col md={{span:5, offset:2}}>
-                          <button type="button" ref={submitButtonGuider} className={`btn btn-success btn-md right-button ${(isGuidedAnnotation && allSummaryIsHighlighted()) ? 'with-glow':''}`} onClick={() => {setSubmitModalShow(true)}}>
+                          <button type="button" ref={submitButtonGuider} className={`btn btn-success btn-md right-button ${(isGuidedAnnotation && allSummaryIsHighlighted()) ? 'with-glow':''}`} onClick={() => {{setSubmitModalShow(true); resetHighlightingsHistory();}}}>
                             SUBMIT
                             <SendFill className="button-icon"/>
                           </button>

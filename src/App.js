@@ -162,6 +162,10 @@ const App = () => {
   const [docName, setDocName] = useState("");
   const [summaryName, setSummaryName] = useState("");
 
+  const [doc_highlightings, setDocHighlightings] = useState([[]])
+  const [summary_highlightings, setSummaryHighlightings] = useState([[]])
+
+
   //mturk
   const [assignmentId, SetAssignmentId] = useState("")
   const [turkSubmitTo, SetMturkTurkSubmitTo] = useState("https://www.mturk.com")
@@ -380,8 +384,15 @@ const App = () => {
     setSummaryJson(summary_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, old_alignments: false, old_alignment_hover:false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
     setDocJson(doc_json.map((word) => word.alignment_id.includes(chosen_align_id) ? {...word, span_highlighted: true, all_highlighted: false, old_alignments: false, old_alignment_hover:false, alignment_id: RemoveAlignmentId(word, chosen_align_id)} : {...word, span_highlighted: false}))
     
-    const chosen_align_currSentId = summary_json.filter((word) => {return word.alignment_id.includes(chosen_align_id)})[0].sent_id
-    SetCurrSentInd(chosen_align_currSentId)
+    
+    setDocHighlightings([doc_json.filter((word) => {return word.alignment_id.includes(chosen_align_id)}).map((word) => word.tkn_id)])
+    setSummaryHighlightings([summary_json.filter((word) => {return word.alignment_id.includes(chosen_align_id)}).map((word) => word.tkn_id)])
+
+
+    if (summary_json.filter((word) => {return word.alignment_id.includes(chosen_align_id)})[0] !== undefined) {
+      const chosen_align_currSentId = summary_json.filter((word) => {return word.alignment_id.includes(chosen_align_id)})[0].sent_id
+      SetCurrSentInd(chosen_align_currSentId)
+    }
   }
 
 
@@ -525,7 +536,6 @@ const App = () => {
 
   const MachineStateHandlerWrapper = ({clickedWordInfo, forceState, isBackBtn}) => {
     
-
     // no alignment
     if ((typeof forceState !== 'string') && (!["REVISE HOVER", "REVISE CLICKED"].includes(StateMachineState)) && (doc_json.filter((word) => {return word.span_highlighted}).length === 0) && (StateMachineState!=="START") && !noAlignApproved) {
       setNoAlignModalShow(true)
@@ -541,6 +551,8 @@ const App = () => {
     else{
       console.log("not a forceState situation...");
     }
+    setDocHighlightings([[]]);
+    setSummaryHighlightings([[]]);
     MachineStateHandler(summary_json,
                           StateMachineState, SetStateMachineState,
                           SetInfoMessage, handleErrorOpen, isPunct,
@@ -669,6 +681,7 @@ const App = () => {
           setDocJson(doc_json.map((word) => chosen_IDs.includes(word.tkn_id)? {...word, span_alignment_hover:true}:{...word, span_alignment_hover:false}))
         } else if (!docOnMouseDownActivated){
           setDocJson(doc_json.map((word) => {return {...word, span_alignment_hover:false}}))
+
         }
         if(summaryOnMouseDownActivated) {
           // console.log(`SummaryOnMouseDownID is ${SummaryOnMouseDownID} and hoverActivatedId ia ${hoverActivatedId}`)
@@ -679,8 +692,10 @@ const App = () => {
             chosen_IDs.push(i);
           }
           setSummaryJson(summary_json.map((word) => chosen_IDs.includes(word.tkn_id)? {...word, span_alignment_hover:true}:{...word, span_alignment_hover:false}))
+
         } else if (!summaryOnMouseDownActivated){
           setSummaryJson(summary_json.map((word) => {return {...word, span_alignment_hover:false}}))
+
           
           if (isRedLettered(hoverActivatedId) && hoverActivatedDocOrSummary === "summary") {
             const doc_tkn_ids = doc_json.map((word) => {return word.tkn_id}).filter((doc_id) => {return checkIfLemmasMatch({doc_id:doc_id, summary_ids:[hoverActivatedId], isHover:true})});
@@ -993,6 +1008,8 @@ const App = () => {
                                               summaryOnMouseDownActivated = {summaryOnMouseDownActivated} setSummaryOnMouseDownActivated = {setSummaryOnMouseDownActivated}
                                               setHoverActivatedId = {setHoverActivatedId}                 setHoverActivatedDocOrSummary = {setHoverActivatedDocOrSummary}
                                               hoverActivatedId = {hoverActivatedId}                       setSliderBoldStateActivated = {setSliderBoldStateActivated}
+                                              doc_highlightings = {doc_highlightings}                     setDocHighlightings={setDocHighlightings}
+                                              summary_highlightings = {summary_highlightings}             setSummaryHighlightings={setSummaryHighlightings}
                                               t_StateMachineStateId = {undefined}                         t_SetStateMachineStateId = {undefined}
                                               t_start_doc_json = {undefined}                              t_middle_doc_json = {undefined}
                                               t_sent_end_doc_json = {undefined}                           t_submit_doc_json = {undefined}
