@@ -91,7 +91,7 @@
 
 
 
- const handleSubmit = (assignmentId, turkSubmitTo, doc_json, summary_json, doc_paragraph_breaks, g_completed, g_guided_annotation_history) => {
+ const handleSubmit = (assignmentId, turkSubmitTo, doc_json, summary_json, doc_paragraph_breaks, docName, summaryName, g_completed, g_guided_annotation_history) => {
     // const urlParams = new URLSearchParams(window.location.search)
    
     // create the form element and point it to the correct endpoint
@@ -141,7 +141,7 @@
     // attach results
     const inputResultJson = document.createElement('input')
     inputResultJson.name = 'results'
-    inputResultJson.value = JSON.stringify({"doc_json":doc_json, "summary_json":summary_json, "doc_paragraph_breaks":doc_paragraph_breaks})
+    inputResultJson.value = JSON.stringify({"doc_json":doc_json, "summary_json":summary_json, "doc_paragraph_breaks":doc_paragraph_breaks, "docName":docName, "summaryName":summaryName})
     inputResultJson.hidden = true
     form.appendChild(inputResultJson)
 

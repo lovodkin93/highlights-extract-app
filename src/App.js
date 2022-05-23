@@ -159,7 +159,8 @@ const App = () => {
   const [showAlert, setShowAlert] = useState("closed") // one of {"success", "warning", "closed"}
 
   const [SubmitModalShow, setSubmitModalShow] = useState(false) // one of {"success", "warning", "closed"}
-
+  const [docName, setDocName] = useState("");
+  const [summaryName, setSummaryName] = useState("");
 
   //mturk
   const [assignmentId, SetAssignmentId] = useState("")
@@ -802,6 +803,8 @@ const App = () => {
         setAllLemmaMtx(json_file[curr_id]["all_lemma_match_mtx"]);
         setImportantLemmaMtx(json_file[curr_id]["important_lemma_match_mtx"]);
         setDocParagraphBreaks(json_file[curr_id]["doc_paragraph_breaks"])
+        setDocName(json_file[curr_id]["doc_name"])
+        setSummaryName(json_file[curr_id]["summary_name"])
         fetch(`/`).then(
           res => console.log(res)
         )
@@ -832,7 +835,7 @@ const App = () => {
 
     useEffect(() => {
       if (isFinished) {
-        handleSubmit(assignmentId, turkSubmitTo, doc_json, summary_json, doc_paragraph_breaks, g_completed, g_guided_annotation_history)
+        handleSubmit(assignmentId, turkSubmitTo, doc_json, summary_json, doc_paragraph_breaks, docName, summaryName, g_completed, g_guided_annotation_history)
       }
     }, [isFinished]);
 
