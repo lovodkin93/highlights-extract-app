@@ -480,6 +480,7 @@ const App = () => {
         const urlParams = new URLSearchParams(queryString);
         const task_id = urlParams.get('id');
         const curr_task = submitted_tasks_ids_json_file[parseInt(task_id)]
+        console.log(`curr_task:${JSON.stringify(curr_task)}`)
         // const hit_type_id = urlParams.get('hit_type_id');
         // const hit_id = urlParams.get('hit_id'); 
         // const assign_id = urlParams.get('assign_id');
