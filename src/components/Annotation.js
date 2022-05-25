@@ -456,7 +456,9 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   }
 
   const undo_doc = () => {
+    // console.log(`AVIVSL2:${JSON.stringify(doc_highlightings)}`)
     if (doc_highlightings.length <= 1) {
+      // setDocJson(doc_json.map((word) => {return { ...word, span_highlighted: false }}))
       return
     }
     let doc_highlightings_copy = [...doc_highlightings];
@@ -467,7 +469,9 @@ const Annotation = ({isTutorial, isGuidedAnnotation,
   }
 
   const undo_summary = () => {
+    // console.log(`AVIVSL:${JSON.stringify(summary_highlightings)}`)
     if (summary_highlightings.length <= 1) {
+      // setSummaryJson(summary_json.map((word) => {return { ...word, span_highlighted: false }}))
       return
     }
     let summary_highlightings_copy = [...summary_highlightings];

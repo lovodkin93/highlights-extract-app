@@ -11,7 +11,8 @@ import Instructions_short from './components/Instructions_short'
 import GuidedAnnotation from './components/GuidedAnnotation';
 
 import Annotation from './components/Annotation';
-import json_file from './data/data_for_mturk.json';
+// import json_file from './data/data_for_mturk.json';
+import json_file from './data/for_feedback/data_for_mturk.json';
 import g_json_file from './data/guided_annotation/data_for_mturk.json';
 
 
@@ -551,8 +552,11 @@ const App = () => {
     else{
       console.log("not a forceState situation...");
     }
-    setDocHighlightings([[]]);
-    setSummaryHighlightings([[]]);
+    if (!["SENTENCE END", "SUMMARY END", "ANNOTATION"].includes(forceState)) {
+      console.log("in here!")
+      setDocHighlightings([[]]);
+      setSummaryHighlightings([[]]);
+    }
     MachineStateHandler(summary_json,
                           StateMachineState, SetStateMachineState,
                           SetInfoMessage, handleErrorOpen, isPunct,
