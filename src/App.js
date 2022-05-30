@@ -4,34 +4,17 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import * as React from 'react';
 
-import StartPage from './components/StartPage';
-import Tutorial from './components/Tutorial';
-import Instructions_short from './components/Instructions_short'
+// import StartPage from './components/StartPage';
+// import Tutorial from './components/Tutorial';
+// import Instructions_short from './components/Instructions_short'
 // import Instructions from './components/Instructions';
-import GuidedAnnotation from './components/GuidedAnnotation';
+// import GuidedAnnotation from './components/GuidedAnnotation';
 
 import Annotation from './components/Annotation';
-// import json_file from './data/data_for_mturk.json';
-import json_file from './data/for_feedback/data_for_mturk.json';
-import g_json_file from './data/guided_annotation/data_for_mturk.json';
+import json_file from './data/data_for_mturk.json';
+// import json_file from './data/for_feedback/data_for_mturk.json';
 
 
-
-import t_start_json_file from './data/tutorial/tutorial_start.json';
-import t_middle_json_file from './data/tutorial/tutorial_middle.json';
-import t_sent_end_json_file from './data/tutorial/tutorial_sent_end.json';
-import t_submit_json_file from './data/tutorial/tutorial_submit.json';
-
-
-
-
-import guided_annotation_messages from './data/guided_annotation/guided_annotation_messages.json'
-import guided_annotation_hints from './data/guided_annotation/guided_annotation_hints.json'
-import guided_annotation_info_messages from './data/guided_annotation/guided_annotation_info_messages.json'
-import guided_annotation_strike_messages from './data/guided_annotation/guided_annotation_strike_messages.json'
-
-import tutorial_state_messages from './data/tutorial/tutorial_state_messages.json'
-// import tutorial_state_messages from './data/guided_annotation/guided_annotation_messages.json'
 
 
 
@@ -728,79 +711,79 @@ const App = () => {
     
 /**************************************************************************************************************/
 
-    const g_resetGuidedAnnotation = () => {
-      const curr_id = '0';
+    // const g_resetGuidedAnnotation = () => {
+    //   const curr_id = '0';
 
-      g_addDocWordComponents(g_json_file[curr_id]["doc"]);
-      g_addSummaryWordComponents(g_json_file[curr_id]["summary"]);
-      g_setAllLemmaMtx(g_json_file[curr_id]["all_lemma_match_mtx"]);
-      g_setImportantLemmaMtx(g_json_file[curr_id]["important_lemma_match_mtx"]);
-      g_setDocParagraphBreaks(g_json_file[curr_id]["doc_paragraph_breaks"]);
-      g_SetStateMachineState("START")
-      g_SetCurrSentInd(-1)
-      g_SetAlignmentCount(0)
-      g_setPrevStateMachineState("")
-      g_setIsGoodAlignment(false)
-      g_setGuidingInfoMsg({"text":"To begin, hit the \"START\" button.", "title":"Start"})
-      g_setGuiderMsg({"type":"info", "where":"next-button", "text":"Press me to begin."}) 
+    //   g_addDocWordComponents(g_json_file[curr_id]["doc"]);
+    //   g_addSummaryWordComponents(g_json_file[curr_id]["summary"]);
+    //   g_setAllLemmaMtx(g_json_file[curr_id]["all_lemma_match_mtx"]);
+    //   g_setImportantLemmaMtx(g_json_file[curr_id]["important_lemma_match_mtx"]);
+    //   g_setDocParagraphBreaks(g_json_file[curr_id]["doc_paragraph_breaks"]);
+    //   g_SetStateMachineState("START")
+    //   g_SetCurrSentInd(-1)
+    //   g_SetAlignmentCount(0)
+    //   g_setPrevStateMachineState("")
+    //   g_setIsGoodAlignment(false)
+    //   g_setGuidingInfoMsg({"text":"To begin, hit the \"START\" button.", "title":"Start"})
+    //   g_setGuiderMsg({"type":"info", "where":"next-button", "text":"Press me to begin."}) 
 
-    }
+    // }
 
     useEffect(() => {
 
-      const t_addWordComponents = (setJson, input_json) => {
-        let new_json = [];
-        input_json.forEach((word) => {new_json = [...new_json, word];})
-        setJson(new_json)
-      }
+      // const t_addWordComponents = (setJson, input_json) => {
+      //   let new_json = [];
+      //   input_json.forEach((word) => {new_json = [...new_json, word];})
+      //   setJson(new_json)
+      // }
 
 
-      const t_getTasks = () => {
+      // const t_getTasks = () => {
       
 
 
-        // get doc_jsons
-        t_addWordComponents(t_setDocJson, t_start_json_file["doc"])
-        t_addWordComponents(t_setStartDocJson, t_start_json_file["doc"])
-        t_addWordComponents(t_setMiddleDocJson, t_middle_json_file["doc"])
-        t_addWordComponents(t_setSentEndDocJson, t_sent_end_json_file["doc"])
-        t_addWordComponents(t_setSubmitDocJson, t_submit_json_file["doc"])
-        // get summary_jsons
-        t_addWordComponents(t_setSummaryJson, t_start_json_file["summary"])
-        t_addWordComponents(t_setStartSummaryJson, t_start_json_file["summary"])
-        t_addWordComponents(t_setMiddleSummaryJson, t_middle_json_file["summary"])
-        t_addWordComponents(t_setSentEndSummaryJson, t_sent_end_json_file["summary"])
-        t_addWordComponents(t_setSubmitSummaryJson, t_submit_json_file["summary"])
+      //   // get doc_jsons
+      //   t_addWordComponents(t_setDocJson, t_start_json_file["doc"])
+      //   t_addWordComponents(t_setStartDocJson, t_start_json_file["doc"])
+      //   t_addWordComponents(t_setMiddleDocJson, t_middle_json_file["doc"])
+      //   t_addWordComponents(t_setSentEndDocJson, t_sent_end_json_file["doc"])
+      //   t_addWordComponents(t_setSubmitDocJson, t_submit_json_file["doc"])
+      //   // get summary_jsons
+      //   t_addWordComponents(t_setSummaryJson, t_start_json_file["summary"])
+      //   t_addWordComponents(t_setStartSummaryJson, t_start_json_file["summary"])
+      //   t_addWordComponents(t_setMiddleSummaryJson, t_middle_json_file["summary"])
+      //   t_addWordComponents(t_setSentEndSummaryJson, t_sent_end_json_file["summary"])
+      //   t_addWordComponents(t_setSubmitSummaryJson, t_submit_json_file["summary"])
 
 
 
-        // get all the matrices and the paragraph breaks
-        t_setAllLemmaMtx(t_start_json_file["all_lemma_match_mtx"]);
-        t_setImportantLemmaMtx(t_start_json_file["important_lemma_match_mtx"]);
-        t_setDocParagraphBreaks(t_start_json_file["doc_paragraph_breaks"])
+      //   // get all the matrices and the paragraph breaks
+      //   t_setAllLemmaMtx(t_start_json_file["all_lemma_match_mtx"]);
+      //   t_setImportantLemmaMtx(t_start_json_file["important_lemma_match_mtx"]);
+      //   t_setDocParagraphBreaks(t_start_json_file["doc_paragraph_breaks"])
         
         
-        // get state messages
-        t_setStateMessages(tutorial_state_messages)
+      //   // get state messages
+      //   t_setStateMessages(tutorial_state_messages)
 
 
-        fetch(`/`).then(
-          res => console.log(res)
-        )
-      }
+      //   fetch(`/`).then(
+      //     res => console.log(res)
+      //   )
+      // }
 
 
 
 
 
-      const g_getTasks = () => {
-        g_resetGuidedAnnotation()
+      // const g_getTasks = () => {
+      //   g_resetGuidedAnnotation()
 
-        fetch(`/`).then(
-          res => console.log(res)
-        )
+      //   fetch(`/`).then(
+      //     res => console.log(res)
+      //   )
           
-        }
+      //   }
     
 
 
@@ -829,8 +812,8 @@ const App = () => {
         )
           
         }
-      t_getTasks();
-      g_getTasks();
+      // t_getTasks();
+      // g_getTasks();
       getTasks();
     }, [])
 
