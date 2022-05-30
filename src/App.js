@@ -7,11 +7,20 @@ import * as React from 'react';
 
 import Annotation from './components/Annotation';
 import json_file from './data/data_for_mturk.json';
-import mturk_results_json_file from './data/mturk_results/assignments_results.json'
-import submitted_tasks_ids_json_file from './data/mturk_results/submitted_tasks_ids.json'
+// import mturk_results_json_file from './data/mturk_results/IAA/IAA2/assignments_results.json'
+// import submitted_tasks_ids_json_file from './data/mturk_results/IAA/IAA2/submitted_tasks_ids.json'
+
+import mturk_results_json_file from './data/mturk_results/production/first_batch/7/assignments_results.json'
+import submitted_tasks_ids_json_file from './data/mturk_results/production/first_batch/7/submitted_tasks_ids.json'
+
+// import mturk_results_json_file from './data/mturk_results/inspection/1/assignments_results.json'
+// import submitted_tasks_ids_json_file from './data/mturk_results/inspection/1/submitted_tasks_ids.json'
+
 // import mturk_results_json_file from './data/mturk_results/sandbox/assignments_results.json'
 // import submitted_tasks_ids_json_file from './data/mturk_results/sandbox/submitted_tasks_ids.json'
 
+// import mturk_results_json_file from './data/mturk_results/assignments_results.json'
+// import submitted_tasks_ids_json_file from './data/mturk_results/submitted_tasks_ids.json'
 
 
 
