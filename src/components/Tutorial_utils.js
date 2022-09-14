@@ -1,4 +1,5 @@
 import { Markup } from 'interweave';
+import * as React from 'react';
 
 
 const resetDocJson = (setDocJson, doc_json, withBold) => {

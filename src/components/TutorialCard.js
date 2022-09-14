@@ -4,6 +4,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { t_StateMachineStateIdHandler, getTutorialCardTitle, getTutorialCardText } from './Tutorial_utils'
 import { Link } from 'react-router-dom';
+import * as React from 'react';
 
 
 

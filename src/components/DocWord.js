@@ -1,4 +1,5 @@
 import Typography from '@mui/material/Typography';
+import * as React from 'react';
 
 const DocWord = ({ word_json, DocOnMouseDownID, doc_paragraph_breaks, StateMachineState, DocMouseClickHandlerWrapper, hoverHandlerWrapper, DocOnMouseDownHandler, DocOnMouseUpHandler, setDocOnMouseDownActivated, docOnMouseDownActivated, setHoverActivatedId, ctrlButtonDown, setHoverActivatedDocOrSummary, currAlignmentToShow }) => {
     // const XOR = (a,b) => {
