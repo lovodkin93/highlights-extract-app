@@ -26,6 +26,11 @@ You may also see any lint errors in the console.
 ## Generate the datapoints:
 In order to see specific datapoint to annotate, you will first need to generate a `data_for_mturk.json` file and save it under the `data` folder.
 To do that, follow the following steps:
+0. install the conda environment `controlled_reduction` and activate it:
+```
+conda env create -f generate_input_json_file/controlled_reduction.yml
+conda activate controlled_reduction
+```
 1. run
 ```
 python3 generate_input_json_file\get_coref_clusters_chr.py -i <DATA_PATH> -o <SPACY_TOKENIZATION_OUTPUT_PATH>
@@ -48,9 +53,9 @@ python3 generate_input_json_file\get_coref_clusters_chr.py -i <DATA_PATH> -o <SP
 ```
 2. run
 ```
-python3 generate_input_json_file\create_json_for_mturk.py -i <DATA_PATH> -o <JSON_FOR_MTURK_OUTPUT_PATH> --coref-cluster-json /path/to/spacy_tokenization.json
+python3 generate_input_json_file\create_json_for_mturk.py -i <DATA_PATH> -o <JSON_FOR_MTURK_OUTPUT_PATH> --coref-cluster-json /path/to/coref_clusters.json
 ```
-`<DATA_PATH>` is the same as before, and `/path/to/spacy_tokenization.json` should be `<SPACY_TOKENIZATION_OUTPUT_PATH>/spacy_tokenization.json` (the output of the code in step 1)
+`<DATA_PATH>` is the same as before, and `/path/to/coref_clusters.json` should be `<SPACY_TOKENIZATION_OUTPUT_PATH>/coref_clusters.json` (the output of the code in step 1)
 
 Finally, in `<JSON_FOR_MTURK_OUTPUT_PATH>` you will find the `data_for_mturk.json` which should be placed in the `data` folder.
 
