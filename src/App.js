@@ -11,8 +11,8 @@ import * as React from 'react';
 // import GuidedAnnotation from './components/GuidedAnnotation';
 
 import Annotation from './components/Annotation';
-import json_file from './data/data_for_mturk.json';
-// import json_file from './data/for_feedback/data_for_mturk.json';
+// import json_file from './data/data_for_mturk.json';
+import json_file from './data/ISCOL_presentation/data_for_mturk.json';
 
 
 

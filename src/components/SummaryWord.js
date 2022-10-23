@@ -1,3 +1,4 @@
+import * as React from 'react';
 const SummaryWord = ({ word_json, SummaryOnMouseDownID, StateMachineState, SummaryMouseClickHandlerWrapper, hoverHandlerWrapper, SummaryOnMouseDownHandler, SummaryOnMouseUpHandler, setSummaryOnMouseDownActivated, summaryOnMouseDownActivated, setHoverActivatedId, ctrlButtonDown, setHoverActivatedDocOrSummary,  CurrSentInd}) => {
 
   

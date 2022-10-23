@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Typography from '@mui/material/Typography';
 
 const DocWord = ({ word_json, DocOnMouseDownID, doc_paragraph_breaks, StateMachineState, DocMouseClickHandlerWrapper, hoverHandlerWrapper, DocOnMouseDownHandler, DocOnMouseUpHandler, setDocOnMouseDownActivated, docOnMouseDownActivated, setHoverActivatedId, ctrlButtonDown, setHoverActivatedDocOrSummary }) => {
