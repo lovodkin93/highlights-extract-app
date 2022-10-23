@@ -1,3 +1,0 @@
-"Highlight" --> "Old Highlight"
-\"Highlight\" --> \"Old Highlight\"
-state-Highlight --> state-OldHighlight 
