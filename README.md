@@ -7,21 +7,7 @@ cd highlights-extract-app
 then, run:
 ```
 npm install
-npm i react-icons
-npm i react-router-dom
-npm i -g serv
-npm install --save bootstrap@latest
-npm install react-bootstrap bootstrap@5.1.3
-npm install @mui/material @emotion/react @emotion/styled @material-ui/core @mui/icons-material 
-npm install bootstrap@3
-npm install underscore
-npm i fs
-npm install interweave react
-npm i util
-npm install aws-sdk
-npm install --save video-react react react-dom redux
-npm install antd
-npm install react-player
+npm i react
 ```
 to install all the packages used in this project and serve (which will be used to build the project for production).
 
@@ -36,6 +22,36 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
+
+In order to see specific datapoint to annotate, you will first need to generate a `data_for_mturk.json` file and save it under the `data` folder.
+To do that, follow the following steps:
+1. run
+```
+python3 generate_input_json_file\get_coref_clusters_chr.py -i <DATA_PATH> -o <SPACY_TOKENIZATION_OUTPUT_PATH>
+```
+`<DATA_PATH>` should contain the following structure where a summary and its related document directory share the same name:
+```
+      - <DATA_PATH>
+        - summaries
+          - A.txt
+          - B.txt
+          - ...
+        - A
+          - doc_A1
+          - doc_A2
+          - ...
+        - B
+          - doc_B1
+          - doc_B2
+          - ...
+```
+2. run
+```
+python3 generate_input_json_file\create_json_for_mturk.py -i <DATA_PATH> -o <JSON_FOR_MTURK_OUTPUT_PATH> --coref-cluster-json /path/to/spacy_tokenization.json
+```
+`<DATA_PATH>` is the same as before, and `/path/to/spacy_tokenization.json` should be `<SPACY_TOKENIZATION_OUTPUT_PATH>/spacy_tokenization.json` (the output of the code in step 1)
+
+Finally, in `<JSON_FOR_MTURK_OUTPUT_PATH>` you will find the `data_for_mturk.json` which should be placed in the `data` folder.
 
 ## Building:
 To build the UI for production to the `build` folder, run:
