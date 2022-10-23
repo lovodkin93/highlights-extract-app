@@ -23,6 +23,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
+## Generate the datapoints:
 In order to see specific datapoint to annotate, you will first need to generate a `data_for_mturk.json` file and save it under the `data` folder.
 To do that, follow the following steps:
 1. run
@@ -53,6 +54,34 @@ python3 generate_input_json_file\create_json_for_mturk.py -i <DATA_PATH> -o <JSO
 
 Finally, in `<JSON_FOR_MTURK_OUTPUT_PATH>` you will find the `data_for_mturk.json` which should be placed in the `data` folder.
 
+## Watch a specific datapoint:
+Once `data_for_mturk.json` was generated and placed in the `data` folder, to annotate a specific datapoint:
+1. activate the app:
+```
+npm start
+```
+2. when the url is activated, add to it `id=<DATAPOINT_ID>` parameter, where `<DATAPOINT_ID>` is the serial index of the datapoint in the `<DATA_PATH>` folder (beginning with 0). For example:
+```
+http://localhost:3000/?id=0
+```
+would load the first sommar-document pair in `<DATA_PATH>` to annotate.
+
+## Connect to mturk
+The app is designed to be incorporated into the mturl platform.
+To do that:
+1. generate the relevant `data_for_mturk.json`
+2. build the app, by running:
+```
+npm run build
+```
+This will build the application and save it in a build folder.
+3. open a web-hosting platform (e.g. platformanywhere) and copy there the following folders: `backend` and `build`, as well as the files `package.json` and `package-lock.json`
+
+Now, you can upload to mturk the hits using the url of the web-hosting platform, combined with the `id`s of your document-summary pairs. In other words, each combination of the url of the web-hosting platform with an `id` parameter would be a single hit. For example:
+```
+https://<USER_NAME>.pythonanywhere.com/?id=0
+```
+would upload the first document-summary pair.
 ## Building:
 To build the UI for production to the `build` folder, run:
 ```
