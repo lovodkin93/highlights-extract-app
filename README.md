@@ -96,3 +96,20 @@ Then, to load the UI to port 8000 (for example), run:
 ```
 serve -s build -p 8000
 ```
+
+Citation
+========
+If you find this repository useful in your research, please cite the following paper:
+```
+@misc{https://doi.org/10.48550/arxiv.2210.13449,
+  doi = {10.48550/ARXIV.2210.13449},
+  url = {https://arxiv.org/abs/2210.13449},
+  author = {Slobodkin, Aviv and Roit, Paul and Hirsch, Eran and Ernst, Ori and Dagan, Ido},
+  keywords = {Computation and Language (cs.CL), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  title = {Controlled Text Reduction},
+  publisher = {arXiv},
+  year = {2022},
+  copyright = {Creative Commons Zero v1.0 Universal}
+}
+
+```
